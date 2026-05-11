@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Complete Answer to Erdős Problem 690 | Multiscalar Intelligence</title>
+  <meta name="description" content="Proof that the natural density d_k(p) of integers whose k-th smallest prime divisor is p is not unimodal for every k ≥ 4, discovered by the Multiscalar Fields System.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../article.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      var macros = {
+        "\\e": "\\mathrm{e}",
+        "\\eps": "\\varepsilon"
+      };
+      // Render every pandoc-emitted math span. Strip \label{...} since KaTeX
+      // doesn't support it (we have no displayed equation numbers anyway).
+      document.querySelectorAll("span.math.inline, span.math.display").forEach(function (el) {
+        var display = el.classList.contains("display");
+        var tex = el.textContent.replace(/\\label\{[^}]*\}/g, "");
+        try {
+          katex.render(tex, el, { displayMode: display, throwOnError: false, macros: macros, output: "html" });
+        } catch (e) { /* leave raw on hard failure */ }
+      });
+      // Then auto-render any $-delimited math that we wrote by hand
+      // (the abstract and the small-cases table).
+      if (typeof renderMathInElement === "function") {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false,
+          macros: macros
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../../" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="../../#research">Research</a>
+        <a href="../../#results">Results</a>
+        <a href="../../#team">Team</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="article-main">
+
+    <header class="article-header">
+      <div class="article-eyebrow">Result · Erdős Problem 690</div>
+      <h1 class="article-title">A Complete Answer to Erdős Problem 690</h1>
+      <div class="article-subtitle">Discovered by the Multiscalar Fields System</div>
+      <div class="article-meta">
+        <span class="meta-affil">Multiscalar Intelligence</span>
+      </div>
+      <div class="article-links">
+        <a href="paper.pdf" class="article-link">PDF&nbsp;↗</a>
+        <a href="https://github.com/multiscalar/results/blob/main/erdos-690/paper.pdf" class="article-link" target="_blank" rel="noopener">PDF on GitHub&nbsp;↗</a>
+        <a href="numerical_verifier.py" class="article-link">Verifier code&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/690" class="article-link" target="_blank" rel="noopener">Problem statement&nbsp;↗</a>
+      </div>
+    </header>
+
+    <div class="divider article-divider"></div>
+
+    <article class="paper">
+      <section class="abstract">
+        <div class="abstract-label">Abstract</div>
+        <p>Let $d_k(p)$ denote the natural density of positive integers whose $k$-th smallest prime divisor is $p$. Erdős asked whether, for each fixed $k$, the sequence $p \mapsto d_k(p)$ is unimodal as $p$ ranges over the primes. Cambie proved that unimodality holds for $1 \le k \le 3$ and verified non-unimodality for $4 \le k \le 20$. We prove that $p \mapsto d_k(p)$ is not unimodal for every $k \ge 4$, completing the classification. An exact first-difference criterion reduces the problem to comparing a symmetric-polynomial ratio with prime gaps. Explicit estimates for prime-counting functions, certified finite computations, one certified large prime gap, one certified twin prime, and a uniform Chinese-remainder construction then produce, for every $k \ge 4$, a strict descent followed by a later strict ascent.</p>
+      </section>
+
+      <section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span>
+Introduction</h1>
+<p>We developed the Multiscalar Fields System to automate large-scale
+mathematical exploration, theorem discovery and verification. In this
+paper, we present a proof of Erdős Problem 690 discovered by Fields with
+limited human interaction. Starting from an initial problem
+specification, Fields explored the space of candidate constructions and
+arguments, evaluated their mathematical viability, and iteratively
+refined them until they converged to the formal math proof presented
+here. Human involvement was limited to formulating the problem, auditing
+the generated proof and verifying the numerical computations.</p>
+<p><strong>Problem.</strong> Let <span class="math inline">d_k(p)</span>
+be the natural density of positive integers <span
+class="math inline">n</span> for which <span
+class="math inline">p</span> is the <span
+class="math inline">k</span>-th smallest prime divisor of <span
+class="math inline">n</span>. Erdős asked whether, for fixed <span
+class="math inline">k\ge1</span>, the sequence <span
+class="math display">p\longmapsto d_k(p),</span> indexed by the primes
+in increasing order, is unimodal <a href="#ref-3" class="cite">[3]</a>; see also the modern formulation in <a href="#ref-1" class="cite">[1]</a>. Here an infinite
+sequence is called unimodal if it is nondecreasing up to some index and
+nonincreasing after that index.</p>
+<p>Cambie <a href="#ref-2" class="cite">[2]</a> proved
+that <span class="math inline">d_k(p)</span> is unimodal for <span
+class="math inline">1\le k\le3</span> and verified non-unimodality in
+the initial range <span class="math inline">4\le k\le20</span>. The
+present paper gives a proof of non-unimodality for every <span
+class="math inline">k\ge4</span>, including an independent verification
+of the finite initial range.</p>
+<div id="thm:main" class="theorem">
+<p><strong>Theorem 1</strong>. <em>For every integer <span
+class="math display">k\ge 4,</span> the sequence <span
+class="math display">p\longmapsto d_k(p),</span> where <span
+class="math inline">p</span> runs through the primes in increasing
+order, is not unimodal.</em></p>
+</div>
+<p>Together with Cambie’s result for <span class="math inline">1\le
+k\le3</span>, Theorem <a href="#thm:main" data-reference-type="ref"
+data-reference="thm:main">1</a> gives the following complete answer to
+the Erdős question.</p>
+<div id="cor:classification" class="corollary">
+<p><strong>Corollary 2</strong>. <em>The sequence <span
+class="math inline">p\mapsto d_k(p)</span> is unimodal for <span
+class="math inline">1\le k\le3</span>, and is not unimodal for every
+<span class="math inline">k\ge4</span>.</em></p>
+</div>
+<p>We shall repeatedly use the following elementary observation. If a
+sequence has a strict descent <span
+class="math inline">a_i&gt;a_{i+1}</span> and, at a later adjacent pair,
+a strict ascent <span class="math inline">a_j&lt;a_{j+1}</span> with
+<span class="math inline">i&lt;j</span>, then it is not unimodal.
+Indeed, a mode would have to lie at or before <span
+class="math inline">i</span>, because of the descent, and at or after
+<span class="math inline">j+1</span>, because of the ascent.</p>
+<p>The proof has two conceptual parts. First we derive an exact
+threshold criterion for the sign of a first difference of <span
+class="math inline">d_k(p)</span>. The criterion compares a ratio <span
+class="math inline">R_r</span> of elementary symmetric functions with
+the adjacent prime gap. Second we produce, for each <span
+class="math inline">k</span>, an earlier prime gap that is large enough
+to force a strict descent and a later prime gap that is small enough to
+force a strict ascent. The finite range uses certified computations and
+two published prime-record certificates. The infinite tail uses a
+Chinese-remainder construction to manufacture a long block of composite
+integers, followed by an average-gap argument that finds a smaller later
+gap.</p>
+<p>The organization is as follows. Section <a href="#sec:notation"
+data-reference-type="ref" data-reference="sec:notation">2</a> fixes
+notation. Section <a href="#sec:structural" data-reference-type="ref"
+data-reference="sec:structural">3</a> proves the two structural
+comparison lemmas. Section <a href="#sec:inputs"
+data-reference-type="ref" data-reference="sec:inputs">4</a> records the
+analytic estimates, numerical constants, and external certificates.
+Section <a href="#sec:finite" data-reference-type="ref"
+data-reference="sec:finite">5</a> handles all <span
+class="math inline">4\le k\le 8{,}600{,}001</span>. Section <a
+href="#sec:tail" data-reference-type="ref"
+data-reference="sec:tail">6</a> gives a uniform construction for every
+remaining <span class="math inline">k</span>. Appendix <a
+href="#app:verification" data-reference-type="ref"
+data-reference="app:verification">A</a> describes the companion
+numerical verifier.</p>
+</section>
+<section id="sec:notation" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span>
+Notation</h1>
+<p>We index the prime sequence: <span class="math display">p_1=2,\quad
+p_2=3,\quad p_3=5,\quad \ldots .</span> Let <span
+class="math display">g_i:=p_{i+1}-p_i</span> for <span
+class="math inline">i\ge1</span>. For an integer <span
+class="math inline">m\ge 0</span> and <span
+class="math inline">i\ge0</span>, let <span
+class="math inline">\delta_m(i)</span> be the natural density of
+integers <span class="math inline">n</span> which are divisible by
+exactly <span class="math inline">m</span> primes from the set <span
+class="math display">\{p_1,\ldots,p_i\}.</span> For <span
+class="math inline">i=0</span> this set is empty, so <span
+class="math display">\delta_0(0)=1,\qquad
+\delta_m(0)=0\quad(m&gt;0).</span></p>
+<p>The elementary independence of divisibility by distinct primes gives,
+for <span class="math inline">i\ge1</span> and <span
+class="math inline">m\ge0</span>, with <span
+class="math inline">\delta_{-1}(i-1)=0</span>, <span
+class="math display">\delta_m(i)=\left(1-\frac1{p_i}\right)\delta_m(i-1)
+              +\frac1{p_i}\delta_{m-1}(i-1).</span> Also, for <span
+class="math inline">i\ge1</span>, <span
+class="math display">d_{m+1}(p_i)=\frac{\delta_m(i-1)}{p_i}.</span></p>
+<p>For <span class="math inline">r\ge 1</span> define, whenever the
+denominator is positive, <span
+class="math display">R_r(i):=\frac{\delta_{r-1}(i)}{\delta_r(i)}.</span></p>
+</section>
+<section id="sec:structural" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span>
+Structural Lemmas</h1>
+<div id="lem:threshold" class="lemma">
+<p><strong>Lemma 3</strong> (The threshold criterion). <em>Let <span
+class="math inline">r\ge 1</span> and <span
+class="math inline">i\ge1</span>. Suppose <span
+class="math inline">\delta_r(i-1)&gt;0</span>. Then <span
+class="math display">d_{r+1}(p_{i+1})&gt;d_{r+1}(p_i)
+        \quad\Longleftrightarrow\quad
+        R_r(i-1)&gt;g_i+1.</span> Consequently, if <span
+class="math inline">R_r(i-1)&lt;g_i+1</span>, then <span
+class="math display">d_{r+1}(p_{i+1})&lt;d_{r+1}(p_i).</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> By the recurrence for <span
+class="math inline">\delta_r(i)</span>, <span
+class="math display">\begin{aligned}
+d_{r+1}(p_{i+1})-d_{r+1}(p_i)
+&amp;=\frac{\delta_r(i)}{p_{i+1}}-\frac{\delta_r(i-1)}{p_i}.
+\end{aligned}</span> Multiplying by the positive number <span
+class="math inline">p_i p_{i+1}</span>, the sign is the sign of <span
+class="math display">p_i\delta_r(i)-p_{i+1}\delta_r(i-1).</span> Now
+<span class="math display">p_i\delta_r(i)
+        =(p_i-1)\delta_r(i-1)+\delta_{r-1}(i-1),</span> and since <span
+class="math inline">p_{i+1}=p_i+g_i</span>, we get <span
+class="math display">\begin{aligned}
+p_i\delta_r(i)-p_{i+1}\delta_r(i-1)
+&amp;=\delta_{r-1}(i-1)+(p_i-1-p_{i+1})\delta_r(i-1)\\
+&amp;=\delta_{r-1}(i-1)-(g_i+1)\delta_r(i-1).
+\end{aligned}</span> Since <span
+class="math inline">\delta_r(i-1)&gt;0</span>, the asserted equivalence
+follows after division by <span
+class="math inline">\delta_r(i-1)</span>. ◻</p>
+</div>
+<p>For the second lemma set <span
+class="math display">w_j:=\frac1{p_j-1}\quad(j\ge1),
+        \qquad
+        E_m(i):=e_m(w_1,\ldots,w_i),</span> where <span
+class="math inline">e_m</span> is the <span
+class="math inline">m</span>-th elementary symmetric polynomial. Also
+put <span class="math display">A(y):=\sum_{p\le y}\frac1{p-1},
+        \qquad
+        A(y^-):=\sum_{p&lt;y}\frac1{p-1},
+        \qquad
+        W_N:=\sum_{j=1}^{N}\frac1{p_j-1}.</span> The sum defining <span
+class="math inline">W_N</span> is empty when <span
+class="math inline">N=0</span>. Thus <span
+class="math inline">W_N</span> is the sum of the first <span
+class="math inline">N</span> weights, and for every <span
+class="math inline">N\ge1</span>, <span
+class="math display">W_N=A(p_N).</span></p>
+<div id="lem:Rbounds" class="lemma">
+<p><strong>Lemma 4</strong> (Symmetric-polynomial bounds). <em>Let <span
+class="math inline">r\ge 1</span>, and suppose that <span
+class="math inline">i\ge r</span>. Then <span
+class="math inline">\delta_r(i)&gt;0</span>, and <span
+class="math display">\frac r{A(p_i)}
+        \le
+        R_r(i)
+        \le
+        \frac r{A(p_i)-W_{r-1}} .</span> The denominator in the upper
+bound is positive because <span class="math inline">i\ge
+r</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For a fixed subset <span
+class="math inline">S\subseteq\{1,\ldots,i\}</span>, the contribution of
+the event that exactly the primes <span class="math inline">p_j</span>
+with <span class="math inline">j\in S</span> divide <span
+class="math inline">n</span> is <span class="math display">\prod_{j\in
+S}\frac1{p_j}
+        \prod_{j\notin S}\left(1-\frac1{p_j}\right)
+        =
+        \left(\prod_{j=1}^i\frac{p_j-1}{p_j}\right)
+        \prod_{j\in S}\frac1{p_j-1}.</span> Therefore <span
+class="math display">\delta_m(i)
+        =
+        \left(\prod_{j=1}^i\frac{p_j-1}{p_j}\right)E_m(i),</span> and
+hence <span
+class="math display">R_r(i)=\frac{E_{r-1}(i)}{E_r(i)}.</span></p>
+<p>Let <span class="math display">\alpha_i:=A(p_i)=\sum_{j=1}^i w_j
+.</span> Expanding <span class="math inline">\alpha_iE_{r-1}(i)</span>,
+we obtain <span
+class="math display">\alpha_iE_{r-1}(i)=rE_r(i)+\Sigma_i,</span> where
+<span class="math display">\Sigma_i
+        :=
+        \sum_{\substack{S\subseteq\{1,\ldots,i\}\\ |S|=r-1}}
+        \left(\sum_{s\in S}w_s\right)\prod_{s\in S}w_s
+        \ge 0.</span> Since <span class="math inline">w_1\ge w_2\ge
+w_3\ge\cdots</span>, every set <span class="math inline">S</span> of
+size <span class="math inline">r-1</span> satisfies <span
+class="math display">\sum_{s\in S}w_s\le
+w_1+\cdots+w_{r-1}=W_{r-1},</span> with the right-hand side interpreted
+as the empty sum when <span class="math inline">r=1</span>. Thus <span
+class="math display">0\le \Sigma_i\le W_{r-1}E_{r-1}(i).</span> Dividing
+the identity <span
+class="math display">\alpha_iE_{r-1}(i)=rE_r(i)+\Sigma_i</span> by <span
+class="math inline">E_{r-1}(i)&gt;0</span>, and writing <span
+class="math display">s_i:=\frac{\Sigma_i}{E_{r-1}(i)},</span> we get
+<span class="math display">0\le s_i\le W_{r-1},
+        \qquad
+        R_r(i)=\frac r{A(p_i)-s_i}.</span> The lower bound follows from
+<span class="math inline">s_i\ge 0</span>. Since <span
+class="math inline">i\ge r</span>, <span
+class="math display">A(p_i)-W_{r-1}
+        =\sum_{j=r}^{i}w_j
+        \ge w_r&gt;0.</span> Together with <span
+class="math inline">s_i\le W_{r-1}</span>, this gives <span
+class="math display">A(p_i)-s_i\ge A(p_i)-W_{r-1}&gt;0,</span> and hence
+the stated upper bound. ◻</p>
+</div>
+</section>
+<section id="sec:inputs" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span>
+Explicit Estimates and Certificates</h1>
+<p>We shall use the following known explicit estimates.</p>
+<div id="lem:dusart" class="lemma">
+<p><strong>Lemma 5</strong> (Explicit estimates for primes). <em>The
+following estimates hold.</em></p>
+<ol>
+<li><p><em>For every <span class="math inline">x\ge 3275</span>, there
+is a prime <span class="math inline">\ell</span> such that <span
+class="math display">\begin{equation}
+\label{eq:short-interval-prime}
+x&lt;\ell\le x\left(1+\frac1{2\log^2 x}\right).
+\end{equation}</span></em></p></li>
+<li><p><em>For <span class="math inline">x&gt;0</span>, <span
+class="math display">\begin{equation}
+\label{eq:theta-upper}
+\vartheta(x)-x&lt;\frac{x}{36260}.
+\end{equation}</span> For <span class="math inline">x&gt;2</span>, <span
+class="math display">\begin{equation}
+\label{eq:theta-lower}
+\vartheta(x)&gt;x\left(1-\frac{1.2323}{\log x}\right).
+\end{equation}</span></em></p></li>
+<li><p><em>For <span class="math inline">x&gt;5393</span>, <span
+class="math display">\begin{equation}
+\label{eq:pi-lower}
+\pi(x)\ge \frac{x}{\log x-1}.
+\end{equation}</span> For <span class="math inline">x&gt;60184</span>,
+<span class="math display">\begin{equation}
+\label{eq:pi-upper}
+\pi(x)\le \frac{x}{\log x-1.1}.
+\end{equation}</span></em></p></li>
+<li><p><em>For the primes <span class="math inline">p_n</span> indexed
+as in Section <a href="#sec:notation" data-reference-type="ref"
+data-reference="sec:notation">2</a>, if <span
+class="math inline">n&gt;688383</span>, <span
+class="math display">\begin{equation}
+\label{eq:nth-prime-upper}
+p_n
+        \le
+        n\left(
+        \log n+\log\log n-1+
+        \frac{\log\log n-2}{\log n}
+        \right).
+\end{equation}</span></em></p></li>
+</ol>
+</div>
+<p>The short-interval estimate <a href="#eq:short-interval-prime"
+data-reference-type="eqref"
+data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>
+is due to Dusart’s thesis and is quoted, for example, by Axler <a href="#ref-4" class="cite">[4]</a>. The estimates <a
+href="#eq:theta-upper" data-reference-type="eqref"
+data-reference="eq:theta-upper">[eq:theta-upper]</a>, <a
+href="#eq:theta-lower" data-reference-type="eqref"
+data-reference="eq:theta-lower">[eq:theta-lower]</a>, <a
+href="#eq:pi-lower" data-reference-type="eqref"
+data-reference="eq:pi-lower">[eq:pi-lower]</a>, <a href="#eq:pi-upper"
+data-reference-type="eqref"
+data-reference="eq:pi-upper">[eq:pi-upper]</a>, and <a
+href="#eq:nth-prime-upper" data-reference-type="eqref"
+data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a> are
+Dusart’s explicit estimates <a href="#ref-5" class="cite">[5]</a>.</p>
+<p>We also need explicit estimates for <span
+class="math inline">A(y)</span>. Let <span
+class="math display">B:=\gamma+\sum_p\left(\log\left(1-\frac1p\right)+\frac1p\right),</span>
+the Meissel-Mertens constant, and put <span
+class="math display">\varepsilon(y):=\frac1{10\log^2 y}+\frac4{15\log^3
+y}.</span> Dusart’s reciprocal-prime estimate gives <span
+class="math display">\begin{equation}
+\label{eq:reciprocal-prime-estimate}
+-\varepsilon(y)
+        \le
+        \sum_{p\le y}\frac1p-\log\log y-B
+        \le
+        \varepsilon(y),
+\end{equation}</span> where the lower bound holds for <span
+class="math inline">y&gt;1</span>, and the upper bound holds for <span
+class="math inline">y&gt;10372</span>. This reciprocal-prime estimate is
+due to Dusart <a href="#ref-5" class="cite">[5]</a>.</p>
+<div id="cert:constants" class="certificate">
+<p><strong>Certificate 6</strong> (Numerical constants). We use the
+outward-rounded interval <span class="math display">\begin{equation}
+\label{eq:B-interval}
+0.261497212847642&lt;B&lt;0.261497212847643,
+\end{equation}</span> for the Meissel-Mertens constant. This interval is
+implied by the tabulated value <span
+class="math display">B=0.2614972128476427837554268386\ldots,</span>
+consistent with the high-precision computation methods of Languasco and
+Zaccagnini <a href="#ref-6" class="cite">[6]</a> and with the tabulated
+decimal expansion <a href="#ref-7" class="cite">[7]</a>.</p>
+<p>With <span class="math display">C:=\sum_p\frac1{p(p-1)},</span> we
+also use <span class="math display">\begin{equation}
+\label{eq:C-interval}
+0.773156636699192&lt;C&lt;0.773157136700943.
+\end{equation}</span> For this second interval, let <span
+class="math inline">N=1{,}999{,}993</span>. Since all summands are
+positive, <span class="math display">\sum_{p\le
+N}\frac1{p(p-1)}&lt;C.</span> Moreover, <span
+class="math display">C-\sum_{p\le N}\frac1{p(p-1)}
+        \le
+        \sum_{n\ge N+1}\frac1{n(n-1)}
+        =
+        \frac1N,</span> where the last equality follows by telescoping.
+The finite partial sum over <span class="math inline">p\le N</span> is
+evaluated with outward rounding in the companion verifier; equivalently,
+it may be evaluated by exact rational arithmetic and compared with the
+displayed decimal endpoints by integer cross-multiplication.</p>
+</div>
+<p>Since <span
+class="math display">\frac1{p-1}=\frac1p+\frac1{p(p-1)},</span> we have,
+for <span class="math inline">y&gt;10372</span>, <span
+class="math display">\begin{equation}
+\label{eq:A-upper}
+A(y)\le \log\log y+B+\varepsilon(y)+C.
+\end{equation}</span> In particular, using only <span
+class="math inline">C&lt;1</span>, we also have <span
+class="math display">\begin{equation}
+\label{eq:A-upper-weak}
+A(y)\le \log\log y+B+1+\varepsilon(y).
+\end{equation}</span> For <span class="math inline">y&gt;1</span>, since
+the second summand is positive, <span
+class="math display">\begin{equation}
+\label{eq:A-lower-weak}
+A(y)\ge \log\log y+B-\varepsilon(y).
+\end{equation}</span> For large finite inputs in Section <a
+href="#sec:finite-large" data-reference-type="ref"
+data-reference="sec:finite-large">5.3</a>, we shall also use the
+following sharper lower bound. If <span class="math inline">y\ge
+1{,}999{,}993</span>, then <span class="math display">\begin{equation}
+\label{eq:A-lower-sharp}
+A(y)\ge \log\log y+B_- -\varepsilon(y)+C_- -\frac1{y-1},
+\end{equation}</span> where <span
+class="math display">B_-:=0.261497212847642,
+        \qquad
+        C_-:=0.773156636699192.</span> Indeed, after subtracting the
+reciprocal-prime estimate from the identity <span
+class="math inline">1/(p-1)=1/p+1/(p(p-1))</span>, the only point is to
+lower-bound <span class="math inline">\sum_{p\le y}1/(p(p-1))</span>.
+Since <span class="math display">\sum_{p&gt;y}\frac1{p(p-1)}
+        \le
+        \sum_{n&gt;y}\frac1{n(n-1)}
+        \le \frac1{y-1},</span> this partial sum is at least <span
+class="math inline">C_- -1/(y-1)</span>.</p>
+<p>All finite decimal inequalities used below are certified by the
+companion verifier described in Appendix <a href="#app:verification"
+data-reference-type="ref" data-reference="app:verification">A</a>. The
+finite prime sums and the elementary symmetric sums are checked exactly,
+while logarithmic comparisons and the value of <span
+class="math inline">C</span> are checked by rigorous outward-rounded
+interval arithmetic.</p>
+<section id="published-prime-record-certificates" class="level2"
+data-number="4.1">
+<h2 data-number="4.1"><span class="header-section-number">4.1</span>
+Published prime-record certificates</h2>
+<p>We use two certified prime-record inputs.</p>
+<div id="input:largegap" class="certificate">
+<p><strong>Certificate 7</strong> (A certified large prime gap <a href="#ref-8" class="cite">[8]</a>, <a href="#ref-9" class="cite">[9]</a>). Let
+<span class="math inline">m\#:=\prod_{p\le m}p</span> denote the
+primorial, where the product is over primes. Set <span
+class="math display">s_L:=587\cdot \frac{43103\#}{2310}-455704.</span>
+Since <span class="math inline">2310=11\#</span>, this is the same
+number as <span
+class="math inline">587\cdot(43103\#/11\#)-455704</span>, the form used
+in the published record tables. There is a certified prime gap of length
+<span class="math display">g_L=1{,}113{,}106</span> from <span
+class="math inline">s_L</span> to <span
+class="math inline">s_L+g_L</span>. In particular, <span
+class="math inline">s_L</span> and <span
+class="math inline">s_L+g_L</span> are consecutive primes. Both
+endpoints have <span class="math inline">18662</span> decimal
+digits.</p>
+</div>
+<div id="input:twin" class="certificate">
+<p><strong>Certificate 8</strong> (A certified twin prime <a href="#ref-10" class="cite">[10]</a>, <a href="#ref-11" class="cite">[11]</a>). Let <span
+class="math display">s_T:=504983334^{8192}-504983334^{4096}-1.</span>
+The published PrimePages record lists this number as a proven twin
+prime. Thus <span class="math inline">s_T</span> and <span
+class="math inline">s_T+2</span> are primes, and <span
+class="math inline">s_T</span> has <span
+class="math inline">71298</span> decimal digits.</p>
+</div>
+<p>These two certificates are used only as published prime-record data.
+A fully formal version may replace them by the corresponding primality
+certificates for the endpoints and compositeness certificates for the
+intervening integers.</p>
+</section>
+</section>
+<section id="sec:finite" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> The
+Finite Range: <span class="math inline">4\le k\le
+8{,}600{,}001</span></h1>
+<section id="the-small-cases-4le-kle20" class="level2"
+data-number="5.1">
+<h2 data-number="5.1"><span class="header-section-number">5.1</span> The
+small cases: <span class="math inline">4\le k\le20</span></h2>
+<p>The following table is a certified finite calculation. For a prime
+gap <span class="math inline">a\to b</span>, the notation <span
+class="math display">R_r(a^-)</span> means <span
+class="math inline">R_r(i-1)</span>, where <span
+class="math inline">p_i=a</span>. The table is obtained by computing the
+elementary symmetric sums <span class="math inline">E_m(i)</span>
+exactly from the rational weights <span
+class="math inline">w_j=1/(p_j-1)</span>. The displayed decimals are
+rounded outward.</p>
+
+<figure id="tab-smallcases" class="result-table">
+  <table>
+    <caption>Table 1. Exact certificates for the small cases. The first displayed gap in each row gives a strict descent, and the second, later gap gives a strict ascent.</caption>
+    <thead>
+      <tr><th>$r$</th><th>Descent certificate</th><th>Later ascent certificate</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>3</td><td>$13	o17$, $g=4$: $R_3(13^-)<3.506<5$</td><td>$17	o19$, $g=2$: $R_3(17^-)>3.048>3$</td></tr>
+      <tr><td>4</td><td>$23	o29$, $g=6$: $R_4(23^-)<4.759<7$</td><td>$29	o31$, $g=2$: $R_4(29^-)>4.371>3$</td></tr>
+      <tr><td>5</td><td>$31	o37$, $g=6$: $R_5(31^-)<6.748<7$</td><td>$37	o41$, $g=4$: $R_5(37^-)>6.263>5$</td></tr>
+      <tr><td>6</td><td>$73	o79$, $g=6$: $R_6(73^-)<6.437<7$</td><td>$79	o83$, $g=4$: $R_6(79^-)>6.282>5$</td></tr>
+      <tr><td>7</td><td>$89	o97$, $g=8$: $R_7(89^-)<8.085<9$</td><td>$97	o101$, $g=4$: $R_7(97^-)>7.911>5$</td></tr>
+      <tr><td>8</td><td>$113	o127$, $g=14$: $R_8(113^-)<9.303<15$</td><td>$127	o131$, $g=4$: $R_8(127^-)>9.145>5$</td></tr>
+      <tr><td>9</td><td>$113	o127$, $g=14$: $R_9(113^-)<11.677<15$</td><td>$127	o131$, $g=4$: $R_9(127^-)>11.452>5$</td></tr>
+      <tr><td>10</td><td>$113	o127$, $g=14$: $R_{10}(113^-)<14.414<15$</td><td>$127	o131$, $g=4$: $R_{10}(127^-)>14.101>5$</td></tr>
+      <tr><td>11</td><td>$293	o307$, $g=14$: $R_{11}(293^-)<12.085<15$</td><td>$307	o311$, $g=4$: $R_{11}(307^-)>12.011>5$</td></tr>
+      <tr><td>12</td><td>$293	o307$, $g=14$: $R_{12}(293^-)<14.050<15$</td><td>$307	o311$, $g=4$: $R_{12}(307^-)>13.959>5$</td></tr>
+      <tr><td>13</td><td>$523	o541$, $g=18$: $R_{13}(523^-)<13.651<19$</td><td>$541	o547$, $g=6$: $R_{13}(541^-)>13.607>7$</td></tr>
+      <tr><td>14</td><td>$523	o541$, $g=18$: $R_{14}(523^-)<15.415<19$</td><td>$541	o547$, $g=6$: $R_{14}(541^-)>15.364>7$</td></tr>
+      <tr><td>15</td><td>$523	o541$, $g=18$: $R_{15}(523^-)<17.279<19$</td><td>$541	o547$, $g=6$: $R_{15}(541^-)>17.218>7$</td></tr>
+      <tr><td>16</td><td>$887	o907$, $g=20$: $R_{16}(887^-)<16.752<21$</td><td>$907	o911$, $g=4$: $R_{16}(907^-)>16.721>5$</td></tr>
+      <tr><td>17</td><td>$887	o907$, $g=20$: $R_{17}(887^-)<18.438<21$</td><td>$907	o911$, $g=4$: $R_{17}(907^-)>18.402>5$</td></tr>
+      <tr><td>18</td><td>$887	o907$, $g=20$: $R_{18}(887^-)<20.191<21$</td><td>$907	o911$, $g=4$: $R_{18}(907^-)>20.151>5$</td></tr>
+      <tr><td>19</td><td>$1129	o1151$, $g=22$: $R_{19}(1129^-)<20.742<23$</td><td>$1151	o1153$, $g=2$: $R_{19}(1151^-)>20.711>3$</td></tr>
+    </tbody>
+  </table>
+</figure>
+
+<p>For each row, Lemma <a href="#lem:threshold"
+data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+strict descent at the first displayed gap and a strict ascent at the
+second displayed, later gap. Hence <span
+class="math inline">d_{r+1}(p)</span> is not unimodal for <span
+class="math inline">3\le r\le 19</span>, equivalently <span
+class="math display">4\le k\le 20.</span></p>
+</section>
+<section id="the-ranges-21le-kle31-and-32le-kle48" class="level2"
+data-number="5.2">
+<h2 data-number="5.2"><span class="header-section-number">5.2</span> The
+ranges <span class="math inline">21\le k\le31</span> and <span
+class="math inline">32\le k\le48</span></h2>
+<p>First consider <span class="math display">20\le r\le 30.</span> The
+certified finite sums are <span
+class="math display">\sum_{p&lt;15683}\frac1{p-1}
+        &gt;3.303755162423773,</span> <span
+class="math display">\sum_{p\le 15683}\frac1{p-1}
+        &lt;3.303818929800384,</span> and <span
+class="math display">W_{29}&lt;2.612642166507777.</span> Since <span
+class="math inline">W_{r-1}\le W_{29}</span>, Lemma <a
+href="#lem:Rbounds" data-reference-type="ref"
+data-reference="lem:Rbounds">4</a> gives at the gap <span
+class="math inline">15683\to15727</span>, whose length is <span
+class="math inline">44</span>, <span class="math display">R_r(15683^-)
+        \le
+        \frac{30}{3.303755162423773-2.612642166507777}
+        &lt;43.409&lt;45=44+1.</span> Thus Lemma <a
+href="#lem:threshold" data-reference-type="ref"
+data-reference="lem:threshold">3</a> gives a strict descent at <span
+class="math inline">15683\to15727</span>.</p>
+<p>At the next gap <span class="math inline">15727\to15731</span>, whose
+length is <span class="math inline">4</span>, Lemma <a
+href="#lem:Rbounds" data-reference-type="ref"
+data-reference="lem:Rbounds">4</a> gives <span
+class="math display">R_r(15727^-)
+        \ge
+        \frac{20}{3.303818929800384}
+        &gt;6.053&gt;5=4+1.</span> Thus Lemma <a href="#lem:threshold"
+data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+strict ascent at <span class="math inline">15727\to15731</span>.
+Therefore <span class="math inline">d_{r+1}(p)</span> is not unimodal
+for <span class="math inline">20\le r\le 30</span>, equivalently <span
+class="math display">21\le k\le 31.</span></p>
+<p>Next consider <span class="math display">31\le r\le 47.</span> The
+certified finite sums are <span
+class="math display">\sum_{p&lt;31397}\frac1{p-1}
+        &gt;3.372584257226677,</span> <span
+class="math display">\sum_{p\le31397}\frac1{p-1}
+        &lt;3.372616108417913,</span> and <span
+class="math display">W_{46}&lt;2.721441010945543.</span> Since <span
+class="math inline">W_{r-1}\le W_{46}</span>, Lemma <a
+href="#lem:Rbounds" data-reference-type="ref"
+data-reference="lem:Rbounds">4</a> gives at the gap <span
+class="math inline">31397\to31469</span>, whose length is <span
+class="math inline">72</span>, <span class="math display">R_r(31397^-)
+        \le
+        \frac{47}{3.372584257226677-2.721441010945543}
+        &lt;72.181&lt;73=72+1.</span> Thus there is a strict descent at
+<span class="math inline">31397\to31469</span>.</p>
+<p>At the later gap <span class="math inline">31469\to31477</span>,
+whose length is <span class="math inline">8</span>, Lemma <a
+href="#lem:Rbounds" data-reference-type="ref"
+data-reference="lem:Rbounds">4</a> gives <span
+class="math display">R_r(31469^-)
+        \ge
+        \frac{31}{3.372616108417913}
+        &gt;9.191&gt;9=8+1.</span> Thus there is a strict ascent at
+<span class="math inline">31469\to31477</span>. Hence <span
+class="math inline">d_{r+1}(p)</span> is not unimodal for <span
+class="math inline">31\le r\le47</span>, equivalently <span
+class="math display">32\le k\le 48.</span></p>
+</section>
+<section id="sec:finite-large" class="level2" data-number="5.3">
+<h2 data-number="5.3"><span class="header-section-number">5.3</span> A
+record-gap certificate for <span class="math inline">41\le
+k\le8{,}600{,}001</span></h2>
+<p>We use the two prime-record certificates from Section <a
+href="#sec:inputs" data-reference-type="ref"
+data-reference="sec:inputs">4</a>.</p>
+<p>We first show that the twin gap gives a strict ascent for every <span
+class="math display">40\le r\le8{,}600{,}000.</span> Since <span
+class="math inline">s_T</span> has <span
+class="math inline">71298</span> decimal digits, <span
+class="math display">10^{71297}\le s_T&lt;10^{71298}.</span> Because
+<span class="math inline">\varepsilon(y)</span> is decreasing for <span
+class="math inline">y&gt;1</span>, by <a href="#eq:A-upper"
+data-reference-type="eqref"
+data-reference="eq:A-upper">[eq:A-upper]</a>, <a href="#eq:B-interval"
+data-reference-type="eqref"
+data-reference="eq:B-interval">[eq:B-interval]</a>, and <a
+href="#eq:C-interval" data-reference-type="eqref"
+data-reference="eq:C-interval">[eq:C-interval]</a>, <span
+class="math display">\begin{aligned}
+        A(s_T)
+        &amp;&lt;
+        \log\log(10^{71298})
+        +0.261497212847643
+        +\varepsilon(10^{71297})
+        +0.773157136700943  \\
+        &amp;&lt;13.04331036.
+\end{aligned}</span> Therefore, at the gap <span
+class="math inline">s_T\to s_T+2</span>, <span
+class="math display">R_r(s_T^-)
+        \ge
+        \frac r{A(s_T)}
+        \ge
+        \frac{40}{13.04331036}
+        &gt;3.066&gt;3=2+1.</span> It remains to note that <span
+class="math inline">R_r(s_T^-)</span> is defined throughout this range.
+Applying <a href="#eq:nth-prime-upper" data-reference-type="eqref"
+data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a> with <span
+class="math inline">n=8{,}600{,}000</span> gives <span
+class="math display">p_{8{,}600{,}000}&lt;152{,}960{,}215&lt;s_T.</span>
+Thus at least <span class="math inline">8{,}600{,}000</span> primes lie
+below <span class="math inline">s_T</span>. By Lemma <a
+href="#lem:threshold" data-reference-type="ref"
+data-reference="lem:threshold">3</a>, there is a strict ascent at <span
+class="math inline">s_T\to s_T+2</span> for every <span
+class="math inline">40\le r\le8{,}600{,}000</span>.</p>
+<p>Now we show that the large gap gives a strict descent for all <span
+class="math display">40\le r\le8{,}600{,}000.</span> Since <span
+class="math inline">s_L</span> has <span
+class="math inline">18662</span> decimal digits, <span
+class="math display">s_L&gt;10^{18661}.</span> Using <a
+href="#eq:A-lower-sharp" data-reference-type="eqref"
+data-reference="eq:A-lower-sharp">[eq:A-lower-sharp]</a>, we get <span
+class="math display">\begin{aligned}
+        A(s_L^-)
+        &amp;\ge
+        A(10^{18661}) \\
+        &amp;&gt;
+        \log\log(10^{18661})
+        +0.261497212847642
+        -\varepsilon(10^{18661})
+        +0.773156636699192
+        -\frac1{10^{18661}-1}\\
+        &amp;&gt;11.70287735.
+\end{aligned}</span> For <span
+class="math inline">r\le8{,}600{,}000</span>, <span
+class="math display">W_{r-1}\le
+W_{8{,}599{,}999}=A(p_{8{,}599{,}999}).</span> By <a
+href="#eq:nth-prime-upper" data-reference-type="eqref"
+data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a>, <span
+class="math display">p_{8{,}599{,}999}\le U,</span> where <span
+class="math display">U:=8{,}599{,}999\left(
+        \log(8{,}599{,}999)+\log\log(8{,}599{,}999)-1+
+        \frac{\log\log(8{,}599{,}999)-2}{\log(8{,}599{,}999)}
+        \right).</span> Outward-rounded interval arithmetic gives <span
+class="math display">U&lt;152{,}960{,}196.</span> Then <a
+href="#eq:A-upper" data-reference-type="eqref"
+data-reference="eq:A-upper">[eq:A-upper]</a>, <a href="#eq:B-interval"
+data-reference-type="eqref"
+data-reference="eq:B-interval">[eq:B-interval]</a>, and <a
+href="#eq:C-interval" data-reference-type="eqref"
+data-reference="eq:C-interval">[eq:C-interval]</a> give <span
+class="math display">W_{r-1}\le A(152{,}960{,}196)&lt;3.9713.</span> In
+particular, <span class="math display">A(s_L^-)&gt;W_{r-1},</span> so
+there are at least <span class="math inline">r</span> primes below <span
+class="math inline">s_L</span>, and Lemma <a href="#lem:Rbounds"
+data-reference-type="ref" data-reference="lem:Rbounds">4</a> applies at
+<span class="math inline">s_L^-</span>. Consequently, at the gap <span
+class="math inline">s_L\to s_L+g_L</span>, <span
+class="math display">\begin{aligned}
+        R_r(s_L^-)
+        &amp;\le
+        \frac{r}{A(s_L^-)-W_{r-1}}\\
+        &amp;&lt;
+        \frac{8{,}600{,}000}{11.70287735-3.9713}\\
+        &amp;&lt;1{,}112{,}322
+        &lt;1{,}113{,}107
+        =g_L+1.
+\end{aligned}</span> Thus Lemma <a href="#lem:threshold"
+data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+strict descent at <span class="math inline">s_L\to s_L+g_L</span>.</p>
+<p>Finally, the strict ascent at <span class="math inline">s_T\to
+s_T+2</span> occurs after this strict descent, because <span
+class="math inline">s_T</span> has <span
+class="math inline">71298</span> decimal digits while both endpoints of
+the large gap have <span class="math inline">18662</span> digits.
+Therefore <span class="math inline">d_{r+1}(p)</span> is not unimodal
+for <span class="math display">40\le r\le8{,}600{,}000,</span>
+equivalently <span class="math display">41\le
+k\le8{,}600{,}001.</span></p>
+<p>Combining the three finite parts gives the following proposition.</p>
+<div id="prop:finite" class="proposition">
+<p><strong>Proposition 9</strong>. <em>For every integer <span
+class="math display">4\le k\le8{,}600{,}001,</span> the sequence <span
+class="math inline">p\mapsto d_k(p)</span> is not unimodal.</em></p>
+</div>
+</section>
+</section>
+<section id="sec:tail" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> The
+Uniform Tail: <span class="math inline">k\ge8{,}600{,}002</span></h1>
+<p>We now prove all remaining cases by one uniform argument. Put <span
+class="math display">r:=k-1.</span> Thus it suffices to prove the claim
+for every integer <span class="math display">r\ge8{,}600{,}001.</span>
+Set <span class="math display">v:=\log r,
+        \qquad
+        x:=0.99\,\frac r{\log r}=0.99\,\frac r v.</span> Since <span
+class="math display">\log(8{,}600{,}001)&gt;15.96,</span> we have <span
+class="math display">\begin{equation}
+\label{eq:v-lower}
+v&gt;15.96.
+\end{equation}</span> The function <span class="math inline">r/\log
+r</span> is increasing for <span class="math inline">r&gt;e</span>, and
+hence <span class="math display">\begin{equation}
+\label{eq:x-lower}
+x\ge 0.99\frac{8{,}600{,}001}{\log(8{,}600{,}001)}
+        &gt;533{,}000.
+\end{equation}</span> Consequently <span
+class="math display">\begin{equation}
+\label{eq:x-half-lower}
+\frac x2&gt;266{,}500&gt;3275.
+\end{equation}</span> Outward-rounded interval arithmetic gives, for
+every <span class="math inline">x</span> in this range, <span
+class="math display">\begin{equation}
+\label{eq:logx-error}
+\frac1{2\log^2 x}&lt;0.002876,
+\end{equation}</span> <span class="math display">\begin{equation}
+\label{eq:logxhalf-error}
+\frac1{2\log^2(x/2)}&lt;0.00321,
+\end{equation}</span> <span class="math display">\begin{equation}
+\label{eq:theta-error-small}
+\frac{1.2323}{\log x}&lt;0.1,
+\end{equation}</span> and <span class="math display">\begin{equation}
+\label{eq:M-factor-bound}
+\left(1+\frac1{2\log^2x}\right)
+        \left(1+\frac1{36260}\right)
+        +\frac{\log 8}{x}
+        &lt;1.003.
+\end{equation}</span> Moreover, if <span class="math inline">\log
+y&gt;18.9</span>, then <span class="math display">\begin{equation}
+\label{eq:eps-small}
+\varepsilon(y)&lt;0.001.
+\end{equation}</span></p>
+<p>We shall also use the following elementary inequalities. First, <span
+class="math display">\begin{equation}
+\label{eq:tail-elementary-one}
+0.44v-2\log v-1.300&gt;0
+\end{equation}</span> for every <span
+class="math inline">v\ge15.96</span>. Indeed, the derivative is <span
+class="math inline">0.44-2/v&gt;0</span> on this interval, and the value
+at <span class="math inline">15.96</span> is <span
+class="math inline">&gt;0.18</span>. Second, since <span
+class="math inline">v&gt;15.96&gt;1.50</span>, <span
+class="math display">\begin{equation}
+\label{eq:tail-elementary-two}
+\frac{v}{0.99(v-1.50)}&gt;\frac1{0.99}&gt;1.010.
+\end{equation}</span></p>
+<section id="a-large-gap-before-4p" class="level2" data-number="6.1">
+<h2 data-number="6.1"><span class="header-section-number">6.1</span> A
+large gap before <span class="math inline">4P</span></h2>
+<p>By <a href="#eq:short-interval-prime" data-reference-type="eqref"
+data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>,
+choose a prime <span class="math display">q\in\left(x,\
+x\left(1+\frac1{2\log^2x}\right)\right].</span> Let <span
+class="math inline">q^-</span> be the prime immediately preceding <span
+class="math inline">q</span>, and put <span
+class="math display">P:=\prod_{p\le q}p.</span> Then <span
+class="math display">\log P=\vartheta(q).</span> By <a
+href="#eq:theta-lower" data-reference-type="eqref"
+data-reference="eq:theta-lower">[eq:theta-lower]</a>, <span
+class="math inline">q&gt;x</span>, and <a href="#eq:theta-error-small"
+data-reference-type="eqref"
+data-reference="eq:theta-error-small">[eq:theta-error-small]</a>, <span
+class="math display">\begin{equation}
+\label{eq:logP-lower}
+\log P
+        =
+        \vartheta(q)
+        &gt;
+        q\left(1-\frac{1.2323}{\log q}\right)
+        &gt;
+        0.9x.
+\end{equation}</span> By <a href="#eq:theta-upper"
+data-reference-type="eqref"
+data-reference="eq:theta-upper">[eq:theta-upper]</a>, <a
+href="#eq:logx-error" data-reference-type="eqref"
+data-reference="eq:logx-error">[eq:logx-error]</a>, and <a
+href="#eq:M-factor-bound" data-reference-type="eqref"
+data-reference="eq:M-factor-bound">[eq:M-factor-bound]</a>, <span
+class="math display">\begin{equation}
+\label{eq:log8P-upper}
+\begin{aligned}
+        \log(8P)
+        &amp;=
+        \vartheta(q)+\log 8\\
+        &amp;&lt;
+        q\left(1+\frac1{36260}\right)+\log8\\
+        &amp;\le
+        x\left(1+\frac1{2\log^2x}\right)
+        \left(1+\frac1{36260}\right)+\log8\\
+        &amp;&lt;1.003x.
+\end{aligned}
+\end{equation}</span></p>
+<p>We now construct a block of consecutive composite integers. For each
+prime <span class="math inline">p\le q</span>, define a residue class
+<span class="math inline">a_p</span> by <span
+class="math display">a_p\equiv
+        \begin{cases}
+        q^- \pmod p,&amp;p&lt;q^-,\\
+        q^- -1\pmod {q^-},&amp;p=q^-,\\
+        q^- +1\pmod q,&amp;p=q.
+        \end{cases}</span> For every integer <span
+class="math display">1\le m\le2q^- -1,</span> there exists a prime <span
+class="math inline">p\le q</span> such that <span
+class="math display">m\equiv a_p\pmod p.</span> Indeed:</p>
+<ul>
+<li><p>if <span class="math inline">1\le m\le q^- -2</span>, choose a
+prime divisor <span class="math inline">p</span> of <span
+class="math inline">q^- -m</span>;</p></li>
+<li><p>if <span class="math inline">m=q^- -1</span>, choose <span
+class="math inline">p=q^-</span>;</p></li>
+<li><p>if <span class="math inline">m=q^-</span>, choose <span
+class="math inline">p=2</span>;</p></li>
+<li><p>if <span class="math inline">m=q^-+1</span>, choose <span
+class="math inline">p=q</span>;</p></li>
+<li><p>if <span class="math inline">q^-+2\le m\le2q^- -1</span>, choose
+a prime divisor <span class="math inline">p</span> of <span
+class="math inline">m-q^-</span>.</p></li>
+</ul>
+<p>Each case gives <span class="math inline">m\equiv a_p\pmod
+p</span>.</p>
+<p>By the Chinese remainder theorem, choose <span
+class="math inline">a</span> modulo <span class="math inline">P</span>
+such that <span class="math display">a\equiv -a_p\pmod p
+        \qquad(p\le q),</span> and choose the representative <span
+class="math inline">0\le a&lt;P</span>. Then for every <span
+class="math display">1\le m\le2q^- -1</span> there is a prime <span
+class="math inline">p\le q</span> such that <span
+class="math display">a+2P+m\equiv a+m\equiv0\pmod p.</span> Also <span
+class="math display">a+2P+m&gt;2P&gt;q\ge p,</span> so <span
+class="math inline">a+2P+m</span> is composite. Hence <span
+class="math display">a+2P+1,\ a+2P+2,\ \ldots,\ a+2P+2q^- -1</span> is a
+block of consecutive composite integers.</p>
+<p>Since <span class="math inline">P</span> contains the factors <span
+class="math inline">2,q^-,q</span>, and <span
+class="math inline">q&gt;q^-</span>, we have <span
+class="math display">P\ge2q^-q&gt;2q^-.</span> Thus the above block is
+contained in <span class="math inline">(2P,4P)</span>. Therefore there
+is a prime gap <span class="math inline">G_-</span> surrounding this
+block and satisfying <span class="math display">\begin{equation}
+\label{eq:Gminus-block}
+G_-\ge2q^-.
+\end{equation}</span></p>
+<p>It remains to lower-bound <span class="math inline">q^-</span>. By <a
+href="#eq:short-interval-prime" data-reference-type="eqref"
+data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>,
+applied to <span class="math inline">x/2</span>, there is a prime <span
+class="math display">s\in
+        \left(\frac x2,\ \frac
+x2\left(1+\frac1{2\log^2(x/2)}\right)\right].</span> By <a
+href="#eq:logxhalf-error" data-reference-type="eqref"
+data-reference="eq:logxhalf-error">[eq:logxhalf-error]</a>, this upper
+endpoint is <span class="math inline">&lt;x</span>, while <span
+class="math inline">q&gt;x</span>. Therefore <span
+class="math display">\begin{equation}
+\label{eq:qminus-half}
+q^-\ge s&gt;\frac x2.
+\end{equation}</span> Apply <a href="#eq:short-interval-prime"
+data-reference-type="eqref"
+data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>
+once more, now to <span class="math inline">q^-</span>. Since <span
+class="math inline">q</span> is the first prime after <span
+class="math inline">q^-</span>, <span class="math display">q\le
+q^-\left(1+\frac1{2\log^2q^-}\right).</span> Together with <span
+class="math inline">q&gt;x</span> and <span
+class="math inline">q^-&gt;x/2</span>, this gives <span
+class="math display">q^-
+        &gt;
+        \frac{x}{1+\frac1{2\log^2q^-}}
+        &gt;
+        \frac{x}{1+\frac1{2\log^2(x/2)}}.</span> Using <a
+href="#eq:logxhalf-error" data-reference-type="eqref"
+data-reference="eq:logxhalf-error">[eq:logxhalf-error]</a>, <span
+class="math display">q^-&gt;\frac{x}{1.00321}.</span> Therefore, by <a
+href="#eq:Gminus-block" data-reference-type="eqref"
+data-reference="eq:Gminus-block">[eq:Gminus-block]</a>, <span
+class="math display">\begin{equation}
+\label{eq:Gminus-lower}
+G_-&gt;\frac{2x}{1.00321}&gt;1.993x.
+\end{equation}</span></p>
+</section>
+<section id="a-smaller-later-gap-inside-4p8p" class="level2"
+data-number="6.2">
+<h2 data-number="6.2"><span class="header-section-number">6.2</span> A
+smaller later gap inside <span class="math inline">(4P,8P]</span></h2>
+<p>Let <span class="math display">M:=\log(8P),
+        \qquad
+        N:=\pi(8P)-\pi(4P).</span> By <a href="#eq:logP-lower"
+data-reference-type="eqref"
+data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
+class="math inline">M&gt;20</span>. By <a href="#eq:pi-lower"
+data-reference-type="eqref"
+data-reference="eq:pi-lower">[eq:pi-lower]</a> and <a
+href="#eq:pi-upper" data-reference-type="eqref"
+data-reference="eq:pi-upper">[eq:pi-upper]</a>, <span
+class="math display">N
+        \ge
+        \frac{8P}{M-1}
+        -
+        \frac{4P}{M-\log2-1.1}.</span> Set <span
+class="math display">D(M):=\frac8{M-1}-\frac4{M-\log2-1.1}.</span> A
+direct calculation gives <span class="math display">D(M)-\frac4M
+        =
+        \frac{
+        2\bigl((9-10\log2)M-(10\log2+11)\bigr)
+        }
+        {
+        5M(M-1)(M-\log2-1.1)
+        }.</span> For <span class="math inline">M&gt;20</span>, <span
+class="math display">9-10\log2&gt;2,
+        \qquad
+        10\log2+11&lt;18.</span> Hence <span
+class="math display">(9-10\log2)M-(10\log2+11)&gt;2M-18.</span> Also
+<span class="math display">M(M-1)(M-\log2-1.1)&lt;M^3.</span> Thus <span
+class="math display">D(M)-\frac4M
+        &gt;
+        \frac{2(2M-18)}{5M^3}
+        &gt;
+        \frac8{M^3}.</span> Therefore <span
+class="math display">D(M)&gt;\frac4M+\frac8{M^3},</span> and so <span
+class="math display">N&gt;\frac{4P}{M}+\frac{8P}{M^3}.</span> Since
+<span class="math inline">8P=\mathrm e^M</span> and <span
+class="math inline">M&gt;20</span>, <span
+class="math display">\frac{8P}{M^3}=\frac{\mathrm e^M}{M^3}&gt;1.</span>
+Consequently, <span class="math display">\begin{equation}
+\label{eq:N-lower}
+N&gt;\frac{4P}{M}+1.
+\end{equation}</span></p>
+<p>Let the primes in <span class="math inline">(4P,8P]</span> be <span
+class="math display">s_1&lt;s_2&lt;\cdots&lt;s_N.</span> Any consecutive
+pair <span class="math inline">s_\ell,s_{\ell+1}</span> is also
+consecutive among all primes, since every prime between them would also
+lie in <span class="math inline">(4P,8P]</span>. Moreover <span
+class="math display">\sum_{\ell=1}^{N-1}(s_{\ell+1}-s_\ell)
+        =
+        s_N-s_1
+        &lt;4P.</span> By <a href="#eq:N-lower"
+data-reference-type="eqref"
+data-reference="eq:N-lower">[eq:N-lower]</a>, some global prime gap
+<span class="math inline">G_+</span> in <span
+class="math inline">(4P,8P]</span> satisfies <span
+class="math display">G_+&lt;\frac{4P}{N-1}&lt;M.</span> Using <a
+href="#eq:log8P-upper" data-reference-type="eqref"
+data-reference="eq:log8P-upper">[eq:log8P-upper]</a>, <span
+class="math display">\begin{equation}
+\label{eq:Gplus-upper}
+G_+&lt;M&lt;1.003x.
+\end{equation}</span> This gap <span class="math inline">G_+</span>
+occurs after <span class="math inline">G_-</span>. Indeed, <span
+class="math inline">G_-</span> surrounds a composite block lying inside
+<span class="math inline">(2P,4P)</span>, while <span
+class="math inline">G_+</span> lies inside <span
+class="math inline">(4P,8P]</span>. If the right endpoint of <span
+class="math inline">G_-</span> is the first prime in <span
+class="math inline">(4P,8P]</span>, then <span
+class="math inline">G_+</span> starts at that prime or later, and hence
+still occurs after <span class="math inline">G_-</span>.</p>
+</section>
+<section id="the-large-gap-gives-a-strict-descent" class="level2"
+data-number="6.3">
+<h2 data-number="6.3"><span class="header-section-number">6.3</span> The
+large gap gives a strict descent</h2>
+<p>Let <span class="math inline">G_-</span> occur between the
+consecutive primes <span class="math display">p_i,\ p_{i+1}.</span> We
+first show that <span class="math display">\begin{equation}
+\label{eq:piminus-P}
+p_{i-1}&gt;P.
+\end{equation}</span> Let <span class="math inline">L:=\log P</span>. By
+<a href="#eq:logP-lower" data-reference-type="eqref"
+data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
+class="math inline">L&gt;20</span>. From <a href="#eq:pi-lower"
+data-reference-type="eqref"
+data-reference="eq:pi-lower">[eq:pi-lower]</a> and <a
+href="#eq:pi-upper" data-reference-type="eqref"
+data-reference="eq:pi-upper">[eq:pi-upper]</a>, <span
+class="math display">\begin{aligned}
+        \pi(2P)-\pi(P)
+        &amp;\ge
+        \frac{2P}{L+\log2-1}
+        -
+        \frac{P}{L-1.1}\\
+        &amp;=
+        P\left(
+        \frac2{L+\log2-1}
+        -
+        \frac1{L-1.1}
+        \right).
+\end{aligned}</span> For <span class="math inline">L&gt;20</span>, <span
+class="math display">\frac2{L+\log2-1}
+        -
+        \frac1{L-1.1}
+        &gt;
+        \frac1{2L}.</span> Thus <span
+class="math display">\pi(2P)-\pi(P)&gt;\frac{P}{2\log P}&gt;2.</span>
+Hence <span class="math inline">(P,2P]</span> contains at least two
+primes. Since the block of composites surrounded by <span
+class="math inline">G_-</span> starts after <span
+class="math inline">2P</span>, the prime immediately preceding the left
+endpoint of <span class="math inline">G_-</span> is <span
+class="math inline">&gt;P</span>. This proves <a href="#eq:piminus-P"
+data-reference-type="eqref"
+data-reference="eq:piminus-P">[eq:piminus-P]</a>, and therefore <span
+class="math display">\begin{equation}
+\label{eq:A-piminus}
+A(p_{i-1})\ge A(P).
+\end{equation}</span> Once <a href="#eq:AminusW-lower"
+data-reference-type="eqref"
+data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a> below is
+proved, <a href="#eq:A-piminus" data-reference-type="eqref"
+data-reference="eq:A-piminus">[eq:A-piminus]</a> also implies <span
+class="math inline">A(p_{i-1})&gt;W_{r-1}</span>, hence <span
+class="math inline">i-1\ge r</span> and Lemma <a href="#lem:Rbounds"
+data-reference-type="ref" data-reference="lem:Rbounds">4</a> is
+applicable at the descent gap.</p>
+<p>We next prove <span class="math display">\begin{equation}
+\label{eq:AminusW-lower}
+A(P)-W_{r-1}&gt;0.56\log r.
+\end{equation}</span> By the definition of <span
+class="math inline">W_N</span>, <span
+class="math display">W_{r-1}=A(p_{r-1}).</span> By <a
+href="#eq:nth-prime-upper" data-reference-type="eqref"
+data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a>, applied to
+<span class="math inline">n=r-1</span>, with <span
+class="math inline">t:=\log(r-1)</span>, <span
+class="math display">p_{r-1}
+        \le
+        (r-1)\left(
+        t+\log t-1+\frac{\log t-2}{t}
+        \right).</span> Since <span
+class="math inline">r\ge8{,}600{,}001</span>, we have <span
+class="math inline">t&gt;15.96</span>. Define <span
+class="math display">h(t):=0.2t-\log t+1-\frac{\log t-2}{t}.</span> Then
+<span class="math display">h&#39;(t)=0.2-\frac1t+\frac{\log
+t-3}{t^2}.</span> For <span class="math inline">t\ge15.96</span>, <span
+class="math display">h&#39;(t)&gt;0.2-\frac1{15.96}-\frac{0.230}{15.96^2}&gt;0,</span>
+and <span class="math display">h(15.96)&gt;1.37.</span> Hence <span
+class="math inline">h(t)&gt;0</span>, which is equivalent to <span
+class="math display">\log t-1+\frac{\log t-2}{t}&lt;0.2t.</span>
+Therefore <span class="math display">p_{r-1}&lt;1.2(r-1)t&lt;1.2r\log
+r.</span> It follows that <span class="math display">\begin{equation}
+\label{eq:W-upper-by-A}
+W_{r-1}=A(p_{r-1})
+        \le
+        A(1.2r\log r).
+\end{equation}</span> Since <span class="math display">\log(1.2r\log
+r)&gt;18.9,</span> <a href="#eq:A-upper-weak"
+data-reference-type="eqref"
+data-reference="eq:A-upper-weak">[eq:A-upper-weak]</a> and <a
+href="#eq:eps-small" data-reference-type="eqref"
+data-reference="eq:eps-small">[eq:eps-small]</a> give <span
+class="math display">\begin{equation}
+\label{eq:W-log-upper}
+W_{r-1}
+        \le
+        \log\log(1.2r\log r)+B+1.001.
+\end{equation}</span> On the other hand, by <a href="#eq:logP-lower"
+data-reference-type="eqref"
+data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
+class="math display">\log P&gt;0.9x&gt;18.9.</span> Thus <a
+href="#eq:A-lower-weak" data-reference-type="eqref"
+data-reference="eq:A-lower-weak">[eq:A-lower-weak]</a> and <a
+href="#eq:eps-small" data-reference-type="eqref"
+data-reference="eq:eps-small">[eq:eps-small]</a> imply <span
+class="math display">\begin{equation}
+\label{eq:A-P-log-lower}
+A(P)
+        \ge
+        \log\log P+B-0.001
+        &gt;
+        \log(0.9x)+B-0.001.
+\end{equation}</span> Subtracting <a href="#eq:W-log-upper"
+data-reference-type="eqref"
+data-reference="eq:W-log-upper">[eq:W-log-upper]</a> from <a
+href="#eq:A-P-log-lower" data-reference-type="eqref"
+data-reference="eq:A-P-log-lower">[eq:A-P-log-lower]</a>, <span
+class="math display">\begin{equation}
+\label{eq:AminusW-log}
+A(P)-W_{r-1}
+        &gt;
+        \log(0.9x)-\log\log(1.2r\log r)-1.002.
+\end{equation}</span> We now bound the second logarithm. Since <span
+class="math inline">v=\log r\ge15.96</span>, the function <span
+class="math display">0.2v-\log(1.2v)</span> is increasing and is <span
+class="math inline">&gt;0.23</span> at <span
+class="math inline">v=15.96</span>. Therefore <span
+class="math display">\log(1.2v)&lt;0.2v,</span> and hence <span
+class="math display">\log(1.2r\log r)
+        =
+        v+\log(1.2v)
+        &lt;
+        1.2v.</span> Thus <span class="math display">\begin{equation}
+\label{eq:loglog-upper}
+\log\log(1.2r\log r)&lt;\log(1.2v).
+\end{equation}</span> Since <span class="math display">x=0.99\,\frac r
+v,</span> we have <span class="math display">\log(0.9x)=v-\log
+v+\log(0.9\cdot0.99).</span> Using <a href="#eq:AminusW-log"
+data-reference-type="eqref"
+data-reference="eq:AminusW-log">[eq:AminusW-log]</a> and <a
+href="#eq:loglog-upper" data-reference-type="eqref"
+data-reference="eq:loglog-upper">[eq:loglog-upper]</a>, <span
+class="math display">\begin{aligned}
+        A(P)-W_{r-1}
+        &amp;&gt;
+        v-2\log v+\log(0.9\cdot0.99)-\log1.2-1.002\\
+        &amp;&gt;
+        v-2\log v-1.300.
+\end{aligned}</span> By <a href="#eq:tail-elementary-one"
+data-reference-type="eqref"
+data-reference="eq:tail-elementary-one">[eq:tail-elementary-one]</a>,
+<span class="math display">v-2\log v-1.300&gt;0.56v.</span> Therefore <a
+href="#eq:AminusW-lower" data-reference-type="eqref"
+data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a> is proved.</p>
+<p>Now Lemma <a href="#lem:Rbounds" data-reference-type="ref"
+data-reference="lem:Rbounds">4</a>, together with <a
+href="#eq:A-piminus" data-reference-type="eqref"
+data-reference="eq:A-piminus">[eq:A-piminus]</a> and <a
+href="#eq:AminusW-lower" data-reference-type="eqref"
+data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a>, gives <span
+class="math display">\begin{aligned}
+        R_r(i-1)
+        &amp;\le
+        \frac r{A(p_{i-1})-W_{r-1}}\\
+        &amp;\le
+        \frac r{A(P)-W_{r-1}}\\
+        &amp;&lt;
+        \frac r{0.56\log r}.
+\end{aligned}</span> Since <span class="math inline">x=0.99r/\log
+r</span>, <span class="math display">\begin{equation}
+\label{eq:R-descent-upper}
+R_r(i-1)
+        &lt;
+        \frac{x}{0.99\cdot0.56}
+        &lt;1.805x.
+\end{equation}</span> By <a href="#eq:Gminus-lower"
+data-reference-type="eqref"
+data-reference="eq:Gminus-lower">[eq:Gminus-lower]</a>, <span
+class="math display">G_-&gt;1.993x.</span> Thus <span
+class="math display">R_r(i-1)&lt;1.805x&lt;1.993x&lt;G_-+1.</span> Lemma
+<a href="#lem:threshold" data-reference-type="ref"
+data-reference="lem:threshold">3</a> gives <span
+class="math display">\begin{equation}
+\label{eq:strict-descent-tail}
+d_{r+1}(p_{i+1})&lt;d_{r+1}(p_i).
+\end{equation}</span></p>
+</section>
+<section id="the-later-small-gap-gives-a-strict-ascent" class="level2"
+data-number="6.4">
+<h2 data-number="6.4"><span class="header-section-number">6.4</span> The
+later small gap gives a strict ascent</h2>
+<p>Let <span class="math inline">G_+</span> occur between the
+consecutive primes <span class="math display">p_j,\ p_{j+1}.</span>
+Since <span class="math inline">G_+</span> lies in <span
+class="math inline">(4P,8P]</span>, <span
+class="math display">p_{j-1}&lt;p_j\le8P.</span> Also <span
+class="math inline">p_{j-1}&gt;P</span>, because <span
+class="math inline">(P,2P]</span> contains at least two primes and <span
+class="math inline">p_j&gt;4P</span>. Hence, by <a
+href="#eq:AminusW-lower" data-reference-type="eqref"
+data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a>, <span
+class="math inline">A(p_{j-1})&gt;W_{r-1}</span>, and in particular
+<span class="math inline">j-1\ge r</span>. Lemma <a href="#lem:Rbounds"
+data-reference-type="ref" data-reference="lem:Rbounds">4</a> gives <span
+class="math display">R_r(j-1)
+        \ge
+        \frac r{A(p_{j-1})}.</span> Since <span
+class="math inline">p_{j-1}\le8P</span>, <span
+class="math display">A(p_{j-1})\le A(8P).</span> Therefore <span
+class="math display">\begin{equation}
+\label{eq:R-ascent-pre}
+R_r(j-1)\ge\frac r{A(8P)}.
+\end{equation}</span> By <a href="#eq:A-upper-weak"
+data-reference-type="eqref"
+data-reference="eq:A-upper-weak">[eq:A-upper-weak]</a>, <a
+href="#eq:eps-small" data-reference-type="eqref"
+data-reference="eq:eps-small">[eq:eps-small]</a>, and <span
+class="math inline">M=\log(8P)&gt;18.9</span>, <span
+class="math display">A(8P)\le \log\log(8P)+B+1.001.</span> By <a
+href="#eq:log8P-upper" data-reference-type="eqref"
+data-reference="eq:log8P-upper">[eq:log8P-upper]</a>, <span
+class="math display">\log(8P)&lt;1.003x.</span> Since <span
+class="math inline">B&lt;0.262</span>, <span
+class="math display">\begin{equation}
+\label{eq:A-8P-upper}
+A(8P)
+        &lt;
+        \log(1.003x)+B+1.001
+        &lt;
+        \log x+1.266.
+\end{equation}</span> Now <span class="math display">\log x=v-\log
+v+\log0.99.</span> For <span class="math inline">v\ge15.96</span>, <span
+class="math display">-\log v+\log0.99+1.266&lt;-1.50.</span> Thus <span
+class="math display">\begin{equation}
+\label{eq:A-8P-v}
+A(8P)&lt;v-1.50.
+\end{equation}</span> Combining <a href="#eq:R-ascent-pre"
+data-reference-type="eqref"
+data-reference="eq:R-ascent-pre">[eq:R-ascent-pre]</a> and <a
+href="#eq:A-8P-v" data-reference-type="eqref"
+data-reference="eq:A-8P-v">[eq:A-8P-v]</a>, <span
+class="math display">R_r(j-1)&gt;
+        \frac r{v-1.50}.</span> Since <span
+class="math inline">r=xv/0.99</span>, <span
+class="math display">R_r(j-1)
+        &gt;
+        x\cdot \frac{v}{0.99(v-1.50)}.</span> By <a
+href="#eq:tail-elementary-two" data-reference-type="eqref"
+data-reference="eq:tail-elementary-two">[eq:tail-elementary-two]</a>,
+<span class="math display">\begin{equation}
+\label{eq:R-ascent-lower}
+R_r(j-1)&gt;1.010x.
+\end{equation}</span> On the other hand, by <a href="#eq:Gplus-upper"
+data-reference-type="eqref"
+data-reference="eq:Gplus-upper">[eq:Gplus-upper]</a>, <span
+class="math display">G_+&lt;1.003x.</span> Since <span
+class="math inline">x&gt;533{,}000</span>, we have <span
+class="math inline">1&lt;0.001x</span>, and so <span
+class="math display">G_+ +1&lt;1.004x&lt;1.010x&lt;R_r(j-1).</span> By
+Lemma <a href="#lem:threshold" data-reference-type="ref"
+data-reference="lem:threshold">3</a>, <span
+class="math display">\begin{equation}
+\label{eq:strict-ascent-tail}
+d_{r+1}(p_{j+1})&gt;d_{r+1}(p_j).
+\end{equation}</span></p>
+<p>Equations <a href="#eq:strict-descent-tail"
+data-reference-type="eqref"
+data-reference="eq:strict-descent-tail">[eq:strict-descent-tail]</a> and
+<a href="#eq:strict-ascent-tail" data-reference-type="eqref"
+data-reference="eq:strict-ascent-tail">[eq:strict-ascent-tail]</a> show
+that the sequence <span class="math inline">p\mapsto d_{r+1}(p)</span>
+first has a strict descent and later has a strict ascent. Such a
+sequence cannot be unimodal. Therefore we have proved:</p>
+<div id="prop:tail" class="proposition">
+<p><strong>Proposition 10</strong>. <em>For every integer <span
+class="math display">k\ge8{,}600{,}002,</span> the sequence <span
+class="math inline">p\mapsto d_k(p)</span> is not unimodal.</em></p>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span>
+Conclusion</h1>
+<p>Proposition <a href="#prop:finite" data-reference-type="ref"
+data-reference="prop:finite">9</a> proves the theorem for <span
+class="math display">4\le k\le8{,}600{,}001,</span> and Proposition <a
+href="#prop:tail" data-reference-type="ref"
+data-reference="prop:tail">10</a> proves it for <span
+class="math display">k\ge8{,}600{,}002.</span> Together these two
+propositions prove Theorem <a href="#thm:main" data-reference-type="ref"
+data-reference="thm:main">1</a> for every <span
+class="math inline">k\ge4</span>. Combining this with Cambie’s theorem
+for <span class="math inline">1\le k\le3</span> proves Corollary <a
+href="#cor:classification" data-reference-type="ref"
+data-reference="cor:classification">2</a>.</p>
+</section>
+<section id="acknowledgements" class="level1 unnumbered">
+<h1 class="unnumbered">Acknowledgements</h1>
+<p>We are grateful to Xiaozheng Han and Yaoping Xie, Ph.D. students at
+the School of Mathematical Sciences, Peking University, for
+independently checking the proof.</p>
+<p>The Multiscalar Fields System used AI models as part of its proof
+search and verification workflow, including OpenAI’s gpt-5.4-pro and
+gpt-5.5, and Anthropic’s Claude Opus 4.7.</p>
+</section>
+<section id="app:verification" class="level1" data-number="A">
+<h1 data-number="A"><span class="header-section-number">A</span>
+Numerical Verification</h1>
+<p>A companion numerical verifier is publicly available at <a
+href="https://github.com/multiscalar/results/blob/main/erdos-690/numerical_verifier.py"
+class="uri">https://github.com/multiscalar/results/blob/main/erdos-690/numerical_verifier.py</a>.</p>
+<p>The verifier certifies the explicit finite numerical comparisons
+appearing in the proof, rather than to re-prove the external analytic
+estimates or the published prime-record inputs cited in Section <a
+href="#sec:inputs" data-reference-type="ref"
+data-reference="sec:inputs">4</a>. Conditional on those cited inputs,
+the script mechanically checks the displayed numerical inequalities used
+in the argument.</p>
+<p>More precisely, it verifies:</p>
+<ul>
+<li><p>the finite prime sums in Section <a href="#sec:finite"
+data-reference-type="ref" data-reference="sec:finite">5</a>, using exact
+rational arithmetic;</p></li>
+<li><p>the elementary symmetric-polynomial values in Table <a href="#tab-smallcases">Table&nbsp;1</a>, using exact
+rational arithmetic;</p></li>
+<li><p>the interval for <span class="math inline">C=\sum_p
+\frac{1}{p(p-1)}</span>, using directed outward-rounded summation for
+the finite partial sum together with the exact tail bound from
+Certificate <a href="#cert:constants" data-reference-type="ref"
+data-reference="cert:constants">6</a>;</p></li>
+<li><p>the displayed logarithmic numerical comparisons, using rational
+interval arithmetic for logarithms based on the <span
+class="math inline">\operatorname{atanh}</span> series with a rigorous
+remainder bound.</p></li>
+</ul>
+<p>The verifier does not use binary floating-point arithmetic. Finite
+prime sums and symmetric-polynomial values are computed exactly with
+rational arithmetic, while the enclosure for <span
+class="math inline">C</span> and the logarithmic inequalities are
+handled by rigorous outward-rounded interval methods.</p>
+
+</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">T. F. Bloom, <em>Erdős Problem #690</em>, Erdős Problems, accessed 7
+May 2026. <a href="https://www.erdosproblems.com/690"
+class="uri">https://www.erdosproblems.com/690</a></span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">S. Cambie, <em>Resolution of Erdős’ problems about
+unimodularity</em>, J. Number Theory <strong>280</strong> (2026),
+271–277. <a href="https://doi.org/10.1016/j.jnt.2025.08.014"
+class="uri">https://doi.org/10.1016/j.jnt.2025.08.014</a></span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">P. Erdős, <em>Some unconventional problems in number theory</em>,
+Astérisque <strong>61</strong> (1979), 73–82.</span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">C. Axler, <em>New estimates for some functions defined over
+primes</em>, Integers <strong>18</strong> (2018), Paper A52. <a
+href="https://math.colgate.edu/~integers/s52/s52.pdf"
+class="uri">https://math.colgate.edu/~integers/s52/s52.pdf</a></span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">P. Dusart, <em>Estimates of some functions over primes without
+R.H.</em>, arXiv:1002.0442. <a href="https://arxiv.org/abs/1002.0442"
+class="uri">https://arxiv.org/abs/1002.0442</a></span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">A. Languasco and A. Zaccagnini, <em>Computing the Mertens and
+Meissel-Mertens constants for sums over arithmetic progressions</em>,
+Experimental Mathematics <strong>19</strong> (2010), 279–284. <a
+href="https://arxiv.org/abs/0906.2132"
+class="uri">https://arxiv.org/abs/0906.2132</a></span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">OEIS Foundation Inc., <em>The On-Line Encyclopedia of Integer
+Sequences</em>, Sequence A077761, Meissel-Mertens constant. <a
+href="https://oeis.org/A077761"
+class="uri">https://oeis.org/A077761</a></span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">Prime Records, <em>A megagap with merit 25.9</em>. <a
+href="https://primerecords.dk/primegaps/gap1113106.htm"
+class="uri">https://primerecords.dk/primegaps/gap1113106.htm</a></span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">Prime Gap List Project, <em>Largest prime gaps with proven
+endpoints</em>. <a
+href="https://primegap-list-project.github.io/lists/largest-prime-gaps-with-proven-endpoints/"
+class="uri">https://primegap-list-project.github.io/lists/largest-prime-gaps-with-proven-endpoints/</a></span></li><li id="ref-10"><span class="ref-num">[10]</span><span class="ref-body">The PrimePages, <em>Top twenty twin primes</em>. <a
+href="https://t5k.org/top20/page.php?id=1"
+class="uri">https://t5k.org/top20/page.php?id=1</a></span></li><li id="ref-11"><span class="ref-num">[11]</span><span class="ref-body">The PrimePages, <em>Prime <span
+class="math inline">504983334^{8192}-504983334^{4096}-1</span></em>. <a
+href="https://t5k.org/primes/page.php?id=136849"
+class="uri">https://t5k.org/primes/page.php?id=136849</a></span></li></ol></section>
+
+
+    </article>
+
+    <div class="divider article-divider"></div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo">Multiscalar Intelligence</span>
+          <span class="footer-loc">London, UK</span>
+        </div>
+        <div class="footer-links">
+          <a href="../../">Home</a>
+          <a href="mailto:hello@multiscalar.ai">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 Multiscalar Intelligence. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <canvas id="grid-bg"></canvas>
+  <script src="../../script.js"></script>
+
+</body>
+</html>

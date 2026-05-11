@@ -1,0 +1,448 @@
+/* =====================================================================
+   Article page styling — used by /results/<slug>/index.html
+   Layered on top of the site's style.css. Reuses the same fonts, colors,
+   and nav/footer; adds a centered prose column, theorem environments,
+   equation styling, table styling, and a bibliography list.
+   ===================================================================== */
+
+:root {
+  --serif: 'Crimson Pro', 'Source Serif Pro', Georgia, serif;
+  --rule: #d6d6d6;
+  --rule-soft: #ececec;
+  --accent: #2b2b2b;
+  --thm-bg: #f3f3f1;
+  --thm-bg-defn: #f1f3f5;
+  --thm-bg-cert: #f4f1ec;
+}
+
+main.article-main {
+  max-width: 760px;
+  padding-top: 7rem;
+  padding-bottom: 5rem;
+}
+
+/* ===== Header ===== */
+.article-header {
+  padding: 2rem 0 2.5rem;
+}
+
+.article-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 1.6rem;
+}
+
+.article-title {
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.2vw, 2.9rem);
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: #000;
+  margin-bottom: 0.7rem;
+}
+
+.article-subtitle {
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  letter-spacing: -0.005em;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+  margin-bottom: 1.5rem;
+}
+
+.meta-affil {
+  color: var(--text-dim);
+}
+
+.article-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 0.5rem;
+}
+
+.article-link {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 0.15rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.article-link:hover {
+  color: #000;
+  border-bottom-color: #000;
+}
+
+.article-divider {
+  margin: 0 0 3rem;
+}
+
+/* ===== Prose body ===== */
+.paper {
+  font-family: var(--serif);
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #1a1a1a;
+}
+
+.paper p {
+  margin: 0 0 1.25rem;
+}
+
+.paper a {
+  color: var(--text);
+  border-bottom: 1px solid var(--rule-soft);
+  transition: border-color 0.2s;
+}
+
+.paper a:hover {
+  border-bottom-color: var(--text);
+}
+
+.paper em {
+  font-style: italic;
+}
+
+.paper strong {
+  font-weight: 600;
+  color: #000;
+}
+
+/* ===== Abstract ===== */
+.abstract {
+  margin-bottom: 3rem;
+  padding: 1.6rem 1.8rem;
+  background: #f8f7f4;
+  border-left: 2px solid #1a1a1a;
+}
+
+.abstract-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.9rem;
+}
+
+.abstract p {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ===== Section headings ===== */
+.paper section {
+  margin-top: 2.8rem;
+}
+
+.paper section section {
+  margin-top: 2rem;
+}
+
+.paper h1,
+.paper h2,
+.paper h3 {
+  font-family: var(--sans);
+  font-weight: 500;
+  color: #000;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.paper h1 {
+  font-size: 1.65rem;
+  margin: 0 0 1.2rem;
+  padding-top: 0.3rem;
+}
+
+.paper h2 {
+  font-size: 1.25rem;
+  margin: 2rem 0 1rem;
+  font-weight: 500;
+}
+
+.paper h3 {
+  font-size: 1.05rem;
+  margin: 1.6rem 0 0.8rem;
+}
+
+.header-section-number {
+  font-family: var(--mono);
+  font-weight: 400;
+  font-size: 0.72em;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+  margin-right: 0.65em;
+  vertical-align: 0.1em;
+}
+
+/* ===== Theorem-like environments ===== */
+.paper .theorem,
+.paper .lemma,
+.paper .proposition,
+.paper .corollary,
+.paper .remark,
+.paper .certificate {
+  position: relative;
+  margin: 1.5rem 0;
+  padding: 1.1rem 1.3rem;
+  border-radius: 2px;
+  background: var(--thm-bg);
+  border-left: 2px solid #1a1a1a;
+}
+
+.paper .remark {
+  background: transparent;
+  border-left-color: var(--text-dim);
+  font-style: italic;
+}
+
+.paper .certificate {
+  background: var(--thm-bg-cert);
+  border-left-color: #6b5a3a;
+}
+
+.paper .theorem p,
+.paper .lemma p,
+.paper .proposition p,
+.paper .corollary p,
+.paper .remark p,
+.paper .certificate p {
+  margin: 0;
+}
+
+.paper .theorem em,
+.paper .lemma em,
+.paper .proposition em,
+.paper .corollary em {
+  font-style: italic;
+}
+
+.paper .theorem strong:first-child,
+.paper .lemma strong:first-child,
+.paper .proposition strong:first-child,
+.paper .corollary strong:first-child,
+.paper .remark strong:first-child,
+.paper .certificate strong:first-child {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.84em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #000;
+}
+
+/* ===== Proofs ===== */
+.paper .proof {
+  margin: 1.2rem 0 1.6rem;
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule-soft);
+  color: #2a2a2a;
+}
+
+.paper .proof p:last-child::after {
+  content: "  ▢";
+  color: var(--text-dim);
+  margin-left: 0.3em;
+  font-size: 0.85em;
+}
+
+/* ===== Citations ===== */
+.paper a.cite {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  letter-spacing: 0.01em;
+  color: var(--text-secondary);
+  border: none;
+  padding: 0 0.05em;
+  white-space: nowrap;
+}
+
+.paper a.cite:hover {
+  color: #000;
+}
+
+/* ===== Lists ===== */
+.paper ul,
+.paper ol {
+  margin: 0 0 1.25rem 1.6rem;
+}
+
+.paper ul li,
+.paper ol li {
+  margin: 0.3rem 0;
+}
+
+/* ===== Tables ===== */
+.paper .result-table {
+  margin: 1.8rem 0 2rem;
+  overflow-x: auto;
+}
+
+.paper .result-table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.paper .result-table caption {
+  caption-side: top;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 0.6rem;
+}
+
+.paper .result-table thead th {
+  text-align: left;
+  font-weight: 500;
+  color: #000;
+  padding: 0.55rem 0.7rem;
+  border-bottom: 1px solid #1a1a1a;
+  border-top: 1px solid #1a1a1a;
+}
+
+.paper .result-table thead th:first-child {
+  width: 3rem;
+}
+
+.paper .result-table tbody td {
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid var(--rule-soft);
+  vertical-align: top;
+  color: #1a1a1a;
+}
+
+.paper .result-table tbody tr:last-child td {
+  border-bottom: 1px solid #1a1a1a;
+}
+
+/* ===== KaTeX tweaks ===== */
+.paper .math.display {
+  display: block;
+  padding: 0.4rem 0;
+  margin: 0.6rem 0;
+}
+
+.paper .katex {
+  font-size: 1.02em;
+}
+
+/* Allow display equations to scroll horizontally when they truly overflow
+   (mainly inside narrow theorem boxes), but hide the scrollbar so it
+   doesn't add visual clutter under every formula. */
+.paper .katex-display {
+  margin: 0.7rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.paper .katex-display::-webkit-scrollbar {
+  display: none;
+}
+
+/* ===== Bibliography ===== */
+.paper .references-section {
+  margin-top: 3.5rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.paper .references-section h2.references-heading {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: #000;
+  margin: 0 0 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.paper .bib-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.paper .bib-list li {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  align-items: baseline;
+  margin: 0 0 1rem;
+  color: var(--text-secondary);
+}
+
+.paper .bib-list .ref-num {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.paper .bib-list a {
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--rule-soft);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.paper .bib-list a:hover {
+  color: #000;
+  border-bottom-color: #000;
+}
+
+.paper .bib-list em {
+  color: #1a1a1a;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  main.article-main {
+    padding-top: 6rem;
+    padding-bottom: 3rem;
+  }
+
+  .article-header {
+    padding: 1rem 0 1.5rem;
+  }
+
+  .paper {
+    font-size: 1.05rem;
+  }
+
+  .paper .result-table {
+    font-size: 0.8rem;
+  }
+
+  .abstract {
+    padding: 1.2rem 1.3rem;
+  }
+}

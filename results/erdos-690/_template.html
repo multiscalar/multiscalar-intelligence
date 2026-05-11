@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Complete Answer to Erdős Problem 690 | Multiscalar Intelligence</title>
+  <meta name="description" content="Proof that the natural density d_k(p) of integers whose k-th smallest prime divisor is p is not unimodal for every k ≥ 4, discovered by the Multiscalar Fields System.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../../style.css">
+  <link rel="stylesheet" href="../article.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      var macros = {
+        "\\e": "\\mathrm{e}",
+        "\\eps": "\\varepsilon"
+      };
+      // Render every pandoc-emitted math span. Strip \label{...} since KaTeX
+      // doesn't support it (we have no displayed equation numbers anyway).
+      document.querySelectorAll("span.math.inline, span.math.display").forEach(function (el) {
+        var display = el.classList.contains("display");
+        var tex = el.textContent.replace(/\\label\{[^}]*\}/g, "");
+        try {
+          katex.render(tex, el, { displayMode: display, throwOnError: false, macros: macros, output: "html" });
+        } catch (e) { /* leave raw on hard failure */ }
+      });
+      // Then auto-render any $-delimited math that we wrote by hand
+      // (the abstract and the small-cases table).
+      if (typeof renderMathInElement === "function") {
+        renderMathInElement(document.body, {
+          delimiters: [
+            { left: "$$", right: "$$", display: true },
+            { left: "$", right: "$", display: false }
+          ],
+          throwOnError: false,
+          macros: macros
+        });
+      }
+    });
+  </script>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../../" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="../../#research">Research</a>
+        <a href="../../#results">Results</a>
+        <a href="../../#team">Team</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="article-main">
+
+    <header class="article-header">
+      <div class="article-eyebrow">Result · Erdős Problem 690</div>
+      <h1 class="article-title">A Complete Answer to Erdős Problem 690</h1>
+      <div class="article-subtitle">Discovered by the Multiscalar Fields System</div>
+      <div class="article-meta">
+        <span class="meta-affil">Multiscalar Intelligence</span>
+      </div>
+      <div class="article-links">
+        <a href="paper.pdf" class="article-link">PDF&nbsp;↗</a>
+        <a href="https://github.com/multiscalar/results/blob/main/erdos-690/paper.pdf" class="article-link" target="_blank" rel="noopener">PDF on GitHub&nbsp;↗</a>
+        <a href="numerical_verifier.py" class="article-link">Verifier code&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/690" class="article-link" target="_blank" rel="noopener">Problem statement&nbsp;↗</a>
+      </div>
+    </header>
+
+    <div class="divider article-divider"></div>
+
+    <article class="paper">
+      <section class="abstract">
+        <div class="abstract-label">Abstract</div>
+        <p>Let $d_k(p)$ denote the natural density of positive integers whose $k$-th smallest prime divisor is $p$. Erdős asked whether, for each fixed $k$, the sequence $p \mapsto d_k(p)$ is unimodal as $p$ ranges over the primes. Cambie proved that unimodality holds for $1 \le k \le 3$ and verified non-unimodality for $4 \le k \le 20$. We prove that $p \mapsto d_k(p)$ is not unimodal for every $k \ge 4$, completing the classification. An exact first-difference criterion reduces the problem to comparing a symmetric-polynomial ratio with prime gaps. Explicit estimates for prime-counting functions, certified finite computations, one certified large prime gap, one certified twin prime, and a uniform Chinese-remainder construction then produce, for every $k \ge 4$, a strict descent followed by a later strict ascent.</p>
+      </section>
+
+      <!-- ARTICLE_BODY -->
+
+    </article>
+
+    <div class="divider article-divider"></div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo">Multiscalar Intelligence</span>
+          <span class="footer-loc">London, UK</span>
+        </div>
+        <div class="footer-links">
+          <a href="../../">Home</a>
+          <a href="mailto:hello@multiscalar.ai">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 Multiscalar Intelligence. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <canvas id="grid-bg"></canvas>
+  <script src="../../script.js"></script>
+
+</body>
+</html>

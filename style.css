@@ -263,6 +263,87 @@ main {
   line-height: 1.7;
 }
 
+/* ===== Results ===== */
+.results {
+  padding: 5rem 0;
+}
+
+.results > .section-label {
+  margin-bottom: 3rem;
+}
+
+.results-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-entry {
+  display: block;
+  padding: 2.5rem 0;
+  color: var(--text);
+  transition: background 0.3s;
+}
+
+.result-entry:hover {
+  background: var(--bg-elevated);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.result-meta {
+  display: flex;
+  gap: 1.2rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.result-tag {
+  color: var(--text-secondary);
+}
+
+.result-title {
+  font-family: var(--sans);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #000;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+  margin-bottom: 0.4rem;
+}
+
+.result-subtitle {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1.1rem;
+}
+
+.result-summary {
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  max-width: 700px;
+  margin-bottom: 1.2rem;
+}
+
+.result-cta {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--text);
+  letter-spacing: 0.03em;
+  transition: letter-spacing 0.3s;
+}
+
+.result-entry:hover .result-cta {
+  letter-spacing: 0.07em;
+}
+
 /* ===== Team ===== */
 .team-intro {
   margin-bottom: 2.5rem !important;
@@ -390,6 +471,23 @@ footer {
   .research-grid {
     grid-template-columns: 1fr;
     margin-top: 2rem;
+  }
+
+  .results {
+    padding: 3.5rem 0;
+  }
+
+  .result-entry {
+    padding: 1.8rem 0;
+  }
+
+  .result-entry:hover {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .result-title {
+    font-size: 1.2rem;
   }
 
   .footer-inner {
