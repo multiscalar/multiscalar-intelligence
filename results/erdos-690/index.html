@@ -115,18 +115,17 @@ present paper gives a proof of non-unimodality for every <span
 class="math inline">k\ge4</span>, including an independent verification
 of the finite initial range.</p>
 <div id="thm:main" class="theorem">
-<p><strong>Theorem 1</strong>. <em>For every integer <span
+<p><strong>Theorem 1.1</strong>. <em>For every integer <span
 class="math display">k\ge 4,</span> the sequence <span
 class="math display">p\longmapsto d_k(p),</span> where <span
 class="math inline">p</span> runs through the primes in increasing
 order, is not unimodal.</em></p>
 </div>
 <p>Together with Cambie’s result for <span class="math inline">1\le
-k\le3</span>, Theorem <a href="#thm:main" data-reference-type="ref"
-data-reference="thm:main">1</a> gives the following complete answer to
+k\le3</span>, Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a> gives the following complete answer to
 the Erdős question.</p>
 <div id="cor:classification" class="corollary">
-<p><strong>Corollary 2</strong>. <em>The sequence <span
+<p><strong>Corollary 1.2</strong>. <em>The sequence <span
 class="math inline">p\mapsto d_k(p)</span> is unimodal for <span
 class="math inline">1\le k\le3</span>, and is not unimodal for every
 <span class="math inline">k\ge4</span>.</em></p>
@@ -200,7 +199,7 @@ class="math display">R_r(i):=\frac{\delta_{r-1}(i)}{\delta_r(i)}.</span></p>
 <h1 data-number="3"><span class="header-section-number">3</span>
 Structural Lemmas</h1>
 <div id="lem:threshold" class="lemma">
-<p><strong>Lemma 3</strong> (The threshold criterion). <em>Let <span
+<p><strong>Lemma 3.1</strong> (The threshold criterion). <em>Let <span
 class="math inline">r\ge 1</span> and <span
 class="math inline">i\ge1</span>. Suppose <span
 class="math inline">\delta_r(i-1)&gt;0</span>. Then <span
@@ -249,7 +248,7 @@ class="math inline">N</span> weights, and for every <span
 class="math inline">N\ge1</span>, <span
 class="math display">W_N=A(p_N).</span></p>
 <div id="lem:Rbounds" class="lemma">
-<p><strong>Lemma 4</strong> (Symmetric-polynomial bounds). <em>Let <span
+<p><strong>Lemma 3.2</strong> (Symmetric-polynomial bounds). <em>Let <span
 class="math inline">r\ge 1</span>, and suppose that <span
 class="math inline">i\ge r</span>. Then <span
 class="math inline">\delta_r(i)&gt;0</span>, and <span
@@ -314,39 +313,34 @@ the stated upper bound. ◻</p>
 Explicit Estimates and Certificates</h1>
 <p>We shall use the following known explicit estimates.</p>
 <div id="lem:dusart" class="lemma">
-<p><strong>Lemma 5</strong> (Explicit estimates for primes). <em>The
+<p><strong>Lemma 4.1</strong> (Explicit estimates for primes). <em>The
 following estimates hold.</em></p>
 <ol>
 <li><p><em>For every <span class="math inline">x\ge 3275</span>, there
-is a prime <span class="math inline">\ell</span> such that <span
-class="math display">\begin{equation}
-\label{eq:short-interval-prime}
+is a prime <span class="math inline">\ell</span> such that <span id="eq:short-interval-prime" class="math display">\begin{equation}
+\tag{4.1}
 x&lt;\ell\le x\left(1+\frac1{2\log^2 x}\right).
 \end{equation}</span></em></p></li>
-<li><p><em>For <span class="math inline">x&gt;0</span>, <span
-class="math display">\begin{equation}
-\label{eq:theta-upper}
+<li><p><em>For <span class="math inline">x&gt;0</span>, <span id="eq:theta-upper" class="math display">\begin{equation}
+\tag{4.2}
 \vartheta(x)-x&lt;\frac{x}{36260}.
-\end{equation}</span> For <span class="math inline">x&gt;2</span>, <span
-class="math display">\begin{equation}
-\label{eq:theta-lower}
+\end{equation}</span> For <span class="math inline">x&gt;2</span>, <span id="eq:theta-lower" class="math display">\begin{equation}
+\tag{4.3}
 \vartheta(x)&gt;x\left(1-\frac{1.2323}{\log x}\right).
 \end{equation}</span></em></p></li>
-<li><p><em>For <span class="math inline">x&gt;5393</span>, <span
-class="math display">\begin{equation}
-\label{eq:pi-lower}
+<li><p><em>For <span class="math inline">x&gt;5393</span>, <span id="eq:pi-lower" class="math display">\begin{equation}
+\tag{4.4}
 \pi(x)\ge \frac{x}{\log x-1}.
 \end{equation}</span> For <span class="math inline">x&gt;60184</span>,
-<span class="math display">\begin{equation}
-\label{eq:pi-upper}
+<span id="eq:pi-upper" class="math display">\begin{equation}
+\tag{4.5}
 \pi(x)\le \frac{x}{\log x-1.1}.
 \end{equation}</span></em></p></li>
 <li><p><em>For the primes <span class="math inline">p_n</span> indexed
 as in Section <a href="#sec:notation" data-reference-type="ref"
 data-reference="sec:notation">2</a>, if <span
-class="math inline">n&gt;688383</span>, <span
-class="math display">\begin{equation}
-\label{eq:nth-prime-upper}
+class="math inline">n&gt;688383</span>, <span id="eq:nth-prime-upper" class="math display">\begin{equation}
+\tag{4.6}
 p_n
         \le
         n\left(
@@ -356,29 +350,16 @@ p_n
 \end{equation}</span></em></p></li>
 </ol>
 </div>
-<p>The short-interval estimate <a href="#eq:short-interval-prime"
-data-reference-type="eqref"
-data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>
-is due to Dusart’s thesis and is quoted, for example, by Axler <a href="#ref-4" class="cite">[4]</a>. The estimates <a
-href="#eq:theta-upper" data-reference-type="eqref"
-data-reference="eq:theta-upper">[eq:theta-upper]</a>, <a
-href="#eq:theta-lower" data-reference-type="eqref"
-data-reference="eq:theta-lower">[eq:theta-lower]</a>, <a
-href="#eq:pi-lower" data-reference-type="eqref"
-data-reference="eq:pi-lower">[eq:pi-lower]</a>, <a href="#eq:pi-upper"
-data-reference-type="eqref"
-data-reference="eq:pi-upper">[eq:pi-upper]</a>, and <a
-href="#eq:nth-prime-upper" data-reference-type="eqref"
-data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a> are
+<p>The short-interval estimate <a href="#eq:short-interval-prime" class="eq-ref" data-reference-type="eqref" data-reference="eq:short-interval-prime">(4.1)</a>
+is due to Dusart’s thesis and is quoted, for example, by Axler <a href="#ref-4" class="cite">[4]</a>. The estimates <a href="#eq:theta-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:theta-upper">(4.2)</a>, <a href="#eq:theta-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:theta-lower">(4.3)</a>, <a href="#eq:pi-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-lower">(4.4)</a>, <a href="#eq:pi-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-upper">(4.5)</a>, and <a href="#eq:nth-prime-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:nth-prime-upper">(4.6)</a> are
 Dusart’s explicit estimates <a href="#ref-5" class="cite">[5]</a>.</p>
 <p>We also need explicit estimates for <span
 class="math inline">A(y)</span>. Let <span
 class="math display">B:=\gamma+\sum_p\left(\log\left(1-\frac1p\right)+\frac1p\right),</span>
 the Meissel-Mertens constant, and put <span
 class="math display">\varepsilon(y):=\frac1{10\log^2 y}+\frac4{15\log^3
-y}.</span> Dusart’s reciprocal-prime estimate gives <span
-class="math display">\begin{equation}
-\label{eq:reciprocal-prime-estimate}
+y}.</span> Dusart’s reciprocal-prime estimate gives <span id="eq:reciprocal-prime-estimate" class="math display">\begin{equation}
+\tag{4.7}
 -\varepsilon(y)
         \le
         \sum_{p\le y}\frac1p-\log\log y-B
@@ -389,9 +370,9 @@ class="math inline">y&gt;1</span>, and the upper bound holds for <span
 class="math inline">y&gt;10372</span>. This reciprocal-prime estimate is
 due to Dusart <a href="#ref-5" class="cite">[5]</a>.</p>
 <div id="cert:constants" class="certificate">
-<p><strong>Certificate 6</strong> (Numerical constants). We use the
-outward-rounded interval <span class="math display">\begin{equation}
-\label{eq:B-interval}
+<p><strong>Certificate 4.2</strong> (Numerical constants). We use the
+outward-rounded interval <span id="eq:B-interval" class="math display">\begin{equation}
+\tag{4.8}
 0.261497212847642&lt;B&lt;0.261497212847643,
 \end{equation}</span> for the Meissel-Mertens constant. This interval is
 implied by the tabulated value <span
@@ -400,8 +381,8 @@ consistent with the high-precision computation methods of Languasco and
 Zaccagnini <a href="#ref-6" class="cite">[6]</a> and with the tabulated
 decimal expansion <a href="#ref-7" class="cite">[7]</a>.</p>
 <p>With <span class="math display">C:=\sum_p\frac1{p(p-1)},</span> we
-also use <span class="math display">\begin{equation}
-\label{eq:C-interval}
+also use <span id="eq:C-interval" class="math display">\begin{equation}
+\tag{4.9}
 0.773156636699192&lt;C&lt;0.773157136700943.
 \end{equation}</span> For this second interval, let <span
 class="math inline">N=1{,}999{,}993</span>. Since all summands are
@@ -419,26 +400,23 @@ displayed decimal endpoints by integer cross-multiplication.</p>
 </div>
 <p>Since <span
 class="math display">\frac1{p-1}=\frac1p+\frac1{p(p-1)},</span> we have,
-for <span class="math inline">y&gt;10372</span>, <span
-class="math display">\begin{equation}
-\label{eq:A-upper}
+for <span class="math inline">y&gt;10372</span>, <span id="eq:A-upper" class="math display">\begin{equation}
+\tag{4.10}
 A(y)\le \log\log y+B+\varepsilon(y)+C.
 \end{equation}</span> In particular, using only <span
-class="math inline">C&lt;1</span>, we also have <span
-class="math display">\begin{equation}
-\label{eq:A-upper-weak}
+class="math inline">C&lt;1</span>, we also have <span id="eq:A-upper-weak" class="math display">\begin{equation}
+\tag{4.11}
 A(y)\le \log\log y+B+1+\varepsilon(y).
 \end{equation}</span> For <span class="math inline">y&gt;1</span>, since
-the second summand is positive, <span
-class="math display">\begin{equation}
-\label{eq:A-lower-weak}
+the second summand is positive, <span id="eq:A-lower-weak" class="math display">\begin{equation}
+\tag{4.12}
 A(y)\ge \log\log y+B-\varepsilon(y).
 \end{equation}</span> For large finite inputs in Section <a
 href="#sec:finite-large" data-reference-type="ref"
 data-reference="sec:finite-large">5.3</a>, we shall also use the
 following sharper lower bound. If <span class="math inline">y\ge
-1{,}999{,}993</span>, then <span class="math display">\begin{equation}
-\label{eq:A-lower-sharp}
+1{,}999{,}993</span>, then <span id="eq:A-lower-sharp" class="math display">\begin{equation}
+\tag{4.13}
 A(y)\ge \log\log y+B_- -\varepsilon(y)+C_- -\frac1{y-1},
 \end{equation}</span> where <span
 class="math display">B_-:=0.261497212847642,
@@ -465,7 +443,7 @@ data-number="4.1">
 Published prime-record certificates</h2>
 <p>We use two certified prime-record inputs.</p>
 <div id="input:largegap" class="certificate">
-<p><strong>Certificate 7</strong> (A certified large prime gap <a href="#ref-8" class="cite">[8]</a>, <a href="#ref-9" class="cite">[9]</a>). Let
+<p><strong>Certificate 4.3</strong> (A certified large prime gap <a href="#ref-8" class="cite">[8]</a>, <a href="#ref-9" class="cite">[9]</a>). Let
 <span class="math inline">m\#:=\prod_{p\le m}p</span> denote the
 primorial, where the product is over primes. Set <span
 class="math display">s_L:=587\cdot \frac{43103\#}{2310}-455704.</span>
@@ -482,7 +460,7 @@ endpoints have <span class="math inline">18662</span> decimal
 digits.</p>
 </div>
 <div id="input:twin" class="certificate">
-<p><strong>Certificate 8</strong> (A certified twin prime <a href="#ref-10" class="cite">[10]</a>, <a href="#ref-11" class="cite">[11]</a>). Let <span
+<p><strong>Certificate 4.4</strong> (A certified twin prime <a href="#ref-10" class="cite">[10]</a>, <a href="#ref-11" class="cite">[11]</a>). Let <span
 class="math display">s_T:=504983334^{8192}-504983334^{4096}-1.</span>
 The published PrimePages record lists this number as a proven twin
 prime. Thus <span class="math inline">s_T</span> and <span
@@ -542,8 +520,7 @@ rounded outward.</p>
   </table>
 </figure>
 
-<p>For each row, Lemma <a href="#lem:threshold"
-data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+<p>For each row, Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a> gives a
 strict descent at the first displayed gap and a strict ascent at the
 second displayed, later gap. Hence <span
 class="math inline">d_{r+1}(p)</span> is not unimodal for <span
@@ -562,26 +539,19 @@ class="math display">\sum_{p&lt;15683}\frac1{p-1}
 class="math display">\sum_{p\le 15683}\frac1{p-1}
         &lt;3.303818929800384,</span> and <span
 class="math display">W_{29}&lt;2.612642166507777.</span> Since <span
-class="math inline">W_{r-1}\le W_{29}</span>, Lemma <a
-href="#lem:Rbounds" data-reference-type="ref"
-data-reference="lem:Rbounds">4</a> gives at the gap <span
+class="math inline">W_{r-1}\le W_{29}</span>, Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> gives at the gap <span
 class="math inline">15683\to15727</span>, whose length is <span
 class="math inline">44</span>, <span class="math display">R_r(15683^-)
         \le
         \frac{30}{3.303755162423773-2.612642166507777}
-        &lt;43.409&lt;45=44+1.</span> Thus Lemma <a
-href="#lem:threshold" data-reference-type="ref"
-data-reference="lem:threshold">3</a> gives a strict descent at <span
+        &lt;43.409&lt;45=44+1.</span> Thus Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a> gives a strict descent at <span
 class="math inline">15683\to15727</span>.</p>
 <p>At the next gap <span class="math inline">15727\to15731</span>, whose
-length is <span class="math inline">4</span>, Lemma <a
-href="#lem:Rbounds" data-reference-type="ref"
-data-reference="lem:Rbounds">4</a> gives <span
+length is <span class="math inline">4</span>, Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> gives <span
 class="math display">R_r(15727^-)
         \ge
         \frac{20}{3.303818929800384}
-        &gt;6.053&gt;5=4+1.</span> Thus Lemma <a href="#lem:threshold"
-data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+        &gt;6.053&gt;5=4+1.</span> Thus Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a> gives a
 strict ascent at <span class="math inline">15727\to15731</span>.
 Therefore <span class="math inline">d_{r+1}(p)</span> is not unimodal
 for <span class="math inline">20\le r\le 30</span>, equivalently <span
@@ -593,9 +563,7 @@ class="math display">\sum_{p&lt;31397}\frac1{p-1}
 class="math display">\sum_{p\le31397}\frac1{p-1}
         &lt;3.372616108417913,</span> and <span
 class="math display">W_{46}&lt;2.721441010945543.</span> Since <span
-class="math inline">W_{r-1}\le W_{46}</span>, Lemma <a
-href="#lem:Rbounds" data-reference-type="ref"
-data-reference="lem:Rbounds">4</a> gives at the gap <span
+class="math inline">W_{r-1}\le W_{46}</span>, Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> gives at the gap <span
 class="math inline">31397\to31469</span>, whose length is <span
 class="math inline">72</span>, <span class="math display">R_r(31397^-)
         \le
@@ -603,9 +571,7 @@ class="math inline">72</span>, <span class="math display">R_r(31397^-)
         &lt;72.181&lt;73=72+1.</span> Thus there is a strict descent at
 <span class="math inline">31397\to31469</span>.</p>
 <p>At the later gap <span class="math inline">31469\to31477</span>,
-whose length is <span class="math inline">8</span>, Lemma <a
-href="#lem:Rbounds" data-reference-type="ref"
-data-reference="lem:Rbounds">4</a> gives <span
+whose length is <span class="math inline">8</span>, Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> gives <span
 class="math display">R_r(31469^-)
         \ge
         \frac{31}{3.372616108417913}
@@ -628,13 +594,7 @@ class="math inline">s_T</span> has <span
 class="math inline">71298</span> decimal digits, <span
 class="math display">10^{71297}\le s_T&lt;10^{71298}.</span> Because
 <span class="math inline">\varepsilon(y)</span> is decreasing for <span
-class="math inline">y&gt;1</span>, by <a href="#eq:A-upper"
-data-reference-type="eqref"
-data-reference="eq:A-upper">[eq:A-upper]</a>, <a href="#eq:B-interval"
-data-reference-type="eqref"
-data-reference="eq:B-interval">[eq:B-interval]</a>, and <a
-href="#eq:C-interval" data-reference-type="eqref"
-data-reference="eq:C-interval">[eq:C-interval]</a>, <span
+class="math inline">y&gt;1</span>, by <a href="#eq:A-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-upper">(4.10)</a>, <a href="#eq:B-interval" class="eq-ref" data-reference-type="eqref" data-reference="eq:B-interval">(4.8)</a>, and <a href="#eq:C-interval" class="eq-ref" data-reference-type="eqref" data-reference="eq:C-interval">(4.9)</a>, <span
 class="math display">\begin{aligned}
         A(s_T)
         &amp;&lt;
@@ -652,23 +612,18 @@ class="math display">R_r(s_T^-)
         \frac{40}{13.04331036}
         &gt;3.066&gt;3=2+1.</span> It remains to note that <span
 class="math inline">R_r(s_T^-)</span> is defined throughout this range.
-Applying <a href="#eq:nth-prime-upper" data-reference-type="eqref"
-data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a> with <span
+Applying <a href="#eq:nth-prime-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:nth-prime-upper">(4.6)</a> with <span
 class="math inline">n=8{,}600{,}000</span> gives <span
 class="math display">p_{8{,}600{,}000}&lt;152{,}960{,}215&lt;s_T.</span>
 Thus at least <span class="math inline">8{,}600{,}000</span> primes lie
-below <span class="math inline">s_T</span>. By Lemma <a
-href="#lem:threshold" data-reference-type="ref"
-data-reference="lem:threshold">3</a>, there is a strict ascent at <span
+below <span class="math inline">s_T</span>. By Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a>, there is a strict ascent at <span
 class="math inline">s_T\to s_T+2</span> for every <span
 class="math inline">40\le r\le8{,}600{,}000</span>.</p>
 <p>Now we show that the large gap gives a strict descent for all <span
 class="math display">40\le r\le8{,}600{,}000.</span> Since <span
 class="math inline">s_L</span> has <span
 class="math inline">18662</span> decimal digits, <span
-class="math display">s_L&gt;10^{18661}.</span> Using <a
-href="#eq:A-lower-sharp" data-reference-type="eqref"
-data-reference="eq:A-lower-sharp">[eq:A-lower-sharp]</a>, we get <span
+class="math display">s_L&gt;10^{18661}.</span> Using <a href="#eq:A-lower-sharp" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-lower-sharp">(4.13)</a>, we get <span
 class="math display">\begin{aligned}
         A(s_L^-)
         &amp;\ge
@@ -683,26 +638,17 @@ class="math display">\begin{aligned}
 \end{aligned}</span> For <span
 class="math inline">r\le8{,}600{,}000</span>, <span
 class="math display">W_{r-1}\le
-W_{8{,}599{,}999}=A(p_{8{,}599{,}999}).</span> By <a
-href="#eq:nth-prime-upper" data-reference-type="eqref"
-data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a>, <span
+W_{8{,}599{,}999}=A(p_{8{,}599{,}999}).</span> By <a href="#eq:nth-prime-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:nth-prime-upper">(4.6)</a>, <span
 class="math display">p_{8{,}599{,}999}\le U,</span> where <span
 class="math display">U:=8{,}599{,}999\left(
         \log(8{,}599{,}999)+\log\log(8{,}599{,}999)-1+
         \frac{\log\log(8{,}599{,}999)-2}{\log(8{,}599{,}999)}
         \right).</span> Outward-rounded interval arithmetic gives <span
-class="math display">U&lt;152{,}960{,}196.</span> Then <a
-href="#eq:A-upper" data-reference-type="eqref"
-data-reference="eq:A-upper">[eq:A-upper]</a>, <a href="#eq:B-interval"
-data-reference-type="eqref"
-data-reference="eq:B-interval">[eq:B-interval]</a>, and <a
-href="#eq:C-interval" data-reference-type="eqref"
-data-reference="eq:C-interval">[eq:C-interval]</a> give <span
+class="math display">U&lt;152{,}960{,}196.</span> Then <a href="#eq:A-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-upper">(4.10)</a>, <a href="#eq:B-interval" class="eq-ref" data-reference-type="eqref" data-reference="eq:B-interval">(4.8)</a>, and <a href="#eq:C-interval" class="eq-ref" data-reference-type="eqref" data-reference="eq:C-interval">(4.9)</a> give <span
 class="math display">W_{r-1}\le A(152{,}960{,}196)&lt;3.9713.</span> In
 particular, <span class="math display">A(s_L^-)&gt;W_{r-1},</span> so
 there are at least <span class="math inline">r</span> primes below <span
-class="math inline">s_L</span>, and Lemma <a href="#lem:Rbounds"
-data-reference-type="ref" data-reference="lem:Rbounds">4</a> applies at
+class="math inline">s_L</span>, and Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> applies at
 <span class="math inline">s_L^-</span>. Consequently, at the gap <span
 class="math inline">s_L\to s_L+g_L</span>, <span
 class="math display">\begin{aligned}
@@ -714,8 +660,7 @@ class="math display">\begin{aligned}
         &amp;&lt;1{,}112{,}322
         &lt;1{,}113{,}107
         =g_L+1.
-\end{aligned}</span> Thus Lemma <a href="#lem:threshold"
-data-reference-type="ref" data-reference="lem:threshold">3</a> gives a
+\end{aligned}</span> Thus Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a> gives a
 strict descent at <span class="math inline">s_L\to s_L+g_L</span>.</p>
 <p>Finally, the strict ascent at <span class="math inline">s_T\to
 s_T+2</span> occurs after this strict descent, because <span
@@ -728,7 +673,7 @@ equivalently <span class="math display">41\le
 k\le8{,}600{,}001.</span></p>
 <p>Combining the three finite parts gives the following proposition.</p>
 <div id="prop:finite" class="proposition">
-<p><strong>Proposition 9</strong>. <em>For every integer <span
+<p><strong>Proposition 5.1</strong>. <em>For every integer <span
 class="math display">4\le k\le8{,}600{,}001,</span> the sequence <span
 class="math inline">p\mapsto d_k(p)</span> is not unimodal.</em></p>
 </div>
@@ -743,74 +688,63 @@ for every integer <span class="math display">r\ge8{,}600{,}001.</span>
 Set <span class="math display">v:=\log r,
         \qquad
         x:=0.99\,\frac r{\log r}=0.99\,\frac r v.</span> Since <span
-class="math display">\log(8{,}600{,}001)&gt;15.96,</span> we have <span
-class="math display">\begin{equation}
-\label{eq:v-lower}
+class="math display">\log(8{,}600{,}001)&gt;15.96,</span> we have <span id="eq:v-lower" class="math display">\begin{equation}
+\tag{6.1}
 v&gt;15.96.
 \end{equation}</span> The function <span class="math inline">r/\log
 r</span> is increasing for <span class="math inline">r&gt;e</span>, and
-hence <span class="math display">\begin{equation}
-\label{eq:x-lower}
+hence <span id="eq:x-lower" class="math display">\begin{equation}
+\tag{6.2}
 x\ge 0.99\frac{8{,}600{,}001}{\log(8{,}600{,}001)}
         &gt;533{,}000.
-\end{equation}</span> Consequently <span
-class="math display">\begin{equation}
-\label{eq:x-half-lower}
+\end{equation}</span> Consequently <span id="eq:x-half-lower" class="math display">\begin{equation}
+\tag{6.3}
 \frac x2&gt;266{,}500&gt;3275.
 \end{equation}</span> Outward-rounded interval arithmetic gives, for
-every <span class="math inline">x</span> in this range, <span
-class="math display">\begin{equation}
-\label{eq:logx-error}
+every <span class="math inline">x</span> in this range, <span id="eq:logx-error" class="math display">\begin{equation}
+\tag{6.4}
 \frac1{2\log^2 x}&lt;0.002876,
-\end{equation}</span> <span class="math display">\begin{equation}
-\label{eq:logxhalf-error}
+\end{equation}</span> <span id="eq:logxhalf-error" class="math display">\begin{equation}
+\tag{6.5}
 \frac1{2\log^2(x/2)}&lt;0.00321,
-\end{equation}</span> <span class="math display">\begin{equation}
-\label{eq:theta-error-small}
+\end{equation}</span> <span id="eq:theta-error-small" class="math display">\begin{equation}
+\tag{6.6}
 \frac{1.2323}{\log x}&lt;0.1,
-\end{equation}</span> and <span class="math display">\begin{equation}
-\label{eq:M-factor-bound}
+\end{equation}</span> and <span id="eq:M-factor-bound" class="math display">\begin{equation}
+\tag{6.7}
 \left(1+\frac1{2\log^2x}\right)
         \left(1+\frac1{36260}\right)
         +\frac{\log 8}{x}
         &lt;1.003.
 \end{equation}</span> Moreover, if <span class="math inline">\log
-y&gt;18.9</span>, then <span class="math display">\begin{equation}
-\label{eq:eps-small}
+y&gt;18.9</span>, then <span id="eq:eps-small" class="math display">\begin{equation}
+\tag{6.8}
 \varepsilon(y)&lt;0.001.
 \end{equation}</span></p>
-<p>We shall also use the following elementary inequalities. First, <span
-class="math display">\begin{equation}
-\label{eq:tail-elementary-one}
+<p>We shall also use the following elementary inequalities. First, <span id="eq:tail-elementary-one" class="math display">\begin{equation}
+\tag{6.9}
 0.44v-2\log v-1.300&gt;0
 \end{equation}</span> for every <span
 class="math inline">v\ge15.96</span>. Indeed, the derivative is <span
 class="math inline">0.44-2/v&gt;0</span> on this interval, and the value
 at <span class="math inline">15.96</span> is <span
 class="math inline">&gt;0.18</span>. Second, since <span
-class="math inline">v&gt;15.96&gt;1.50</span>, <span
-class="math display">\begin{equation}
-\label{eq:tail-elementary-two}
+class="math inline">v&gt;15.96&gt;1.50</span>, <span id="eq:tail-elementary-two" class="math display">\begin{equation}
+\tag{6.10}
 \frac{v}{0.99(v-1.50)}&gt;\frac1{0.99}&gt;1.010.
 \end{equation}</span></p>
 <section id="a-large-gap-before-4p" class="level2" data-number="6.1">
 <h2 data-number="6.1"><span class="header-section-number">6.1</span> A
 large gap before <span class="math inline">4P</span></h2>
-<p>By <a href="#eq:short-interval-prime" data-reference-type="eqref"
-data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>,
+<p>By <a href="#eq:short-interval-prime" class="eq-ref" data-reference-type="eqref" data-reference="eq:short-interval-prime">(4.1)</a>,
 choose a prime <span class="math display">q\in\left(x,\
 x\left(1+\frac1{2\log^2x}\right)\right].</span> Let <span
 class="math inline">q^-</span> be the prime immediately preceding <span
 class="math inline">q</span>, and put <span
 class="math display">P:=\prod_{p\le q}p.</span> Then <span
-class="math display">\log P=\vartheta(q).</span> By <a
-href="#eq:theta-lower" data-reference-type="eqref"
-data-reference="eq:theta-lower">[eq:theta-lower]</a>, <span
-class="math inline">q&gt;x</span>, and <a href="#eq:theta-error-small"
-data-reference-type="eqref"
-data-reference="eq:theta-error-small">[eq:theta-error-small]</a>, <span
-class="math display">\begin{equation}
-\label{eq:logP-lower}
+class="math display">\log P=\vartheta(q).</span> By <a href="#eq:theta-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:theta-lower">(4.3)</a>, <span
+class="math inline">q&gt;x</span>, and <a href="#eq:theta-error-small" class="eq-ref" data-reference-type="eqref" data-reference="eq:theta-error-small">(6.6)</a>, <span id="eq:logP-lower" class="math display">\begin{equation}
+\tag{6.11}
 \log P
         =
         \vartheta(q)
@@ -818,15 +752,8 @@ class="math display">\begin{equation}
         q\left(1-\frac{1.2323}{\log q}\right)
         &gt;
         0.9x.
-\end{equation}</span> By <a href="#eq:theta-upper"
-data-reference-type="eqref"
-data-reference="eq:theta-upper">[eq:theta-upper]</a>, <a
-href="#eq:logx-error" data-reference-type="eqref"
-data-reference="eq:logx-error">[eq:logx-error]</a>, and <a
-href="#eq:M-factor-bound" data-reference-type="eqref"
-data-reference="eq:M-factor-bound">[eq:M-factor-bound]</a>, <span
-class="math display">\begin{equation}
-\label{eq:log8P-upper}
+\end{equation}</span> By <a href="#eq:theta-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:theta-upper">(4.2)</a>, <a href="#eq:logx-error" class="eq-ref" data-reference-type="eqref" data-reference="eq:logx-error">(6.4)</a>, and <a href="#eq:M-factor-bound" class="eq-ref" data-reference-type="eqref" data-reference="eq:M-factor-bound">(6.7)</a>, <span id="eq:log8P-upper" class="math display">\begin{equation}
+\tag{6.12}
 \begin{aligned}
         \log(8P)
         &amp;=
@@ -885,27 +812,20 @@ class="math inline">q&gt;q^-</span>, we have <span
 class="math display">P\ge2q^-q&gt;2q^-.</span> Thus the above block is
 contained in <span class="math inline">(2P,4P)</span>. Therefore there
 is a prime gap <span class="math inline">G_-</span> surrounding this
-block and satisfying <span class="math display">\begin{equation}
-\label{eq:Gminus-block}
+block and satisfying <span id="eq:Gminus-block" class="math display">\begin{equation}
+\tag{6.13}
 G_-\ge2q^-.
 \end{equation}</span></p>
-<p>It remains to lower-bound <span class="math inline">q^-</span>. By <a
-href="#eq:short-interval-prime" data-reference-type="eqref"
-data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>,
+<p>It remains to lower-bound <span class="math inline">q^-</span>. By <a href="#eq:short-interval-prime" class="eq-ref" data-reference-type="eqref" data-reference="eq:short-interval-prime">(4.1)</a>,
 applied to <span class="math inline">x/2</span>, there is a prime <span
 class="math display">s\in
         \left(\frac x2,\ \frac
-x2\left(1+\frac1{2\log^2(x/2)}\right)\right].</span> By <a
-href="#eq:logxhalf-error" data-reference-type="eqref"
-data-reference="eq:logxhalf-error">[eq:logxhalf-error]</a>, this upper
+x2\left(1+\frac1{2\log^2(x/2)}\right)\right].</span> By <a href="#eq:logxhalf-error" class="eq-ref" data-reference-type="eqref" data-reference="eq:logxhalf-error">(6.5)</a>, this upper
 endpoint is <span class="math inline">&lt;x</span>, while <span
-class="math inline">q&gt;x</span>. Therefore <span
-class="math display">\begin{equation}
-\label{eq:qminus-half}
+class="math inline">q&gt;x</span>. Therefore <span id="eq:qminus-half" class="math display">\begin{equation}
+\tag{6.14}
 q^-\ge s&gt;\frac x2.
-\end{equation}</span> Apply <a href="#eq:short-interval-prime"
-data-reference-type="eqref"
-data-reference="eq:short-interval-prime">[eq:short-interval-prime]</a>
+\end{equation}</span> Apply <a href="#eq:short-interval-prime" class="eq-ref" data-reference-type="eqref" data-reference="eq:short-interval-prime">(4.1)</a>
 once more, now to <span class="math inline">q^-</span>. Since <span
 class="math inline">q</span> is the first prime after <span
 class="math inline">q^-</span>, <span class="math display">q\le
@@ -916,14 +836,9 @@ class="math display">q^-
         &gt;
         \frac{x}{1+\frac1{2\log^2q^-}}
         &gt;
-        \frac{x}{1+\frac1{2\log^2(x/2)}}.</span> Using <a
-href="#eq:logxhalf-error" data-reference-type="eqref"
-data-reference="eq:logxhalf-error">[eq:logxhalf-error]</a>, <span
-class="math display">q^-&gt;\frac{x}{1.00321}.</span> Therefore, by <a
-href="#eq:Gminus-block" data-reference-type="eqref"
-data-reference="eq:Gminus-block">[eq:Gminus-block]</a>, <span
-class="math display">\begin{equation}
-\label{eq:Gminus-lower}
+        \frac{x}{1+\frac1{2\log^2(x/2)}}.</span> Using <a href="#eq:logxhalf-error" class="eq-ref" data-reference-type="eqref" data-reference="eq:logxhalf-error">(6.5)</a>, <span
+class="math display">q^-&gt;\frac{x}{1.00321}.</span> Therefore, by <a href="#eq:Gminus-block" class="eq-ref" data-reference-type="eqref" data-reference="eq:Gminus-block">(6.13)</a>, <span id="eq:Gminus-lower" class="math display">\begin{equation}
+\tag{6.15}
 G_-&gt;\frac{2x}{1.00321}&gt;1.993x.
 \end{equation}</span></p>
 </section>
@@ -933,14 +848,8 @@ data-number="6.2">
 smaller later gap inside <span class="math inline">(4P,8P]</span></h2>
 <p>Let <span class="math display">M:=\log(8P),
         \qquad
-        N:=\pi(8P)-\pi(4P).</span> By <a href="#eq:logP-lower"
-data-reference-type="eqref"
-data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
-class="math inline">M&gt;20</span>. By <a href="#eq:pi-lower"
-data-reference-type="eqref"
-data-reference="eq:pi-lower">[eq:pi-lower]</a> and <a
-href="#eq:pi-upper" data-reference-type="eqref"
-data-reference="eq:pi-upper">[eq:pi-upper]</a>, <span
+        N:=\pi(8P)-\pi(4P).</span> By <a href="#eq:logP-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:logP-lower">(6.11)</a>, <span
+class="math inline">M&gt;20</span>. By <a href="#eq:pi-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-lower">(4.4)</a> and <a href="#eq:pi-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-upper">(4.5)</a>, <span
 class="math display">N
         \ge
         \frac{8P}{M-1}
@@ -970,8 +879,8 @@ class="math display">N&gt;\frac{4P}{M}+\frac{8P}{M^3}.</span> Since
 <span class="math inline">8P=\mathrm e^M</span> and <span
 class="math inline">M&gt;20</span>, <span
 class="math display">\frac{8P}{M^3}=\frac{\mathrm e^M}{M^3}&gt;1.</span>
-Consequently, <span class="math display">\begin{equation}
-\label{eq:N-lower}
+Consequently, <span id="eq:N-lower" class="math display">\begin{equation}
+\tag{6.16}
 N&gt;\frac{4P}{M}+1.
 \end{equation}</span></p>
 <p>Let the primes in <span class="math inline">(4P,8P]</span> be <span
@@ -982,16 +891,11 @@ lie in <span class="math inline">(4P,8P]</span>. Moreover <span
 class="math display">\sum_{\ell=1}^{N-1}(s_{\ell+1}-s_\ell)
         =
         s_N-s_1
-        &lt;4P.</span> By <a href="#eq:N-lower"
-data-reference-type="eqref"
-data-reference="eq:N-lower">[eq:N-lower]</a>, some global prime gap
+        &lt;4P.</span> By <a href="#eq:N-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:N-lower">(6.16)</a>, some global prime gap
 <span class="math inline">G_+</span> in <span
 class="math inline">(4P,8P]</span> satisfies <span
-class="math display">G_+&lt;\frac{4P}{N-1}&lt;M.</span> Using <a
-href="#eq:log8P-upper" data-reference-type="eqref"
-data-reference="eq:log8P-upper">[eq:log8P-upper]</a>, <span
-class="math display">\begin{equation}
-\label{eq:Gplus-upper}
+class="math display">G_+&lt;\frac{4P}{N-1}&lt;M.</span> Using <a href="#eq:log8P-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:log8P-upper">(6.12)</a>, <span id="eq:Gplus-upper" class="math display">\begin{equation}
+\tag{6.17}
 G_+&lt;M&lt;1.003x.
 \end{equation}</span> This gap <span class="math inline">G_+</span>
 occurs after <span class="math inline">G_-</span>. Indeed, <span
@@ -1010,17 +914,12 @@ data-number="6.3">
 large gap gives a strict descent</h2>
 <p>Let <span class="math inline">G_-</span> occur between the
 consecutive primes <span class="math display">p_i,\ p_{i+1}.</span> We
-first show that <span class="math display">\begin{equation}
-\label{eq:piminus-P}
+first show that <span id="eq:piminus-P" class="math display">\begin{equation}
+\tag{6.18}
 p_{i-1}&gt;P.
 \end{equation}</span> Let <span class="math inline">L:=\log P</span>. By
-<a href="#eq:logP-lower" data-reference-type="eqref"
-data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
-class="math inline">L&gt;20</span>. From <a href="#eq:pi-lower"
-data-reference-type="eqref"
-data-reference="eq:pi-lower">[eq:pi-lower]</a> and <a
-href="#eq:pi-upper" data-reference-type="eqref"
-data-reference="eq:pi-upper">[eq:pi-upper]</a>, <span
+<a href="#eq:logP-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:logP-lower">(6.11)</a>, <span
+class="math inline">L&gt;20</span>. From <a href="#eq:pi-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-lower">(4.4)</a> and <a href="#eq:pi-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:pi-upper">(4.5)</a>, <span
 class="math display">\begin{aligned}
         \pi(2P)-\pi(P)
         &amp;\ge
@@ -1045,29 +944,20 @@ primes. Since the block of composites surrounded by <span
 class="math inline">G_-</span> starts after <span
 class="math inline">2P</span>, the prime immediately preceding the left
 endpoint of <span class="math inline">G_-</span> is <span
-class="math inline">&gt;P</span>. This proves <a href="#eq:piminus-P"
-data-reference-type="eqref"
-data-reference="eq:piminus-P">[eq:piminus-P]</a>, and therefore <span
-class="math display">\begin{equation}
-\label{eq:A-piminus}
+class="math inline">&gt;P</span>. This proves <a href="#eq:piminus-P" class="eq-ref" data-reference-type="eqref" data-reference="eq:piminus-P">(6.18)</a>, and therefore <span id="eq:A-piminus" class="math display">\begin{equation}
+\tag{6.19}
 A(p_{i-1})\ge A(P).
-\end{equation}</span> Once <a href="#eq:AminusW-lower"
-data-reference-type="eqref"
-data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a> below is
-proved, <a href="#eq:A-piminus" data-reference-type="eqref"
-data-reference="eq:A-piminus">[eq:A-piminus]</a> also implies <span
+\end{equation}</span> Once <a href="#eq:AminusW-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:AminusW-lower">(6.20)</a> below is
+proved, <a href="#eq:A-piminus" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-piminus">(6.19)</a> also implies <span
 class="math inline">A(p_{i-1})&gt;W_{r-1}</span>, hence <span
-class="math inline">i-1\ge r</span> and Lemma <a href="#lem:Rbounds"
-data-reference-type="ref" data-reference="lem:Rbounds">4</a> is
+class="math inline">i-1\ge r</span> and Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> is
 applicable at the descent gap.</p>
-<p>We next prove <span class="math display">\begin{equation}
-\label{eq:AminusW-lower}
+<p>We next prove <span id="eq:AminusW-lower" class="math display">\begin{equation}
+\tag{6.20}
 A(P)-W_{r-1}&gt;0.56\log r.
 \end{equation}</span> By the definition of <span
 class="math inline">W_N</span>, <span
-class="math display">W_{r-1}=A(p_{r-1}).</span> By <a
-href="#eq:nth-prime-upper" data-reference-type="eqref"
-data-reference="eq:nth-prime-upper">[eq:nth-prime-upper]</a>, applied to
+class="math display">W_{r-1}=A(p_{r-1}).</span> By <a href="#eq:nth-prime-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:nth-prime-upper">(4.6)</a>, applied to
 <span class="math inline">n=r-1</span>, with <span
 class="math inline">t:=\log(r-1)</span>, <span
 class="math display">p_{r-1}
@@ -1085,44 +975,27 @@ and <span class="math display">h(15.96)&gt;1.37.</span> Hence <span
 class="math inline">h(t)&gt;0</span>, which is equivalent to <span
 class="math display">\log t-1+\frac{\log t-2}{t}&lt;0.2t.</span>
 Therefore <span class="math display">p_{r-1}&lt;1.2(r-1)t&lt;1.2r\log
-r.</span> It follows that <span class="math display">\begin{equation}
-\label{eq:W-upper-by-A}
+r.</span> It follows that <span id="eq:W-upper-by-A" class="math display">\begin{equation}
+\tag{6.21}
 W_{r-1}=A(p_{r-1})
         \le
         A(1.2r\log r).
 \end{equation}</span> Since <span class="math display">\log(1.2r\log
-r)&gt;18.9,</span> <a href="#eq:A-upper-weak"
-data-reference-type="eqref"
-data-reference="eq:A-upper-weak">[eq:A-upper-weak]</a> and <a
-href="#eq:eps-small" data-reference-type="eqref"
-data-reference="eq:eps-small">[eq:eps-small]</a> give <span
-class="math display">\begin{equation}
-\label{eq:W-log-upper}
+r)&gt;18.9,</span> <a href="#eq:A-upper-weak" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-upper-weak">(4.11)</a> and <a href="#eq:eps-small" class="eq-ref" data-reference-type="eqref" data-reference="eq:eps-small">(6.8)</a> give <span id="eq:W-log-upper" class="math display">\begin{equation}
+\tag{6.22}
 W_{r-1}
         \le
         \log\log(1.2r\log r)+B+1.001.
-\end{equation}</span> On the other hand, by <a href="#eq:logP-lower"
-data-reference-type="eqref"
-data-reference="eq:logP-lower">[eq:logP-lower]</a>, <span
-class="math display">\log P&gt;0.9x&gt;18.9.</span> Thus <a
-href="#eq:A-lower-weak" data-reference-type="eqref"
-data-reference="eq:A-lower-weak">[eq:A-lower-weak]</a> and <a
-href="#eq:eps-small" data-reference-type="eqref"
-data-reference="eq:eps-small">[eq:eps-small]</a> imply <span
-class="math display">\begin{equation}
-\label{eq:A-P-log-lower}
+\end{equation}</span> On the other hand, by <a href="#eq:logP-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:logP-lower">(6.11)</a>, <span
+class="math display">\log P&gt;0.9x&gt;18.9.</span> Thus <a href="#eq:A-lower-weak" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-lower-weak">(4.12)</a> and <a href="#eq:eps-small" class="eq-ref" data-reference-type="eqref" data-reference="eq:eps-small">(6.8)</a> imply <span id="eq:A-P-log-lower" class="math display">\begin{equation}
+\tag{6.23}
 A(P)
         \ge
         \log\log P+B-0.001
         &gt;
         \log(0.9x)+B-0.001.
-\end{equation}</span> Subtracting <a href="#eq:W-log-upper"
-data-reference-type="eqref"
-data-reference="eq:W-log-upper">[eq:W-log-upper]</a> from <a
-href="#eq:A-P-log-lower" data-reference-type="eqref"
-data-reference="eq:A-P-log-lower">[eq:A-P-log-lower]</a>, <span
-class="math display">\begin{equation}
-\label{eq:AminusW-log}
+\end{equation}</span> Subtracting <a href="#eq:W-log-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:W-log-upper">(6.22)</a> from <a href="#eq:A-P-log-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-P-log-lower">(6.23)</a>, <span id="eq:AminusW-log" class="math display">\begin{equation}
+\tag{6.24}
 A(P)-W_{r-1}
         &gt;
         \log(0.9x)-\log\log(1.2r\log r)-1.002.
@@ -1136,34 +1009,21 @@ class="math display">\log(1.2r\log r)
         =
         v+\log(1.2v)
         &lt;
-        1.2v.</span> Thus <span class="math display">\begin{equation}
-\label{eq:loglog-upper}
+        1.2v.</span> Thus <span id="eq:loglog-upper" class="math display">\begin{equation}
+\tag{6.25}
 \log\log(1.2r\log r)&lt;\log(1.2v).
 \end{equation}</span> Since <span class="math display">x=0.99\,\frac r
 v,</span> we have <span class="math display">\log(0.9x)=v-\log
-v+\log(0.9\cdot0.99).</span> Using <a href="#eq:AminusW-log"
-data-reference-type="eqref"
-data-reference="eq:AminusW-log">[eq:AminusW-log]</a> and <a
-href="#eq:loglog-upper" data-reference-type="eqref"
-data-reference="eq:loglog-upper">[eq:loglog-upper]</a>, <span
+v+\log(0.9\cdot0.99).</span> Using <a href="#eq:AminusW-log" class="eq-ref" data-reference-type="eqref" data-reference="eq:AminusW-log">(6.24)</a> and <a href="#eq:loglog-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:loglog-upper">(6.25)</a>, <span
 class="math display">\begin{aligned}
         A(P)-W_{r-1}
         &amp;&gt;
         v-2\log v+\log(0.9\cdot0.99)-\log1.2-1.002\\
         &amp;&gt;
         v-2\log v-1.300.
-\end{aligned}</span> By <a href="#eq:tail-elementary-one"
-data-reference-type="eqref"
-data-reference="eq:tail-elementary-one">[eq:tail-elementary-one]</a>,
-<span class="math display">v-2\log v-1.300&gt;0.56v.</span> Therefore <a
-href="#eq:AminusW-lower" data-reference-type="eqref"
-data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a> is proved.</p>
-<p>Now Lemma <a href="#lem:Rbounds" data-reference-type="ref"
-data-reference="lem:Rbounds">4</a>, together with <a
-href="#eq:A-piminus" data-reference-type="eqref"
-data-reference="eq:A-piminus">[eq:A-piminus]</a> and <a
-href="#eq:AminusW-lower" data-reference-type="eqref"
-data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a>, gives <span
+\end{aligned}</span> By <a href="#eq:tail-elementary-one" class="eq-ref" data-reference-type="eqref" data-reference="eq:tail-elementary-one">(6.9)</a>,
+<span class="math display">v-2\log v-1.300&gt;0.56v.</span> Therefore <a href="#eq:AminusW-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:AminusW-lower">(6.20)</a> is proved.</p>
+<p>Now Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a>, together with <a href="#eq:A-piminus" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-piminus">(6.19)</a> and <a href="#eq:AminusW-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:AminusW-lower">(6.20)</a>, gives <span
 class="math display">\begin{aligned}
         R_r(i-1)
         &amp;\le
@@ -1173,21 +1033,17 @@ class="math display">\begin{aligned}
         &amp;&lt;
         \frac r{0.56\log r}.
 \end{aligned}</span> Since <span class="math inline">x=0.99r/\log
-r</span>, <span class="math display">\begin{equation}
-\label{eq:R-descent-upper}
+r</span>, <span id="eq:R-descent-upper" class="math display">\begin{equation}
+\tag{6.26}
 R_r(i-1)
         &lt;
         \frac{x}{0.99\cdot0.56}
         &lt;1.805x.
-\end{equation}</span> By <a href="#eq:Gminus-lower"
-data-reference-type="eqref"
-data-reference="eq:Gminus-lower">[eq:Gminus-lower]</a>, <span
+\end{equation}</span> By <a href="#eq:Gminus-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:Gminus-lower">(6.15)</a>, <span
 class="math display">G_-&gt;1.993x.</span> Thus <span
 class="math display">R_r(i-1)&lt;1.805x&lt;1.993x&lt;G_-+1.</span> Lemma
-<a href="#lem:threshold" data-reference-type="ref"
-data-reference="lem:threshold">3</a> gives <span
-class="math display">\begin{equation}
-\label{eq:strict-descent-tail}
+<a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a> gives <span id="eq:strict-descent-tail" class="math display">\begin{equation}
+\tag{6.27}
 d_{r+1}(p_{i+1})&lt;d_{r+1}(p_i).
 \end{equation}</span></p>
 </section>
@@ -1202,33 +1058,22 @@ class="math inline">(4P,8P]</span>, <span
 class="math display">p_{j-1}&lt;p_j\le8P.</span> Also <span
 class="math inline">p_{j-1}&gt;P</span>, because <span
 class="math inline">(P,2P]</span> contains at least two primes and <span
-class="math inline">p_j&gt;4P</span>. Hence, by <a
-href="#eq:AminusW-lower" data-reference-type="eqref"
-data-reference="eq:AminusW-lower">[eq:AminusW-lower]</a>, <span
+class="math inline">p_j&gt;4P</span>. Hence, by <a href="#eq:AminusW-lower" class="eq-ref" data-reference-type="eqref" data-reference="eq:AminusW-lower">(6.20)</a>, <span
 class="math inline">A(p_{j-1})&gt;W_{r-1}</span>, and in particular
-<span class="math inline">j-1\ge r</span>. Lemma <a href="#lem:Rbounds"
-data-reference-type="ref" data-reference="lem:Rbounds">4</a> gives <span
+<span class="math inline">j-1\ge r</span>. Lemma <a href="#lem:Rbounds" class="xref" data-reference-type="ref" data-reference="lem:Rbounds">3.2</a> gives <span
 class="math display">R_r(j-1)
         \ge
         \frac r{A(p_{j-1})}.</span> Since <span
 class="math inline">p_{j-1}\le8P</span>, <span
-class="math display">A(p_{j-1})\le A(8P).</span> Therefore <span
-class="math display">\begin{equation}
-\label{eq:R-ascent-pre}
+class="math display">A(p_{j-1})\le A(8P).</span> Therefore <span id="eq:R-ascent-pre" class="math display">\begin{equation}
+\tag{6.28}
 R_r(j-1)\ge\frac r{A(8P)}.
-\end{equation}</span> By <a href="#eq:A-upper-weak"
-data-reference-type="eqref"
-data-reference="eq:A-upper-weak">[eq:A-upper-weak]</a>, <a
-href="#eq:eps-small" data-reference-type="eqref"
-data-reference="eq:eps-small">[eq:eps-small]</a>, and <span
+\end{equation}</span> By <a href="#eq:A-upper-weak" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-upper-weak">(4.11)</a>, <a href="#eq:eps-small" class="eq-ref" data-reference-type="eqref" data-reference="eq:eps-small">(6.8)</a>, and <span
 class="math inline">M=\log(8P)&gt;18.9</span>, <span
-class="math display">A(8P)\le \log\log(8P)+B+1.001.</span> By <a
-href="#eq:log8P-upper" data-reference-type="eqref"
-data-reference="eq:log8P-upper">[eq:log8P-upper]</a>, <span
+class="math display">A(8P)\le \log\log(8P)+B+1.001.</span> By <a href="#eq:log8P-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:log8P-upper">(6.12)</a>, <span
 class="math display">\log(8P)&lt;1.003x.</span> Since <span
-class="math inline">B&lt;0.262</span>, <span
-class="math display">\begin{equation}
-\label{eq:A-8P-upper}
+class="math inline">B&lt;0.262</span>, <span id="eq:A-8P-upper" class="math display">\begin{equation}
+\tag{6.29}
 A(8P)
         &lt;
         \log(1.003x)+B+1.001
@@ -1236,49 +1081,35 @@ A(8P)
         \log x+1.266.
 \end{equation}</span> Now <span class="math display">\log x=v-\log
 v+\log0.99.</span> For <span class="math inline">v\ge15.96</span>, <span
-class="math display">-\log v+\log0.99+1.266&lt;-1.50.</span> Thus <span
-class="math display">\begin{equation}
-\label{eq:A-8P-v}
+class="math display">-\log v+\log0.99+1.266&lt;-1.50.</span> Thus <span id="eq:A-8P-v" class="math display">\begin{equation}
+\tag{6.30}
 A(8P)&lt;v-1.50.
-\end{equation}</span> Combining <a href="#eq:R-ascent-pre"
-data-reference-type="eqref"
-data-reference="eq:R-ascent-pre">[eq:R-ascent-pre]</a> and <a
-href="#eq:A-8P-v" data-reference-type="eqref"
-data-reference="eq:A-8P-v">[eq:A-8P-v]</a>, <span
+\end{equation}</span> Combining <a href="#eq:R-ascent-pre" class="eq-ref" data-reference-type="eqref" data-reference="eq:R-ascent-pre">(6.28)</a> and <a href="#eq:A-8P-v" class="eq-ref" data-reference-type="eqref" data-reference="eq:A-8P-v">(6.30)</a>, <span
 class="math display">R_r(j-1)&gt;
         \frac r{v-1.50}.</span> Since <span
 class="math inline">r=xv/0.99</span>, <span
 class="math display">R_r(j-1)
         &gt;
-        x\cdot \frac{v}{0.99(v-1.50)}.</span> By <a
-href="#eq:tail-elementary-two" data-reference-type="eqref"
-data-reference="eq:tail-elementary-two">[eq:tail-elementary-two]</a>,
-<span class="math display">\begin{equation}
-\label{eq:R-ascent-lower}
+        x\cdot \frac{v}{0.99(v-1.50)}.</span> By <a href="#eq:tail-elementary-two" class="eq-ref" data-reference-type="eqref" data-reference="eq:tail-elementary-two">(6.10)</a>,
+<span id="eq:R-ascent-lower" class="math display">\begin{equation}
+\tag{6.31}
 R_r(j-1)&gt;1.010x.
-\end{equation}</span> On the other hand, by <a href="#eq:Gplus-upper"
-data-reference-type="eqref"
-data-reference="eq:Gplus-upper">[eq:Gplus-upper]</a>, <span
+\end{equation}</span> On the other hand, by <a href="#eq:Gplus-upper" class="eq-ref" data-reference-type="eqref" data-reference="eq:Gplus-upper">(6.17)</a>, <span
 class="math display">G_+&lt;1.003x.</span> Since <span
 class="math inline">x&gt;533{,}000</span>, we have <span
 class="math inline">1&lt;0.001x</span>, and so <span
 class="math display">G_+ +1&lt;1.004x&lt;1.010x&lt;R_r(j-1).</span> By
-Lemma <a href="#lem:threshold" data-reference-type="ref"
-data-reference="lem:threshold">3</a>, <span
-class="math display">\begin{equation}
-\label{eq:strict-ascent-tail}
+Lemma <a href="#lem:threshold" class="xref" data-reference-type="ref" data-reference="lem:threshold">3.1</a>, <span id="eq:strict-ascent-tail" class="math display">\begin{equation}
+\tag{6.32}
 d_{r+1}(p_{j+1})&gt;d_{r+1}(p_j).
 \end{equation}</span></p>
-<p>Equations <a href="#eq:strict-descent-tail"
-data-reference-type="eqref"
-data-reference="eq:strict-descent-tail">[eq:strict-descent-tail]</a> and
-<a href="#eq:strict-ascent-tail" data-reference-type="eqref"
-data-reference="eq:strict-ascent-tail">[eq:strict-ascent-tail]</a> show
+<p>Equations <a href="#eq:strict-descent-tail" class="eq-ref" data-reference-type="eqref" data-reference="eq:strict-descent-tail">(6.27)</a> and
+<a href="#eq:strict-ascent-tail" class="eq-ref" data-reference-type="eqref" data-reference="eq:strict-ascent-tail">(6.32)</a> show
 that the sequence <span class="math inline">p\mapsto d_{r+1}(p)</span>
 first has a strict descent and later has a strict ascent. Such a
 sequence cannot be unimodal. Therefore we have proved:</p>
 <div id="prop:tail" class="proposition">
-<p><strong>Proposition 10</strong>. <em>For every integer <span
+<p><strong>Proposition 6.1</strong>. <em>For every integer <span
 class="math display">k\ge8{,}600{,}002,</span> the sequence <span
 class="math inline">p\mapsto d_k(p)</span> is not unimodal.</em></p>
 </div>
@@ -1287,18 +1118,12 @@ class="math inline">p\mapsto d_k(p)</span> is not unimodal.</em></p>
 <section id="conclusion" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span>
 Conclusion</h1>
-<p>Proposition <a href="#prop:finite" data-reference-type="ref"
-data-reference="prop:finite">9</a> proves the theorem for <span
-class="math display">4\le k\le8{,}600{,}001,</span> and Proposition <a
-href="#prop:tail" data-reference-type="ref"
-data-reference="prop:tail">10</a> proves it for <span
+<p>Proposition <a href="#prop:finite" class="xref" data-reference-type="ref" data-reference="prop:finite">5.1</a> proves the theorem for <span
+class="math display">4\le k\le8{,}600{,}001,</span> and Proposition <a href="#prop:tail" class="xref" data-reference-type="ref" data-reference="prop:tail">6.1</a> proves it for <span
 class="math display">k\ge8{,}600{,}002.</span> Together these two
-propositions prove Theorem <a href="#thm:main" data-reference-type="ref"
-data-reference="thm:main">1</a> for every <span
+propositions prove Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a> for every <span
 class="math inline">k\ge4</span>. Combining this with Cambie’s theorem
-for <span class="math inline">1\le k\le3</span> proves Corollary <a
-href="#cor:classification" data-reference-type="ref"
-data-reference="cor:classification">2</a>.</p>
+for <span class="math inline">1\le k\le3</span> proves Corollary <a href="#cor:classification" class="xref" data-reference-type="ref" data-reference="cor:classification">1.2</a>.</p>
 </section>
 <section id="acknowledgements" class="level1 unnumbered">
 <h1 class="unnumbered">Acknowledgements</h1>
@@ -1332,8 +1157,7 @@ rational arithmetic;</p></li>
 <li><p>the interval for <span class="math inline">C=\sum_p
 \frac{1}{p(p-1)}</span>, using directed outward-rounded summation for
 the finite partial sum together with the exact tail bound from
-Certificate <a href="#cert:constants" data-reference-type="ref"
-data-reference="cert:constants">6</a>;</p></li>
+Certificate <a href="#cert:constants" class="xref" data-reference-type="ref" data-reference="cert:constants">4.2</a>;</p></li>
 <li><p>the displayed logarithmic numerical comparisons, using rational
 interval arithmetic for logarithms based on the <span
 class="math inline">\operatorname{atanh}</span> series with a rigorous

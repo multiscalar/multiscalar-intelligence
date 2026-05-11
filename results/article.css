@@ -266,6 +266,23 @@ main.article-main {
   font-size: 0.85em;
 }
 
+/* ===== Cross-refs to equations ===== */
+.paper a.eq-ref,
+.paper a.xref {
+  border-bottom: none;
+  color: var(--text);
+}
+
+.paper a.eq-ref {
+  white-space: nowrap;
+}
+
+.paper a.eq-ref:hover,
+.paper a.xref:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
 /* ===== Citations ===== */
 .paper a.cite {
   font-family: var(--mono);

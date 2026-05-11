@@ -181,6 +181,132 @@ def replace_table(html: str) -> str:
     return html
 
 
+THEOREM_KINDS = ("Theorem", "Lemma", "Proposition", "Corollary", "Certificate", "Remark")
+
+
+def parse_numbering(tex_source: str) -> dict[str, str]:
+    """Walk the .tex source and assign section-relative numbers to every
+    labeled theorem-like environment and labeled displayed equation,
+    matching the LaTeX preamble's [section] counters.
+
+    Returns a dict: label -> "N.M" (e.g. "thm:main" -> "1.1").
+    """
+    events: list[tuple[int, str, str | None]] = []
+    for m in re.finditer(r"\\section\{", tex_source):
+        events.append((m.start(), "section", None))
+    for m in re.finditer(r"\\appendix\b", tex_source):
+        events.append((m.start(), "appendix", None))
+    for m in re.finditer(
+        r"\\begin\{(theorem|lemma|proposition|corollary|certificate|remark)\}",
+        tex_source,
+    ):
+        tail = tex_source[m.end() : m.end() + 250]
+        lm = re.search(r"\\label\{([^}]+)\}", tail)
+        if lm and "\\begin" not in tail[: lm.start()]:
+            events.append((m.start(), "thm", lm.group(1)))
+    for m in re.finditer(r"\\begin\{equation\}", tex_source):
+        tail = tex_source[m.end() : m.end() + 250]
+        lm = re.search(r"\\label\{([^}]+)\}", tail)
+        if lm and "\\end" not in tail[: lm.start()]:
+            events.append((m.start(), "eq", lm.group(1)))
+    events.sort()
+
+    labels: dict[str, str] = {}
+    section_num = 0
+    in_appendix = False
+    current: str | None = None
+    thm_ct = 0
+    eq_ct = 0
+    for _, kind, arg in events:
+        if kind == "appendix":
+            in_appendix = True
+        elif kind == "section":
+            if in_appendix:
+                current = "A"
+            else:
+                section_num += 1
+                current = str(section_num)
+            thm_ct = 0
+            eq_ct = 0
+        elif kind == "thm" and current is not None and arg is not None:
+            thm_ct += 1
+            labels[arg] = f"{current}.{thm_ct}"
+        elif kind == "eq" and current is not None and arg is not None:
+            eq_ct += 1
+            labels[arg] = f"{current}.{eq_ct}"
+    return labels
+
+
+def apply_numbering(html: str, labels: dict[str, str]) -> str:
+    """Replace pandoc's global counters with section-relative numbers, fix
+    \\eqref placeholders, and tag each displayed equation with its number."""
+
+    # 1. Rewrite the displayed label of each theorem-like block.
+    for key, number in labels.items():
+        if key.startswith("eq:"):
+            continue
+        kinds = "|".join(THEOREM_KINDS)
+        pattern = (
+            r'(<div\s+id="' + re.escape(key) + r'"[^>]*>\s*<p>\s*<strong>'
+            r"(?:" + kinds + r"))\s+\d+(</strong>)"
+        )
+        html = re.sub(
+            pattern,
+            lambda m, n=number: f"{m.group(1)} {n}{m.group(2)}",
+            html,
+        )
+
+    # 2. Cross-references to theorem-like blocks: rewrite the displayed number.
+    def fix_ref(m: re.Match[str]) -> str:
+        key = m.group(1)
+        if key in labels:
+            return (
+                f'<a href="#{key}" class="xref" data-reference-type="ref" '
+                f'data-reference="{key}">{labels[key]}</a>'
+            )
+        return m.group(0)
+
+    html = re.sub(
+        r'<a\s+href="#([^"]+)"[^>]*data-reference-type="ref"[^>]*>[^<]*</a>',
+        fix_ref,
+        html,
+    )
+
+    # 3. \eqref{...} references: pandoc emits [eq:KEY] as the link text.
+    def fix_eqref(m: re.Match[str]) -> str:
+        key = m.group(1)
+        if key in labels:
+            return (
+                f'<a href="#{key}" class="eq-ref" data-reference-type="eqref" '
+                f'data-reference="{key}">({labels[key]})</a>'
+            )
+        return m.group(0)
+
+    html = re.sub(
+        r'<a\s+href="#([^"]+)"[^>]*data-reference-type="eqref"[^>]*>\[[^\]]+\]</a>',
+        fix_eqref,
+        html,
+    )
+
+    # 4. Add the equation number on the right (\tag) and an anchor id on the
+    #    enclosing <span>, so #eq:KEY scrolls to the equation.
+    def fix_eq_block(m: re.Match[str]) -> str:
+        prefix, key, suffix = m.group(1), m.group(2), m.group(3)
+        if key not in labels:
+            return m.group(0)
+        return (
+            f'<span id="{key}" class="math display">{prefix}\\tag{{{labels[key]}}}{suffix}'
+        )
+
+    html = re.sub(
+        r'<span\s+class="math display">(\s*\\begin\{equation\}\s*)\\label\{(eq:[^}]+)\}(\s*)',
+        fix_eq_block,
+        html,
+    )
+
+    return html
+
+
 def strip_personal_acknowledgement(html: str) -> str:
     """Remove the paragraph thanking Samuele Marro and Marcello Politi.
     Matched by the opening phrase so minor wording changes upstream still
@@ -217,11 +343,13 @@ def relabel_appendix(html: str) -> str:
 def main() -> None:
     tex_source = TEX_PATH.read_text(encoding="utf-8")
     bib_order = extract_bib_order(tex_source)
+    labels = parse_numbering(tex_source)
     body = run_pandoc(TEX_PATH)
     body = fix_citations(body, bib_order)
     body = number_bibliography(body)
     body = replace_table(body)
     body = relabel_appendix(body)
+    body = apply_numbering(body, labels)
     body = strip_personal_acknowledgement(body)
 
     template = TEMPLATE.read_text(encoding="utf-8")
