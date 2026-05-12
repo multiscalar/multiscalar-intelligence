@@ -35,6 +35,21 @@ main.article-main {
   margin-bottom: 1.6rem;
 }
 
+.status-badge {
+  display: inline-block;
+  margin-left: 0.6em;
+  padding: 0.2em 0.7em;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  vertical-align: 0.05em;
+}
+
+.status-solved {
+  background: #16a34a;
+  color: #fff;
+}
+
 .article-title {
   font-family: var(--sans);
   font-weight: 400;
