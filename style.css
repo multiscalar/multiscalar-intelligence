@@ -563,3 +563,40 @@ footer {
 .divider.visible {
   transform: scaleX(1);
 }
+
+/* Compression demo */
+.compress { max-width: 760px; margin: 0 auto; padding: 0 1.5rem; }
+.compress-intro { margin: 0.75rem 0 1.5rem; opacity: 0.8; line-height: 1.6; }
+.compress-widget { display: flex; flex-direction: column; gap: 1rem; }
+.compress-stage {
+  position: relative; width: 100%; max-width: 480px; aspect-ratio: 1 / 1;
+  margin: 0 auto; overflow: hidden; cursor: ew-resize; user-select: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.compress-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; image-rendering: auto; pointer-events: none;
+}
+.compress-recon-clip { position: absolute; inset: 0; clip-path: inset(0 0 0 50%); }
+.compress-handle {
+  position: absolute; top: 0; bottom: 0; left: 50%; width: 2px;
+  background: #fff; transform: translateX(-1px); pointer-events: none;
+}
+.compress-handle::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  width: 26px; height: 26px; transform: translate(-50%, -50%);
+  border: 2px solid #fff; border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+}
+.compress-badge {
+  position: absolute; top: 8px; font-family: "IBM Plex Mono", monospace;
+  font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 2px 6px; background: rgba(0, 0, 0, 0.5); pointer-events: none;
+}
+.compress-badge-left { left: 8px; }
+.compress-badge-right { right: 8px; }
+.compress-slider { width: 100%; max-width: 480px; margin: 0 auto; accent-color: #fff; }
+.compress-readout {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.8rem;
+  text-align: center; opacity: 0.85;
+}
