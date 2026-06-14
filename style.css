@@ -582,10 +582,10 @@ footer {
   display: flex; align-items: baseline; gap: 0.7rem; flex-wrap: wrap;
 }
 .compress-ratio {
-  font-family: var(--sans); font-size: 1.5rem; font-weight: 500;
+  font-family: var(--sans); font-size: 1.02rem; font-weight: 500;
   color: #000; letter-spacing: -0.01em;
 }
 .compress-meta {
-  font-family: var(--mono); font-size: 0.78rem; color: var(--text-dim);
+  font-family: var(--mono); font-size: 0.72rem; color: var(--text-dim);
   letter-spacing: 0.04em;
 }

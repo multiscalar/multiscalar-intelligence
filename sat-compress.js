@@ -1,4 +1,5 @@
 // sat-compress.js — drives the homepage compression-level slider.
+// Left = least compression (original) -> right = most compression (highest ratio).
 (function () {
   const BASE = "assets/sat-compress/";
   const recon = document.getElementById("compress-recon");
@@ -7,36 +8,41 @@
   const ratioEl = document.getElementById("compress-ratio");
   const metaEl = document.getElementById("compress-meta");
 
-  let levels = [];
+  let stops = [];
 
   function lamName(lam) {
-    // numeric manifest value -> checkpoint filename suffix (40 -> "40", 0.5 -> "0.5")
-    return "lambda-" + (Number.isInteger(lam) ? String(lam) : String(lam));
+    return "lambda-" + String(lam);
   }
 
   function fmtBytes(b) {
-    return b < 1024 ? b + " B" : (b / 1024).toFixed(1) + " KB";
+    if (b >= 1048576) return (b / 1048576).toFixed(1) + " MB";
+    if (b >= 1024) return (b / 1024).toFixed(1) + " KB";
+    return b + " B";
   }
 
-  function setLevel(i) {
-    const lv = levels[i];
-    if (!lv) return;
-    recon.src = BASE + "level_" + lamName(lv.lambda) + ".png";
-    ratioEl.textContent = lv.ratio.toFixed(0) + "× smaller";
-    metaEl.textContent =
-      fmtBytes(lv.bytes) + " · " + lv.psnr.toFixed(1) + " dB PSNR · " +
-      lv.bpppb.toFixed(3) + " bpppb";
+  function setStop(i) {
+    const s = stops[i];
+    if (!s) return;
+    recon.src = BASE + s.img;
+    ratioEl.textContent = s.label;
+    metaEl.textContent = s.size;
   }
 
-  slider.addEventListener("input", () => setLevel(parseInt(slider.value, 10)));
+  slider.addEventListener("input", () => setStop(parseInt(slider.value, 10)));
 
   fetch(BASE + "manifest.json")
     .then((r) => r.json())
     .then((m) => {
-      levels = m.levels;
-      slider.max = String(levels.length - 1);
-      slider.value = "0"; // start at the highest compression ratio (all levels are visually lossless)
-      setLevel(0);
+      const asc = m.levels.slice().sort((a, b) => a.ratio - b.ratio); // 55× … 142×
+      stops = [{ img: "original.png", label: "Original", size: fmtBytes(m.original_bytes) }];
+      asc.forEach((lv) => stops.push({
+        img: "level_" + lamName(lv.lambda) + ".png",
+        label: lv.ratio.toFixed(0) + "× smaller",
+        size: fmtBytes(lv.bytes),
+      }));
+      slider.max = String(stops.length - 1);
+      slider.value = "0"; // start on the original (no compression)
+      setStop(0);
     })
     .catch((e) => { metaEl.textContent = "failed to load demo: " + e; });
 })();
