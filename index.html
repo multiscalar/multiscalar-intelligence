@@ -102,6 +102,32 @@
     <!-- Divider -->
     <div class="divider"></div>
 
+    <!-- Compression demo -->
+    <section class="compress" id="compress">
+      <div class="section-label">Neural Satellite Compression</div>
+      <p class="compress-intro">
+        The same Sentinel-2 field tile, compressed by our learned codec across eight
+        rate points. Drag the handle to wipe between the original and the
+        reconstruction; use the slider to trade size for fidelity.
+      </p>
+      <div class="compress-widget">
+        <div class="compress-stage" id="compress-stage">
+          <img class="compress-img compress-orig" id="compress-orig" alt="original tile">
+          <div class="compress-recon-clip" id="compress-recon-clip">
+            <img class="compress-img compress-recon" id="compress-recon" alt="reconstruction">
+          </div>
+          <div class="compress-handle" id="compress-handle"></div>
+          <span class="compress-badge compress-badge-left">Original</span>
+          <span class="compress-badge compress-badge-right">Reconstruction</span>
+        </div>
+        <input type="range" class="compress-slider" id="compress-slider" min="0" max="7" step="1" value="7">
+        <div class="compress-readout" id="compress-readout"></div>
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
     <!-- Team -->
     <section class="team" id="team">
       <div class="section-grid">
@@ -141,6 +167,7 @@
   <!-- Subtle animated grid background -->
   <canvas id="grid-bg"></canvas>
   <script src="script.js"></script>
+  <script src="sat-compress.js"></script>
 
 </body>
 </html>
