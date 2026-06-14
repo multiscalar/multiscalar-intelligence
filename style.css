@@ -565,7 +565,6 @@ footer {
 }
 
 /* Compression demo (inline result card) */
-.result-demo:hover { background: transparent; padding-left: 0; padding-right: 0; }
 .compress-widget {
   display: flex; flex-direction: column; align-items: flex-start;
   gap: 0.9rem; margin-top: 0.4rem;
