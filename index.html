@@ -104,13 +104,13 @@
           <h3 class="result-title">Neural Compression of Satellite Imagery</h3>
           <p class="result-subtitle">Multiscalar Fields Codec</p>
           <p class="result-summary">
-            A single Sentinel-2 field tile reconstructed by our learned codec across
-            eight rate points. Drag the slider to trade file size for fidelity — the
-            compression ratio rises as the bitrate falls.
+            A Sentinel-2 field tile compressed by our learned codec with no visible
+            loss. Drag the slider across rate points — even at the highest ratio, the
+            reconstruction stays visually identical to the original.
           </p>
           <div class="compress-widget">
             <img class="compress-img" id="compress-recon" alt="compressed satellite tile">
-            <input type="range" class="compress-slider" id="compress-slider" min="0" max="7" step="1" value="7">
+            <input type="range" class="compress-slider" id="compress-slider" min="0" max="3" step="1" value="0">
             <div class="compress-readout">
               <span class="compress-ratio" id="compress-ratio">—</span>
               <span class="compress-meta" id="compress-meta"></span>

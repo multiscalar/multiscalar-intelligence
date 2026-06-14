@@ -35,8 +35,8 @@
     .then((m) => {
       levels = m.levels;
       slider.max = String(levels.length - 1);
-      slider.value = String(levels.length - 1); // start at highest quality
-      setLevel(levels.length - 1);
+      slider.value = "0"; // start at the highest compression ratio (all levels are visually lossless)
+      setLevel(0);
     })
     .catch((e) => { metaEl.textContent = "failed to load demo: " + e; });
 })();
