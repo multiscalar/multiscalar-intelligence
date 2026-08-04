@@ -20,6 +20,7 @@
   "models": [
     {
       "name": "Claude Opus 5",
+      "provider": "anthropic",
       "scores": {
         "net_worth": 11181.87
       },
@@ -27,6 +28,7 @@
     },
     {
       "name": "Claude Opus 4.7",
+      "provider": "anthropic",
       "scores": {
         "net_worth": 10936.76
       },
@@ -34,6 +36,7 @@
     },
     {
       "name": "GPT-5.6 Sol",
+      "provider": "openai",
       "scores": {
         "net_worth": 9619.37
       },
@@ -41,6 +44,7 @@
     },
     {
       "name": "GLM-5.2",
+      "provider": "glm",
       "scores": {
         "net_worth": 8313.78
       },
@@ -48,6 +52,7 @@
     },
     {
       "name": "Claude Opus 4.6",
+      "provider": "anthropic",
       "scores": {
         "net_worth": 8017.59
       },
@@ -55,6 +60,7 @@
     },
     {
       "name": "GPT-5.5",
+      "provider": "openai",
       "scores": {
         "net_worth": 7523.84
       },
@@ -62,6 +68,7 @@
     },
     {
       "name": "GPT-5.6 Terra",
+      "provider": "openai",
       "scores": {
         "net_worth": 7343.21
       },
@@ -69,6 +76,7 @@
     },
     {
       "name": "Claude Sonnet 4.6",
+      "provider": "anthropic",
       "scores": {
         "net_worth": 7204.14
       },
@@ -76,6 +84,7 @@
     },
     {
       "name": "Muse Spark 1.1",
+      "provider": "meta",
       "scores": {
         "net_worth": 6520.47
       },
@@ -83,6 +92,7 @@
     },
     {
       "name": "Claude Sonnet 5",
+      "provider": "anthropic",
       "scores": {
         "net_worth": 6377.7
       },

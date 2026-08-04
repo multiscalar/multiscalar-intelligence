@@ -3,6 +3,44 @@
   const BENCHES = ['exploitability', 'terms-bench', 'vending-bench-2'];
   const MAX_BARS = 12;
 
+  // Colour follows the provider (the entity), never the rank. Hues are the seven
+  // validated categorical slots; every other provider folds into the neutral slot.
+  const PROVIDERS = {
+    anthropic: { label: 'Anthropic', color: '#eb6834', mark: 'A' },
+    openai: { label: 'OpenAI', color: '#1baf7a', mark: 'O' },
+    google: { label: 'Google', color: '#2a78d6', mark: 'G' },
+    alibaba: { label: 'Alibaba', color: '#4a3aa7', mark: 'Q' },
+    zai: { label: 'Z.ai', color: '#008300', mark: 'Z' },
+    moonshot: { label: 'Moonshot', color: '#e87ba4', mark: 'K' },
+    deepseek: { label: 'DeepSeek', color: '#eda100', mark: 'D' },
+    other: { label: 'Other', color: '#8a8a80', mark: '•' },
+    baseline: { label: 'Scripted baseline', color: '#b9b9b2', mark: 'fx' },
+  };
+
+  const PROVIDER_ALIASES = {
+    anthropic: 'anthropic',
+    openai: 'openai',
+    google: 'google',
+    'google deepmind': 'google',
+    alibaba: 'alibaba',
+    qwen: 'alibaba',
+    'z.ai': 'zai',
+    zhipu: 'zai',
+    glm: 'zai',
+    moonshot: 'moonshot',
+    'moonshot ai': 'moonshot',
+    deepseek: 'deepseek',
+    baseline: 'baseline',
+  };
+
+  function providerOf(model) {
+    const raw = (model.provider || '').toLowerCase().trim();
+    const slug = PROVIDER_ALIASES[raw];
+    if (slug) return PROVIDERS[slug];
+    if (/^fixed /i.test(model.name)) return PROVIDERS.baseline;
+    return PROVIDERS.other;
+  }
+
   const listEl = document.getElementById('bench-list');
   const cardEl = document.getElementById('bench-card');
 
@@ -85,7 +123,7 @@
 
   function tipHTML(d, row) {
     const lines = [`<span class="tip-title">${row.model.name}</span>`];
-    if (row.model.provider) lines.push(`<span class="tip-row">${row.model.provider}</span>`);
+    lines.push(`<span class="tip-row">${providerOf(row.model).label}</span>`);
     if (d.bench === 'exploitability') {
       Object.keys(d.games).forEach((g) => {
         const label = d.metrics.find((m) => m.id === g).label;
@@ -156,12 +194,15 @@
   function barCol(d, row, rank, maxVal, metricDef, isTail) {
     const col = document.createElement('div');
     col.className = 'bar-col';
-    const h = Math.max(6, (Math.abs(row.value) / maxVal) * 100);
+    const p = providerOf(row.model);
+    const h = Math.max(9, (Math.abs(row.value) / maxVal) * 100);
     col.innerHTML = `
       <div class="chart-tip">${tipHTML(d, row)}</div>
       ${isTail ? `<span class="bar-rank">#${rank}</span>` : ''}
       <span class="bar-value">${fmt(row.value, metricDef.unit)}</span>
-      <div class="bar" style="height:${h}%"></div>
+      <div class="bar" style="height:${h}%;background:${p.color}">
+        <span class="bar-chip" style="color:${p.color}" title="${p.label}" aria-label="${p.label}">${p.mark}</span>
+      </div>
       <span class="bar-name">${row.model.name}</span>`;
     return col;
   }

@@ -214,10 +214,31 @@
   max-width: 52px;
   background: #2a2a2a;
   border-radius: 4px 4px 0 0;
-  transition: background 0.15s;
+  transition: filter 0.15s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 6px;
 }
 
-.bar-col:hover .bar { background: #000000; }
+.bar-col:hover .bar { filter: brightness(0.9); }
+
+/* provider chip at the bar base */
+.bar-chip {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 2px var(--bg-elevated);
+}
 
 .bar-name {
   font-family: var(--sans);

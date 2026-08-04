@@ -17,7 +17,7 @@ UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
 OUT = pathlib.Path(__file__).resolve().parent.parent / "evals" / "data" / "vending-bench-2.json"
 
 ROW_RE = re.compile(
-    r'alt="(?P<name>[^"]+)"[^>]*/>\s*(?P=name)?.*?'
+    r'/images/logos/(?P<provider>[\w-]+)\.\w+"\s+alt="(?P<name>[^"]+)"[^>]*/>\s*(?P=name)?.*?'
     r'money-balance-\w+[^>]*>\$(?P<worth>[\d,]+(?:\.\d+)?)'
     r'(?:.*?±\s*\$(?P<stderr>[\d,]+))?',
     re.S,
@@ -34,6 +34,7 @@ def parse(src: str):
         seen.add(m.group("name"))
         entry = {
             "name": html.unescape(m.group("name")),
+            "provider": m.group("provider"),
             "scores": {"net_worth": float(m.group("worth").replace(",", ""))},
         }
         if m.group("stderr"):
