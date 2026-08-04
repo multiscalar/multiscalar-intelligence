@@ -100,6 +100,18 @@ One reusable render function (`evals/evals.js`) drawing intelligence.ai-style ba
 
 External numbers are facts displayed with prominent attribution and links (Epoch-style curation). Blurbs explicitly say "results by <org>, displayed with attribution". If either org objects, the card degrades to a link-out card; no dependency on their goodwill for our own bench.
 
+## 7b. v1 cost estimate (running our own bench on a terms-bench-sized panel)
+
+Assumptions: paper params (T=10 turns/episode, TAP branching 3 × width 4 × depth 5 = 60 candidate evaluations, 20 eval episodes × 2 conditions), ~12k tokens per episode split between the two sides, attacker pinned to a GPT-5-class model, 12-target panel (3 Opus-tier, 2 Sonnet-tier, 1 Haiku-tier, 2 GPT-tier, 4 open-weight), 4 games each.
+
+| Mode | Episodes per target·game | Panel cost (non-reasoning → reasoning targets) |
+|---|---|---|
+| Full TAP re-optimization, K=5 | 340 | $585 → $1,181 |
+| Full TAP re-optimization, K=3 | 220 | $379 → $764 |
+| Frozen attack pool (no search) | 40 | $69 → $139 |
+
+Per Opus-tier target: ~$86-196 with full TAP, ~$10-23 with frozen attacks. The TAP search is ~88% of the cost; K (eval episodes per TAP candidate) is not stated in the paper and is the largest unknown. Add margin for retries and protocol-compliance exclusions: budget ~$1.5-3k for a full-TAP panel, ~$150-300 for a frozen-attack panel. Wall clock for the full-TAP panel ≈ 11 h at 20 concurrent episodes (~163k sequential model calls), so plan for 1-2 days with rate limits.
+
 ## 8. Out of scope (v0)
 
 New eval runs; frontier-panel extension of Exploitability (v1, frozen-attack transfer evaluation, est. ~$100); submission form; Elo; cross-bench composite table; methodology subpages; provider logos.
