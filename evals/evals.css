@@ -70,9 +70,9 @@
 .bench-item:hover { border-color: #bbbbbb; }
 
 .bench-item.active {
-  background: #1a1a1a;
   border-color: #1a1a1a;
-  color: #fafafa;
+  color: var(--text);
+  font-weight: 500;
 }
 
 .bench-item .dot {
@@ -83,7 +83,11 @@
   flex-shrink: 0;
 }
 
-.bench-item.active .dot { background: #fafafa; }
+.bench-item.active .dot {
+  background: var(--text);
+  border-color: var(--text);
+  box-shadow: 0 0 0 3px rgba(26, 26, 26, 0.1);
+}
 
 .bench-item .bench-item-q {
   display: block;
