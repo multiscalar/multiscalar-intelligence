@@ -1,0 +1,149 @@
+{
+  "bench": "terms-bench",
+  "title": "TERMS-Bench",
+  "question": "Can the agent negotiate well?",
+  "source": {
+    "name": "Stanford",
+    "url": "https://terms-bench.github.io/",
+    "snapshot": "2026-08-04",
+    "run": "final_results_gpt55_no_hy3"
+  },
+  "blurb": "LLM agents negotiate against a fixed stochastic scripted counterpart across commerce and bankroll regimes. SE+ is the fraction of feasible surplus captured; AGR+ the feasible agreement rate. Results by Stanford, displayed with attribution.",
+  "metrics": [
+    {
+      "id": "se_plus",
+      "label": "SE+ (surplus efficiency)",
+      "unit": "%",
+      "higherIsBetter": true
+    },
+    {
+      "id": "agr_plus",
+      "label": "AGR+ (agreement rate)",
+      "unit": "%",
+      "higherIsBetter": true
+    }
+  ],
+  "defaultMetric": "se_plus",
+  "models": [
+    {
+      "name": "Claude Opus 4.6",
+      "provider": "Anthropic",
+      "scores": {
+        "se_plus": 69.4,
+        "agr_plus": 99.3
+      }
+    },
+    {
+      "name": "GLM 5.1",
+      "provider": "Zhipu",
+      "scores": {
+        "se_plus": 68.6,
+        "agr_plus": 95.1
+      }
+    },
+    {
+      "name": "Claude Opus 4.7",
+      "provider": "Anthropic",
+      "scores": {
+        "se_plus": 66.0,
+        "agr_plus": 98.2
+      }
+    },
+    {
+      "name": "Gemma 4 31B",
+      "provider": "Google",
+      "scores": {
+        "se_plus": 64.0,
+        "agr_plus": 99.8
+      }
+    },
+    {
+      "name": "Gemini 3.1 Pro",
+      "provider": "Google",
+      "scores": {
+        "se_plus": 63.9,
+        "agr_plus": 99.7
+      }
+    },
+    {
+      "name": "DeepSeek V4 Pro",
+      "provider": "DeepSeek",
+      "scores": {
+        "se_plus": 61.8,
+        "agr_plus": 97.5
+      }
+    },
+    {
+      "name": "GPT-5.5",
+      "provider": "OpenAI",
+      "scores": {
+        "se_plus": 60.6,
+        "agr_plus": 99.2
+      }
+    },
+    {
+      "name": "Qwen 3.6 Plus",
+      "provider": "Alibaba",
+      "scores": {
+        "se_plus": 60.4,
+        "agr_plus": 98.2
+      }
+    },
+    {
+      "name": "Grok 4.20",
+      "provider": "xAI",
+      "scores": {
+        "se_plus": 60.1,
+        "agr_plus": 99.1
+      }
+    },
+    {
+      "name": "Kimi K2.6",
+      "provider": "Moonshot AI",
+      "scores": {
+        "se_plus": 59.7,
+        "agr_plus": 97.1
+      }
+    },
+    {
+      "name": "Doubao Seed 2.0 Pro",
+      "provider": "ByteDance",
+      "scores": {
+        "se_plus": 52.2,
+        "agr_plus": 99.9
+      }
+    },
+    {
+      "name": "Fixed 0.30",
+      "provider": "Baseline",
+      "scores": {
+        "se_plus": 38.7,
+        "agr_plus": 99.9
+      }
+    },
+    {
+      "name": "Fixed 0.10",
+      "provider": "Baseline",
+      "scores": {
+        "se_plus": 29.0,
+        "agr_plus": 94.5
+      }
+    },
+    {
+      "name": "Fixed 0.01",
+      "provider": "Baseline",
+      "scores": {
+        "se_plus": 27.3,
+        "agr_plus": 92.2
+      }
+    },
+    {
+      "name": "GPT-4o mini",
+      "provider": "OpenAI",
+      "scores": {
+        "se_plus": 18.9,
+        "agr_plus": 52.2
+      }
+    }
+  ]
+}

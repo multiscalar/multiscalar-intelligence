@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evals | Multiscalar Intelligence</title>
+  <meta name="description" content="Economic agent leaderboards: negotiation competence, long-horizon business coherence, and exploitability under an optimizing adversary.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="evals.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="/#research">Research</a>
+        <a href="/#results">Results</a>
+        <a href="/evals/" class="nav-current">Evals</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="evals-main">
+
+    <section class="evals-hero">
+      <div class="hero-label">Economic Agent Evaluation</div>
+      <h1>Economic Agent Leaderboards</h1>
+      <p class="evals-intro">
+        Can an agent negotiate? Can it run a business? And how much money does it lose
+        when the other side plays dirty? We curate the benchmarks that answer these
+        questions, and build the ones that don't exist yet.
+      </p>
+    </section>
+
+    <section class="evals-layout">
+      <aside class="bench-list" id="bench-list" aria-label="Benchmarks"></aside>
+      <div class="bench-card" id="bench-card">
+        <div class="bench-loading">Loading results…</div>
+      </div>
+    </section>
+
+  </main>
+
+  <canvas id="grid-bg"></canvas>
+  <script src="../script.js"></script>
+  <script src="evals.js"></script>
+
+</body>
+</html>
