@@ -225,19 +225,28 @@
 
 /* provider chip at the bar base */
 .bar-chip {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--bg-elevated);
-  font-family: var(--mono);
-  font-size: 0.6rem;
-  font-weight: 600;
-  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   box-shadow: 0 0 0 2px var(--bg-elevated);
+}
+
+.bar-chip svg {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.chip-mark {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 .bar-name {

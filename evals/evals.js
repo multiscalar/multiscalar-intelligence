@@ -5,14 +5,20 @@
 
   // Colour follows the provider (the entity), never the rank. Hues are the seven
   // validated categorical slots; every other provider folds into the neutral slot.
+  // Seven validated categorical hues carry the frequent providers; everyone else
+  // takes the neutral slot. Identity is carried by the provider mark either way.
   const PROVIDERS = {
-    anthropic: { label: 'Anthropic', color: '#eb6834', mark: 'A' },
-    openai: { label: 'OpenAI', color: '#1baf7a', mark: 'O' },
-    google: { label: 'Google', color: '#2a78d6', mark: 'G' },
-    alibaba: { label: 'Alibaba', color: '#4a3aa7', mark: 'Q' },
+    anthropic: { label: 'Anthropic', color: '#eb6834', icon: 'anthropic' },
+    openai: { label: 'OpenAI', color: '#1baf7a', icon: 'openai' },
+    google: { label: 'Google', color: '#2a78d6', icon: 'google' },
+    alibaba: { label: 'Alibaba', color: '#4a3aa7', icon: 'alibaba' },
     zai: { label: 'Z.ai', color: '#008300', mark: 'Z' },
-    moonshot: { label: 'Moonshot', color: '#e87ba4', mark: 'K' },
-    deepseek: { label: 'DeepSeek', color: '#eda100', mark: 'D' },
+    moonshot: { label: 'Moonshot', color: '#e87ba4', icon: 'moonshot' },
+    deepseek: { label: 'DeepSeek', color: '#eda100', icon: 'deepseek' },
+    xai: { label: 'xAI', color: '#8a8a80', icon: 'xai' },
+    minimax: { label: 'MiniMax', color: '#8a8a80', icon: 'minimax' },
+    meta: { label: 'Meta', color: '#8a8a80', icon: 'meta' },
+    bytedance: { label: 'ByteDance', color: '#8a8a80', icon: 'bytedance' },
     other: { label: 'Other', color: '#8a8a80', mark: '•' },
     baseline: { label: 'Scripted baseline', color: '#b9b9b2', mark: 'fx' },
   };
@@ -30,8 +36,21 @@
     moonshot: 'moonshot',
     'moonshot ai': 'moonshot',
     deepseek: 'deepseek',
+    xai: 'xai',
+    minimax: 'minimax',
+    meta: 'meta',
+    bytedance: 'bytedance',
+    doubao: 'bytedance',
     baseline: 'baseline',
   };
+
+  function chipHTML(p) {
+    const path = p.icon && (window.PROVIDER_ICONS || {})[p.icon];
+    const inner = path
+      ? `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${path}" fill="${p.color}"/></svg>`
+      : `<span class="chip-mark" style="color:${p.color}">${p.mark || '•'}</span>`;
+    return `<span class="bar-chip" title="${p.label}" aria-label="${p.label}">${inner}</span>`;
+  }
 
   function providerOf(model) {
     const raw = (model.provider || '').toLowerCase().trim();
@@ -200,9 +219,7 @@
       <div class="chart-tip">${tipHTML(d, row)}</div>
       ${isTail ? `<span class="bar-rank">#${rank}</span>` : ''}
       <span class="bar-value">${fmt(row.value, metricDef.unit)}</span>
-      <div class="bar" style="height:${h}%;background:${p.color}">
-        <span class="bar-chip" style="color:${p.color}" title="${p.label}" aria-label="${p.label}">${p.mark}</span>
-      </div>
+      <div class="bar" style="height:${h}%;background:${p.color}">${chipHTML(p)}</div>
       <span class="bar-name">${row.model.name}</span>`;
     return col;
   }
