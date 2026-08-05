@@ -1,0 +1,446 @@
+{
+  "bench": "economic-arena",
+  "title": "Economic Arena",
+  "question": "What happens when agents negotiate against each other for profit?",
+  "source": {
+    "name": "Multiscalar",
+    "label": "Multiscalar (round robin, naive opponents)",
+    "url": "https://arxiv.org/abs/2603.20925",
+    "snapshot": "2026-08-05",
+    "run": "v1"
+  },
+  "blurb": "Every model plays every other across the four economic games, told only the rules, its own private value, and to maximise its own profit. Dominated-decision rate is the share of episodes a model accepted a deal worse than walking away. Opponents here are naive, so this is a lower bound on exploitability.",
+  "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Rung 1 of the adversary ladder \u2014 see the Exploitability card for the adaptive-adversary rung. No model ever accepted a deal below its own walk-away value against a naive opponent, so the money-losing-deals view is flat at zero by measurement, not by omission.",
+  "metrics": [
+    {
+      "id": "dominated_rate",
+      "label": "Money-losing deals (% of episodes)",
+      "unit": "%",
+      "higherIsBetter": false
+    },
+    {
+      "id": "claim_share",
+      "label": "Surplus captured (% of feasible)",
+      "unit": "%",
+      "higherIsBetter": true
+    },
+    {
+      "id": "efficiency",
+      "label": "Efficiency (% of feasible)",
+      "unit": "%",
+      "higherIsBetter": true
+    },
+    {
+      "id": "no_deal_rate",
+      "label": "No-deal rate (% of episodes)",
+      "unit": "%",
+      "higherIsBetter": false
+    }
+  ],
+  "defaultMetric": "claim_share",
+  "models": [
+    {
+      "name": "Claude Opus 5",
+      "provider": "anthropic",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 50.7,
+        "efficiency": 86.5,
+        "no_deal_rate": 0.8
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 67.5,
+        "first_price_auction": 24.8,
+        "provision_point": 53.5,
+        "ultimatum": 57.0
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.5,
+        "first_price_auction": 49.4,
+        "provision_point": 97.1,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "anthropic/claude-opus-5"
+    },
+    {
+      "name": "Claude Sonnet 5",
+      "provider": "anthropic",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 41.4,
+        "efficiency": 84.0,
+        "no_deal_rate": 0.7
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 47.0,
+        "first_price_auction": 20.7,
+        "provision_point": 47.2,
+        "ultimatum": 50.8
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 100.0,
+        "first_price_auction": 38.6,
+        "provision_point": 97.3,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "anthropic/claude-sonnet-5"
+    },
+    {
+      "name": "DeepSeek V4 Pro",
+      "provider": "deepseek",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 40.8,
+        "efficiency": 86.3,
+        "no_deal_rate": 0.6
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 41.1,
+        "first_price_auction": 23.2,
+        "provision_point": 48.8,
+        "ultimatum": 50.0
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.1,
+        "first_price_auction": 47.2,
+        "provision_point": 98.9,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "deepseek/deepseek-v4-pro"
+    },
+    {
+      "name": "Gemini 3.1 Pro",
+      "provider": "google",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 52.0,
+        "efficiency": 88.9,
+        "no_deal_rate": 0.5
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 59.0,
+        "first_price_auction": 43.5,
+        "provision_point": 52.5,
+        "ultimatum": 53.0
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.5,
+        "first_price_auction": 57.1,
+        "provision_point": 99.1,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "google/gemini-3.1-pro-preview"
+    },
+    {
+      "name": "Kimi K2.6",
+      "provider": "moonshot",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 42.6,
+        "efficiency": 85.4,
+        "no_deal_rate": 0.5
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 46.1,
+        "first_price_auction": 24.3,
+        "provision_point": 47.6,
+        "ultimatum": 52.5
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 100.0,
+        "first_price_auction": 43.5,
+        "provision_point": 98.2,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "moonshotai/kimi-k2.6"
+    },
+    {
+      "name": "GPT-5.6 Terra",
+      "provider": "openai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 46.8,
+        "efficiency": 84.5,
+        "no_deal_rate": 1.8
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 68.4,
+        "first_price_auction": 21.6,
+        "provision_point": 46.2,
+        "ultimatum": 51.2
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 98.2,
+        "first_price_auction": 44.8,
+        "provision_point": 95.0,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "openai/gpt-5.6-terra"
+    },
+    {
+      "name": "GPT-OSS-120B",
+      "provider": "openai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 36.3,
+        "efficiency": 85.4,
+        "no_deal_rate": 3.2
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 33.6,
+        "first_price_auction": 15.3,
+        "provision_point": 46.5,
+        "ultimatum": 49.6
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 97.7,
+        "first_price_auction": 52.8,
+        "provision_point": 90.9,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "openai/gpt-oss-120b"
+    },
+    {
+      "name": "Qwen 3.6 Plus",
+      "provider": "alibaba",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 42.7,
+        "efficiency": 86.3,
+        "no_deal_rate": 0.1
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 48.9,
+        "first_price_auction": 22.5,
+        "provision_point": 48.9,
+        "ultimatum": 50.5
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.5,
+        "first_price_auction": 45.8,
+        "provision_point": 100.0,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "qwen/qwen3.6-plus"
+    },
+    {
+      "name": "Grok 4.20",
+      "provider": "xai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 32.1,
+        "efficiency": 80.2,
+        "no_deal_rate": 3.3
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 37.0,
+        "first_price_auction": 10.9,
+        "provision_point": 43.9,
+        "ultimatum": 36.6
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 98.6,
+        "first_price_auction": 32.5,
+        "provision_point": 89.5,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "x-ai/grok-4.20"
+    },
+    {
+      "name": "GLM 5.1",
+      "provider": "zai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 41.1,
+        "efficiency": 85.5,
+        "no_deal_rate": 0.7
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 47.2,
+        "first_price_auction": 21.4,
+        "provision_point": 47.0,
+        "ultimatum": 48.7
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.5,
+        "first_price_auction": 44.4,
+        "provision_point": 98.1,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "z-ai/glm-5.1"
+    }
+  ],
+  "matrix": {
+    "anthropic/claude-opus-5|anthropic/claude-opus-5": 44.3,
+    "anthropic/claude-opus-5|anthropic/claude-sonnet-5": 50.0,
+    "anthropic/claude-sonnet-5|anthropic/claude-opus-5": 34.6,
+    "anthropic/claude-opus-5|deepseek/deepseek-v4-pro": 56.8,
+    "deepseek/deepseek-v4-pro|anthropic/claude-opus-5": 31.1,
+    "google/gemini-3.1-pro-preview|anthropic/claude-opus-5": 43.8,
+    "anthropic/claude-opus-5|google/gemini-3.1-pro-preview": 43.6,
+    "moonshotai/kimi-k2.6|anthropic/claude-opus-5": 37.4,
+    "anthropic/claude-opus-5|moonshotai/kimi-k2.6": 49.8,
+    "anthropic/claude-opus-5|openai/gpt-5.6-terra": 51.3,
+    "openai/gpt-5.6-terra|anthropic/claude-opus-5": 36.3,
+    "anthropic/claude-opus-5|openai/gpt-oss-120b": 62.4,
+    "openai/gpt-oss-120b|anthropic/claude-opus-5": 26.3,
+    "anthropic/claude-opus-5|qwen/qwen3.6-plus": 53.5,
+    "qwen/qwen3.6-plus|anthropic/claude-opus-5": 33.8,
+    "anthropic/claude-opus-5|x-ai/grok-4.20": 51.7,
+    "x-ai/grok-4.20|anthropic/claude-opus-5": 25.6,
+    "anthropic/claude-opus-5|z-ai/glm-5.1": 50.1,
+    "z-ai/glm-5.1|anthropic/claude-opus-5": 36.1,
+    "anthropic/claude-sonnet-5|anthropic/claude-sonnet-5": 42.6,
+    "deepseek/deepseek-v4-pro|anthropic/claude-sonnet-5": 42.2,
+    "anthropic/claude-sonnet-5|deepseek/deepseek-v4-pro": 39.5,
+    "google/gemini-3.1-pro-preview|anthropic/claude-sonnet-5": 50.2,
+    "anthropic/claude-sonnet-5|google/gemini-3.1-pro-preview": 35.9,
+    "moonshotai/kimi-k2.6|anthropic/claude-sonnet-5": 43.1,
+    "anthropic/claude-sonnet-5|moonshotai/kimi-k2.6": 42.2,
+    "openai/gpt-5.6-terra|anthropic/claude-sonnet-5": 50.0,
+    "anthropic/claude-sonnet-5|openai/gpt-5.6-terra": 33.0,
+    "openai/gpt-oss-120b|anthropic/claude-sonnet-5": 35.3,
+    "anthropic/claude-sonnet-5|openai/gpt-oss-120b": 47.8,
+    "qwen/qwen3.6-plus|anthropic/claude-sonnet-5": 40.6,
+    "anthropic/claude-sonnet-5|qwen/qwen3.6-plus": 43.9,
+    "anthropic/claude-sonnet-5|x-ai/grok-4.20": 49.3,
+    "x-ai/grok-4.20|anthropic/claude-sonnet-5": 30.9,
+    "z-ai/glm-5.1|anthropic/claude-sonnet-5": 40.2,
+    "anthropic/claude-sonnet-5|z-ai/glm-5.1": 44.3,
+    "deepseek/deepseek-v4-pro|deepseek/deepseek-v4-pro": 42.9,
+    "deepseek/deepseek-v4-pro|openai/gpt-oss-120b": 47.3,
+    "openai/gpt-oss-120b|deepseek/deepseek-v4-pro": 39.7,
+    "deepseek/deepseek-v4-pro|qwen/qwen3.6-plus": 42.6,
+    "qwen/qwen3.6-plus|deepseek/deepseek-v4-pro": 44.5,
+    "google/gemini-3.1-pro-preview|deepseek/deepseek-v4-pro": 58.1,
+    "deepseek/deepseek-v4-pro|google/gemini-3.1-pro-preview": 34.0,
+    "google/gemini-3.1-pro-preview|google/gemini-3.1-pro-preview": 45.5,
+    "moonshotai/kimi-k2.6|google/gemini-3.1-pro-preview": 35.7,
+    "google/gemini-3.1-pro-preview|moonshotai/kimi-k2.6": 50.8,
+    "openai/gpt-oss-120b|google/gemini-3.1-pro-preview": 27.7,
+    "google/gemini-3.1-pro-preview|openai/gpt-oss-120b": 61.4,
+    "qwen/qwen3.6-plus|google/gemini-3.1-pro-preview": 38.1,
+    "google/gemini-3.1-pro-preview|qwen/qwen3.6-plus": 51.6,
+    "x-ai/grok-4.20|google/gemini-3.1-pro-preview": 28.3,
+    "google/gemini-3.1-pro-preview|x-ai/grok-4.20": 56.2,
+    "google/gemini-3.1-pro-preview|z-ai/glm-5.1": 56.2,
+    "z-ai/glm-5.1|google/gemini-3.1-pro-preview": 32.7,
+    "deepseek/deepseek-v4-pro|moonshotai/kimi-k2.6": 41.1,
+    "moonshotai/kimi-k2.6|deepseek/deepseek-v4-pro": 45.2,
+    "moonshotai/kimi-k2.6|moonshotai/kimi-k2.6": 43.5,
+    "moonshotai/kimi-k2.6|openai/gpt-oss-120b": 50.4,
+    "openai/gpt-oss-120b|moonshotai/kimi-k2.6": 35.1,
+    "moonshotai/kimi-k2.6|qwen/qwen3.6-plus": 42.9,
+    "qwen/qwen3.6-plus|moonshotai/kimi-k2.6": 43.8,
+    "deepseek/deepseek-v4-pro|openai/gpt-5.6-terra": 33.3,
+    "openai/gpt-5.6-terra|deepseek/deepseek-v4-pro": 53.9,
+    "google/gemini-3.1-pro-preview|openai/gpt-5.6-terra": 52.6,
+    "openai/gpt-5.6-terra|google/gemini-3.1-pro-preview": 39.7,
+    "openai/gpt-5.6-terra|moonshotai/kimi-k2.6": 47.1,
+    "moonshotai/kimi-k2.6|openai/gpt-5.6-terra": 36.1,
+    "openai/gpt-5.6-terra|openai/gpt-5.6-terra": 40.4,
+    "openai/gpt-oss-120b|openai/gpt-5.6-terra": 28.6,
+    "openai/gpt-5.6-terra|openai/gpt-oss-120b": 56.6,
+    "openai/gpt-5.6-terra|qwen/qwen3.6-plus": 49.3,
+    "qwen/qwen3.6-plus|openai/gpt-5.6-terra": 37.4,
+    "x-ai/grok-4.20|openai/gpt-5.6-terra": 24.5,
+    "openai/gpt-5.6-terra|x-ai/grok-4.20": 51.9,
+    "z-ai/glm-5.1|openai/gpt-5.6-terra": 36.6,
+    "openai/gpt-5.6-terra|z-ai/glm-5.1": 49.7,
+    "openai/gpt-oss-120b|openai/gpt-oss-120b": 42.8,
+    "qwen/qwen3.6-plus|openai/gpt-oss-120b": 49.8,
+    "openai/gpt-oss-120b|qwen/qwen3.6-plus": 37.9,
+    "qwen/qwen3.6-plus|qwen/qwen3.6-plus": 42.6,
+    "deepseek/deepseek-v4-pro|x-ai/grok-4.20": 50.2,
+    "x-ai/grok-4.20|deepseek/deepseek-v4-pro": 33.6,
+    "moonshotai/kimi-k2.6|x-ai/grok-4.20": 45.5,
+    "x-ai/grok-4.20|moonshotai/kimi-k2.6": 32.9,
+    "openai/gpt-oss-120b|x-ai/grok-4.20": 44.0,
+    "x-ai/grok-4.20|openai/gpt-oss-120b": 32.5,
+    "qwen/qwen3.6-plus|x-ai/grok-4.20": 53.4,
+    "x-ai/grok-4.20|qwen/qwen3.6-plus": 31.2,
+    "x-ai/grok-4.20|x-ai/grok-4.20": 39.9,
+    "z-ai/glm-5.1|x-ai/grok-4.20": 47.1,
+    "x-ai/grok-4.20|z-ai/glm-5.1": 33.7,
+    "deepseek/deepseek-v4-pro|z-ai/glm-5.1": 40.6,
+    "z-ai/glm-5.1|deepseek/deepseek-v4-pro": 43.6,
+    "moonshotai/kimi-k2.6|z-ai/glm-5.1": 45.7,
+    "z-ai/glm-5.1|moonshotai/kimi-k2.6": 41.0,
+    "openai/gpt-oss-120b|z-ai/glm-5.1": 38.6,
+    "z-ai/glm-5.1|openai/gpt-oss-120b": 46.3,
+    "z-ai/glm-5.1|qwen/qwen3.6-plus": 42.0,
+    "qwen/qwen3.6-plus|z-ai/glm-5.1": 42.9,
+    "z-ai/glm-5.1|z-ai/glm-5.1": 43.2
+  },
+  "spend_usd": 97.54
+}
