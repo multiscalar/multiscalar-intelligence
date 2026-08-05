@@ -241,31 +241,53 @@
       .filter((r) => r.adv != null)
       .sort((a, b) => b.adv - a.adv);
 
-    const maxAbs = Math.max(...rows.map((r) => Math.abs(r.adv)), 5);
+    const wins = rows.filter((r) => r.adv > 0.5).length;
+    const losses = rows.filter((r) => r.adv < -0.5).length;
+    const best = rows[0];
+    const worst = rows[rows.length - 1];
+    const maxAbs = Math.max(...rows.map((r) => Math.abs(r.adv)), 4);
+
     const bars = rows.map((r) => {
-      const pct = (Math.abs(r.adv) / maxAbs) * 50;   // half-width each side
+      const pct = (Math.abs(r.adv) / maxAbs) * 48;
       const win = r.adv > 0;
       const p = providerOf(r.m);
+      const side = win ? `left:50%;width:${pct}%` : `right:50%;width:${pct}%`;
       return `
         <div class="h2h-row">
           <span class="h2h-name">${chipHTML(p)}<span>${short(r.m.name)}</span></span>
           <span class="h2h-track">
-            <span class="h2h-bar ${win ? 'win' : 'lose'}"
-                  style="width:${pct}%;${win ? 'left:50%' : `right:50%`}"></span>
             <span class="h2h-zero"></span>
-            <span class="h2h-val ${win ? 'win' : 'lose'}"
-                  style="${win ? `left:calc(50% + ${pct}% + 6px)` : `right:calc(50% + ${pct}% + 6px)`}"
-            >${win ? '+' : '−'}${Math.abs(r.adv).toFixed(1)}</span>
+            <span class="h2h-bar ${win ? 'win' : 'lose'}" style="${side}"></span>
           </span>
+          <span class="h2h-adv ${win ? 'win' : 'lose'}">${win ? '+' : '−'}${Math.abs(r.adv).toFixed(1)}</span>
+          <span class="h2h-raw">${Math.round(r.own)} vs ${Math.round(r.opp)}</span>
         </div>`;
     }).join('');
 
+    const record = losses === 0
+      ? `Takes more surplus than <strong>all ${rows.length}</strong> opponents.`
+      : wins === 0
+        ? `Takes less surplus than <strong>all ${rows.length}</strong> opponents.`
+        : `Ahead of <strong>${wins}</strong> opponents, behind <strong>${losses}</strong>.`;
+
     return `
       <div class="h2h">
+        <div class="h2h-label">Pick a model</div>
         <div class="h2h-picker">${picker}</div>
-        <p class="h2h-lead"><strong>${focus.name}</strong> versus each opponent — points of the
-        available surplus it takes above (blue) or below (red) that opponent.</p>
+        <p class="h2h-lead">${record}
+          ${best.adv > 0 ? 'Biggest edge' : 'Smallest deficit'}
+          <span class="h2h-inline ${best.adv > 0 ? 'win' : 'lose'}">${best.adv > 0 ? '+' : '−'}${Math.abs(best.adv).toFixed(1)} vs ${short(best.m.name)}</span>,
+          ${worst.adv < 0 ? 'biggest deficit' : 'closest matchup'}
+          <span class="h2h-inline ${worst.adv < 0 ? 'lose' : 'win'}">${worst.adv < 0 ? '−' : '+'}${Math.abs(worst.adv).toFixed(1)} vs ${short(worst.m.name)}</span>.
+        </p>
+        <div class="h2h-head">
+          <span>Opponent</span><span class="h2h-axis"><i>opponent ahead</i><i>even</i><i>${short(focus.name)} ahead</i></span>
+          <span class="h2h-adv-h">edge</span><span class="h2h-raw-h">shares</span>
+        </div>
         <div class="h2h-chart">${bars}</div>
+        <p class="h2h-note">Edge is how many points of the available surplus
+        ${focus.name} takes above or below that opponent. Shares are the two mean
+        percentages in that pairing.</p>
       </div>`;
   }
 
