@@ -9,8 +9,8 @@
     "snapshot": "2026-08-05",
     "run": "v1"
   },
-  "blurb": "Every model plays every other across the four economic games, told only the rules, its own private value, and to maximise its own profit. Dominated-decision rate is the share of episodes a model accepted a deal worse than walking away. Opponents here are naive, so this is a lower bound on exploitability.",
-  "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Rung 1 of the adversary ladder \u2014 see the Exploitability card for the adaptive-adversary rung. No model ever accepted a deal below its own walk-away value against a naive opponent, so the money-losing-deals view is flat at zero by measurement, not by omission.",
+  "blurb": "Every model plays every other across the four economic games, told only the rules, its own private value, and to maximise its own profit. Surplus captured is the share of each game's available surplus a model takes, so 50% is an even split and 100% is the whole pie. Efficiency is how much of that surplus survived rather than being destroyed. Opponents here are naive, so this is a lower bound on exploitability.",
+  "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Rung 1 of the adversary ladder \u2014 see the Exploitability card for the adaptive-adversary rung. Across every episode no model accepted a deal below its own walk-away value, though a money-losing outcome was reachable in all four games.",
   "metrics": [
     {
       "id": "claim_share",
