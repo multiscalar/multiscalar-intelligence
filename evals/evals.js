@@ -1,6 +1,6 @@
 // Economic Agent Leaderboards: renders three benchmark cards from static JSON.
 (function () {
-  const BENCHES = ['economic-arena', 'exploitability', 'terms-bench', 'vending-bench-2'];
+  const BENCHES = ['economic-arena', 'terms-bench', 'vending-bench-2'];
   const MAX_BARS = 12;
 
   // Colour follows the provider (the entity), never the rank. Hues are the seven
@@ -206,13 +206,6 @@
     return arm[i];
   }
 
-  function inkOn(hex) {
-    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-    const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-    const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
-    return lum > 0.45 ? '#1a1a1a' : '#ffffff';
-  }
-
   const SHORT = {
     'Gemini 3.1 Pro': 'Gemini', 'Claude Opus 5': 'Opus 5', 'GPT-5.6 Terra': 'Terra',
     'Qwen 3.6 Plus': 'Qwen', 'Kimi K2.6': 'Kimi', 'Claude Sonnet 5': 'Sonnet 5',
@@ -221,52 +214,59 @@
   };
   const short = (n) => SHORT[n] || n.split(' ')[0];
 
+  function advantage(d, row, col) {
+    const v = d.matrix[`${row.model_id}|${col.model_id}`];
+    const w = d.matrix[`${col.model_id}|${row.model_id}`];
+    if (v == null || w == null) return null;
+    return { own: v, opp: w, adv: (v - w) / 2 };
+  }
+
   function renderMatrix(d) {
-    // Order rows by overall surplus captured so the gradient reads top-left to bottom-right.
-    const order = [...d.models].sort(
-      (a, b) => b.scores.claim_share - a.scores.claim_share
-    );
-    const get = (a, b) => d.matrix[`${a.model_id}|${b.model_id}`];
+    const ranked = [...d.models].sort((a, b) => b.scores.claim_share - a.scores.claim_share);
+    if (!state.focus || !ranked.some((m) => m.model_id === state.focus)) {
+      state.focus = ranked[0].model_id;
+    }
+    const focus = ranked.find((m) => m.model_id === state.focus);
 
-    const head = order
-      .map((m) => `<th><span class="mx-col">${short(m.name)}</span></th>`)
-      .join('');
+    const picker = ranked.map((m) => {
+      const p = providerOf(m);
+      const on = m.model_id === state.focus;
+      return `<button class="h2h-pick${on ? ' active' : ''}" data-focus="${m.model_id}"
+        title="${m.name}">${chipHTML(p)}<span>${short(m.name)}</span></button>`;
+    }).join('');
 
-    const body = order
-      .map((row) => {
-        const cells = order
-          .map((col) => {
-            const v = get(row, col);
-            if (v === undefined || v === null) return '<td class="mx-na">—</td>';
-            const mirror = get(col, row);
-            const bg = cellColor(v, mirror);
-            const self = row.model_id === col.model_id;
-            const tip = self
-              ? `${row.name} vs itself: ${v.toFixed(1)}%`
-              : `${short(row.name)} takes ${v.toFixed(1)}% from ${short(col.name)}` +
-                (mirror != null ? ` · ${short(col.name)} takes ${mirror.toFixed(1)}%` : '');
-            return `<td class="mx-cell${self ? ' mx-self' : ''}" style="background:${bg};color:${inkOn(bg)}" title="${tip}">${v.toFixed(0)}</td>`;
-          })
-          .join('');
-        const p = providerOf(row);
-        return `<tr><th class="mx-row">${chipHTML(p)}<span>${short(row.name)}</span></th>${cells}</tr>`;
-      })
-      .join('');
+    const rows = ranked
+      .filter((m) => m.model_id !== focus.model_id)
+      .map((m) => ({ m, ...advantage(d, focus, m) }))
+      .filter((r) => r.adv != null)
+      .sort((a, b) => b.adv - a.adv);
 
-    const swatches = [...DIVERGING.less].reverse().concat([DIVERGING.mid], DIVERGING.more)
-      .map((c) => `<span class="mx-sw" style="background:${c}"></span>`).join('');
+    const maxAbs = Math.max(...rows.map((r) => Math.abs(r.adv)), 5);
+    const bars = rows.map((r) => {
+      const pct = (Math.abs(r.adv) / maxAbs) * 50;   // half-width each side
+      const win = r.adv > 0;
+      const p = providerOf(r.m);
+      return `
+        <div class="h2h-row">
+          <span class="h2h-name">${chipHTML(p)}<span>${short(r.m.name)}</span></span>
+          <span class="h2h-track">
+            <span class="h2h-bar ${win ? 'win' : 'lose'}"
+                  style="width:${pct}%;${win ? 'left:50%' : `right:50%`}"></span>
+            <span class="h2h-zero"></span>
+            <span class="h2h-val ${win ? 'win' : 'lose'}"
+                  style="${win ? `left:calc(50% + ${pct}% + 6px)` : `right:calc(50% + ${pct}% + 6px)`}"
+            >${win ? '+' : '−'}${Math.abs(r.adv).toFixed(1)}</span>
+          </span>
+        </div>`;
+    }).join('');
 
     return `
-      <div class="mx-wrap">
-        <table class="mx">
-          <thead><tr><th class="mx-corner">takes from →</th>${head}</tr></thead>
-          <tbody>${body}</tbody>
-        </table>
-      </div>
-      <div class="mx-legend">
-        <span>gives up more</span>${swatches}<span>takes more</span>
-      </div>
-      <p class="mx-note">Each cell is the row model's mean share of the available surplus when facing the column model, in percent. Colour shows the advantage over that specific opponent: grey is a balanced pairing, blue means the row model took more than its counterpart, red means it took less. The diagonal is self-play and is balanced by construction.</p>`;
+      <div class="h2h">
+        <div class="h2h-picker">${picker}</div>
+        <p class="h2h-lead"><strong>${focus.name}</strong> versus each opponent — points of the
+        available surplus it takes above (blue) or below (red) that opponent.</p>
+        <div class="h2h-chart">${bars}</div>
+      </div>`;
   }
 
   // ----- rendering -----
@@ -300,7 +300,7 @@
         <p class="bench-blurb">${d.blurb}${d.footnote ? `<span class="bench-footnote">${d.footnote}</span>` : ''}</p>
         <div class="bench-stamp">
           results as of ${d.source.snapshot}<br>
-          ${rows.length > MAX_BARS ? `<a href="${d.source.url}" target="_blank" rel="noopener">+${rows.length - MAX_BARS - 1} more at source ↗</a>` : `<a href="${d.source.url}" target="_blank" rel="noopener">full results at source ↗</a>`}
+          <a href="${d.source.url}" target="_blank" rel="noopener">${d.source.linkText || (rows.length > MAX_BARS ? `+${rows.length - MAX_BARS - 1} more at source` : 'full results at source')} ↗</a>
         </div>
       </div>`;
 
@@ -314,6 +314,13 @@
       chart.appendChild(barCol(d, tail, rows.length, maxVal, metricDef, true));
     }
     }
+
+    cardEl.querySelectorAll('.h2h-pick').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        state.focus = btn.dataset.focus;
+        renderCard();
+      });
+    });
 
     cardEl.querySelectorAll('.metric-toggle button').forEach((btn) => {
       btn.addEventListener('click', () => {
