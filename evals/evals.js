@@ -149,7 +149,12 @@
         ? exploitScore(m, metric, d.games)
         : m.scores[metric],
     }));
-    rows.sort((a, b) => (higherIsBetter ? b.value - a.value : a.value - b.value));
+    // Explicit tiebreak by name: two models with equal scores must not swap places
+    // between renders or regenerations.
+    rows.sort((a, b) => {
+      const d = higherIsBetter ? b.value - a.value : a.value - b.value;
+      return d !== 0 ? d : a.model.name.localeCompare(b.model.name);
+    });
     return rows;
   }
 
@@ -222,7 +227,8 @@
   }
 
   function renderMatrix(d) {
-    const ranked = [...d.models].sort((a, b) => b.scores.claim_share - a.scores.claim_share);
+    const ranked = [...d.models].sort((a, b) =>
+      (b.scores.claim_share - a.scores.claim_share) || a.name.localeCompare(b.name));
     if (!state.focus || !ranked.some((m) => m.model_id === state.focus)) {
       state.focus = ranked[0].model_id;
     }
@@ -239,7 +245,7 @@
       .filter((m) => m.model_id !== focus.model_id)
       .map((m) => ({ m, ...advantage(d, focus, m) }))
       .filter((r) => r.adv != null)
-      .sort((a, b) => b.adv - a.adv);
+      .sort((a, b) => (b.adv - a.adv) || a.m.name.localeCompare(b.m.name));
 
     const wins = rows.filter((r) => r.adv > 0.5).length;
     const losses = rows.filter((r) => r.adv < -0.5).length;

@@ -62,70 +62,6 @@
       "model_id": "anthropic/claude-opus-5"
     },
     {
-      "name": "Claude Sonnet 5",
-      "provider": "anthropic",
-      "scores": {
-        "dominated_rate": 0.0,
-        "claim_share": 41.4,
-        "efficiency": 84.0,
-        "conceded_share": 42.5,
-        "conceded_of_realised": 50.6,
-        "no_deal_rate": 0.7
-      },
-      "episodes": 880,
-      "per_game_claim": {
-        "bilateral_trade": 47.0,
-        "first_price_auction": 20.7,
-        "provision_point": 47.2,
-        "ultimatum": 50.8
-      },
-      "per_game_efficiency": {
-        "bilateral_trade": 100.0,
-        "first_price_auction": 38.6,
-        "provision_point": 97.3,
-        "ultimatum": 100.0
-      },
-      "per_game_dominated": {
-        "bilateral_trade": 0.0,
-        "first_price_auction": 0.0,
-        "provision_point": 0.0,
-        "ultimatum": 0.0
-      },
-      "model_id": "anthropic/claude-sonnet-5"
-    },
-    {
-      "name": "DeepSeek V4 Pro",
-      "provider": "deepseek",
-      "scores": {
-        "dominated_rate": 0.0,
-        "claim_share": 40.8,
-        "efficiency": 86.3,
-        "conceded_share": 45.5,
-        "conceded_of_realised": 52.8,
-        "no_deal_rate": 0.6
-      },
-      "episodes": 880,
-      "per_game_claim": {
-        "bilateral_trade": 41.1,
-        "first_price_auction": 23.2,
-        "provision_point": 48.8,
-        "ultimatum": 50.0
-      },
-      "per_game_efficiency": {
-        "bilateral_trade": 99.1,
-        "first_price_auction": 47.2,
-        "provision_point": 98.9,
-        "ultimatum": 100.0
-      },
-      "per_game_dominated": {
-        "bilateral_trade": 0.0,
-        "first_price_auction": 0.0,
-        "provision_point": 0.0,
-        "ultimatum": 0.0
-      },
-      "model_id": "deepseek/deepseek-v4-pro"
-    },
-    {
       "name": "Gemini 3.1 Pro",
       "provider": "google",
       "scores": {
@@ -156,38 +92,6 @@
         "ultimatum": 0.0
       },
       "model_id": "google/gemini-3.1-pro-preview"
-    },
-    {
-      "name": "Kimi K2.6",
-      "provider": "moonshot",
-      "scores": {
-        "dominated_rate": 0.0,
-        "claim_share": 42.6,
-        "efficiency": 85.4,
-        "conceded_share": 42.8,
-        "conceded_of_realised": 50.1,
-        "no_deal_rate": 0.5
-      },
-      "episodes": 880,
-      "per_game_claim": {
-        "bilateral_trade": 46.1,
-        "first_price_auction": 24.3,
-        "provision_point": 47.6,
-        "ultimatum": 52.5
-      },
-      "per_game_efficiency": {
-        "bilateral_trade": 100.0,
-        "first_price_auction": 43.5,
-        "provision_point": 98.2,
-        "ultimatum": 100.0
-      },
-      "per_game_dominated": {
-        "bilateral_trade": 0.0,
-        "first_price_auction": 0.0,
-        "provision_point": 0.0,
-        "ultimatum": 0.0
-      },
-      "model_id": "moonshotai/kimi-k2.6"
     },
     {
       "name": "GPT-5.6 Terra",
@@ -222,27 +126,27 @@
       "model_id": "openai/gpt-5.6-terra"
     },
     {
-      "name": "GPT-OSS-120B",
-      "provider": "openai",
+      "name": "Kimi K2.6",
+      "provider": "moonshot",
       "scores": {
         "dominated_rate": 0.0,
-        "claim_share": 36.3,
+        "claim_share": 42.6,
         "efficiency": 85.4,
-        "conceded_share": 49.1,
-        "conceded_of_realised": 57.5,
-        "no_deal_rate": 3.2
+        "conceded_share": 42.8,
+        "conceded_of_realised": 50.1,
+        "no_deal_rate": 0.5
       },
       "episodes": 880,
       "per_game_claim": {
-        "bilateral_trade": 33.6,
-        "first_price_auction": 15.3,
-        "provision_point": 46.5,
-        "ultimatum": 49.6
+        "bilateral_trade": 46.1,
+        "first_price_auction": 24.3,
+        "provision_point": 47.6,
+        "ultimatum": 52.5
       },
       "per_game_efficiency": {
-        "bilateral_trade": 97.7,
-        "first_price_auction": 52.8,
-        "provision_point": 90.9,
+        "bilateral_trade": 100.0,
+        "first_price_auction": 43.5,
+        "provision_point": 98.2,
         "ultimatum": 100.0
       },
       "per_game_dominated": {
@@ -251,7 +155,39 @@
         "provision_point": 0.0,
         "ultimatum": 0.0
       },
-      "model_id": "openai/gpt-oss-120b"
+      "model_id": "moonshotai/kimi-k2.6"
+    },
+    {
+      "name": "Claude Sonnet 5",
+      "provider": "anthropic",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 41.4,
+        "efficiency": 84.0,
+        "conceded_share": 42.5,
+        "conceded_of_realised": 50.6,
+        "no_deal_rate": 0.7
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 47.0,
+        "first_price_auction": 20.7,
+        "provision_point": 47.2,
+        "ultimatum": 50.8
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 100.0,
+        "first_price_auction": 38.6,
+        "provision_point": 97.3,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "anthropic/claude-sonnet-5"
     },
     {
       "name": "Qwen 3.6 Plus",
@@ -286,38 +222,6 @@
       "model_id": "qwen/qwen3.6-plus"
     },
     {
-      "name": "Grok 4.20",
-      "provider": "xai",
-      "scores": {
-        "dominated_rate": 0.0,
-        "claim_share": 32.1,
-        "efficiency": 80.2,
-        "conceded_share": 48.1,
-        "conceded_of_realised": 60.0,
-        "no_deal_rate": 3.3
-      },
-      "episodes": 880,
-      "per_game_claim": {
-        "bilateral_trade": 37.0,
-        "first_price_auction": 10.9,
-        "provision_point": 43.9,
-        "ultimatum": 36.6
-      },
-      "per_game_efficiency": {
-        "bilateral_trade": 98.6,
-        "first_price_auction": 32.5,
-        "provision_point": 89.5,
-        "ultimatum": 100.0
-      },
-      "per_game_dominated": {
-        "bilateral_trade": 0.0,
-        "first_price_auction": 0.0,
-        "provision_point": 0.0,
-        "ultimatum": 0.0
-      },
-      "model_id": "x-ai/grok-4.20"
-    },
-    {
       "name": "GLM 5.1",
       "provider": "zai",
       "scores": {
@@ -348,6 +252,102 @@
         "ultimatum": 0.0
       },
       "model_id": "z-ai/glm-5.1"
+    },
+    {
+      "name": "DeepSeek V4 Pro",
+      "provider": "deepseek",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 40.8,
+        "efficiency": 86.3,
+        "conceded_share": 45.5,
+        "conceded_of_realised": 52.8,
+        "no_deal_rate": 0.6
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 41.1,
+        "first_price_auction": 23.2,
+        "provision_point": 48.8,
+        "ultimatum": 50.0
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 99.1,
+        "first_price_auction": 47.2,
+        "provision_point": 98.9,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "deepseek/deepseek-v4-pro"
+    },
+    {
+      "name": "GPT-OSS-120B",
+      "provider": "openai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 36.3,
+        "efficiency": 85.4,
+        "conceded_share": 49.1,
+        "conceded_of_realised": 57.5,
+        "no_deal_rate": 3.2
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 33.6,
+        "first_price_auction": 15.3,
+        "provision_point": 46.5,
+        "ultimatum": 49.6
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 97.7,
+        "first_price_auction": 52.8,
+        "provision_point": 90.9,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "openai/gpt-oss-120b"
+    },
+    {
+      "name": "Grok 4.20",
+      "provider": "xai",
+      "scores": {
+        "dominated_rate": 0.0,
+        "claim_share": 32.1,
+        "efficiency": 80.2,
+        "conceded_share": 48.1,
+        "conceded_of_realised": 60.0,
+        "no_deal_rate": 3.3
+      },
+      "episodes": 880,
+      "per_game_claim": {
+        "bilateral_trade": 37.0,
+        "first_price_auction": 10.9,
+        "provision_point": 43.9,
+        "ultimatum": 36.6
+      },
+      "per_game_efficiency": {
+        "bilateral_trade": 98.6,
+        "first_price_auction": 32.5,
+        "provision_point": 89.5,
+        "ultimatum": 100.0
+      },
+      "per_game_dominated": {
+        "bilateral_trade": 0.0,
+        "first_price_auction": 0.0,
+        "provision_point": 0.0,
+        "ultimatum": 0.0
+      },
+      "model_id": "x-ai/grok-4.20"
     }
   ],
   "matrix": {
