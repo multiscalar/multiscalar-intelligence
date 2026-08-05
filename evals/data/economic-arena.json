@@ -1,7 +1,7 @@
 {
   "bench": "economic-arena",
   "title": "Exploitability",
-  "question": "How much of an agent's money can another agent take?",
+  "question": "How much money can an agent take from its counterparties?",
   "source": {
     "name": "Multiscalar",
     "label": "Multiscalar",
@@ -10,14 +10,14 @@
     "snapshot": "2026-08-05",
     "run": "v1"
   },
-  "blurb": "Every model plays every other across four economic games, told only the rules, its own private value, and to maximise its own profit. The bar is the share of the money that actually changed hands which its counterparties walked away with: 50% is an even split, and a lower bar means an agent is harder to take money from.",
+  "blurb": "Every model plays every other across four economic games, told only the rules, its own private value, and to maximise its own profit. The bar is the share of the money that actually changed hands which the model itself walked away with: 50% is an even split, and a higher bar means it extracts more from the agents it faces. Read it the other way for vulnerability \u2014 the two sides sum to 100%.",
   "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Opponents are naive, so no model ever accepted a deal below its own walk-away value.",
   "metrics": [
     {
-      "id": "conceded_of_realised",
-      "label": "Money given up (% of what changed hands)",
+      "id": "extracted_of_realised",
+      "label": "Money extracted (% of what changed hands)",
       "unit": "%",
-      "higherIsBetter": false
+      "higherIsBetter": true
     },
     {
       "id": "matrix",
@@ -27,7 +27,7 @@
       "kind": "matrix"
     }
   ],
-  "defaultMetric": "conceded_of_realised",
+  "defaultMetric": "extracted_of_realised",
   "models": [
     {
       "name": "Claude Opus 5",
@@ -38,6 +38,7 @@
         "efficiency": 86.5,
         "conceded_share": 35.8,
         "conceded_of_realised": 41.4,
+        "extracted_of_realised": 58.6,
         "no_deal_rate": 0.8
       },
       "episodes": 880,
@@ -70,6 +71,7 @@
         "efficiency": 88.9,
         "conceded_share": 37.0,
         "conceded_of_realised": 41.6,
+        "extracted_of_realised": 58.4,
         "no_deal_rate": 0.5
       },
       "episodes": 880,
@@ -102,6 +104,7 @@
         "efficiency": 84.5,
         "conceded_share": 37.7,
         "conceded_of_realised": 44.6,
+        "extracted_of_realised": 55.4,
         "no_deal_rate": 1.8
       },
       "episodes": 880,
@@ -134,6 +137,7 @@
         "efficiency": 85.4,
         "conceded_share": 42.8,
         "conceded_of_realised": 50.1,
+        "extracted_of_realised": 49.9,
         "no_deal_rate": 0.5
       },
       "episodes": 880,
@@ -166,6 +170,7 @@
         "efficiency": 84.0,
         "conceded_share": 42.5,
         "conceded_of_realised": 50.6,
+        "extracted_of_realised": 49.4,
         "no_deal_rate": 0.7
       },
       "episodes": 880,
@@ -198,6 +203,7 @@
         "efficiency": 86.3,
         "conceded_share": 43.7,
         "conceded_of_realised": 50.6,
+        "extracted_of_realised": 49.4,
         "no_deal_rate": 0.1
       },
       "episodes": 880,
@@ -230,6 +236,7 @@
         "efficiency": 85.5,
         "conceded_share": 44.4,
         "conceded_of_realised": 51.9,
+        "extracted_of_realised": 48.1,
         "no_deal_rate": 0.7
       },
       "episodes": 880,
@@ -262,6 +269,7 @@
         "efficiency": 86.3,
         "conceded_share": 45.5,
         "conceded_of_realised": 52.8,
+        "extracted_of_realised": 47.2,
         "no_deal_rate": 0.6
       },
       "episodes": 880,
@@ -294,6 +302,7 @@
         "efficiency": 85.4,
         "conceded_share": 49.1,
         "conceded_of_realised": 57.5,
+        "extracted_of_realised": 42.5,
         "no_deal_rate": 3.2
       },
       "episodes": 880,
@@ -326,6 +335,7 @@
         "efficiency": 80.2,
         "conceded_share": 48.1,
         "conceded_of_realised": 60.0,
+        "extracted_of_realised": 40.0,
         "no_deal_rate": 3.3
       },
       "episodes": 880,
