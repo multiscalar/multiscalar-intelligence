@@ -63,11 +63,13 @@
   const listEl = document.getElementById('bench-list');
   const cardEl = document.getElementById('bench-card');
 
-  const fromHash = location.hash.replace('#', '');
+  // Hash is "#bench" or "#bench/metric", so a specific view is linkable.
+  const [hashBench, hashMetric] = location.hash.replace('#', '').split('/');
   const state = {
     data: {},
-    active: BENCHES.includes(fromHash) ? fromHash : BENCHES[0],
+    active: BENCHES.includes(hashBench) ? hashBench : BENCHES[0],
     metric: null,
+    pendingMetric: hashMetric || null,
   };
 
   // A bench whose data file is absent is skipped rather than breaking the page,
@@ -107,10 +109,21 @@
 
   function select(bench) {
     state.active = bench;
-    history.replaceState(null, '', '#' + bench);
-    state.metric = state.data[bench].defaultMetric;
+    const d = state.data[bench];
+    const wanted = state.pendingMetric;
+    state.pendingMetric = null;
+    state.metric = (wanted && d.metrics.some((m) => m.id === wanted))
+      ? wanted
+      : d.defaultMetric;
+    syncHash();
     renderSidebar();
     renderCard();
+  }
+
+  function syncHash() {
+    const d = state.data[state.active];
+    const suffix = state.metric && state.metric !== d.defaultMetric ? '/' + state.metric : '';
+    history.replaceState(null, '', '#' + state.active + suffix);
   }
 
   // ----- scoring -----
@@ -300,6 +313,7 @@
     cardEl.querySelectorAll('.metric-toggle button').forEach((btn) => {
       btn.addEventListener('click', () => {
         state.metric = btn.dataset.metric;
+        syncHash();
         renderCard();
       });
     });
