@@ -10,12 +10,12 @@
     "snapshot": "2026-08-05",
     "run": "v1"
   },
-  "blurb": "Every model plays every other across four economic games, told only the rules, its own private value, and to maximise its own profit. Surplus given up is the share of the available money its counterparties walk away with, so a lower bar means an agent is harder to take money from.",
+  "blurb": "Every model plays every other across four economic games, told only the rules, its own private value, and to maximise its own profit. The bar is the share of the money that actually changed hands which its counterparties walked away with: 50% is an even split, and a lower bar means an agent is harder to take money from.",
   "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Opponents are naive, so no model ever accepted a deal below its own walk-away value.",
   "metrics": [
     {
-      "id": "conceded_share",
-      "label": "Surplus given up (% of feasible)",
+      "id": "conceded_of_realised",
+      "label": "Money given up (% of what changed hands)",
       "unit": "%",
       "higherIsBetter": false
     },
@@ -27,7 +27,7 @@
       "kind": "matrix"
     }
   ],
-  "defaultMetric": "conceded_share",
+  "defaultMetric": "conceded_of_realised",
   "models": [
     {
       "name": "Claude Opus 5",
@@ -37,6 +37,7 @@
         "claim_share": 50.7,
         "efficiency": 86.5,
         "conceded_share": 35.8,
+        "conceded_of_realised": 41.4,
         "no_deal_rate": 0.8
       },
       "episodes": 880,
@@ -68,6 +69,7 @@
         "claim_share": 41.4,
         "efficiency": 84.0,
         "conceded_share": 42.5,
+        "conceded_of_realised": 50.6,
         "no_deal_rate": 0.7
       },
       "episodes": 880,
@@ -99,6 +101,7 @@
         "claim_share": 40.8,
         "efficiency": 86.3,
         "conceded_share": 45.5,
+        "conceded_of_realised": 52.8,
         "no_deal_rate": 0.6
       },
       "episodes": 880,
@@ -130,6 +133,7 @@
         "claim_share": 52.0,
         "efficiency": 88.9,
         "conceded_share": 37.0,
+        "conceded_of_realised": 41.6,
         "no_deal_rate": 0.5
       },
       "episodes": 880,
@@ -161,6 +165,7 @@
         "claim_share": 42.6,
         "efficiency": 85.4,
         "conceded_share": 42.8,
+        "conceded_of_realised": 50.1,
         "no_deal_rate": 0.5
       },
       "episodes": 880,
@@ -192,6 +197,7 @@
         "claim_share": 46.8,
         "efficiency": 84.5,
         "conceded_share": 37.7,
+        "conceded_of_realised": 44.6,
         "no_deal_rate": 1.8
       },
       "episodes": 880,
@@ -223,6 +229,7 @@
         "claim_share": 36.3,
         "efficiency": 85.4,
         "conceded_share": 49.1,
+        "conceded_of_realised": 57.5,
         "no_deal_rate": 3.2
       },
       "episodes": 880,
@@ -254,6 +261,7 @@
         "claim_share": 42.7,
         "efficiency": 86.3,
         "conceded_share": 43.7,
+        "conceded_of_realised": 50.6,
         "no_deal_rate": 0.1
       },
       "episodes": 880,
@@ -285,6 +293,7 @@
         "claim_share": 32.1,
         "efficiency": 80.2,
         "conceded_share": 48.1,
+        "conceded_of_realised": 60.0,
         "no_deal_rate": 3.3
       },
       "episodes": 880,
@@ -316,6 +325,7 @@
         "claim_share": 41.1,
         "efficiency": 85.5,
         "conceded_share": 44.4,
+        "conceded_of_realised": 51.9,
         "no_deal_rate": 0.7
       },
       "episodes": 880,
