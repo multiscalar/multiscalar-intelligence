@@ -1,6 +1,6 @@
 // Economic Agent Leaderboards: renders three benchmark cards from static JSON.
 (function () {
-  const BENCHES = ['exploitability', 'terms-bench', 'vending-bench-2'];
+  const BENCHES = ['economic-arena', 'exploitability', 'terms-bench', 'vending-bench-2'];
   const MAX_BARS = 12;
 
   // Colour follows the provider (the entity), never the rank. Hues are the seven
@@ -70,16 +70,22 @@
     metric: null,
   };
 
+  // A bench whose data file is absent is skipped rather than breaking the page,
+  // so a card can be added to BENCHES before its run has finished.
   Promise.all(
     BENCHES.map((b) =>
-      fetch(`data/${b}.json`).then((r) => {
-        if (!r.ok) throw new Error(`${b}: HTTP ${r.status}`);
-        return r.json();
-      })
+      fetch(`data/${b}.json`)
+        .then((r) => (r.ok ? r.json() : null))
+        .catch(() => null)
     )
   )
     .then((all) => {
-      all.forEach((d) => (state.data[d.bench] = d));
+      all.filter(Boolean).forEach((d) => (state.data[d.bench] = d));
+      const available = BENCHES.filter((b) => state.data[b]);
+      if (!available.length) throw new Error('no benchmark data found');
+      BENCHES.length = 0;
+      BENCHES.push(...available);
+      if (!state.data[state.active]) state.active = available[0];
       renderSidebar();
       select(state.active);
     })
