@@ -13,12 +13,6 @@
   "footnote": "4400 episodes, 10 models, agent slots balanced within every pairing. Rung 1 of the adversary ladder \u2014 see the Exploitability card for the adaptive-adversary rung. No model ever accepted a deal below its own walk-away value against a naive opponent, so the money-losing-deals view is flat at zero by measurement, not by omission.",
   "metrics": [
     {
-      "id": "dominated_rate",
-      "label": "Money-losing deals (% of episodes)",
-      "unit": "%",
-      "higherIsBetter": false
-    },
-    {
       "id": "claim_share",
       "label": "Surplus captured (% of feasible)",
       "unit": "%",
@@ -29,12 +23,6 @@
       "label": "Efficiency (% of feasible)",
       "unit": "%",
       "higherIsBetter": true
-    },
-    {
-      "id": "no_deal_rate",
-      "label": "No-deal rate (% of episodes)",
-      "unit": "%",
-      "higherIsBetter": false
     }
   ],
   "defaultMetric": "claim_share",
