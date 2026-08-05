@@ -92,6 +92,7 @@
       select(state.active);
     })
     .catch((err) => {
+      console.error(err);
       cardEl.innerHTML = `<div class="bench-loading">Could not load results (${err.message})</div>`;
     });
 
@@ -155,6 +156,7 @@
   // ----- formatting -----
 
   function fmt(value, unit) {
+    if (typeof value !== 'number' || !isFinite(value)) return '—';
     if (unit === '$') return '$' + Math.round(value).toLocaleString('en-US');
     return value.toFixed(value >= 100 ? 0 : 1) + '%';
   }
@@ -171,9 +173,12 @@
       const se = row.model.stderr;
       lines.push(`<span class="tip-row">Net worth: ${fmt(row.value, '$')}${se ? ' ± $' + Math.round(se).toLocaleString('en-US') : ''}</span>`);
     } else {
-      d.metrics.forEach((m) => {
-        lines.push(`<span class="tip-row">${m.label}: ${fmt(row.model.scores[m.id], m.unit)}</span>`);
-      });
+      // Skip views that are not per-model scores (e.g. the head-to-head matrix).
+      d.metrics
+        .filter((m) => typeof row.model.scores[m.id] === 'number')
+        .forEach((m) => {
+          lines.push(`<span class="tip-row">${m.label}: ${fmt(row.model.scores[m.id], m.unit)}</span>`);
+        });
     }
     return lines.join('<br>');
   }
