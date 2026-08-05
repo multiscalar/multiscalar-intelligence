@@ -165,16 +165,103 @@
     return lines.join('<br>');
   }
 
+  // ----- head-to-head heatmap -----
+
+  // Diverging scale around the even split. Blue arm = takes more than half, red arm =
+  // takes less, neutral gray at 50%. Arms are lightness-matched, equal step count.
+  const DIVERGING = {
+    mid: '#f0efec',
+    more: ['#cde2fb', '#9ec5f4', '#5598e7', '#2a78d6'],
+    less: ['#fad6d2', '#f1aea8', '#dd716a', '#c74845'],
+  };
+
+  // Colour encodes the advantage over the opponent *in that pairing*, not distance from
+  // 50. The two shares in a pairing sum to its efficiency, so the balanced point is their
+  // midpoint — centring on a flat 50 would paint everything red merely because the auction
+  // destroys surplus and drags all shares below half.
+  function cellColor(v, mirror) {
+    if (mirror == null) return DIVERGING.mid;
+    const d = (v - mirror) / 2;
+    if (Math.abs(d) < 1.5) return DIVERGING.mid;
+    const arm = d > 0 ? DIVERGING.more : DIVERGING.less;
+    const i = Math.min(arm.length - 1, Math.floor((Math.abs(d) - 1.5) / 4));
+    return arm[i];
+  }
+
+  function inkOn(hex) {
+    const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+    const lin = (c) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+    const lum = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+    return lum > 0.45 ? '#1a1a1a' : '#ffffff';
+  }
+
+  const SHORT = {
+    'Gemini 3.1 Pro': 'Gemini', 'Claude Opus 5': 'Opus 5', 'GPT-5.6 Terra': 'Terra',
+    'Qwen 3.6 Plus': 'Qwen', 'Kimi K2.6': 'Kimi', 'Claude Sonnet 5': 'Sonnet 5',
+    'GLM 5.1': 'GLM', 'DeepSeek V4 Pro': 'DeepSeek', 'GPT-OSS-120B': 'GPT-OSS',
+    'Grok 4.20': 'Grok',
+  };
+  const short = (n) => SHORT[n] || n.split(' ')[0];
+
+  function renderMatrix(d) {
+    // Order rows by overall surplus captured so the gradient reads top-left to bottom-right.
+    const order = [...d.models].sort(
+      (a, b) => b.scores.claim_share - a.scores.claim_share
+    );
+    const get = (a, b) => d.matrix[`${a.model_id}|${b.model_id}`];
+
+    const head = order
+      .map((m) => `<th><span class="mx-col">${short(m.name)}</span></th>`)
+      .join('');
+
+    const body = order
+      .map((row) => {
+        const cells = order
+          .map((col) => {
+            const v = get(row, col);
+            if (v === undefined || v === null) return '<td class="mx-na">—</td>';
+            const mirror = get(col, row);
+            const bg = cellColor(v, mirror);
+            const self = row.model_id === col.model_id;
+            const tip = self
+              ? `${row.name} vs itself: ${v.toFixed(1)}%`
+              : `${short(row.name)} takes ${v.toFixed(1)}% from ${short(col.name)}` +
+                (mirror != null ? ` · ${short(col.name)} takes ${mirror.toFixed(1)}%` : '');
+            return `<td class="mx-cell${self ? ' mx-self' : ''}" style="background:${bg};color:${inkOn(bg)}" title="${tip}">${v.toFixed(0)}</td>`;
+          })
+          .join('');
+        const p = providerOf(row);
+        return `<tr><th class="mx-row">${chipHTML(p)}<span>${short(row.name)}</span></th>${cells}</tr>`;
+      })
+      .join('');
+
+    const swatches = [...DIVERGING.less].reverse().concat([DIVERGING.mid], DIVERGING.more)
+      .map((c) => `<span class="mx-sw" style="background:${c}"></span>`).join('');
+
+    return `
+      <div class="mx-wrap">
+        <table class="mx">
+          <thead><tr><th class="mx-corner">takes from →</th>${head}</tr></thead>
+          <tbody>${body}</tbody>
+        </table>
+      </div>
+      <div class="mx-legend">
+        <span>gives up more</span>${swatches}<span>takes more</span>
+      </div>
+      <p class="mx-note">Each cell is the row model's mean share of the available surplus when facing the column model, in percent. Colour shows the advantage over that specific opponent: grey is a balanced pairing, blue means the row model took more than its counterpart, red means it took less. The diagonal is self-play and is balanced by construction.</p>`;
+  }
+
   // ----- rendering -----
 
   function renderCard() {
     const d = state.data[state.active];
     const metricDef = d.metrics.find((m) => m.id === state.metric);
-    const rows = scoredModels(d);
+    const isMatrix = metricDef.kind === 'matrix';
+    const rows = isMatrix ? [] : scoredModels(d);
 
     const shown = rows.slice(0, MAX_BARS);
     const tail = rows.length > MAX_BARS ? rows[rows.length - 1] : null;
-    const maxVal = Math.max(...rows.map((r) => Math.abs(r.value)));
+    const maxVal = rows.length ? Math.max(...rows.map((r) => Math.abs(r.value))) : 1;
 
     const sourceLabel = d.source.label || d.source.name;
 
@@ -189,8 +276,8 @@
           .map((m) => `<button role="tab" data-metric="${m.id}" class="${m.id === state.metric ? 'active' : ''}">${m.label}</button>`)
           .join('')}</div>` : ''}
       </div>
-      <p class="metric-note">${metricDef.higherIsBetter === false ? '↓ lower is better' : '↑ higher is better'}</p>
-      <div class="chart" id="chart"></div>
+      <p class="metric-note">${isMatrix ? '' : (metricDef.higherIsBetter === false ? '↓ lower is better' : '↑ higher is better')}</p>
+      ${isMatrix ? renderMatrix(d) : '<div class="chart" id="chart"></div>'}
       <div class="bench-foot">
         <p class="bench-blurb">${d.blurb}${d.footnote ? `<span class="bench-footnote">${d.footnote}</span>` : ''}</p>
         <div class="bench-stamp">
@@ -200,12 +287,14 @@
       </div>`;
 
     const chart = cardEl.querySelector('#chart');
+    if (chart) {
     shown.forEach((row, i) => chart.appendChild(barCol(d, row, i + 1, maxVal, metricDef)));
     if (tail) {
       const sep = document.createElement('div');
       sep.className = 'tail-sep';
       chart.appendChild(sep);
       chart.appendChild(barCol(d, tail, rows.length, maxVal, metricDef, true));
+    }
     }
 
     cardEl.querySelectorAll('.metric-toggle button').forEach((btn) => {

@@ -23,6 +23,13 @@
       "label": "Efficiency (% of feasible)",
       "unit": "%",
       "higherIsBetter": true
+    },
+    {
+      "id": "matrix",
+      "label": "Head-to-head",
+      "unit": "%",
+      "higherIsBetter": true,
+      "kind": "matrix"
     }
   ],
   "defaultMetric": "claim_share",
