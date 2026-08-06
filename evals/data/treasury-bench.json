@@ -1,0 +1,162 @@
+{
+ "bench": "treasury-bench",
+ "title": "Treasury-Bench",
+ "question": "Can the agent manage cash it must never run out of?",
+ "source": {
+  "name": "Multiscalar",
+  "label": "Multiscalar",
+  "linkText": "methodology & code",
+  "url": "https://github.com/multiscalar/treasury-bench",
+  "snapshot": "2026-08-06",
+  "run": "v1"
+ },
+ "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates: invoices in, payroll and a surprise tax bill out, plus a 10-day withdrawal crunch. Score is net profit on $100k after late-payment penalties (10% fee + 1%/day). 5 runs per model.",
+ "footnote": " Only 4 of 12 models never missed a payment, and the 10-line scripted buffer policy out-earns 8 of them. Gemma 4 31B bounced its first payroll in every run and ended the year at a loss.",
+ "metrics": [
+  {
+   "id": "net_pnl",
+   "label": "Net P&L",
+   "unit": "$",
+   "higherIsBetter": true
+  },
+  {
+   "id": "clean_years",
+   "label": "Clean years",
+   "unit": "%",
+   "higherIsBetter": true
+  }
+ ],
+ "defaultMetric": "net_pnl",
+ "models": [
+  {
+   "name": "Claude Opus 5",
+   "provider": "anthropic",
+   "scores": {
+    "net_pnl": 13738.79,
+    "clean_years": 100.0
+   },
+   "missed": 0,
+   "runs": 5
+  },
+  {
+   "name": "Qwen 3.6 Plus",
+   "provider": "qwen",
+   "scores": {
+    "net_pnl": 13521.23,
+    "clean_years": 100.0
+   },
+   "missed": 0,
+   "runs": 5
+  },
+  {
+   "name": "Buffer heuristic",
+   "provider": "baseline",
+   "scores": {
+    "net_pnl": 13504.39,
+    "clean_years": 100.0
+   },
+   "missed": 0,
+   "runs": 5
+  },
+  {
+   "name": "DeepSeek V4 Pro",
+   "provider": "deepseek",
+   "scores": {
+    "net_pnl": 13360.95,
+    "clean_years": 100.0
+   },
+   "missed": 0,
+   "runs": 5
+  },
+  {
+   "name": "GLM 5.1",
+   "provider": "zai",
+   "scores": {
+    "net_pnl": 10386.74,
+    "clean_years": 100.0
+   },
+   "missed": 0,
+   "runs": 5
+  },
+  {
+   "name": "GPT-OSS-120B",
+   "provider": "openai",
+   "scores": {
+    "net_pnl": 11300.54,
+    "clean_years": 60.0
+   },
+   "missed": 6,
+   "runs": 5
+  },
+  {
+   "name": "Kimi K2.6",
+   "provider": "moonshot",
+   "scores": {
+    "net_pnl": 12761.47,
+    "clean_years": 40.0
+   },
+   "missed": 3,
+   "runs": 5
+  },
+  {
+   "name": "Gemini 3.1 Pro",
+   "provider": "google",
+   "scores": {
+    "net_pnl": 12626.98,
+    "clean_years": 40.0
+   },
+   "missed": 4,
+   "runs": 5
+  },
+  {
+   "name": "MiniMax M3",
+   "provider": "minimax",
+   "scores": {
+    "net_pnl": 8742.74,
+    "clean_years": 40.0
+   },
+   "missed": 9,
+   "runs": 5
+  },
+  {
+   "name": "Claude Sonnet 5",
+   "provider": "anthropic",
+   "scores": {
+    "net_pnl": 12504.49,
+    "clean_years": 20.0
+   },
+   "missed": 5,
+   "runs": 5
+  },
+  {
+   "name": "Grok 4.20",
+   "provider": "xai",
+   "scores": {
+    "net_pnl": 8001.14,
+    "clean_years": 20.0
+   },
+   "missed": 8,
+   "runs": 5
+  },
+  {
+   "name": "GPT-5.6 Terra",
+   "provider": "openai",
+   "scores": {
+    "net_pnl": 5247.38,
+    "clean_years": 0.0
+   },
+   "missed": 19,
+   "runs": 5
+  },
+  {
+   "name": "Gemma 4 31B",
+   "provider": "google",
+   "scores": {
+    "net_pnl": -4628.36,
+    "clean_years": 0.0
+   },
+   "missed": 30,
+   "runs": 5
+  }
+ ]
+}

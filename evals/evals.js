@@ -1,6 +1,6 @@
 // Economic Agent Leaderboards: renders three benchmark cards from static JSON.
 (function () {
-  const BENCHES = ['economic-arena', 'terms-bench', 'vending-bench-2'];
+  const BENCHES = ['economic-arena', 'treasury-bench', 'terms-bench', 'vending-bench-2'];
   const MAX_BARS = 12;
 
   // Colour follows the provider (the entity), never the rank. Hues are the seven
@@ -162,7 +162,10 @@
 
   function fmt(value, unit) {
     if (typeof value !== 'number' || !isFinite(value)) return '—';
-    if (unit === '$') return '$' + Math.round(value).toLocaleString('en-US');
+    if (unit === '$') {
+      const abs = Math.abs(Math.round(value)).toLocaleString('en-US');
+      return (value < 0 ? '−$' : '$') + abs;
+    }
     return value.toFixed(value >= 100 ? 0 : 1) + '%';
   }
 
