@@ -10,12 +10,12 @@
   "snapshot": "2026-08-07",
   "run": "v1"
  },
- "blurb": "Agents manage $100k of company cash for a simulated year on replayed 2025 Aave v3 stablecoin rates, covering every bill on time while earning yield on the rest. Buffer heuristic is not a language model but a scripted rule that keeps a fixed reserve and lends the rest, included as the baseline to beat.",
+ "blurb": "Agents manage $100k of company cash for a simulated year on replayed 2025 Aave v3 stablecoin rates, covering every bill on time while earning yield on the rest. Score is the profit added versus leaving the cash idle, net of late-payment penalties (10% fee + 1%/day): below zero, the agent lost the business money. Buffer heuristic is not a language model but a scripted rule that keeps a fixed reserve and lends the rest, included as the baseline to beat.",
  "footnote": "",
  "metrics": [
   {
-   "id": "net_pnl",
-   "label": "Profit on $100k after one year",
+   "id": "value_add",
+   "label": "Value added vs idle cash",
    "unit": "$",
    "higherIsBetter": true
   },
@@ -26,13 +26,13 @@
    "higherIsBetter": true
   }
  ],
- "defaultMetric": "net_pnl",
+ "defaultMetric": "value_add",
  "models": [
   {
    "name": "Claude Opus 5",
    "provider": "anthropic",
    "scores": {
-    "net_pnl": 13738.79,
+    "value_add": 4070.51,
     "clean_years": 100.0
    },
    "missed": 0,
@@ -42,7 +42,7 @@
    "name": "Qwen 3.6 Plus",
    "provider": "qwen",
    "scores": {
-    "net_pnl": 13521.23,
+    "value_add": 3852.95,
     "clean_years": 100.0
    },
    "missed": 0,
@@ -52,7 +52,7 @@
    "name": "Buffer heuristic",
    "provider": "baseline",
    "scores": {
-    "net_pnl": 13504.39,
+    "value_add": 3836.11,
     "clean_years": 100.0
    },
    "missed": 0,
@@ -62,7 +62,7 @@
    "name": "DeepSeek V4 Pro",
    "provider": "deepseek",
    "scores": {
-    "net_pnl": 13360.95,
+    "value_add": 3692.67,
     "clean_years": 100.0
    },
    "missed": 0,
@@ -72,7 +72,7 @@
    "name": "GLM 5.1",
    "provider": "zai",
    "scores": {
-    "net_pnl": 10386.74,
+    "value_add": 718.46,
     "clean_years": 100.0
    },
    "missed": 0,
@@ -82,7 +82,7 @@
    "name": "GPT-OSS-120B",
    "provider": "openai",
    "scores": {
-    "net_pnl": 11300.54,
+    "value_add": 1632.26,
     "clean_years": 60.0
    },
    "missed": 6,
@@ -92,7 +92,7 @@
    "name": "Kimi K2.6",
    "provider": "moonshot",
    "scores": {
-    "net_pnl": 12761.47,
+    "value_add": 3093.19,
     "clean_years": 40.0
    },
    "missed": 3,
@@ -102,7 +102,7 @@
    "name": "Gemini 3.1 Pro",
    "provider": "google",
    "scores": {
-    "net_pnl": 12626.98,
+    "value_add": 2958.7,
     "clean_years": 40.0
    },
    "missed": 4,
@@ -112,7 +112,7 @@
    "name": "MiniMax M3",
    "provider": "minimax",
    "scores": {
-    "net_pnl": 8742.74,
+    "value_add": -925.54,
     "clean_years": 40.0
    },
    "missed": 9,
@@ -122,7 +122,7 @@
    "name": "Claude Sonnet 5",
    "provider": "anthropic",
    "scores": {
-    "net_pnl": 12504.49,
+    "value_add": 2836.21,
     "clean_years": 20.0
    },
    "missed": 5,
@@ -132,7 +132,7 @@
    "name": "Grok 4.20",
    "provider": "xai",
    "scores": {
-    "net_pnl": 8001.14,
+    "value_add": -1667.14,
     "clean_years": 20.0
    },
    "missed": 8,
@@ -142,7 +142,7 @@
    "name": "GPT-5.6 Terra",
    "provider": "openai",
    "scores": {
-    "net_pnl": 5247.38,
+    "value_add": -4420.9,
     "clean_years": 0.0
    },
    "missed": 19,
@@ -152,7 +152,7 @@
    "name": "Gemma 4 31B",
    "provider": "google",
    "scores": {
-    "net_pnl": -4628.36,
+    "value_add": -14296.64,
     "clean_years": 0.0
    },
    "missed": 30,

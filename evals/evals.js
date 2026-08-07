@@ -313,7 +313,20 @@
 
     const shown = rows.slice(0, MAX_BARS);
     const tail = rows.length > MAX_BARS ? rows[rows.length - 1] : null;
-    const maxVal = rows.length ? Math.max(...rows.map((r) => Math.abs(r.value))) : 1;
+    // Signed metrics get a zero baseline: positive bars grow up from it,
+    // negative bars hang below. Zone heights share one $-per-pixel scale.
+    // The scale comes from the SHOWN bars only: the tail column sits beyond
+    // the dashed separator, so an extreme tail clamps to the zone edge and
+    // its printed value carries the magnitude, instead of crushing the rest.
+    const scaleRows = shown.length ? shown : rows;
+    const scale = {
+      signed: rows.some((r) => r.value < 0),
+      maxPos: Math.max(...scaleRows.map((r) => r.value), 0) || 1,
+      maxNeg: Math.max(...scaleRows.map((r) => -r.value), 0) || 1,
+      maxVal: scaleRows.length
+        ? Math.max(...scaleRows.map((r) => Math.abs(r.value)))
+        : 1,
+    };
 
     const sourceLabel = d.source.label || d.source.name;
 
@@ -340,12 +353,12 @@
 
     const chart = cardEl.querySelector('#chart');
     if (chart) {
-    shown.forEach((row, i) => chart.appendChild(barCol(d, row, i + 1, maxVal, metricDef)));
+    shown.forEach((row, i) => chart.appendChild(barCol(d, row, i + 1, scale, metricDef)));
     if (tail) {
       const sep = document.createElement('div');
       sep.className = 'tail-sep';
       chart.appendChild(sep);
-      chart.appendChild(barCol(d, tail, rows.length, maxVal, metricDef, true));
+      chart.appendChild(barCol(d, tail, rows.length, scale, metricDef, true));
     }
     }
 
@@ -365,16 +378,37 @@
     });
   }
 
-  function barCol(d, row, rank, maxVal, metricDef, isTail) {
+  function barCol(d, row, rank, scale, metricDef, isTail) {
     const col = document.createElement('div');
     col.className = 'bar-col';
     const p = providerOf(row.model);
-    const h = Math.max(9, (Math.abs(row.value) / maxVal) * 100);
+    if (!scale.signed) {
+      const h = Math.max(9, (Math.abs(row.value) / scale.maxVal) * 100);
+      col.innerHTML = `
+        <div class="chart-tip">${tipHTML(d, row)}</div>
+        ${isTail ? `<span class="bar-rank">#${rank}</span>` : ''}
+        <span class="bar-value">${fmt(row.value, metricDef.unit)}</span>
+        <div class="bar" style="height:${h}%;background:${p.color}">${chipHTML(p)}</div>
+        <span class="bar-name">${row.model.name}</span>`;
+      return col;
+    }
+    const posPct = (scale.maxPos / (scale.maxPos + scale.maxNeg)) * 100;
+    const v = row.value;
+    const hPos = v >= 0 ? Math.min(100, Math.max(6, (v / scale.maxPos) * 100)) : 0;
+    const hNeg = v < 0 ? Math.min(100, Math.max(6, (-v / scale.maxNeg) * 100)) : 0;
     col.innerHTML = `
       <div class="chart-tip">${tipHTML(d, row)}</div>
       ${isTail ? `<span class="bar-rank">#${rank}</span>` : ''}
-      <span class="bar-value">${fmt(row.value, metricDef.unit)}</span>
-      <div class="bar" style="height:${h}%;background:${p.color}">${chipHTML(p)}</div>
+      <div class="bar-track">
+        <div class="bar-zone pos" style="height:${posPct}%">
+          ${v >= 0 ? `<span class="bar-value">${fmt(v, metricDef.unit)}</span>
+          <div class="bar" style="height:${hPos}%;background:${p.color}">${chipHTML(p)}</div>`
+          : `<span class="bar-value">${fmt(v, metricDef.unit)}</span>`}
+        </div>
+        <div class="bar-zone neg" style="height:${100 - posPct}%">
+          ${v < 0 ? `<div class="bar neg" style="height:${hNeg}%;background:${p.color}">${chipHTML(p)}</div>` : ''}
+        </div>
+      </div>
       <span class="bar-name">${row.model.name}</span>`;
     return col;
   }

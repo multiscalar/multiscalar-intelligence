@@ -545,3 +545,32 @@
   .h2h-raw, .h2h-raw-h { display: none; }
   .h2h-axis i:first-child, .h2h-axis i:last-child { display: none; }
 }
+
+/* signed metrics: zero baseline, negatives hang below it */
+.bar-track {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.bar-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0;
+}
+.bar-zone.pos {
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--border);
+}
+.bar-zone.neg { justify-content: flex-start; }
+.bar-zone .bar { flex-shrink: 0; }
+.bar.neg {
+  border-radius: 0 0 4px 4px;
+  align-items: flex-start;
+  padding-bottom: 0;
+  padding-top: 6px;
+}
+.bar-zone.neg .bar-value { margin-top: 4px; margin-bottom: 0; }
