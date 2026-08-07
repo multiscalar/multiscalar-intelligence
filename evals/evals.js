@@ -31,6 +31,7 @@
     alibaba: 'alibaba',
     qwen: 'alibaba',
     'z.ai': 'zai',
+    zai: 'zai',
     zhipu: 'zai',
     glm: 'zai',
     moonshot: 'moonshot',
@@ -392,23 +393,26 @@
         <span class="bar-name">${row.model.name}</span>`;
       return col;
     }
+    // Signed columns can be arbitrarily short, so the provider chip lives in
+    // an aligned row between the chart and the names instead of inside the bar.
     const posPct = (scale.maxPos / (scale.maxPos + scale.maxNeg)) * 100;
     const v = row.value;
-    const hPos = v >= 0 ? Math.min(100, Math.max(6, (v / scale.maxPos) * 100)) : 0;
-    const hNeg = v < 0 ? Math.min(100, Math.max(6, (-v / scale.maxNeg) * 100)) : 0;
+    const hPos = v >= 0 ? Math.min(100, Math.max(4, (v / scale.maxPos) * 100)) : 0;
+    const hNeg = v < 0 ? Math.min(100, Math.max(4, (-v / scale.maxNeg) * 100)) : 0;
     col.innerHTML = `
       <div class="chart-tip">${tipHTML(d, row)}</div>
       ${isTail ? `<span class="bar-rank">#${rank}</span>` : ''}
       <div class="bar-track">
         <div class="bar-zone pos" style="height:${posPct}%">
           ${v >= 0 ? `<span class="bar-value">${fmt(v, metricDef.unit)}</span>
-          <div class="bar" style="height:${hPos}%;background:${p.color}">${chipHTML(p)}</div>`
+          <div class="bar chipless" style="height:${hPos}%;background:${p.color}"></div>`
           : `<span class="bar-value">${fmt(v, metricDef.unit)}</span>`}
         </div>
         <div class="bar-zone neg" style="height:${100 - posPct}%">
-          ${v < 0 ? `<div class="bar neg" style="height:${hNeg}%;background:${p.color}">${chipHTML(p)}</div>` : ''}
+          ${v < 0 ? `<div class="bar chipless neg" style="height:${hNeg}%;background:${p.color}"></div>` : ''}
         </div>
       </div>
+      <div class="bar-chip-row">${chipHTML(p)}</div>
       <span class="bar-name">${row.model.name}</span>`;
     return col;
   }

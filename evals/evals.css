@@ -574,3 +574,12 @@
   padding-top: 6px;
 }
 .bar-zone.neg .bar-value { margin-top: 4px; margin-bottom: 0; }
+.bar.chipless { padding-bottom: 0; min-height: 3px; }
+.bar-chip-row {
+  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+}
+.bar-chip-row .bar-chip {
+  box-shadow: 0 0 0 1px var(--border);
+}
