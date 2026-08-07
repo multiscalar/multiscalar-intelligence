@@ -12,16 +12,17 @@
  },
  "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates. Score is net profit on $100k after late payment penalties.",
  "footnote": "",
+ "note": "Each agent starts with $100k of company cash and must cover every bill on time while earning yield on the rest. Buffer heuristic is not a language model: it is a simple scripted rule that holds a fixed cash reserve and lends the remainder, included as the baseline to beat.",
  "metrics": [
   {
    "id": "net_pnl",
-   "label": "Net P&L",
+   "label": "Profit on $100k after one year",
    "unit": "$",
    "higherIsBetter": true
   },
   {
    "id": "clean_years",
-   "label": "Clean years",
+   "label": "Runs with no missed payment",
    "unit": "%",
    "higherIsBetter": true
   }
