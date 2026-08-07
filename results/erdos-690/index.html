@@ -9,51 +9,23 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-  <link rel="stylesheet" href="../../style.css">
-  <link rel="stylesheet" href="../article.css">
+  <link rel="stylesheet" href="../../style.css?v=20260807h">
+  <link rel="stylesheet" href="../article.css?v=20260807h">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <script defer>
-    document.addEventListener("DOMContentLoaded", function () {
-      var macros = {
-        "\\e": "\\mathrm{e}",
-        "\\eps": "\\varepsilon"
-      };
-      // Render every pandoc-emitted math span. Strip \label{...} since KaTeX
-      // doesn't support it (we have no displayed equation numbers anyway).
-      document.querySelectorAll("span.math.inline, span.math.display").forEach(function (el) {
-        var display = el.classList.contains("display");
-        var tex = el.textContent.replace(/\\label\{[^}]*\}/g, "");
-        try {
-          katex.render(tex, el, { displayMode: display, throwOnError: false, macros: macros, output: "html" });
-        } catch (e) { /* leave raw on hard failure */ }
-      });
-      // Then auto-render any $-delimited math that we wrote by hand
-      // (the abstract and the small-cases table).
-      if (typeof renderMathInElement === "function") {
-        renderMathInElement(document.body, {
-          delimiters: [
-            { left: "$$", right: "$$", display: true },
-            { left: "$", right: "$", display: false }
-          ],
-          throwOnError: false,
-          macros: macros
-        });
-      }
-    });
-  </script>
+  <script defer src="../render-math.js?v=20260807h"></script>
 </head>
 <body>
 
   <nav>
     <div class="nav-inner">
-      <a href="../../" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <a href="/" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
       <div class="nav-links">
-        <a href="../../#research">Research</a>
-        <a href="../../#results">Results</a>
-        <a href="../../#team">Team</a>
+        <a href="/#research">Research</a>
+        <a href="/open-science/">Open Science</a>
+        <a href="/evals/">Evals</a>
         <a href="mailto:hello@multiscalar.ai">Contact</a>
       </div>
     </div>
@@ -1152,7 +1124,7 @@ in the argument.</p>
 <li><p>the finite prime sums in Section <a href="#sec:finite"
 data-reference-type="ref" data-reference="sec:finite">5</a>, using exact
 rational arithmetic;</p></li>
-<li><p>the elementary symmetric-polynomial values in Table <a href="#tab-smallcases">Table&nbsp;1</a>, using exact
+<li><p>the elementary symmetric-polynomial values in Table <a href="#tab-smallcases">1</a>, using exact
 rational arithmetic;</p></li>
 <li><p>the interval for <span class="math inline">C=\sum_p
 \frac{1}{p(p-1)}</span>, using directed outward-rounded summation for
@@ -1211,7 +1183,7 @@ class="uri">https://t5k.org/primes/page.php?id=136849</a></span></li></ol></sect
           <span class="footer-loc">London, UK</span>
         </div>
         <div class="footer-links">
-          <a href="../../">Home</a>
+          <a href="/open-science/">Open Science</a>
           <a href="mailto:hello@multiscalar.ai">Contact</a>
         </div>
         <div class="footer-copy">
@@ -1223,7 +1195,7 @@ class="uri">https://t5k.org/primes/page.php?id=136849</a></span></li></ol></sect
   </main>
 
   <canvas id="grid-bg"></canvas>
-  <script src="../../script.js"></script>
+  <script src="../../script.js?v=20260807h"></script>
 
 </body>
 </html>

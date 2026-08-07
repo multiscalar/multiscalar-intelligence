@@ -1,0 +1,35 @@
+{
+  "number": "486",
+  "title": "A Proposed Solution to Erdős Problem 486",
+  "subtitle": "Found by GPT-5.6 under the Multiscalar research prompt",
+  "tag": "Number Theory",
+  "eyebrow": "Result · Erdős Problem 486",
+  "badge": "Proposed",
+  "description": "A proposed negative answer to Erdős' question of whether a delayed multi-residue sieve must leave a set of logarithmic density.",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Research prompt",
+      "prompt.md"
+    ],
+    [
+      "Lean formalisation",
+      "https://github.com/ShouqiaoW/erdos/tree/main/486/lean"
+    ],
+    [
+      "Forum thread",
+      "https://www.erdosproblems.com/forum/thread/486/proof-claims"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/486"
+    ]
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "number": "390",
+  "title": "A Proposed Solution to Erdős Problem 390",
+  "subtitle": "Found by GPT-5.6 under the Multiscalar research prompt",
+  "tag": "Number Theory",
+  "eyebrow": "Result · Erdős Problem 390",
+  "badge": "Proposed",
+  "description": "A proposed exact asymptotic for the least largest factor in a representation of n! as a product of distinct integers greater than n, with a machine-checkable allocation certificate.",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Research prompt",
+      "prompt.md"
+    ],
+    [
+      "Verifier code",
+      "numerical_verifier.py"
+    ],
+    [
+      "Forum thread",
+      "https://www.erdosproblems.com/forum/thread/390/proof-claims"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/390"
+    ]
+  ]
+}

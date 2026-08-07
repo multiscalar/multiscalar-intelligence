@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Proposed Complete Solution to Erdős Problem 1038 | Multiscalar Intelligence</title>
+  <meta name="description" content="A computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial with all zeros in the unit interval.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../../style.css?v=20260807h">
+  <link rel="stylesheet" href="../article.css?v=20260807h">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script defer src="../render-math.js?v=20260807h"></script>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="/#research">Research</a>
+        <a href="/open-science/">Open Science</a>
+        <a href="/evals/">Evals</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="article-main">
+
+    <header class="article-header">
+      <div class="article-eyebrow">Result · Erdős Problem 1038 <span class="status-badge status-proposed">Proposed</span></div>
+      <h1 class="article-title">A Proposed Complete Solution to Erdős Problem 1038</h1>
+      <div class="article-subtitle">Found by GPT-5.6 under the Multiscalar research prompt</div>
+      <div class="article-meta">
+        <span class="meta-affil">Multiscalar Intelligence</span>
+      </div>
+      <div class="article-links">
+        <a href="paper.pdf" class="article-link">PDF&nbsp;↗</a>
+        <a href="paper.tex" class="article-link">LaTeX source&nbsp;↗</a>
+        <a href="prompt.md" class="article-link">Research prompt&nbsp;↗</a>
+        <a href="numerical_verifier.py" class="article-link">Verifier code&nbsp;↗</a>
+        <a href="https://github.com/ShouqiaoW/erdos/tree/main/1038/lean" class="article-link" target="_blank" rel="noopener">Lean formalisation&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/forum/thread/1038/proof-claims" class="article-link" target="_blank" rel="noopener">Forum thread&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/1038" class="article-link" target="_blank" rel="noopener">Problem statement&nbsp;↗</a>
+      </div>
+    </header>
+
+    <div class="divider article-divider"></div>
+
+    <article class="paper">
+      <section class="abstract">
+        <div class="abstract-label">Abstract</div>
+        <p>Let <span class="math inline">f</span> range over the nonconstant monic real polynomials whose zeros all belong to <span class="math inline">[-1,1]</span>. Tao proved that the supremum of the Lebesgue measure of <span class="math inline">\{x\in\mathbb R:|f(x)|&lt;1\}</span> is <span class="math inline">2\sqrt2</span>. We give a computer-assisted determination of the infimum. It is a uniquely determined constant <span class="math inline">L</span>, characterized below as the minimum of a one-variable function, with numerical value <span class="math display">L=1.834430475762661\ldots.</span> The lower-bound proof combines component atomization, an elementary mean-deficit estimate, a convex constant-platform comparison, an endpoint-corrected adjoint identity, and a circle rearrangement theorem. All remaining scalar and parameter-uniform signs are certified by directed outward interval arithmetic in one companion Python file. An explicit positive-platform approximation proves sharpness. Every finite polynomial satisfies the lower inequality strictly, so the infimum is not attained; the supremum is attained by <span class="math inline">(x^2-1)^m</span> for every <span class="math inline">m\ge1</span>. This proposed solution was found by GPT-5.6.</p>
+      </section>
+
+      <section id="introduction-and-statement-of-the-result" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction and statement of the result</h1>
+<p>Erdős, Herzog, and Piranian asked for the two extremal values of <span class="math display">\left|\{x\in\mathbb R:|f(x)|&lt;1\}\right|</span> when <span class="math inline">f</span> is a nonconstant monic polynomial with all of its zeros real and contained in <span class="math inline">[-1,1]</span> <a href="#ref-1" class="cite">[1, p. 131]</a>; see also the modern formulation <a href="#ref-2" class="cite">[2]</a>. Tao subsequently determined the sharp upper extremum <a href="#ref-4" class="cite">[4]</a>; his updated note also gives the equality characterization for probability measures <a href="#ref-5" class="cite">[5, Theorem 2.1]</a>. We use this result in Section <a href="#sec:supremum" class="xref" data-reference-type="ref" data-reference="sec:supremum">10</a> and concentrate on the lower extremum.</p>
+<p>Tao’s updated note also established the first structural reductions for the lower problem <a href="#ref-5" class="cite">[5, Section 3]</a>, partly by adapting an argument of Erdős, Herzog, and Piranian <a href="#ref-1" class="cite">[1, Theorem 1]</a>. It gives the componentwise barycentric reduction for a relaxed minimizer, orients the configuration by its mean, normalizes a principal atom at an endpoint with mass at least one half, and then develops a constant-potential one-cut candidate together with a formal dual-measure ansatz <a href="#ref-5" class="cite">[5, Section 4]</a>; see also the accompanying discussion <a href="#ref-3" class="cite">[3]</a>. The resulting candidate has length about <span class="math inline">1.835</span>. The same note isolates the remaining difficulty as controlling the additional exceptional set that arises in the general multi-component case <a href="#ref-5" class="cite">[5, pp. 11–12]</a>.</p>
+<p>The present argument begins from these reductions. For finite polynomials, Lemma <a href="#lem:atomize" class="xref" data-reference-type="ref" data-reference="lem:atomize">2.1</a> gives a simultaneous empirical version of the barycentric collapse and records the one-cluster-per-component conclusion. The main contribution is then a global comparison for every finite atomized configuration. Quantitative residual-radius estimates are combined with a convex supporting inequality for the exact main width, an endpoint-corrected adjoint, and a quantile-block reduction. A circle rearrangement theorem and a uniform interval certificate complete the comparison. Finally, an exact analysis of the one-cut family identifies the constant <span class="math inline">L</span>, and a positive-platform empirical approximation proves sharpness.</p>
+<p>Let <span class="math inline">\mathcal P</span> be the set of all nonconstant monic real polynomials whose zeros, counted with multiplicity, lie in <span class="math inline">[-1,1]</span>, and put <span class="math display">E_f=\{x\in\mathbb R:|f(x)|&lt;1\}.</span> For <span class="math inline">0&lt;q&lt;3-2\sqrt2</span> define <span class="math display">H(q)=\frac{2q}{(1+q)^2},\qquad
+ s(q)=\frac{1-q}{1+q},\qquad
+ A(q)=\frac{\log H(q)}{\log q}.</span> Let <span class="math inline">q_s</span> be the unique solution in <span class="math inline">(0,3-2\sqrt2)</span> of <span class="math inline">A(q_s)=s(q_s)</span>. For <span class="math inline">0&lt;q\le q_s</span>, let <span class="math inline">u_-(q)</span> be the unique solution of <span class="math display">A(q)\log\frac{u-q}{|1-qu|}=\log u</span> in <span class="math inline">u&gt;q^{-1}</span>. For <span class="math inline">0&lt;q&lt;q_s</span>, let <span class="math inline">u_+(q)</span> be the unique nontrivial solution of the same equation in <span class="math inline">1&lt;u&lt;q^{-1}</span>. At <span class="math inline">q=q_s</span> set <span class="math inline">u_+(q_s)=1</span> by continuity. Define <span id="eq:1.3" class="math display">\begin{equation}
+ \Lambda(q)=H(q)\left(u_-(q)+u_-(q)^{-1}
+                         -u_+(q)-u_+(q)^{-1}\right).
+\label{eq:1.3}
+\tag{1.1}
+\end{equation}</span></p>
+<div id="thm:main" class="theorem">
+<p><strong>Theorem 1.1</strong> (Main theorem).  <em>The function <span class="math inline">\Lambda</span> has a unique minimizer <span class="math inline">q_*</span> on <span class="math inline">(0,q_s]</span>. If <span class="math inline">L=\Lambda(q_*)</span>, then <span class="math display">\boxed{\inf_{f\in\mathcal P}|E_f|=L,
+        \qquad \sup_{f\in\mathcal P}|E_f|=2\sqrt2.}</span> The infimum is not attained. The supremum is attained by <span class="math inline">(x^2-1)^m</span> for every integer <span class="math inline">m\ge1</span>.</em></p>
+<p><em>The following outward enclosures hold: <span class="math display">\begin{aligned}
+ 0.025715536866527&amp;&lt;q_*&lt;0.025715536866528,\\
+ 1.834430475762661&amp;&lt;L&lt;1.834430475762662.
+\end{aligned}</span></em></p>
+</div>
+<section id="the-exact-constant-and-its-computation." class="level4" data-number="1.0.0.1">
+<h4 data-number="1.0.0.1"><span class="header-section-number">1.0.0.1</span> The exact constant and its computation.</h4>
+<p>The symbol <span class="math inline">L</span> denotes the single exact real number <span class="math inline">\Lambda(q_*)</span>, not the numerical interval displayed above. That interval has deliberately been rounded outward and shortened for readability; it is only a rigorous enclosure of <span class="math inline">L</span>. The value is computed by certified one-dimensional root isolation, not by minimizing over a sampled grid. Indeed, put <span class="math display">F(q,u)=A(q)\log\frac{u-q}{|1-qu|}-\log u,
+ \qquad W(u)=u+u^{-1}.</span> For <span class="math inline">0&lt;q&lt;q_s</span>, the two roots <span class="math inline">u_+(q)</span> and <span class="math inline">u_-(q)</span> lie on the unique branches specified above. On either branch the implicit-function theorem gives <span class="math display">u_\pm&#39;(q)=-\frac{\partial_qF(q,u_\pm(q))}
+                  {\partial_uF(q,u_\pm(q))},</span> and hence <span class="math display">\Lambda&#39;(q)
+ =H&#39;(q)\bigl(W(u_-)-W(u_+)\bigr)
+ +H(q)\bigl(W&#39;(u_-)u_-&#39;-W&#39;(u_+)u_+&#39;\bigr).</span> First one isolates <span class="math inline">q_s</span>, equivalently as the unique zero of the strictly decreasing function in <a href="#eq:6.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.4">(6.3)</a>. For <span class="math inline">0&lt;q&lt;q_s</span>, one isolates the two nondegenerate roots of <span class="math inline">F(q,u)=0</span>; at <span class="math inline">q=q_s</span>, one has <span class="math inline">u_+=1</span> exactly, and the regularized variable <span class="math inline">y=(\log u_+)^2</span> in the regularized soft-edge equations <a href="#eq:6.12" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.12">(6.8)</a> and <a href="#eq:6.12b" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.12b">(6.9)</a> gives the continuous soft-edge branch. One then isolates the unique root <span class="math inline">q_*</span> of <span class="math inline">\Lambda&#39;(q)=0</span> and evaluates <span class="math inline">\Lambda(q_*)</span>. Certified bisection or interval Newton iteration, applied to the nondegenerate or regularized equations as appropriate, makes all of these enclosing intervals arbitrarily narrow. The companion verifier certifies the particular outward enclosures displayed here.</p>
+<p>The limiting probability measure producing the lower constant is explicit. Put <span class="math inline">A_*=A(q_*)</span>, <span class="math inline">s_*=s(q_*)</span>, and <span class="math inline">a_*=2s_*^2-1</span>. Then <span class="math display">\mu_*=A_*\delta_{-1}+
+ \frac{t+1-2A_*s_*}
+ {\pi(t+1)\sqrt{(t-a_*)(1-t)}}\mathbf 1_{[a_*,1]}(t)\,dt.</span> Its negative-potential component has endpoints <span id="eq:1.7" class="math display">\begin{equation}
+ \alpha_*=s_*^2-H(q_*)\bigl(u_-(q_*)+u_-(q_*)^{-1}\bigr),\qquad
+ \beta_*=s_*^2-H(q_*)\bigl(u_+(q_*)+u_+(q_*)^{-1}\bigr),
+\label{eq:1.7}
+\tag{1.2}
+\end{equation}</span> and <span class="math inline">\beta_*-\alpha_*=L</span>.</p>
+<p>We briefly describe the proof and its trust boundary. A polynomial is first replaced by its empirical root measure. Simultaneous barycentric collapse in the connected components of the sublevel set cannot increase its length and reduces the lower-bound problem to a finite configuration consisting of one endpoint atom and finitely many residual atoms. A direct energy estimate handles the small endpoint-to-residual mass ratio. For all larger ratios, a constant-potential reference measure gives a supporting inequality for the main component; a circle rearrangement theorem then reduces every residual block to explicit one-variable inequalities. Finally, a zero-platform one-cut family identifies <span class="math inline">L</span>, and positive-platform empirical measures approach it from above.</p>
+<p>The analytic reductions, including all limiting and strictness arguments, are proved in the paper. Two explicitly stated certificates remain: the global one-cut minimization and the uniform parameter cover. The single companion file <code>numerical_verifier.py</code> checks precisely those claims with outward rounding; it does not search for a proof and it aborts whenever a required sign cannot be resolved. Appendix <a href="#app:verification" class="xref" data-reference-type="ref" data-reference="app:verification">A</a> records the exact scope of this computation.</p>
+</section>
+</section>
+<section id="sec:reduction" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Potentials, atomization, and normalization</h1>
+<p>For a probability measure <span class="math inline">\mu</span> on <span class="math inline">[-1,1]</span> write <span class="math display">V_\mu(x)=\int\log|x-t|\,d\mu(t),\qquad
+ E_\mu=\{x:V_\mu(x)&lt;0\}.</span> If <span class="math inline">f(x)=\prod_{j=1}^n(x-r_j)</span> and <span class="math inline">\mu_f=n^{-1}\sum_j\delta_{r_j}</span>, then <span class="math inline">V_{\mu_f}=n^{-1}\log|f|</span> and <span class="math inline">E_f=E_{\mu_f}</span>. Moreover <span class="math inline">E_\mu\subset(-2,2)</span>, because <span class="math inline">|x-t|\ge1</span> for <span class="math inline">|x|\ge2</span> and <span class="math inline">t\in[-1,1]</span>. We call a measure of the form <span class="math inline">\mu_f</span> an <em>empirical measure</em>; its atom masses are positive rational numbers whose sum is one.</p>
+<p>Tao’s componentwise barycentric reduction is formulated for a variance-minimizing relaxed minimizer <a href="#ref-5" class="cite">[5, Section 3]</a>. For the finite polynomial problem it is useful to have the following simultaneous empirical version. It collapses all components at once, controls the sublevel set globally, and records the resulting one-cluster-per-component structure.</p>
+<div id="lem:atomize" class="lemma">
+<p><strong>Lemma 2.1</strong> (Simultaneous component atomization).  <em>Let <span class="math inline">\mu</span> be an empirical root measure and write the finite union of components of <span class="math inline">E_\mu</span> as <span class="math inline">\bigsqcup_j I_j</span>. In every <span class="math inline">I_j</span>, replace all root mass by an atom of the same mass at its barycenter. If <span class="math inline">\widetilde
+\mu</span> is the resulting empirical measure, then <span class="math display">E_{\widetilde\mu}\subset E_\mu.</span> Every component of <span class="math inline">E_{\widetilde\mu}</span> contains exactly one distinct root cluster.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Write the distinct roots as <span class="math inline">c_h</span>, with masses <span class="math inline">p_h&gt;0</span>. If the degree of the underlying polynomial is <span class="math inline">n</span>, then <span class="math inline">V_\mu=n^{-1}\log|f|</span>. Every finite boundary point of <span class="math inline">E_\mu</span> is therefore a real zero of the nonzero polynomial <span class="math inline">f^2-1</span>. There are only finitely many such points; together with <span class="math inline">E_\mu\subset(-2,2)</span>, this proves that <span class="math inline">E_\mu</span> has finitely many components. Each component <span class="math inline">I_j=(a_j,b_j)</span> contains a root. Otherwise <span class="math display">V_\mu&#39;&#39;(x)=-\sum_h\frac{p_h}{(x-c_h)^2}&lt;0
+ \qquad (x\in I_j).</span> The potential is continuous at <span class="math inline">a_j,b_j</span> and equals zero there. Strict concavity would then give <span class="math inline">V_\mu(x)\ge0</span> for <span class="math inline">a_j&lt;x&lt;b_j</span>, contrary to the definition of <span class="math inline">I_j</span>.</p>
+<p>Fix <span class="math inline">x\notin E_\mu</span>. Then <span class="math inline">x\notin I_j</span> for every <span class="math inline">j</span>, and <span class="math display">\frac{\partial^2}{\partial t^2}\log|x-t|
+ =-\frac1{(x-t)^2}&lt;0\qquad(t\in I_j).</span> For each <span class="math inline">j</span>, Jensen’s inequality therefore shows that replacing the root mass in <span class="math inline">I_j</span> by its barycenter raises the contribution of that mass to the potential at <span class="math inline">x</span>. All roots belong to <span class="math inline">E_\mu</span> because the potential is <span class="math inline">-\infty</span> at a root, so these replacements account for the entire measure. Doing them simultaneously gives <span class="math inline">V_{\widetilde\mu}(x)\ge V_\mu(x)\ge0</span>, proving the asserted inclusion.</p>
+<p>Inside an old component <span class="math inline">I_j</span>, the new potential has only one pole <span class="math inline">c_j</span>. On each of <span class="math inline">(a_j,c_j)</span> and <span class="math inline">(c_j,b_j)</span> it is strictly concave, tends to <span class="math inline">-\infty</span> at <span class="math inline">c_j</span>, and is nonnegative at the other endpoint. On, say, <span class="math inline">(a_j,c_j)</span>, a concave function has convex superlevel sets; equivalently, once it becomes negative while moving from <span class="math inline">a_j</span> toward <span class="math inline">c_j</span>, it cannot become nonnegative again. Its negative set on that side is therefore the interval adjacent to <span class="math inline">c_j</span>; the same holds on the right. The two pieces form one component containing <span class="math inline">c_j</span>. By this inclusion, the complementary gaps between distinct old components remain nonnegative, so different new components cannot merge. Thus every new component contains exactly one root cluster. ◻</p>
+</div>
+<section id="orientation-and-endpoint-normalization" class="level2" data-number="2.1">
+<h2 data-number="2.1"><span class="header-section-number">2.1</span> Orientation and endpoint normalization</h2>
+<p>We next place the configuration in the endpoint normalization used by the global comparison. The underlying mean-orientation and endpoint-mass argument is due to Tao <a href="#ref-5" class="cite">[5, Lemma 3.2 and the discussion following it]</a>, adapting Erdős, Herzog, and Piranian <a href="#ref-1" class="cite">[1, Theorem 1]</a>. We keep track of the inclusion <span class="math inline">(-1,0)\subset E_\mu</span>, the translated support, and the degenerate boundary case <span class="math inline">\beta=0</span> needed for finite configurations.</p>
+<p>We henceforth replace <span class="math inline">\mu_f</span> by the atomized measure from Lemma <a href="#lem:atomize" class="xref" data-reference-type="ref" data-reference="lem:atomize">2.1</a>. This can only decrease the sublevel set, so a lower bound for the atomized measure is also a lower bound for the original polynomial. If <span class="math inline">\mu^{-}</span> denotes the pushforward of <span class="math inline">\mu</span> under <span class="math inline">t\mapsto-t</span>, then <span class="math inline">V_{\mu^-}(x)=V_\mu(-x)</span> and hence <span class="math inline">|E_{\mu^-}|=|E_\mu|</span>. We choose between <span class="math inline">\mu</span> and <span class="math inline">\mu^-</span> so that the root mean <span class="math display">m=\int t\,d\mu(t)</span> is nonpositive. For <span class="math inline">-1&lt;x&lt;0</span> and <span class="math inline">-1\le t\le1</span>, <span class="math display">(1-xt)^2-(x-t)^2=(1-x^2)(1-t^2)\ge0,</span> so <span class="math inline">|x-t|\le1-xt</span>. Jensen gives <span class="math display">V_\mu(x)\le\int\log(1-xt)\,d\mu(t)
+ \le\log(1-xm)\le0.</span> The inequality is strict. Indeed, equality in Jensen for the strictly concave function <span class="math inline">u\mapsto\log u</span> forces <span class="math inline">1-xt</span> to be constant <span class="math inline">\mu</span>-almost everywhere, hence <span class="math inline">\mu</span> to be a point mass. Equality in the last inequality forces <span class="math inline">m=0</span>, so that point mass would be <span class="math inline">\delta_0</span>; for <span class="math inline">\delta_0</span> the first inequality is strict whenever <span class="math inline">-1&lt;x&lt;0</span>. Thus <span class="math display">(-1,0)\subset E_\mu.</span></p>
+<p>Let <span class="math inline">c</span> be the unique root cluster in the component containing <span class="math inline">(-1,0)</span>, and let its mass be <span class="math inline">A</span>. It is the leftmost cluster: any root to its left would lie in the same component, contradicting the one-cluster conclusion of Lemma <a href="#lem:atomize" class="xref" data-reference-type="ref" data-reference="lem:atomize">2.1</a>. Thus every root is at least <span class="math inline">c</span>. Since their mean is nonpositive, <span class="math inline">c\le m\le0</span>.</p>
+<p>Translate every root, and the real variable, by <span class="math inline">-c-1</span>; this sends <span class="math inline">c</span> to <span class="math inline">-1</span> and preserves all lengths. A root <span class="math inline">t\in[c,1]</span> is sent to <span class="math inline">t-c-1\in[-1,-c]\subset[-1,1]</span>. The new mean is <span class="math inline">m-c-1\le -c-1\le0</span>, because <span class="math inline">m\le0</span> and <span class="math inline">c\ge-1</span>. Denote the translated measure temporarily by <span class="math inline">\mu^{\rm tr}</span>.</p>
+<p>Let <span class="math inline">r_0</span> be the right endpoint of the main component before this translation. Since <span class="math inline">(-1,0)\subset E_\mu</span>, one has <span class="math inline">r_0\ge0</span>. If <span class="math inline">r_0-c&lt;1</span>, the distance from <span class="math inline">r_0</span> to the main cluster is strictly less than one. Every residual cluster lies to the right of that component, hence in <span class="math inline">[r_0,1]</span>, and its distance from <span class="math inline">r_0</span> is at most one. The weighted geometric mean of these distances would therefore be strictly less than one, contradicting <span class="math inline">\exp V_\mu(r_0)=1</span> for the unshifted measure. Consequently <span class="math display">\beta=r_0-c-1\ge0.</span> We now rename <span class="math inline">\mu^{\rm tr}</span> as <span class="math inline">\mu</span>. After translation, the main atom is at <span class="math inline">-1</span>, the translated right boundary is <span class="math inline">\beta</span>, and all residual roots belong to <span class="math inline">[\beta,1]</span>; in particular <span class="math inline">0\le\beta\le1</span> when residual mass is present. At this boundary, weighted AM–GM gives <span class="math display">1=e^{V_\mu(\beta)}
+ \le\int|\beta-t|\,d\mu(t)
+ \le A(1+\beta)+(1-A)(1-\beta)
+ =1+(2A-1)\beta.</span> If <span class="math inline">\beta&gt;0</span>, this proves <span class="math inline">A\ge1/2</span>. If <span class="math inline">\beta=0</span>, equality in the geometric–arithmetic mean chain forces every distance from <span class="math inline">\beta</span> to a residual root to equal one, hence every residual root to be <span class="math inline">1</span>. The nonpositive-mean condition then gives <span class="math inline">-A+(1-A)\le0</span>, again <span class="math inline">A\ge1/2</span>.</p>
+<p>If <span class="math inline">A=1</span>, the sublevel interval is <span class="math inline">(-2,0)</span> and has length <span class="math inline">2&gt;L</span>. Assume henceforth <span class="math inline">B=1-A&gt;0</span>, and write <span id="eq:2.7" class="math display">\begin{equation}
+ k=\frac AB\ge1,\qquad
+ \mu=A\delta_{-1}+B\sum_{i=1}^Nq_i\delta_{t_i},
+ \quad 0\le t_1&lt;\cdots&lt;t_N\le1,
+ \quad\sum_iq_i=1.
+\label{eq:2.7}
+\tag{2.1}
+\end{equation}</span> In the shifted spatial coordinate <span class="math inline">x_{\rm new}=x_{\rm old}+1</span>, put <span class="math inline">d_i=1+t_i\in[1,2]</span>. Addition of this translation and division of the potential by the positive number <span class="math inline">B</span> do not change its sign, and give <span id="eq:2.8" class="math display">\begin{equation}
+ W(x)=k\log|x|+\sum_iq_i\log|x-d_i|.
+\label{eq:2.8}
+\tag{2.2}
+\end{equation}</span> Let <span class="math inline">M_k</span> be the width of the component of <span class="math inline">\{W&lt;0\}</span> containing zero and define <span id="eq:2.9" class="math display">\begin{equation}
+ R_i=\exp\left[-\frac1{q_i}\left(k\log d_i+
+              \sum_{j\ne i}q_j\log|d_i-d_j|\right)\right].
+\label{eq:2.9}
+\tag{2.3}
+\end{equation}</span></p>
+<div id="lem:radius" class="lemma">
+<p><strong>Lemma 2.2</strong> (Local component radius).  <em>The component containing <span class="math inline">d_i</span> has width at least <span class="math inline">2R_i</span>. Hence <span id="eq:2.10" class="math display">\begin{equation}
+ |E_\mu|\ge \mathfrak J_k:=M_k+2\sum_iR_i.
+\label{eq:2.10}
+\tag{2.4}
+\end{equation}</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span class="math inline">(\ell_i,r_i)</span> be that component, set <span class="math inline">s=d_i-\ell_i</span>, <span class="math inline">u=r_i-d_i</span>, <span class="math inline">T=s+u</span>, and <span class="math inline">w=s/T</span>. After removing the self-pole, the background <span class="math display">H_i(x)=k\log x+\sum_{j\ne i}q_j\log|x-d_j|</span> is well defined and strictly concave on <span class="math inline">(\ell_i,r_i)</span>. To justify the first assertion, for <span class="math inline">0&lt;x&lt;1</span> we have directly <span class="math inline">W(x)\le k\log x+\log(2-x)&lt;0</span>. Thus the main component contains <span class="math inline">(0,1)</span>, while atomization puts the residual cluster <span class="math inline">d_i</span> in a different component; hence <span class="math inline">\ell_i\ge1&gt;0</span>. The second assertion follows by differentiating twice after the self-pole has been removed.</p>
+<p>The boundary equations and <a href="#eq:2.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.9">(2.3)</a> are <span class="math display">H_i(\ell_i)=-q_i\log s,\quad
+ H_i(r_i)=-q_i\log u,\quad
+ H_i(d_i)=-q_i\log R_i.</span> Since <span class="math inline">d_i=(1-w)\ell_i+wr_i</span>, concavity implies <span class="math display">-q_i\log R_i
+ \ge-(1-w)q_i\log s-wq_i\log u.</span> Division by <span class="math inline">-q_i&lt;0</span> reverses the inequality, and exponentiation gives <span class="math display">R_i\le s^{1-w}u^w
+ =T w^{1-w}(1-w)^w\le T/2.</span> For completeness, if <span class="math inline">h(w)=(1-w)\log w+w\log(1-w)</span>, then <span class="math inline">h&#39;(w)=\log((1-w)/w)+(1-2w)/(w(1-w))</span> is positive on <span class="math inline">(0,1/2)</span> and changes sign by symmetry at <span class="math inline">1/2</span>; hence <span class="math inline">w^{1-w}(1-w)^w\le1/2</span>. Thus <span class="math inline">T\ge2R_i</span>. The main component and all residual components are pairwise disjoint, so adding their lengths proves <a href="#eq:2.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.10">(2.4)</a>. ◻</p>
+</div>
+<div id="lem:window" class="lemma">
+<p><strong>Lemma 2.3</strong> (Endpoint window).  <em>Let <span class="math inline">\rho(k)\in(0,1)</span> be the unique solution of <span class="math display">\rho(k)^k(2+\rho(k))=1.</span> Then <span class="math inline">M_k\ge1+\rho(k)</span>, and <span class="math inline">\rho(k)\ge\sqrt2-1</span> for <span class="math inline">k\ge1</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For fixed <span class="math inline">k\ge1</span>, the function <span class="math inline">r\mapsto r^k(2+r)</span> is continuous and strictly increasing on <span class="math inline">[0,1]</span>, with values <span class="math inline">0</span> and <span class="math inline">3</span> at the endpoints. This proves the existence and uniqueness of <span class="math inline">\rho(k)</span>. For <span class="math inline">0&lt;x&lt;1</span>, since <span class="math inline">d_i-x\le2-x</span>, <span class="math display">W(x)\le k\log x+\log(2-x)\le\log(x(2-x))&lt;0.</span> For <span class="math inline">0&lt;r&lt;\rho(k)</span>, <span class="math display">W(-r)\le k\log r+\log(2+r)&lt;0.</span> Thus <span class="math inline">(-\rho(k),1)</span> lies in the main component. At <span class="math inline">k=1</span>, <span class="math inline">\rho(1)=\sqrt2-1</span>; for fixed <span class="math inline">0&lt;\rho&lt;1</span>, the left side of the defining equation for <span class="math inline">\rho(k)</span> decreases as <span class="math inline">k</span> increases, so its solution increases. ◻</p>
+</div>
+</section>
+</section>
+<section id="the-elementary-range-a-mean-deficit-energy-estimate" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> The elementary range: a mean-deficit energy estimate</h1>
+<p>The following argument is important because it does not use a fixed-endpoint or unrestricted Bojanov comparison.</p>
+<div id="prop:lowk" class="proposition">
+<p><strong>Proposition 3.1</strong> (Small endpoint-to-residual ratio).  <em>For every atomized configuration <a href="#eq:2.8" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.8">(2.2)</a> with <span class="math inline">1\le k\le K:=29/20</span>, <span class="math display">\sum_iR_i&gt;\frac13,\qquad \mathfrak J_k&gt;2.</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Separation of the main component from the component of <span class="math inline">d_1</span> supplies <span class="math inline">b\in(0,d_1)</span> such that <span class="math inline">W(b)\ge0</span>. Put <span class="math inline">y_i=2-d_i\ge0</span> and <span class="math inline">\bar y=\sum_iq_i y_i</span>. Jensen’s inequality gives <span class="math display">0\le k\log b+\sum_iq_i\log(d_i-b)
+ \le k\log b+\log(2-\bar y-b).</span> In particular <span class="math inline">b^k(2-b)\ge1</span>. If <span class="math inline">b&lt;1</span>, then <span class="math inline">b^k(2-b)\le b(2-b)&lt;1</span>, a contradiction. Thus <span class="math inline">b\ge1</span> and <span class="math display">\bar y\le2-b-b^{-k}
+ \le\varepsilon_K:=2-(K+1)K^{-K/(K+1)}.</span> Indeed, <span class="math inline">b\ge1</span> and <span class="math inline">k\le K</span> imply <span class="math inline">b^{-k}\ge b^{-K}</span>, so <span class="math inline">2-b-b^{-k}\le2-b-b^{-K}</span>. The derivative of the latter function is <span class="math inline">-1+Kb^{-K-1}</span>; it vanishes only at <span class="math inline">b=K^{1/(K+1)}</span>, is positive before that point, and is negative after it. This proves the displayed maximum. We now prove the exact rational bound <span class="math display">0&lt;\varepsilon_K&lt;\frac1{25}.</span> Positivity follows because the derivative at <span class="math inline">b=1</span> is <span class="math inline">K-1&gt;0</span>. Furthermore <span class="math display">e^{3/8}&gt;1+\frac38+\frac{(3/8)^2}{2}
+               +\frac{(3/8)^3}{6}
+ =\frac{1489}{1024}&gt;\frac{29}{20},</span> so <span class="math inline">\log(29/20)&lt;3/8</span>. With <span class="math inline">z=87/392</span>, Taylor’s theorem gives <span class="math inline">e^{-z}&gt;1-z+z^2/2-z^3/6</span>, and direct rational subtraction gives <span class="math display">\frac{49}{20}\left(1-z+\frac{z^2}{2}-\frac{z^3}{6}\right)
+ -\frac{49}{25}=\frac{522631}{245862400}&gt;0.</span> Here <span class="math inline">K/(K+1)=29/49</span> and <span class="math inline">z=(29/49)(3/8)</span>. Hence</p>
+<p><span class="math display">K^{-K/(K+1)}
+ =\exp\left(-\frac{29}{49}\log K\right)&gt;e^{-z},</span> so the last rational inequality says <span class="math inline">(K+1)K^{-K/(K+1)}&gt;49/25</span>. Therefore <span class="math inline">\varepsilon_K=2-(K+1)K^{-K/(K+1)}&lt;1/25</span>, proving the claimed bound.</p>
+<p>Put <span class="math inline">Q=\sum_iq_i^2</span> and <span class="math inline">t=1-Q=2\sum_{i&lt;j}q_iq_j</span>. For <span class="math inline">t&gt;0</span>, concavity of the logarithm and <span class="math inline">|d_i-d_j|=|y_i-y_j|\le y_i+y_j</span> yield <span class="math display">\begin{align*}
+2\sum_{i&lt;j}q_iq_j\log|d_i-d_j|
+&amp;\le t\log\left(\frac{2\sum_{i&lt;j}q_iq_j|d_i-d_j|}{t}\right)\\
+&amp;\le t\log\left(\frac{2\sum_iq_i(1-q_i)y_i}{t}\right)
+ \le t\log\frac{2\varepsilon_K}{t}.
+\end{align*}</span> For <span class="math inline">t=0</span> the pair sums are empty and the terms involving <span class="math inline">t\log(a/t)</span> are defined by continuity as zero.</p>
+<p>The definition <a href="#eq:2.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.9">(2.3)</a> gives the exact identity <span class="math display">\sum_iq_i^2\log R_i
+ =-k\sum_iq_i\log d_i
+  -2\sum_{i&lt;j}q_iq_j\log|d_i-d_j|.</span> Because <span class="math inline">d_i\le2</span>, combining the preceding estimate with this identity, and then applying weighted AM–GM with weights <span class="math inline">q_i^2/Q</span>, gives, with <span class="math inline">S=\sum_iR_i</span>, <span class="math display">S\ge\sum_i\frac{q_i^2}{Q}R_i
+ \ge\exp\left(\frac{-k\log2-t\log(2\varepsilon_K/t)}{1-t}\right).</span> Equivalently, <span class="math display">(1-t)\log(3S)
+ \ge\log3-k\log2-t\log\frac{6\varepsilon_K}{t}.</span> The elementary maximum <span class="math inline">t\log(a/t)\le a/e</span>, the bound <span class="math inline">\varepsilon_K&lt;1/25</span>, and <span class="math inline">e&gt;1+1+1/2+1/6=8/3</span> show <span class="math display">t\log\frac{6\varepsilon_K}{t}&lt;\frac9{100}.</span> Finally, the positive atanh series gives <span class="math display">\log3&gt;2\left(\frac12+\frac{(1/2)^3}{3}+\frac{(1/2)^5}{5}\right)
+ =\frac{263}{240},</span> whereas the first two terms and a geometric tail give <span class="math display">\log2&lt;2\left(\frac13+\frac{(1/3)^3}{3}\right)
+ +\frac{2(1/3)^5}{5(1-1/9)}=\frac{1123}{1620}.</span> Hence <span class="math display">\log3-\frac{29}{20}\log2
+ &gt;\frac{1469}{16200}=\frac9{100}+\frac{11}{16200}.</span> Combining the last three estimates gives <span class="math inline">(1-t)\log(3S)&gt;11/16200</span>. Since <span class="math inline">1-t=Q=\sum_iq_i^2&gt;0</span>, this gives <span class="math inline">S&gt;1/3</span>. By Lemma <a href="#lem:window" class="xref" data-reference-type="ref" data-reference="lem:window">2.3</a>, <span class="math display">\mathfrak J_k&gt;\sqrt2+\frac23&gt;2,</span> because <span class="math inline">\sqrt2&gt;4/3</span>. ◻</p>
+</div>
+</section>
+<section id="constant-platform-references-and-convex-calibration" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Constant-platform references and convex calibration</h1>
+<p>After translation and normalization by the residual mass, Tao’s flat one-cut candidate becomes the reference family used below <a href="#ref-5" class="cite">[5, Section 4]</a>. We retain the mass ratio and the support endpoint as independent parameters, allowing a nonzero platform. This two-parameter family provides the flexibility needed for a uniform comparison with arbitrary finite multi-component configurations.</p>
+<p>Fix <span class="math inline">k\ge1</span> and <span class="math inline">1\le a&lt;2</span>, put <span class="math inline">I=[a,2]</span>, and define <span class="math display">c=\frac{a+2}{2},\qquad r=\frac{2-a}{2},\qquad H=\frac r2=\frac{2-a}{4}.</span> The equilibrium probability of <span class="math inline">I</span> and the balayage of <span class="math inline">\delta_0</span> onto <span class="math inline">I</span> are <span id="eq:4.2" class="math display">\begin{equation}
+ \,de_I(d)=\frac{\,dd}{\pi\sqrt{(d-a)(2-d)}},\qquad
+ \,d\omega_{0,I}(d)=\frac{\sqrt{2a}}d\,\,de_I(d).
+\label{eq:4.2}
+\tag{4.1}
+\end{equation}</span> These are the standard interval equilibrium and balayage formulas <a href="#ref-11" class="cite">[11, Chapters I–II]</a>. They can also be checked directly: with <span class="math inline">d=c-r\cos\theta</span>, <span class="math inline">\,de_I=\,d\theta/\pi</span>, and the Cauchy transform of <span class="math inline">e_I</span> is <span class="math inline">((z-a)(z-2))^{-1/2}</span>; the second density has total mass one and the difference of its logarithmic potential from <span class="math inline">\log d</span> is constant on <span class="math inline">I</span>.</p>
+<p>Define the reference probability <span id="eq:4.3" class="math display">\begin{equation}
+ \eta_{k,a}=(k+1)e_I-k\omega_{0,I}.
+\label{eq:4.3}
+\tag{4.2}
+\end{equation}</span> Thus <span id="eq:4.4" class="math display">\begin{equation}
+ \,d\eta_{k,a}(d)=
+ \left(k+1-\frac{k\sqrt{2a}}d\right)
+ \frac{\,dd}{\pi\sqrt{(d-a)(2-d)}}.
+\label{eq:4.4}
+\tag{4.3}
+\end{equation}</span> The coefficient in parentheses is increasing, so <span class="math inline">\eta_{k,a}\ge0</span> if and only if <span id="eq:4.5" class="math display">\begin{equation}
+ a\ge2\left(\frac{k}{k+1}\right)^2.
+\label{eq:4.5}
+\tag{4.4}
+\end{equation}</span> Indeed, its minimum occurs at <span class="math inline">d=a</span> and is nonnegative precisely when <span class="math inline">k+1\ge k\sqrt{2/a}</span>, which is equivalent to <a href="#eq:4.5" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.5">(4.4)</a>. It has total mass <span class="math inline">(k+1)-k=1</span>. Let <span class="math display">D_0(a)=\frac{a+2+2\sqrt{2a}}4.</span> On <span class="math inline">I</span>, the equilibrium potential is <span class="math inline">\log H</span>, while the balayage potential is <span class="math inline">\log d+\log H-\log D_0(a)</span>. Hence <span id="eq:4.6" class="math display">\begin{equation}
+ k\log d+\int_I\log|d-e|\,d\eta_{k,a}(e)=C(k,a),
+\label{eq:4.6}
+\tag{4.5}
+\end{equation}</span> where <span class="math display">C(k,a)=\log H+k\log D_0(a).</span> No sign assumption on <span class="math inline">C(k,a)</span> is made.</p>
+<p>Let <span class="math display">W_0(x)=k\log|x|+\int_I\log|x-d|\,d\eta_{k,a}(d).</span> Assume, as will be certified uniformly below, that the main component has simple crossings <span id="eq:4.8" class="math display">\begin{equation}
+ x_-&lt;0&lt;x_+&lt;a,\qquad W_0&#x27;(x_-)&lt;0&lt;W_0&#x27;(x_+).
+\label{eq:4.8}
+\tag{4.6}
+\end{equation}</span> Set <span class="math display">\sigma_-=-\frac1{W_0&#39;(x_-)},\quad
+ \sigma_+=\frac1{W_0&#39;(x_+)},\quad
+ K_\pm=\sqrt{(a-x_\pm)(2-x_\pm)},</span> so <span class="math inline">\sigma_-&gt;0</span> and <span class="math inline">\sigma_+&gt;0</span>, and put <span class="math display">D=\frac{\sigma_-K_-}{a-x_-}+\frac{\sigma_+K_+}{a-x_+}.</span> Tao proposed a formal dual measure with the same rational-square-root structure for the one-component problem <a href="#ref-5" class="cite">[5, pp. 10–11]</a>. For a general calibrated reference, define the corresponding adjoint measure by <span id="eq:4.10" class="math display">\begin{equation}
+ d\xi(d)=
+ \frac{D-\sigma_-K_-/(d-x_-)-\sigma_+K_+/(d-x_+)}
+ {\pi\sqrt{(d-a)(2-d)}}\,dd.
+\label{eq:4.10}
+\tag{4.7}
+\end{equation}</span> The exact endpoint correction needed for finite multi-component targets is proved below. If <span class="math inline">N(d)</span> denotes the numerator in <a href="#eq:4.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.10">(4.7)</a>, then the definition of <span class="math inline">D</span> gives <span class="math inline">N(a)=0</span>, while <span class="math display">N&#39;(d)=\frac{\sigma_-K_-}{(d-x_-)^2}
+       +\frac{\sigma_+K_+}{(d-x_+)^2}&gt;0.</span> Thus <span class="math inline">\xi</span> is positive on every nonempty subinterval of <span class="math inline">(a,2]</span>. Moreover <span class="math inline">N(d)=O(d-a)</span> at <span class="math inline">a</span> and is bounded at <span class="math inline">2</span>, so the square-root singularities in <a href="#eq:4.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.10">(4.7)</a> are integrable and <span class="math inline">\xi</span> is a finite measure.</p>
+<section id="convexity-of-the-exact-main-width" class="level2" data-number="4.1">
+<h2 data-number="4.1"><span class="header-section-number">4.1</span> Convexity of the exact main width</h2>
+<p>For a probability measure <span class="math inline">\nu</span> on <span class="math inline">[1,2]</span>, let <span class="math display">T_\nu(u)=\inf\{d\in[1,2]:\nu([1,d])\ge u\},
+ \qquad 0&lt;u&lt;1,</span> be its nondecreasing quantile. Write <span class="math inline">T_0=T_{\eta_{k,a}}</span> for the reference quantile and <span class="math inline">T</span> for the quantile of the atomic target <span class="math inline">\sum_iq_i\delta_{d_i}</span>. Thus <span class="math inline">T</span> equals <span class="math inline">d_i</span> on a consecutive interval of length <span class="math inline">q_i</span>. For any such quantile <span class="math inline">S</span>, let <span class="math inline">M_k(S)</span> be the width of the component containing zero for <span class="math display">x\longmapsto k\log|x|+\int_0^1\log|x-S(u)|\,du.</span> For any nondecreasing quantile <span class="math inline">S:[0,1]\to[1,2]</span>, define, for <span class="math inline">y&lt;\operatorname*{ess\,inf}S</span>, <span id="eq:4.11" class="math display">\begin{equation}
+ \Psi_S(y)=y\exp\left(\frac1k\int_0^1
+        \log\left(1-\frac{y}{S(u)}\right)\,du\right),\qquad
+ R(S)=\exp\left(-\frac1k\int_0^1\log S(u)\,du\right).
+\label{eq:4.11}
+\tag{4.8}
+\end{equation}</span> If <span class="math inline">W_S(y)=k\log|y|+\int_0^1\log|y-S(u)|\,du</span>, direct expansion gives <span class="math display">\frac1kW_S(y)=\log\frac{|\Psi_S(y)|}{R(S)}.</span></p>
+<div id="lem:separation" class="lemma">
+<p><strong>Lemma 4.1</strong> (Separation–contact criterion).  <em>Let <span class="math inline">T</span> be the quantile of an atomized target <span class="math inline">\sum_iq_i\delta_{d_i}</span>, with <span class="math inline">1\le d_1&lt;\cdots&lt;d_N\le2</span>. There is a unique <span class="math inline">y_c\in(0,d_1)</span> at which <span class="math inline">\Psi_T</span> is critical, and <span class="math inline">R(T)\le\Psi_T(y_c)</span>. Strict inequality means that the main component is <em>strictly separated</em> from the component at <span class="math inline">d_1</span>; equality is the <em>contact</em> case, in which <span class="math inline">y_c</span> is their single common boundary point. In both cases the main-component endpoints are <span class="math inline">\Phi_T(-R(T))</span> and <span class="math inline">\Phi_T(R(T))</span>, where <span class="math inline">\Phi_T</span> is the inverse branch of <span class="math inline">\Psi_T</span> at zero and the latter value is the increasing real limit in the contact case.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For <span class="math inline">0&lt;y&lt;d_1</span>, logarithmic differentiation of <a href="#eq:4.11" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.11">(4.8)</a> gives <span class="math display">\frac{\Psi_T&#39;(y)}{\Psi_T(y)}
+ =\frac1y-\frac1k\sum_i\frac{q_i}{d_i-y}=:G(y).</span> Now <span class="math display">G&#39;(y)=-\frac1{y^2}-\frac1k\sum_i\frac{q_i}{(d_i-y)^2}&lt;0,</span> while <span class="math inline">G(y)\to+\infty</span> as <span class="math inline">y\downarrow0</span> and <span class="math inline">G(y)\to-\infty</span> as <span class="math inline">y\uparrow d_1</span>. Hence <span class="math inline">G</span> has exactly one zero <span class="math inline">y_c</span>; the positive function <span class="math inline">\Psi_T</span> increases on <span class="math inline">(0,y_c)</span> and decreases on <span class="math inline">(y_c,d_1)</span>, tending to zero at both ends.</p>
+<p>For <span class="math inline">y&lt;0</span>, the same logarithmic derivative is strictly negative, so <span class="math inline">\Psi_T&#39;(y)&gt;0</span> because <span class="math inline">\Psi_T(y)&lt;0</span>. Moreover <span class="math inline">\Psi_T(y)\to-\infty</span> as <span class="math inline">y\to-\infty</span> and <span class="math inline">\Psi_T(y)\to0</span> as <span class="math inline">y\uparrow0</span>. Thus <span class="math inline">\Psi_T(y)=-R(T)</span> has exactly one negative solution.</p>
+<p>By atomization, the component containing zero and the component containing <span class="math inline">d_1</span> are distinct. Therefore some point of <span class="math inline">(0,d_1)</span> has <span class="math inline">W_T\ge0</span>. The displayed relation between <span class="math inline">W_T</span>, <span class="math inline">\Psi_T</span>, and <span class="math inline">R(T)</span> forces <span class="math inline">R(T)\le\max_{(0,d_1)}\Psi_T=\Psi_T(y_c)</span>. If the inequality is strict, <span class="math inline">\Psi_T=R(T)</span> has two positive solutions and <span class="math inline">W_T&gt;0</span> precisely between them; the first is the right endpoint of the main component. If equality holds, the solutions coalesce at <span class="math inline">y_c</span> and <span class="math inline">W_T&lt;0</span> on both adjacent punctured intervals, so <span class="math inline">y_c</span> is their common boundary point. Together with the unique negative solution, this proves the assertions about the endpoints and the inverse branch. ◻</p>
+</div>
+<div id="lem:convex-support" class="lemma">
+<p><strong>Lemma 4.2</strong> (Convex supporting inequality).  <em>Suppose that the reference <span class="math inline">T_0</span> is strictly separated and has the simple crossings in <a href="#eq:4.8" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.8">(4.6)</a>. If <span class="math inline">T</span> is an atomized separated or contact target and <span class="math inline">v=T-T_0</span>, then the directional derivative of the reference width exists and <span id="eq:4.13" class="math display">\begin{equation}
+ M_k(T)\ge M_k(T_0)+\dot M_k(T_0;v).
+\label{eq:4.13}
+\tag{4.9}
+\end{equation}</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> We prove the global supporting inequality, rather than assume a formal first variation. For a finite residual measure <span class="math inline">\sum_iq_i\delta_{d_i}</span> put <span class="math inline">\alpha_i=q_i/k</span>, so <span class="math inline">\sum_i\alpha_i=1/k</span>. Formula <a href="#eq:4.11" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.11">(4.8)</a> becomes <span class="math display">\Psi(y)=y\prod_i(1-y/d_i)^{\alpha_i},\qquad
+ R=\prod_i d_i^{-\alpha_i}.</span> For real <span class="math inline">y&lt;d_1</span>, all factors <span class="math inline">1-y/d_i</span> are positive, and <span class="math display">\frac1kW(y)=\log\frac{|\Psi(y)|}{R}.</span> By Lemma <a href="#lem:separation" class="xref" data-reference-type="ref" data-reference="lem:separation">4.1</a>, the two main endpoints are <span class="math inline">\Phi(-R)</span> and <span class="math inline">\Phi(R)</span>, with the stated contact convention. Lagrange inversion gives <span id="eq:4.14" class="math display">\begin{equation}
+ \Phi(z)=\sum_{n\ge1}a_nz^n,\qquad
+ a_n=\frac1n[y^{n-1}]\prod_i(1-y/d_i)^{-n\alpha_i}.
+\label{eq:4.14}
+\tag{4.10}
+\end{equation}</span> Consequently <span id="eq:4.15" class="math display">\begin{equation}
+ M_k=\Phi(R)-\Phi(-R)=2\sum_{m\ge0}a_{2m+1}R^{2m+1}.
+\label{eq:4.15}
+\tag{4.11}
+\end{equation}</span> More explicitly, <span id="eq:4.16" class="math display">\begin{equation}
+ a_nR^n=\frac1n
+ \sum_{r_1+\cdots+r_N=n-1}
+ \prod_i\frac{(n\alpha_i)_{r_i}}{r_i!}
+ d_i^{-(n\alpha_i+r_i)}.
+\label{eq:4.16}
+\tag{4.12}
+\end{equation}</span> Here <span class="math inline">(z)_0=1</span> and <span class="math inline">(z)_m=z(z+1)\cdots(z+m-1)</span> for <span class="math inline">m\ge1</span> is the rising Pochhammer symbol. Every coefficient is nonnegative. If <span class="math inline">m(d)=\prod_i d_i^{-\gamma_i}</span> with <span class="math inline">\gamma_i&gt;0</span>, then for every vector <span class="math inline">v</span>, <span class="math display">\frac{v^T(\nabla^2m)v}{m}
+ =\left(\sum_i\frac{\gamma_iv_i}{d_i}\right)^2
+  +\sum_i\frac{\gamma_iv_i^2}{d_i^2}\ge0.</span> Thus every finite odd partial sum in <a href="#eq:4.15" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.15">(4.11)</a> is convex in the positive coordinates. Repeating coordinates according to multiplicity gives the same statement on every common equal-mass quantile partition.</p>
+<p>For completeness, we now pass from finite coordinate vectors to the quantiles used below. The masses <span class="math inline">q_i</span> of an empirical target are rational. Choose a common equal-mass partition which refines all of its constant blocks, sample the reference quantile <span class="math inline">T_0</span> on the same cells, and repeat each target value on the corresponding cells. To see explicitly that the changing dimension causes no problem, define <span class="math display">m_\ell(T)=\int_0^1T(u)^{-\ell}\,du,
+ \qquad R(T)=\exp\left(-\frac1k\int_0^1\log T(u)\,du\right).</span> The product in the coefficient formula <a href="#eq:4.14" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.14">(4.10)</a> has the identity <span class="math display">\prod_i(1-y/d_i)^{-nq_i/k}
+ =\exp\left(\frac nk\sum_{\ell\ge1}
+ \frac{m_\ell(T)}\ell y^\ell\right).</span> Thus, for fixed <span class="math inline">n</span>, <span class="math inline">a_n</span> is a finite polynomial in <span class="math inline">m_1,\ldots,m_{n-1}</span>. Under common-partition approximation these moments, <span class="math inline">R</span>, and their directional derivatives converge, because <span class="math inline">T\ge1</span> and <span class="math display">Dm_\ell(T)[v]=-\ell\int_0^1v(u)T(u)^{-\ell-1}\,du,
+ \qquad
+ DR(T)[v]=-\frac{R(T)}k\int_0^1\frac{v(u)}{T(u)}\,du.</span> It follows that every fixed odd truncation and its directional derivative converge as the mesh tends to zero.</p>
+<p>Let <span class="math inline">S_m</span> denote the sum of the terms in <a href="#eq:4.15" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.15">(4.11)</a> through degree <span class="math inline">2m+1</span>. Choose equal-mass step approximations <span class="math inline">T_{0,N}</span> to <span class="math inline">T_0</span>, with <span class="math inline">N</span> a multiple of the common denominator of the target masses. Repeat each target value on the same <span class="math inline">N</span> cells. Finite-dimensional convexity gives <span class="math display">S_m(T)\ge
+ S_m(T_{0,N})+DS_m(T_{0,N})[T-T_{0,N}].</span> The displayed moment and derivative formulas are dominated uniformly by <span class="math inline">T_{0,N}\ge1</span> and <span class="math inline">|T-T_{0,N}|\le1</span>. Hence, for fixed <span class="math inline">m</span>, dominated convergence as <span class="math inline">N\to\infty</span> yields <span class="math display">S_m(T)\ge S_m(T_0)+DS_m(T_0)[T-T_0].</span> At a strictly separated reference, <span class="math inline">R</span> lies strictly inside the first positive critical value of the inverse branch. To justify that no nearer complex singularity intervenes, recall Pringsheim’s theorem <a href="#ref-8" class="cite">[8, Theorem IV.6]</a>: a power series with nonnegative coefficients and finite radius of convergence is singular at the positive point equal to that radius. The coefficients <span class="math inline">a_n</span> in <a href="#eq:4.14" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.14">(4.10)</a> are nonnegative, while the positive real inverse branch is analytic up to its first critical value. Thus the reference level is strictly inside the disk of convergence. On a smaller closed disk, the inverse series and its material derivative converge locally uniformly by the analytic implicit-function theorem. Hence the series for both <span class="math inline">S_m(T_0)</span> and <span class="math inline">DS_m(T_0)</span> converge absolutely. Letting <span class="math inline">m\to\infty</span> in the preceding finite-truncation inequality gives the result when the target is strictly separated. Indeed, the same Pringsheim argument applies to the target: Lemma <a href="#lem:separation" class="xref" data-reference-type="ref" data-reference="lem:separation">4.1</a> puts <span class="math inline">R(T)</span> strictly below its first positive critical value, so its inverse series converges at <span class="math inline">\pm R(T)</span>. Thus its nonnegative odd series converges to the exact inverse-branch width, while the reference value and derivative converge absolutely.</p>
+<p>For a target at contact and <span class="math inline">0&lt;\lambda&lt;1</span>, define the Abel width <span class="math display">M_{k,\lambda}(T)=2\sum_{m\ge0}a_{2m+1}(T)
+ [\lambda R(T)]^{2m+1}.</span> For each finite odd truncation, convexity follows because its monomials are precisely those in <a href="#eq:4.16" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.16">(4.12)</a>, multiplied by positive constants <span class="math inline">\lambda^{2m+1}</span>. Apply the common-partition argument to that truncation and then let its degree tend to infinity. Monotone convergence applies on the target side; at the strictly separated reference, both the value and directional derivative converge absolutely. Therefore <span class="math display">M_{k,\lambda}(T)\ge M_{k,\lambda}(T_0)
+ +DM_{k,\lambda}(T_0)[T-T_0].</span> As <span class="math inline">\lambda\uparrow1</span>, the target value increases to <span class="math inline">M_k(T)</span>: for <span class="math inline">\lambda&lt;1</span> it equals <span class="math inline">\Phi(\lambda R)-\Phi(-\lambda R)</span>, and the two real inverse branches converge monotonically to the two level-<span class="math inline">R</span> endpoints. This is precisely the monotone form of Abel’s boundary theorem, and it also follows directly from monotone convergence of the nonnegative odd series. Strict separation gives absolute convergence of the reference value and material derivative, so their limits may be taken term by term. Letting <span class="math inline">\lambda\uparrow1</span> proves <a href="#eq:4.13" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.13">(4.9)</a> in the contact case. ◻</p>
+</div>
+</section>
+<section id="the-endpoint-corrected-adjoint" class="level2" data-number="4.2">
+<h2 data-number="4.2"><span class="header-section-number">4.2</span> The endpoint-corrected adjoint</h2>
+<p>The pairing with <span class="math inline">\xi</span> is not, in general, equal to the derivative in <a href="#eq:4.13" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.13">(4.9)</a>. We now prove the exact endpoint correction and the one-sided inequality that is needed.</p>
+<p>For <span class="math inline">0\le s\le1</span>, set <span class="math inline">T_s=T_0+s(T-T_0)</span>. In the reference spatial coordinate <span class="math inline">d=T_0(u)</span>, define <span class="math display">v(d)=T(u)-T_0(u).</span> This is unambiguous almost everywhere because <span class="math inline">\eta_{k,a}</span> has no atoms. Define <span class="math inline">g</span> as the derivative, at <span class="math inline">s=0</span>, of the weighted potential evaluated at the moving material point: <span class="math display">g(T_0(u))=
+ \left.\frac{\,d}{\,ds}\right|_{s=0}
+ \left\{k\log T_s(u)+
+ \int_0^1\log|T_s(u)-T_s(w)|\,dw\right\}.</span> The principal values below are symmetric principal values in the reference coordinate.</p>
+<div id="lem:adjoint" class="lemma">
+<p><strong>Lemma 4.3</strong> (Endpoint-corrected adjoint).  <em>Under the hypotheses of Lemma <a href="#lem:convex-support" class="xref" data-reference-type="ref" data-reference="lem:convex-support">4.2</a>, one has the exact endpoint correction <span class="math display">\dot M_k(T_0;v)-\int_Ig\,d\xi
+ =-a_\pi v(2)\left(\frac{\sigma_-}{K_-}
+                    +\frac{\sigma_+}{K_+}\right).</span> For an atomic target, <span class="math inline">v(2)=d_N-2\le0</span>, and consequently <span class="math display">M_k(T)\ge M_k(T_0)+\int_Ig\,d\xi.</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Write <span class="math inline">d=c-r\cos\theta</span>, <span class="math inline">0\le\theta\le\pi</span>, so <span class="math inline">\,de_I=\,d\theta/\pi</span>. Let <span class="math display">A(d)=k+1-\frac{k\sqrt{2a}}d,\qquad a_\pi=A(2)&gt;0.</span> For <span class="math inline">j\in\{-,+\}</span> there is a unique <span class="math inline">0&lt;\rho_j&lt;1</span> with <span class="math display">x_j=c-\frac r2(\rho_j+\rho_j^{-1}).</span> Then <span class="math display">K_j=\frac{r(1-\rho_j^2)}{2\rho_j},\qquad
+ P_\rho(\theta)=\frac{1-\rho^2}{1-2\rho\cos\theta+\rho^2}
+ =1+2\sum_{n\ge1}\rho^n\cos(n\theta),</span> and <span class="math inline">K_j/(d-x_j)=P_{\rho_j}(\theta)</span>. Thus <a href="#eq:4.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.10">(4.7)</a> is <span id="eq:4.18" class="math display">\begin{equation}
+ d\xi=B(\theta)\frac{d\theta}{\pi},\qquad
+ B(\theta)=D-\sum_j\sigma_jP_{\rho_j}(\theta),
+\label{eq:4.18}
+\tag{4.13}
+\end{equation}</span> with <span class="math inline">D=\sum_j\sigma_jP_{\rho_j}(0)</span>. This also proves <span class="math inline">B(0)=0</span> and <span class="math inline">B(\theta)&gt;0</span> for <span class="math inline">0&lt;\theta\le\pi</span>.</p>
+<p>First assume that the spatial material velocity is smooth and put <span class="math inline">F(d)=A(d)v(d)</span>. Differentiating the preceding definition of <span class="math inline">g</span> under the integral gives <span class="math display">g(d)=\frac{k v(d)}d+\operatorname {pv}\int_I
+ \frac{v(d)-v(e)}{d-e}\,d\eta(e).</span> Differentiating <a href="#eq:4.6" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.6">(4.5)</a> with respect to its spatial variable gives <span class="math display">\frac kd+\operatorname {pv}\int_I\frac1{d-e}\,d\eta(e)=0.</span> Multiplying this identity by <span class="math inline">v(d)</span> and subtracting it from the preceding display cancels every term containing <span class="math inline">v(d)</span> and gives <span class="math display">g(d)=\operatorname {pv}\int_I\frac{v(e)}{e-d}\,d\eta(e)
+     =\operatorname {pv}\int_I\frac{F(e)}{e-d}\,de_I(e).</span> At the two exterior crossings, ordinary differentiation and implicit differentiation give <span class="math display">\dot M_k=-\sum_j\sigma_j\int_I\frac{F(d)}{d-x_j}\,de_I(d).</span></p>
+<p>Expand <span class="math inline">F(c-r\cos\theta)=f_0+2\sum_{n\ge1}f_n\cos(n\theta)</span>, first as a finite cosine polynomial. Here <span class="math inline">U_n</span> denotes the Chebyshev polynomial of the second kind, characterized by <span class="math inline">U_n(\cos\theta)=\sin((n+1)\theta)/\sin\theta</span>. The finite Hilbert transform identity <span class="math display">\operatorname {pv}\frac1\pi\int_0^\pi
+ \frac{\cos(n\phi)}{\cos\theta-\cos\phi}\,d\phi
+ =-U_{n-1}(\cos\theta)</span> follows from the zero transform of the constant function, the case <span class="math inline">n=1</span>, and the cosine recurrence. Moreover <span class="math display">\frac1\pi\int_0^\pi P_\rho(\theta)U_{n-1}(\cos\theta)\,d\theta
+ =\begin{cases}
+ \dfrac{1+\rho^2-2\rho^{n+1}}{1-\rho^2},&amp;n\text{ odd},\\[2mm]
+ \dfrac{2\rho(1-\rho^n)}{1-\rho^2},&amp;n\text{ even}.
+ \end{cases}</span> This is obtained by inserting <span class="math inline">U_{2m}=1+2\sum_{\ell=1}^m\cos(2\ell\theta)</span> and <span class="math inline">U_{2m-1}=2\sum_{\ell=1}^m\cos((2\ell-1)\theta)</span>. We spell out the remaining coefficient calculation. Put <span class="math display">\varepsilon_n=\frac1\pi\int_0^\pi
+ U_{n-1}(\cos\theta)\,d\theta
+ =\begin{cases}1,&amp;n\text{ odd},\\0,&amp;n\text{ even},\end{cases}</span> and let <span class="math inline">S_n(\rho)</span> denote the preceding Poisson integral. The angular density for <span class="math inline">\xi</span>, the Hilbert-transform representation of <span class="math inline">g</span>, and the preceding finite-transform identity give <span class="math display">\int_Ig\,d\xi=-\frac2r\sum_{n\ge1}f_n
+ \left(D\varepsilon_n-\sum_j\sigma_jS_n(\rho_j)\right).</span> Poisson orthogonality and the displayed first-variation formula give, on the other hand, <span class="math display">\dot M_k=-\sum_j\frac{\sigma_j}{K_j}
+ \left(f_0+2\sum_{n\ge1}f_n\rho_j^n\right).</span> Set <span class="math display">\Gamma=\sum_j\frac{\sigma_j}{K_j}
+ =\frac2r\sum_j\frac{\sigma_j\rho_j}{1-\rho_j^2}.</span> The coefficient of <span class="math inline">f_0</span> in the difference is <span class="math inline">-\Gamma</span>. If <span class="math inline">n</span> is even, its coefficient is <span class="math display">\begin{align*}
+&amp;-\frac4r\sum_j\frac{\sigma_j\rho_j^{n+1}}{1-\rho_j^2}
+ -\frac4r\sum_j\frac{\sigma_j\rho_j(1-\rho_j^n)}{1-\rho_j^2}\\
+&amp;\hspace{35mm}=-\frac4r\sum_j
+ \frac{\sigma_j\rho_j}{1-\rho_j^2}=-2\Gamma.
+\end{align*}</span> If <span class="math inline">n</span> is odd, use <span class="math display">D=\sum_j\sigma_jP_{\rho_j}(0)
+ =\sum_j\sigma_j\frac{1+2\rho_j+\rho_j^2}{1-\rho_j^2}</span> and the odd case of the Poisson integral above. The coefficient becomes <span class="math display">\frac{2D}{r}-\frac2r\sum_j\sigma_j
+ \frac{1+\rho_j^2}{1-\rho_j^2}
+ =\frac4r\sum_j\frac{\sigma_j\rho_j}{1-\rho_j^2}=2\Gamma.</span> Finally <span class="math inline">d(\pi)=2</span>, and therefore <span class="math display">F(2)=f_0+2\sum_{n\ge1}(-1)^nf_n.</span> The three coefficient formulas are exactly those of <span class="math inline">-\Gamma F(2)</span>. Thus <span id="eq:4.23" class="math display">\begin{equation}
+ \boxed{\dot M_k-\int_Ig\,d\xi
+ =-F(2)\sum_j\frac{\sigma_j}{K_j}
+ =-a_\pi v(2)\left(\frac{\sigma_-}{K_-}
+                    +\frac{\sigma_+}{K_+}\right).}
+\label{eq:4.23}
+\tag{4.14}
+\end{equation}</span></p>
+<p>For an atomic target, <span class="math inline">v</span> is piecewise <span class="math inline">C^1</span> in the reference coordinate, with finitely many jumps. Apply <a href="#eq:4.23" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.23">(4.14)</a> to the Poisson–Abel regularization <span class="math inline">F_\lambda=f_0+2\sum\lambda^nf_n\cos(n\theta)</span>. For fixed <span class="math inline">\lambda&lt;1</span>, the identity first holds for finite cosine truncations and then for <span class="math inline">F_\lambda</span> by absolute convergence. As <span class="math inline">\lambda\uparrow1</span>, the exterior integrals converge by domination because <span class="math inline">d-x_\pm</span> is bounded away from zero. The endpoint term also converges: <span class="math inline">F_\lambda(\pi)\to F(\pi)</span> because the even periodic extension of <span class="math inline">\theta\mapsto F(c-r\cos\theta)</span> is continuous at <span class="math inline">\pi</span>. For the interior pairing, the zero principal value of the constant numerator gives, at every continuity point, <span class="math display">g(c-r\cos\theta)=\frac1{\pi r}\operatorname {pv}\int_0^\pi
+ \frac{F(c-r\cos\phi)-F(c-r\cos\theta)}
+      {\cos\theta-\cos\phi}\,d\phi.</span> We now give a direct uniform-integrability estimate; no commutation of the finite Hilbert transform with Poisson convolution is used. Write <span class="math inline">\widetilde F(\theta)=F(c-r\cos\theta)</span>. Since <span class="math inline">v(d)=d_i-d</span> on each spatial target block, <span class="math inline">\widetilde F</span> is piecewise real analytic with finitely many interior jumps. If those jumps are <span class="math inline">\Delta_\ell</span> at <span class="math inline">\theta_\ell</span>, decompose <span class="math display">\widetilde F(\theta)=F_c(\theta)+
+   \sum_\ell\Delta_\ell\mathbf 1_{[\theta_\ell,\pi]}(\theta).</span> The function <span class="math inline">F_c</span> is continuous and piecewise real analytic. Its cosine coefficients <span class="math inline">c_n</span> satisfy <span class="math inline">|c_n|\le Cn^{-2}</span>: integrate once by parts, and use that the piecewise analytic derivative <span class="math inline">F_c&#39;</span> has bounded variation, whose Fourier coefficients are <span class="math inline">O(n^{-1})</span>.</p>
+<p>For a single jump term, its <span class="math inline">n</span>th cosine coefficient is <span class="math inline">-\Delta_\ell\sin(n\theta_\ell)/(\pi n)</span>. Using <span class="math inline">U_{n-1}(\cos\theta)=\sin(n\theta)/\sin\theta</span> and summing <span class="math inline">\sum_{n\ge1}\lambda^n\cos(nt)/n=-\log|1-\lambda e^{it}|</span> gives its regularized transform exactly as <span class="math display">\frac{\Delta_\ell}{\pi r\sin\theta}
+ \left\{\log|1-\lambda e^{i(\theta+\theta_\ell)}|
+       -\log|1-\lambda e^{i(\theta-\theta_\ell)}|\right\}.</span> The first logarithm is uniformly bounded near <span class="math inline">\theta_\ell</span>; the second has the only singularity. Uniformly in <span class="math inline">0&lt;\lambda&lt;1</span>, <span class="math display">\int_{|t|&lt;\delta}|\log|1-\lambda e^{it}||\,dt
+ \le C\delta(1+|\log\delta|).</span> To verify this estimate, use <span class="math inline">|1-\lambda e^{it}|\asymp\sqrt{(1-\lambda)^2+t^2}</span> for <span class="math inline">|t|\le1</span> and integrate separately over <span class="math inline">|t|\le1-\lambda</span> and <span class="math inline">1-\lambda&lt;|t|&lt;\delta</span>; the part where the logarithm is positive is uniformly bounded. At <span class="math inline">0</span> and <span class="math inline">\pi</span> the two logarithms in braces have the same endpoint value; the mean-value theorem gives a difference <span class="math inline">O(\sin\theta)</span> uniformly in <span class="math inline">\lambda</span>, so division by <span class="math inline">\sin\theta</span> remains bounded.</p>
+<p>For the continuous part, put <span class="math inline">\delta_\theta=\min(\theta,\pi-\theta)</span>. Since <span class="math inline">|\sin(n\theta)|\le\min(n\delta_\theta,1)</span> and <span class="math inline">\sin\theta\ge2\delta_\theta/\pi</span>, the coefficient bound gives, uniformly in <span class="math inline">\lambda</span>, <span class="math display">\left|\sum_{n\ge1}\lambda^nc_nU_{n-1}(\cos\theta)\right|
+ \le C\bigl(1+|\log\delta_\theta|\bigr).</span> The last two bounds are integrable, <span class="math inline">B(\theta)=O(\theta^2)</span> at zero, and <span class="math inline">B</span> is bounded at <span class="math inline">\pi</span>. Away from the finitely many jumps the displayed series converge pointwise as <span class="math inline">\lambda\uparrow1</span>; the logarithmic estimates give uniform integrability on the omitted neighborhoods. Hence the pairings converge in <span class="math inline">L^1(B(\theta)\,d\theta)</span>, which passes <a href="#eq:4.23" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.23">(4.14)</a> to the target velocity. Since the top target quantile is <span class="math inline">d_N\le2</span>, <span class="math display">v(2)=d_N-2\le0,\qquad
+ \dot M_k\ge\int_Ig\,d\xi.</span> Combining this one-sided derivative estimate with <a href="#eq:4.13" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.13">(4.9)</a> gives the corrected supporting inequality <span id="eq:4.25" class="math display">\begin{equation}
+ M_k(T)\ge M_k(T_0)+\int_Ig\,d\xi.
+\label{eq:4.25}
+\tag{4.15}
+\end{equation}</span> ◻</p>
+</div>
+</section>
+<section id="the-block-inequality" class="level2" data-number="4.3">
+<h2 data-number="4.3"><span class="header-section-number">4.3</span> The block inequality</h2>
+<p>Let the target quantile equal <span class="math inline">d_i</span> on consecutive half-open intervals <span class="math inline">I_i\subset(0,1)</span> of length <span class="math inline">q_i</span>. Let <span class="math display">F_0(d)=\eta_{k,a}([a,d])</span> be the reference distribution function and define the pullback <span class="math display">\widehat\xi=(F_0)_\#\xi.</span> Thus <span class="math display">\int_0^1\varphi(u)\,d\widehat\xi(u)
+ =\int_I\varphi(F_0(d))\,d\xi(d)</span> for every bounded Borel function <span class="math inline">\varphi</span>. Put <span id="eq:4.26" class="math display">\begin{equation}
+ r_i=\widehat\xi(I_i),\qquad
+ \mathcal E(I_i)=\int_{I_i}\int_{I_i}
+ \log|T_0(u)-T_0(v)|\,dv\,d\widehat\xi(u).
+\label{eq:4.26}
+\tag{4.16}
+\end{equation}</span> These mixed logarithmic integrals are absolutely convergent. Indeed, in angular coordinates <span class="math display">|d(\theta)-d(\phi)|
+ =2r\left|\sin\frac{\theta+\phi}{2}\right|
+       \left|\sin\frac{\theta-\phi}{2}\right|,</span> and <span class="math inline">A(\phi)</span> and <span class="math inline">B(\theta)</span> are bounded on <span class="math inline">[0,\pi]</span>. Each of the two resulting logarithms is integrable on <span class="math inline">[0,\pi]^2</span>. Thus Fubini’s theorem may be used below, including when two blocks share an endpoint.</p>
+<div id="prop:block" class="proposition">
+<p><strong>Proposition 4.4</strong> (Block reduction).  <em>Assume the hypotheses of Lemma <a href="#lem:adjoint" class="xref" data-reference-type="ref" data-reference="lem:adjoint">4.3</a>. Put <span class="math inline">M_0=M_k(T_0)</span>, <span class="math inline">R_0=\xi(I)</span>, and <span class="math inline">C_{\rm eff}=C+(L-M_0)/R_0</span>; here <span class="math inline">R_0&gt;0</span> by the strict positivity of <span class="math inline">\xi</span> on <span class="math inline">(a,2]</span>. If every nonempty quantile interval <span class="math inline">I&#39;\subset(0,1)</span> satisfies <span class="math display">\mathcal E(I&#39;)\ge qr\log\frac{qr}{2}+C_{\rm eff}r,
+ \qquad q=|I&#39;|,\quad r=\widehat\xi(I&#39;),</span> then the atomized target satisfies <span class="math inline">\mathfrak J_k\ge L</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For <span class="math inline">u\in I_i</span>, every off-block target difference and reference difference has the same sign. The tangent inequality <span class="math display">\frac{y-x}{x}\ge\log y-\log x\qquad(x,y&gt;0)</span> applies to their absolute values and to the external-field coordinates. Indeed, writing <span class="math inline">g(u)</span> as shorthand for <span class="math inline">g(T_0(u))</span>, the unreduced first variation is <span class="math display">g(u)=k\frac{T(u)-T_0(u)}{T_0(u)}
+ +\operatorname {pv}\int_0^1
+ \frac{[T(u)-T(v)]-[T_0(u)-T_0(v)]}
+      {T_0(u)-T_0(v)}\,dv.</span> For <span class="math inline">v\in I_j</span>, <span class="math inline">j\ne i</span>, the tangent inequality gives <span class="math display">\frac{(d_i-d_j)-[T_0(u)-T_0(v)]}{T_0(u)-T_0(v)}
+ \ge\log|d_i-d_j|-\log|T_0(u)-T_0(v)|.</span> For <span class="math inline">v\in I_i</span> the target difference is zero, so the quotient equals <span class="math inline">-1</span> almost everywhere. Applying the same inequality also to <span class="math inline">d_i/T_0(u)</span> and integrating the preceding bounds yields <span class="math display">\begin{align*}
+g(u)\ge{}&amp;k\log d_i-k\log T_0(u)
+ +\sum_{j\ne i}q_j\log|d_i-d_j|\\
+&amp;-\int_{(0,1)\setminus I_i}\log|T_0(u)-T_0(v)|\,dv-q_i.
+\end{align*}</span> Now <a href="#eq:2.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.9">(2.3)</a> makes the first and third terms equal to <span class="math inline">-q_i\log R_i</span>, while the platform identity <a href="#eq:4.6" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.6">(4.5)</a> supplies exactly the remaining constant <span class="math inline">-C</span>. Therefore <span class="math display">g(u)\ge-q_i\log R_i-C-q_i
+ +\int_{I_i}\log|T_0(u)-T_0(v)|\,dv.</span> Integrating, summing, and using <a href="#eq:4.25" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.25">(4.15)</a> yields <span class="math display">\mathfrak J_k\ge M_0+\sum_i\left\{
+ r_i[-q_i\log R_i-C-q_i]+\mathcal E(I_i)+2R_i\right\},</span> where <span class="math inline">M_0=M_k(T_0)</span>. As a function of <span class="math inline">R_i&gt;0</span>, the expression in braces has derivative <span class="math inline">-q_ir_i/R_i+2</span> and positive second derivative <span class="math inline">q_ir_i/R_i^2</span>. Its unique minimum is therefore <span class="math display">\mathcal E(I_i)-q_ir_i\log\frac{q_ir_i}{2}-Cr_i,</span> attained at <span class="math inline">R_i=q_ir_i/2</span>. Here <span class="math inline">r_i&gt;0</span>, because <span class="math inline">\xi</span> is positive on every nonempty subinterval away from the single endpoint <span class="math inline">a</span>. Put <span class="math display">R_0=\xi(I)=\widehat\xi((0,1)),\qquad
+ C_{\rm eff}=C+\frac{L-M_0}{R_0}.</span> <span class="math inline">R_0</span> is strictly positive. It follows that the interval inequalities <span id="eq:4.32" class="math display">\begin{equation}
+ \boxed{\mathcal E(I&#x27;)\ge qr\log\frac{qr}{2}+C_{\rm eff}r}
+\label{eq:4.32}
+\tag{4.17}
+\end{equation}</span> for every nonempty quantile interval <span class="math inline">I&#39;\subset(0,1)</span> (where <span class="math inline">q=|I&#39;|</span> and <span class="math inline">r=\widehat\xi(I&#39;)</span>) imply, after summing over the target blocks and using <span class="math inline">\sum_i r_i=R_0</span>, <span class="math display">\mathfrak J_k\ge M_0+(C_{\rm eff}-C)R_0=L.</span> This is the conclusion of the proposition. ◻</p>
+</div>
+</section>
+</section>
+<section id="sec:circle" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> A circle rearrangement theorem for every quantile interval</h1>
+<p>Use the angular coordinate <span class="math inline">d=c-r\cos\theta</span> and write <span class="math display">\,d\eta=A(\theta)\frac{\,d\theta}{\pi},\qquad
+ \,d\xi=B(\theta)\frac{\,d\theta}{\pi}.</span> The function <span class="math inline">d(\theta)</span> is increasing. The density factor <span class="math inline">A(d)=k+1-k\sqrt{2a}/d</span> is increasing in <span class="math inline">d</span>, so <span class="math inline">A(\theta)</span> is increasing. Moreover, <a href="#eq:4.18" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.18">(4.13)</a> writes <span class="math inline">B</span> as a positive constant minus positive multiples of <span class="math inline">P_\rho(\theta)</span>, and every <span class="math inline">P_\rho</span> decreases on <span class="math inline">[0,\pi]</span>; hence <span class="math inline">B(\theta)</span> is also increasing. Put <span class="math inline">a_\pi=A(\pi)&gt;0</span>, <span class="math inline">b_\pi=B(\pi)&gt;0</span>. For an angular interval <span class="math inline">J</span> define <span id="eq:5.1" class="math display">\begin{equation}
+ Q=\int_J\frac{A(\theta)}{a_\pi}\,d\theta,\qquad
+ R=\int_J\frac{B(\theta)}{b_\pi}\,d\theta.
+\label{eq:5.1}
+\tag{5.1}
+\end{equation}</span> Its physical masses are <span class="math inline">q=a_\pi Q/\pi</span> and <span class="math inline">r&#39;=b_\pi R/\pi</span>. We use <span class="math inline">\mathcal E(J)</span> for the mixed energy obtained by restricting the inner <span class="math inline">\eta</span>-integration and the outer <span class="math inline">\xi</span>-integration in <a href="#eq:4.26" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.26">(4.16)</a> to the corresponding reference quantile interval.</p>
+<div id="thm:circle-block" class="theorem">
+<p><strong>Theorem 5.1</strong> (Circle block inequality).  <em>For every nonempty angular interval <span class="math inline">J</span>, put <span class="math display">x_n(X)=\frac{\sin(nX)}{nX},\qquad
+ h(X)=\log(2\pi)-\frac32
+ +2\int_0^1(1-t)\log\frac{\sin(Xt)}{Xt}\,dt.</span> Then <span class="math inline">h(X)\ge0</span> for <span class="math inline">0&lt;X\le\pi</span>, and <span class="math display">\begin{aligned}
+\frac{\mathcal E(J)}{qr&#39;}-\log\frac{qr&#39;}2-\frac{C_{\rm eff}}q
+\ge{}&amp;\log\frac{2H}{a_\pi b_\pi}+h(Q)+h(R)\\
+&amp;+\sum_{n\ge1}\frac{(x_n(Q)-x_n(R))^2}{n}
+-\frac{\pi C_{\rm eff}}{a_\pi Q}.
+\end{aligned}</span> Consequently, strict positivity of the right-hand side proves the interval hypothesis in Proposition <a href="#prop:block" class="xref" data-reference-type="ref" data-reference="prop:block">4.4</a>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The chord identity is <span class="math display">\frac{|d(\theta)-d(\phi)|}{H}
+ =|e^{i\theta}-e^{i\phi}|\,|e^{i\theta}-e^{-i\phi}|.</span> Let <span class="math inline">K(u)=\log|e^{iu}-1|</span>, and let <span class="math inline">\mathbb T=\mathbb R/(2\pi\mathbb Z)</span> carry ordinary, nonnormalized Lebesgue measure. On the representative interval <span class="math inline">[-\pi,\pi]</span>, extended periodically, define <span class="math display">f(\theta)=\mathbf 1_J(|\theta|)\frac{A(|\theta|)}{a_\pi},\qquad
+ g(\theta)=\mathbf 1_J(|\theta|)\frac{B(|\theta|)}{b_\pi}.</span> Because <span class="math inline">A</span> and <span class="math inline">B</span> are increasing, <span class="math inline">0\le f,g\le1</span>, and <a href="#eq:5.1" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.1">(5.1)</a> gives <span class="math display">\int_\mathbb Tf(\theta)\,d\theta=2Q,\qquad
+ \int_\mathbb Tg(\theta)\,d\theta=2R.</span> Splitting each circle integral into its positive and negative halves, the four sign choices give two copies of <span class="math inline">K(\theta-\phi)</span> and two copies of <span class="math inline">K(\theta+\phi)</span>. Hence the chord identity gives <span id="eq:5.3" class="math display">\begin{equation}
+ \frac1{QR}\int_J\int_J\frac{AB}{a_\pi b_\pi}
+ \log\frac{|d(\theta)-d(\phi)|}{H}\,d\theta\,d\phi
+ =\frac1{2QR}\int_\mathbb T\int_\mathbb Tf(\theta)g(\phi)
+ K(\theta-\phi)\,d\theta\,d\phi.
+\label{eq:5.3}
+\tag{5.2}
+\end{equation}</span></p>
+<p>Set <span class="math inline">\mathcal L(u)=\log2-K(u)=-\log\sin(|u|/2)</span> for <span class="math inline">|u|\le\pi</span>. It is nonnegative, integrable, even, and decreasing in <span class="math inline">|u|</span>. The circle convolution–rearrangement theorem of Baernstein <a href="#ref-6" class="cite">[6]</a> (also a circle case of the spherical theorem in <a href="#ref-7" class="cite">[7]</a>), applied first to <span class="math inline">\min(\mathcal L,N)</span> and then by monotone convergence, says that its cross-energy increases after symmetric decreasing rearrangement. We give the remaining bathtub step. If <span class="math inline">h</span> is symmetric decreasing and <span class="math inline">0\le p\le1</span> has circle mass <span class="math inline">2Q</span>, then <span class="math display">\int_\mathbb T(\mathbf 1_{[-Q,Q]}-p)(h-h(Q))\,d\theta\ge0;</span> inside the centered arc both factors are nonnegative, and outside both are nonpositive. Since <span class="math inline">\int(\mathbf 1_{[-Q,Q]}-p)=0</span>, this proves <span class="math inline">\int ph\le\int_{-Q}^Qh</span>. Also, the convolution of two nonnegative symmetric decreasing circle functions is symmetric decreasing: by the layer-cake representation it is enough to convolve two centered-arc indicators, and their overlap length decreases with the circular distance from the origin. Let <span class="math inline">f^*</span> and <span class="math inline">g^*</span> be the symmetric decreasing rearrangements. Baernstein’s theorem first gives <span class="math display">\int_\mathbb Tf(\mathcal L*g)\le
+ \int_\mathbb Tf^*(\mathcal L*g^*).</span> Because <span class="math inline">\mathcal L*g^*</span> is symmetric decreasing, the displayed bathtub inequality permits us to replace <span class="math inline">f^*</span> by <span class="math inline">\mathbf 1_{[-Q,Q]}</span>. The convolution <span class="math inline">\mathcal L*\mathbf 1_{[-Q,Q]}</span> is again symmetric decreasing, so a second application replaces <span class="math inline">g^*</span> by <span class="math inline">\mathbf 1_{[-R,R]}</span>. The <span class="math inline">\mathcal L</span>-energy is therefore at most that of these two centered-arc indicators. Since the additive <span class="math inline">\log2</span> term depends only on the two masses, reversing the sign shows that the <span class="math inline">K</span>-energy is minimized by these arcs.</p>
+<p>Define their normalized energy by <span class="math display">\mathcal A(Q,R)=\frac1{4QR}\int_{-Q}^Q\int_{-R}^R
+ K(\theta-\phi)\,d\phi\,d\theta
+ =-\sum_{n\ge1}
+ \frac{\sin(nQ)\sin(nR)}{n^3QR}.</span> The series follows by first integrating the absolutely convergent Abel series <span class="math inline">-\sum_{n\ge1}\lambda^n\cos(nu)/n</span> and then letting <span class="math inline">\lambda\uparrow1</span> by dominated convergence for the integrable logarithmic kernel. Therefore the left side of <a href="#eq:5.3" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.3">(5.2)</a> is at least <span class="math inline">2\mathcal A(Q,R)</span>. If <span class="math inline">x_n(Q)=\sin(nQ)/(nQ)</span>, then termwise subtraction gives <span class="math display">2\mathcal A(Q,R)-\mathcal A(Q,Q)-\mathcal A(R,R)
+ =\sum_{n\ge1}\frac{(x_n(Q)-x_n(R))^2}{n}\ge0.</span> Furthermore <span class="math display">\mathcal A(Q,Q)=2\int_0^1(1-x)\log(2\sin(Qx))\,dx.</span> Thus <span class="math display">h(Q):=\mathcal A(Q,Q)-\log(Q/\pi)
+ =\log(2\pi)-\frac32
+ +2\int_0^1(1-x)\log\frac{\sin(Qx)}{Qx}\,dx.</span> The function <span class="math inline">p(u)=\sin u-u\cos u</span> satisfies <span class="math inline">p(0)=0</span> and <span class="math inline">p&#39;(u)=u\sin u&gt;0</span> on <span class="math inline">(0,\pi)</span>; hence <span class="math inline">(\sin u/u)&#39;=-p(u)/u^2&lt;0</span>. It follows that <span class="math inline">h</span> decreases on <span class="math inline">(0,\pi]</span>. The series for <span class="math inline">\mathcal A</span> displayed above gives <span class="math inline">\mathcal A(\pi,\pi)=0</span>, and therefore <span class="math inline">h(\pi)=0</span> and <span class="math inline">h(Q)\ge0</span>.</p>
+<p>Returning to the physical masses in <a href="#eq:5.1" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.1">(5.1)</a>, equation <a href="#eq:5.3" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.3">(5.2)</a> and the arc comparison give <span class="math display">\frac{\mathcal E(J)}{qr&#39;}\ge \log H+2\mathcal A(Q,R).</span> Also <span class="math display">\log\frac{qr&#39;}2
+ =\log\frac{a_\pi b_\pi QR}{2\pi^2},
+ \qquad
+ \frac{C_{\rm eff}}q=\frac{\pi C_{\rm eff}}{a_\pi Q}.</span> Substituting the square-completion identity above and <span class="math inline">\mathcal A(Q,Q)=\log(Q/\pi)+h(Q)</span>, and then cancelling the factors <span class="math inline">QR/\pi^2</span>, gives the exact lower bound <span id="eq:5.7" class="math display">\begin{align}
+\frac{\mathcal E(J)}{qr&#x27;}-\log\frac{qr&#x27;}2-\frac{C_{\rm eff}}q
+\ge{}&amp;\log\frac{2H}{a_\pi b_\pi}+h(Q)+h(R)\tag{5.3}\\
+
+&amp;+\sum_{n\ge1}\frac{(x_n(Q)-x_n(R))^2}{n}
+-\frac{\pi C_{\rm eff}}{a_\pi Q}.
+\label{eq:5.7}\tag{5.4}\end{align}</span> This formula includes all factors of <span class="math inline">2</span> and <span class="math inline">\pi</span>. It reduces <a href="#eq:4.32" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.32">(4.17)</a> to explicit scalar inequalities on a rectangle of normalized masses. ◻</p>
+</div>
+</section>
+<section id="sec:onecut" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> The terminal one-cut family and the constant <span class="math inline">L</span></h1>
+<p>After undoing the shift and mass normalization, the zero-platform subfamily of <a href="#eq:4.3" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.3">(4.2)</a> is the one-cut family introduced in Tao’s updated note <a href="#ref-5" class="cite">[5, Section 4]</a>; see also the contemporaneous discussion <a href="#ref-3" class="cite">[3]</a>. Tao’s note identifies the same approximate candidate near <span class="math inline">a=0.805</span> and length <span class="math inline">1.835</span>. Here we reparametrize the family by <span class="math inline">q</span>, derive its exterior equations in the normalization used by the global comparison, and certify the unique global minimum. Set <span id="eq:6.1" class="math display">\begin{equation}
+ s=\frac{1-q}{1+q},\qquad a^{\rm sh}=2s^2,\qquad
+ H=\frac{2q}{(1+q)^2},\qquad
+ D_0=\frac{2}{(1+q)^2}=\frac Hq.
+\label{eq:6.1}
+\tag{6.1}
+\end{equation}</span> Then <span class="math inline">C(k,a^{\rm sh})=0</span> precisely when <span id="eq:6.2" class="math display">\begin{equation}
+ k=k(q)=-\frac{\log H(q)}{\log(H(q)/q)},\qquad
+ A=\frac{k}{1+k}=\frac{\log H(q)}{\log q}.
+\label{eq:6.2}
+\tag{6.2}
+\end{equation}</span> Multiplying the residual probability <a href="#eq:4.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.4">(4.3)</a> by <span class="math inline">1-A</span> and shifting back by one gives the probability measure <span class="math display">\mu_q=A(q)\delta_{-1}+
+ \frac{t+1-2A(q)s(q)}
+ {\pi(t+1)\sqrt{(t-a(q))(1-t)}}\mathbf 1_{(a(q),1)}\,dt,</span> where <span class="math inline">a(q)=2s(q)^2-1</span>. Its density is nonnegative if and only if <span class="math inline">A(q)\le s(q)</span>, because its numerator is increasing and its value at the left edge is <span class="math inline">2s(s-A)</span>.</p>
+<p>Put <span class="math inline">d(q)=\log(2/(1+q)^2)</span> and <span class="math inline">\tau=-\log q</span>. Then <span class="math inline">A=1-d/\tau</span>, and <span class="math inline">A\le s</span> is equivalent to <span id="eq:6.4" class="math display">\begin{equation}
+ f(q)=(1+q)d(q)+2q\log q\ge0.
+\label{eq:6.4}
+\tag{6.3}
+\end{equation}</span> Its derivative is <span id="eq:6.5" class="math display">\begin{equation}
+ f&#x27;(q)=d(q)+2\log q
+ =\log\frac{2q^2}{(1+q)^2}&lt;0
+\quad(0&lt;q&lt;3-2\sqrt2).
+\label{eq:6.5}
+\tag{6.4}
+\end{equation}</span> Since <span class="math inline">f(0+)=\log2&gt;0</span> and the certified endpoint evaluation at <span class="math inline">3-2\sqrt2</span> is negative, <a href="#eq:6.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.4">(6.3)</a> has a unique zero <span class="math inline">q_s</span>.</p>
+<p>We now derive the exterior equation rather than merely recording it. For the shifted support <span class="math inline">[2s^2,2]</span> one has <span class="math display">c=1+s^2,\qquad r=2H,\qquad
+ \rho_0=\frac{c-2s}{r}=q.</span> For <span class="math inline">u&gt;1</span> put <span class="math display">x^{\rm sh}=c-H(u+u^{-1}).</span> Then <span class="math inline">K_x=H(u-u^{-1})</span>, <span class="math inline">\rho_x=1/u</span>, and <span class="math inline">c-x^{\rm sh}+K_x=2Hu</span>. The Poisson expansion of the equilibrium and balayage potentials therefore gives <span class="math display">W_0(x^{\rm sh})
+ =k\log|x^{\rm sh}|+\log(Hu)-2k\log(1-q/u).</span> Direct factorization gives <span class="math display">x^{\rm sh}=\frac{2}{(1+q)^2}
+ \frac{(u-q)(1-qu)}u=D_0\frac{(u-q)(1-qu)}u.</span> Using <span class="math inline">\log H+k\log D_0=C=0</span> and collecting logarithms, we obtain <span class="math display">W_0(x^{\rm sh})
+ =-k\log\frac{u-q}{|1-qu|}+(k+1)\log u.</span> Since <span class="math inline">A=k/(k+1)</span>, the exterior zero equation is exactly <span class="math display">F_q(u):=A(q)\log\frac{u-q}{|1-qu|}-\log u=0.</span> On <span class="math inline">1&lt;u&lt;q^{-1}</span>, <span id="eq:6.7" class="math display">\begin{equation}
+ F_q&#x27;(u)=\frac{qu^2-B(q)u+q}{u(u-q)(1-qu)},
+ \quad B(q)=1+q^2-A(q)(1-q^2).
+\label{eq:6.7}
+\tag{6.5}
+\end{equation}</span> For <span class="math inline">q&lt;q_s</span>, <span class="math inline">A&lt;s</span> and hence <span class="math inline">B&gt;2q</span>. The numerator has two reciprocal positive roots. More precisely, its value at <span class="math inline">u=1</span> is <span class="math inline">2q-B&lt;0</span>, whereas at <span class="math inline">u=q^{-1}</span> it is <span class="math display">\frac{1+q^2-B}{q}=\frac{A(1-q^2)}q&gt;0.</span> Since the product of the two roots is one, exactly one critical point lies in <span class="math inline">(1,q^{-1})</span>. The denominator in <a href="#eq:6.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.7">(6.5)</a> is positive there, so <span class="math inline">F_q</span> decreases before that point and increases afterward. Because <span class="math inline">F_q(1)=0</span> and <span class="math inline">F_q(u)\to+\infty</span> as <span class="math inline">u\uparrow q^{-1}</span>, there is exactly one nontrivial root <span class="math inline">u_+\in(1,q^{-1})</span>.</p>
+<p>At <span class="math inline">q=q_s</span> one has <span class="math inline">A=s</span> and <span class="math inline">B=2q</span>, so the numerator in <a href="#eq:6.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.7">(6.5)</a> is <span class="math inline">q(u-1)^2</span>. Thus the nontrivial root merges with <span class="math inline">u=1</span>, which justifies the continuous definition <span class="math inline">u_+(q_s)=1</span>. On <span class="math inline">u&gt;q^{-1}</span>, <span class="math display">F_q&#39;(u)=-\frac{A(q)(1-q^2)}{(u-q)(qu-1)}-\frac1u&lt;0,</span> while the endpoint limits are <span class="math inline">+\infty</span> and <span class="math inline">-\infty</span>. Thus there is exactly one root <span class="math inline">u_-&gt;q^{-1}</span>.</p>
+<p>The shifted spatial coordinate used above is <span class="math inline">x^{\rm sh}=1+s^2-H(u+u^{-1})</span>. After subtracting one, the root <span class="math inline">u_-</span> gives the left endpoint and <span class="math inline">u_+</span> the right endpoint in <a href="#eq:1.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:1.7">(1.2)</a>. Subtracting those two endpoint formulas gives exactly <span class="math inline">\Lambda(q)</span> in <a href="#eq:1.3" class="eq-ref" data-reference-type="eqref" data-reference="eq:1.3">(1.1)</a>.</p>
+<section id="certified-global-minimization" class="level2" data-number="6.1">
+<h2 data-number="6.1"><span class="header-section-number">6.1</span> Certified global minimization</h2>
+<p>We state exactly what is certified, then describe the exhaustive charts.</p>
+<div id="comp:onecut" class="certificate">
+<p><strong>Certificate 6.1</strong> (One-cut global minimization).  On <span class="math inline">0&lt;q\le q_s</span>, <span class="math inline">\Lambda</span> has exactly one stationary point <span class="math inline">q_*</span>, <span class="math inline">\Lambda&#39;&lt;0</span> before it and <span class="math inline">\Lambda&#39;&gt;0</span> after it. The enclosures in Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a> hold. In addition, <span class="math display">0.123630684649383&lt;q_s&lt;0.123630684649384.</span></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The certificate uses only interval evaluations of the following analytic equations and their differentiated forms. Near <span class="math inline">q=0</span>, set <span class="math display">\varrho=(-\log q)^{-1},\qquad z_\pm=qu_\pm.</span> Then <span id="eq:6.9" class="math display">\begin{equation}
+ G_\pm(\varrho,z)=A\log\frac{z-q^2}{|1-z|}-\log z-d(q)=0,
+\label{eq:6.9}
+\tag{6.6}
+\end{equation}</span> with <span class="math inline">0&lt;z_+&lt;1&lt;z_-</span>. The length is <span id="eq:6.10" class="math display">\begin{equation}
+ \Lambda=\frac{2(z_--z_+)}{(1+q)^2}
+ +\frac{2q^2}{(1+q)^2}\left(\frac1{z_-}-\frac1{z_+}\right).
+\label{eq:6.10}
+\tag{6.7}
+\end{equation}</span> At <span class="math inline">\varrho=0</span>, <span class="math inline">(z_+,z_-)=(1/2,3/2)</span>. On the complete tail <span class="math inline">0\le\varrho\le0.02</span>, direct interval substitution into <a href="#eq:6.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.9">(6.6)</a>, the strict <span class="math inline">G_z</span> signs, and implicit differentiation give <span class="math display">-0.788&lt;\frac{d\Lambda}{d\varrho}&lt;-0.737.</span> To verify the stated continuation at <span class="math inline">\varrho=0</span>, note that <span class="math inline">q=e^{-1/\varrho}\to0</span>, <span class="math inline">A=1-\varrho d(q)\to1</span>, and <a href="#eq:6.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.9">(6.6)</a> tends to <span class="math inline">-\log(2|1-z|)=0</span>. Its two solutions are exactly <span class="math inline">z=1/2</span> and <span class="math inline">z=3/2</span>.</p>
+<p>At the soft edge, put <span class="math inline">x=\log u_+</span> and <span class="math inline">y=x^2</span>. After division by the identically present root <span class="math inline">x=0</span>, the plus equation is <span id="eq:6.12" class="math display">\begin{equation}
+ D(q,y)=A-1+2A\sum_{n\ge1}q^n
+ \frac{\sinh(n\sqrt y)}{n\sqrt y}=0.
+\label{eq:6.12}
+\tag{6.8}
+\end{equation}</span> For an exact, nonsingular evaluation of this series, define <span class="math display">\begin{aligned}
+ C(y)&amp;=\cosh\sqrt y=\sum_{m\ge0}\frac{y^m}{(2m)!},\\
+ S(y)&amp;=\frac{\sinh\sqrt y}{\sqrt y}
+       =\sum_{m\ge0}\frac{y^m}{(2m+1)!},\\
+ b(q,y)&amp;=\frac{qS(y)}{1-qC(y)},\qquad
+ w(q,y)=y\,b(q,y)^2,\\
+ \operatorname{atanhc}(w)&amp;=\frac{\operatorname{atanh}\sqrt w}{\sqrt w}
+       =\sum_{m\ge0}\frac{w^m}{2m+1},
+\end{aligned}</span> with the continuous values <span class="math inline">C(0)=S(0)=\operatorname{atanhc}(0)=1</span>. Since <span class="math display">\sqrt w=\frac{q\sinh x}{1-q\cosh x}</span> and <span class="math display">2\operatorname{atanh}\frac{q\sinh x}{1-q\cosh x}
+ =\log\frac{1-qe^{-x}}{1-qe^x},</span> the series in <a href="#eq:6.12" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.12">(6.8)</a> is exactly <span class="math inline">b(q,y)\operatorname{atanhc}(w(q,y))</span>. Thus the expression actually evaluated is <span id="eq:6.12b" class="math display">\begin{equation}
+ D(q,y)=A(q)-1+2A(q)b(q,y)\operatorname{atanhc}(w(q,y)).
+\label{eq:6.12b}
+\tag{6.9}
+\end{equation}</span> In particular <span class="math display">D(q,0)=A(q)\frac{1+q}{1-q}-1,</span> which vanishes exactly when <span class="math inline">A(q)=s(q)</span>, that is, at <span class="math inline">q=q_s</span>. The certificate proves <span class="math inline">D_y&gt;0</span> on the soft chart and <span class="math inline">0\le w&lt;0.03</span>. It evaluates the three positive series displayed above through <span class="math inline">m=32</span> and appends explicit one-sided remainder bounds, including bounds for their first derivatives.</p>
+<p>In the bulk, proposed root boxes are first certified by opposite endpoint signs and a strict <span class="math inline">G_z</span> sign. A parametric interval-Newton contraction then encloses <span class="math inline">z_\pm(\varrho)</span>, after which <span class="math display">z&#39;=-G_\varrho/G_z,\qquad
+ z&#39;&#39;=-\frac{G_{\varrho\varrho}+2G_{\varrho z}z&#39;+G_{zz}(z&#39;)^2}{G_z}</span> is substituted into <a href="#eq:6.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.10">(6.7)</a>. No floating-point root is accepted without these sign and Newton checks.</p>
+<p>The next two terminating decimals are retained at full precision because they are exact rational centers of tests with radii <span class="math inline">10^{-30}</span> and <span class="math inline">10^{-48}</span>, respectively; shortening either center without changing the verifier would change the certificate. Put <span class="math display">\begin{aligned}
+ q_c&amp;=
+ 0.02571553686652745032257637166391965344,\\
+ \varrho_c&amp;=-\frac1{\log q_c},\\
+ c_s&amp;=
+ 0.1236306846493834978974060904264788695442437883724.
+\end{aligned}</span> The exhaustive cover is:</p>
+<div class="center">
+<table>
+<tbody>
+<tr>
+<td style="text-align: left;"><span class="math inline">q\to0</span> tail</td>
+<td style="text-align: left;"><span class="math inline">0\le\varrho\le1/50</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_\varrho&lt;0</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">bulk left</td>
+<td style="text-align: left;"><span class="math inline">1/50\le\varrho\le\varrho_c-1/200</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_\varrho&lt;0</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">stationary tube</td>
+<td style="text-align: left;"><span class="math inline">\varrho_c-1/200\le\varrho\le\varrho_c+1/200</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_{\varrho\varrho}&gt;0</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">bulk right</td>
+<td style="text-align: left;"><span class="math inline">\varrho_c+1/200\le\varrho\le1/\log10</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_\varrho&gt;0</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">regular soft chart</td>
+<td style="text-align: left;"><span class="math inline">1/10\le q\le c_s-10^{-5}</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_q&gt;0</span></td>
+</tr>
+<tr>
+<td style="text-align: left;">soft endpoint chart</td>
+<td style="text-align: left;"><span class="math inline">c_s-10^{-5}\le q\le q_s</span></td>
+<td style="text-align: center;"><span class="math inline">\Lambda_q&gt;0</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The bulk right endpoint <span class="math inline">\varrho=1/\log10</span> is exactly <span class="math inline">q=1/10</span>, so the bulk and soft charts meet with no gap. Inside the strictly convex tube, the certificate proves opposite signs for <span class="math inline">\Lambda_\varrho</span> at <span class="math inline">\varrho=\varrho_c-10^{-30}</span> and <span class="math inline">\varrho=\varrho_c+10^{-30}</span>. Continuity gives a stationary point between them, and strict convexity gives at most one stationary point in the entire tube. The signs on the adjacent charts therefore show that it is the unique stationary point on <span class="math inline">(0,q_s]</span> and is the global minimum. Outward substitution into <a href="#eq:6.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.10">(6.7)</a> gives tighter boxes for <span class="math inline">q_*</span> and <span class="math inline">L</span>; rounding their endpoints outward gives the more readable enclosures in Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>.</p>
+<p>Finally, <a href="#eq:6.5" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.5">(6.4)</a> proves that the function in <a href="#eq:6.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.4">(6.3)</a> is strictly decreasing. Opposite endpoint signs on <span class="math inline">[c_s-10^{-48},c_s+10^{-48}]</span> therefore isolate its unique zero <span class="math inline">q_s</span> and give the stated enclosure for <span class="math inline">q_s</span>. The endpoint soft chart is evaluated on the slightly larger interval through <span class="math inline">c_s+10^{-48}</span> and is then intersected with <span class="math inline">q\le q_s</span>; thus the isolation box does not create a coverage gap. All these checks are implemented by the one-cut section of <code>numerical_verifier.py</code>. ◻</p>
+</div>
+</section>
+</section>
+<section id="sec:calibration" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Uniform certified calibration for all remaining <span class="math inline">k</span></h1>
+<p>We now certify <a href="#eq:4.32" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.32">(4.17)</a>. The formulas below also specify every scalar that enters the program.</p>
+<p>For <span class="math inline">x&lt;a</span> put <span class="math display">K_x=\sqrt{(a-x)(2-x)},\qquad
+ \rho_x=\frac{r}{c-x+K_x},\qquad
+ \rho_0=\frac{c-\sqrt{2a}}r.</span> The exterior reference potential and its derivative are <span class="math display">\begin{align*}
+W_0(x)&amp;=k\log|x|+\log\frac{c-x+K_x}{2}
+       -2k\log(1-\rho_0\rho_x),\\
+W_0&#39;(x)&amp;=\frac{k}{x}-\frac1{K_x}
+ +\frac{2k\rho_0\rho_x}{K_x(1-\rho_0\rho_x)}.
+\end{align*}</span> These follow from the Poisson expansion of <a href="#eq:4.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.4">(4.3)</a>. More explicitly, for <span class="math inline">x&lt;a</span> the two Poisson sums are <span class="math display">\begin{aligned}
+ \int_I\log|x-d|\,de_I(d)
+   &amp;=\log\frac{c-x+K_x}{2},\\
+ \int_I\log|x-d|\,d\omega_{0,I}(d)
+   &amp;=\log\frac{c-x+K_x}{2}
+     +2\log(1-\rho_0\rho_x).
+\end{aligned}</span> Substitution in <span class="math inline">\eta=(k+1)e_I-k\omega_{0,I}</span> gives the displayed formula for <span class="math inline">W_0</span>. Differentiating it, using <span class="math inline">K_x&#39;=-(c-x)/K_x</span> and <span class="math inline">\rho_x&#39;=\rho_x/K_x</span>, gives the displayed formula for <span class="math inline">W_0&#39;</span>. At the crossings define <span class="math inline">\rho_\pm=\rho_{x_\pm}</span>. Then <span id="eq:7.7" class="math display">\begin{align}
+a_\pi&amp;=1+\frac{2k\rho_0}{1+\rho_0},\notag\\
+
+b_\pi&amp;=\frac{4\sigma_-\rho_-}{1-\rho_-^2}
+      +\frac{4\sigma_+\rho_+}{1-\rho_+^2},\notag\\
+
+R_0&amp;=\frac{2\sigma_-\rho_-}{1-\rho_-}
+      +\frac{2\sigma_+\rho_+}{1-\rho_+},\notag\\
+
+Q_{\max}&amp;=\frac\pi{a_\pi},\qquad
+R_{\max}=\frac{\pi R_0}{b_\pi}.
+\label{eq:7.7}\tag{7.1}\end{align}</span> To derive these identities, evaluate <span class="math inline">A(\pi)=k+1-k\sqrt{2a}/2</span> and express the result through <span class="math inline">\rho_0</span>. Next use <span class="math display">P_\rho(0)-P_\rho(\pi)=\frac{4\rho}{1-\rho^2},
+\qquad
+ \frac1\pi\int_0^\pi P_\rho(\theta)\,d\theta=1</span> in <a href="#eq:4.18" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.18">(4.13)</a>. This gives the first three identities in the preceding display. Finally, <a href="#eq:5.1" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.1">(5.1)</a> applied to the full angular interval gives <a href="#eq:7.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:7.7">(7.1)</a>.</p>
+<p>For the affine range, <span class="math inline">C_{\rm eff}&lt;0</span>. Put <span class="math display">\mathcal B=\log\frac{2H}{a_\pi b_\pi}
+              +h(Q_{\max})+h(R_{\max}),\qquad
+ P=-\frac{\pi C_{\rm eff}}{a_\pi}&gt;0.</span> Write <span class="math inline">\operatorname{sinc}x=\sin(x)/x</span> for <span class="math inline">x\ne0</span> and <span class="math inline">\operatorname{sinc}0=1</span>. Keeping the <span class="math inline">n=1</span> square in <a href="#eq:5.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.7">(5.4)</a>, it is sufficient to prove <span id="eq:7.9" class="math display">\begin{equation}
+ \mathcal B+\frac P Q+(\operatorname{sinc}Q-\operatorname{sinc}R)^2&gt;0
+\label{eq:7.9}
+\tag{7.2}
+\end{equation}</span> on <span class="math inline">0&lt;Q\le Q_{\max}</span>, <span class="math inline">0&lt;R\le R_{\max}</span>. If <span class="math inline">Q\le R_{\max}</span>, the left side is at least <span class="math inline">\mathcal B+P/R_{\max}</span>. The sinc function is strictly decreasing on <span class="math inline">(0,\pi)</span> because <span class="math inline">\sin x-x\cos x&gt;0</span> there, as proved in Section <a href="#sec:circle" class="xref" data-reference-type="ref" data-reference="sec:circle">5</a>. Thus, if <span class="math inline">R_{\max}\le Q\le Q_{\max}</span>, monotonicity gives the lower bound <span class="math display">\mathcal B+\frac P Q+
+ (\operatorname{sinc}Q-\operatorname{sinc}R_{\max})^2.</span> The derivative certified negative on 32 <span class="math inline">Q</span>-subintervals is <span class="math display">-\frac{P}{Q^2}
+ +2\bigl(\operatorname{sinc}Q-\operatorname{sinc}R_{\max}\bigr)
+       \operatorname{sinc}&#39;Q.</span> It is then enough to evaluate this lower bound at <span class="math inline">Q_{\max}</span>. For <span class="math inline">h</span>, the verifier uses <span id="eq:7.11" class="math display">\begin{equation}
+ \mathcal A(Q,Q)=-\sum_{n=1}^{80}\frac{\sin^2(nQ)}{n^3Q^2}+\mathcal R_{80},
+ \qquad -\frac1{2\cdot80^2Q^2}\le\mathcal R_{80}\le0.
+\label{eq:7.11}
+\tag{7.3}
+\end{equation}</span> On the constant-edge range, the square sum is discarded and it suffices to check <span class="math inline">\mathcal B+P/Q_{\max}&gt;0</span>.</p>
+<div class="samepage">
+<div id="comp:cover" class="certificate">
+<p><strong>Certificate 7.1</strong> (Complete parameter cover).  For every <span class="math inline">k\ge29/20</span>, the reference choices below satisfy all positivity, crossing, adjoint, and interval inequalities required by Proposition <a href="#prop:block" class="xref" data-reference-type="ref" data-reference="prop:block">4.4</a>:</p>
+<div class="center">
+<table>
+<tbody>
+<tr>
+<td style="text-align: left;"><span class="math inline">[36/25,21/10]</span></td>
+<td style="text-align: left;"><span class="math inline">1153/500-k/4</span></td>
+<td style="text-align: left;">264 <span class="math inline">k</span>-slabs</td>
+<td style="text-align: center;"><span class="math inline">&gt;0.036</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">[21/10,21/5]</span></td>
+<td style="text-align: left;"><span class="math inline">9/5</span></td>
+<td style="text-align: left;">840 <span class="math inline">k</span>-slabs</td>
+<td style="text-align: center;"><span class="math inline">&gt;0.036</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">[k(41542/10^6),\,k(26631/10^6)]</span></td>
+<td style="text-align: left;"><span class="math inline">C=0</span></td>
+<td style="text-align: left;">20 <span class="math inline">\varrho</span>-slabs</td>
+<td style="text-align: center;"><span class="math inline">&gt;0.046</span></td>
+</tr>
+<tr>
+<td style="text-align: left;"><span class="math inline">[k(26631/10^6),\,\infty)</span></td>
+<td style="text-align: left;"><span class="math inline">C=0</span></td>
+<td style="text-align: left;">tail plus 26 <span class="math inline">\varrho</span>-slabs</td>
+<td style="text-align: center;"><span class="math inline">&gt;0.0056</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Here the margin is a rigorous lower bound for the normalized left side of <a href="#eq:4.32" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.32">(4.17)</a>, namely the left side of <a href="#eq:5.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.7">(5.4)</a>. In particular the four ranges overlap and cover every <span class="math inline">k\ge29/20</span>.</p>
+</div>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For the first two rows the choices are <span class="math display">a(k)=\frac{1153}{500}-\frac k4,\qquad
+ a(k)=\frac95,</span> respectively. Each rational <span class="math inline">k</span>-slab is evaluated with outward Arb balls. At both slab endpoints, point roots merely propose intervals; opposite <span class="math inline">W_0</span> endpoint signs, the strict <span class="math inline">W_x</span> sign, and the interval sign of <span class="math inline">x&#39;=-W_k/W_x</span> prove that the root box contains the unique branch for the whole slab. The program then checks <a href="#eq:4.5" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.5">(4.4)</a>, <span class="math inline">\xi&gt;0</span>, <span class="math inline">C_{\rm eff}&lt;0</span>, <a href="#eq:7.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:7.7">(7.1)</a>, and the scalar reductions <a href="#eq:7.9" class="eq-ref" data-reference-type="eqref" data-reference="eq:7.9">(7.2)</a>–<a href="#eq:7.11" class="eq-ref" data-reference-type="eqref" data-reference="eq:7.11">(7.3)</a>. An unresolved sign aborts.</p>
+<p>For the last two rows use <a href="#eq:6.1" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.1">(6.1)</a>–<a href="#eq:6.2" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.2">(6.2)</a>. The map <span class="math inline">k(q)</span> is strictly decreasing. Indeed, with <span class="math inline">d(q)=\log(2/(1+q)^2)</span>, <span class="math display">k(q)=-\frac{\log q}{d(q)}-1,\qquad
+ k&#39;(q)=-\frac{(1+q)d(q)+2q\log q}
+ {q(1+q)d(q)^2}&lt;0</span> for <span class="math inline">0&lt;q&lt;q_s</span>, by <a href="#eq:6.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.4">(6.3)</a>. Also <span class="math inline">d(q)\to\log2</span> and <span class="math inline">-\log q\to\infty</span> as <span class="math inline">q\downarrow0</span>, so <span class="math inline">k(q)\to\infty</span>. The refined certificate covers <span class="math display">26631/10^6\le q\le41542/10^6,</span> and proves <span class="math inline">k(41542/10^6)&lt;21/5</span>. It keeps both self-gaps <span class="math inline">h(Q)</span> and <span class="math inline">h(R)</span> in <a href="#eq:5.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:5.7">(5.4)</a>. The simple terminal certificate covers <span class="math inline">0&lt;q\le26631/10^6</span>; it proves the denominator corresponding to <span class="math inline">2H/(a_\pi b_\pi)</span> is strictly below one. In the terminal family <span class="math inline">C=0</span>, while Certificate <a href="#comp:onecut" class="xref" data-reference-type="ref" data-reference="comp:onecut">6.1</a> gives <span class="math inline">M_0\ge L</span>. Therefore <span class="math inline">C_{\rm eff}=(L-M_0)/R_0\le0</span>, and discarding its favorable term is legitimate.</p>
+<p>The arithmetic uses directed endpoints throughout. Decimal-to-ball and ball-to-decimal conversions are explicitly enlarged; the affine range starts at <span class="math inline">36/25&lt;29/20</span>, so a representational endpoint cannot create a gap. The two terminal ranges meet exactly at <span class="math inline">k(26631/10^6)</span>, and the inequality <span class="math inline">k(41542/10^6)&lt;21/5</span> gives a strict overlap with the constant-edge range. The complete implementation is the uniform-calibration section of <code>numerical_verifier.py</code>. ◻</p>
+</div>
+</section>
+<section id="sec:lower" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Completion and strictness of the lower bound</h1>
+<div id="thm:lower" class="theorem">
+<p><strong>Theorem 8.1</strong> (Uniform lower bound).  <em>Every <span class="math inline">f\in\mathcal P</span> satisfies <span class="math inline">|E_f|&gt;L</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Apply Lemma <a href="#lem:atomize" class="xref" data-reference-type="ref" data-reference="lem:atomize">2.1</a>. Its new sublevel set is contained in the old one, so it suffices to bound the atomized polynomial. The normalization of Section <a href="#sec:reduction" class="xref" data-reference-type="ref" data-reference="sec:reduction">2</a> either has <span class="math inline">A=1</span>, in which case the length is <span class="math inline">2&gt;L</span> by the enclosure in Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>, or gives <a href="#eq:2.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.7">(2.1)</a>–<a href="#eq:2.10" class="eq-ref" data-reference-type="eqref" data-reference="eq:2.10">(2.4)</a> with <span class="math inline">k\ge1</span>.</p>
+<p>For <span class="math inline">1\le k\le29/20</span>, Proposition <a href="#prop:lowk" class="xref" data-reference-type="ref" data-reference="prop:lowk">3.1</a> gives <span class="math inline">\mathfrak J_k&gt;2&gt;L</span>. For <span class="math inline">k\ge29/20</span>, choose the reference from Certificate <a href="#comp:cover" class="xref" data-reference-type="ref" data-reference="comp:cover">7.1</a>. Theorem <a href="#thm:circle-block" class="xref" data-reference-type="ref" data-reference="thm:circle-block">5.1</a> and its certified scalar margin prove the hypothesis of Proposition <a href="#prop:block" class="xref" data-reference-type="ref" data-reference="prop:block">4.4</a> for each of the finitely many target quantile blocks; that proposition gives <span class="math inline">\mathfrak J_k\ge L</span>.</p>
+<p>The inequality is strict. In every calibrated finite range, each block has <span class="math inline">q_i&gt;0</span>, and <span class="math inline">r_i&gt;0</span> because the adjoint density is positive except at its single left endpoint. The certified scalar lower endpoint is strictly positive; after multiplication by <span class="math inline">q_ir_i</span>, every nonempty block contributes a strict surplus. The terminal ranges have the same strict circle surplus, even when the one-cut reference itself has width <span class="math inline">L</span>. Hence <span class="math inline">\mathfrak J_k&gt;L</span>. Finally, the original polynomial has length at least that of its atomization, proving <span class="math inline">|E_f|&gt;L</span>. ◻</p>
+</div>
+</section>
+<section id="sec:recovery" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Sharp recovery and nonattainment</h1>
+<p>We now pass from the one-cut probability measure introduced in <a href="#ref-5" class="cite">[5, Section 4]</a> to actual finite polynomials. This recovery step is needed because the zero-platform candidate is continuous rather than empirical. Tao’s lower-semicontinuity statement <a href="#ref-5" class="cite">[5, Lemma 1.1]</a> gives only one side of the limiting inequality and does not rule out small satellite components created by a direct discretization. We therefore first insert a positive buffer.</p>
+<div id="lem:positive-buffer" class="lemma">
+<p><strong>Lemma 9.1</strong> (Positive-platform approximation).  <em>There are probabilities <span class="math inline">\mu_A</span> on <span class="math inline">[-1,1]</span>, indexed by <span class="math inline">A&gt;A_*</span> sufficiently close to <span class="math inline">A_*</span>, such that their logarithmic potential is a positive constant on <span class="math inline">[a_*,1]</span>, their negative set is one interval, and <span class="math display">|E_{\mu_A}|\longrightarrow L\qquad(A\downarrow A_*).</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Fix <span class="math inline">s=s_*</span> and <span class="math inline">a=a_*=2s^2-1</span>. For <span class="math inline">A&gt;A_*</span> sufficiently close to <span class="math inline">A_*</span> define <span class="math display">\mu_A=A\delta_{-1}+
+ \rho_A(t)\mathbf 1_{[a,1]}(t)\,dt,
+\quad
+ \rho_A(t)=\frac{t+1-2As}
+ {\pi(t+1)\sqrt{(t-a)(1-t)}}.</span> Let <span class="math inline">\,d\omega(t)=\,dt/[\pi\sqrt{(t-a)(1-t)}]</span>. The elementary arcsine integrals <span class="math display">\int \,d\omega=1,\qquad
+ \int\frac{\,d\omega(t)}{t+1}
+ =\frac1{\sqrt{2(1+a)}}=\frac1{2s}</span> give <span class="math inline">\int\rho_A=1-A</span>, so <span class="math inline">\mu_A</span> is a probability. Its numerator has minimum <span class="math inline">2s(s-A)</span>. Since <span class="math inline">q_*&lt;q_s</span>, <span class="math inline">A_*&lt;s</span>; hence the density is strictly positive for <span class="math inline">A&gt;A_*</span> close enough. We choose the neighborhood small enough that <span class="math inline">A&lt;s</span> throughout.</p>
+<p>Write <span class="math inline">V_A=V_{\mu_A}</span> and put <span class="math inline">S(z)=\sqrt{(z-a)(z-1)}</span>, with <span class="math inline">S(z)\sim z</span> at infinity. Off the support, the arcsine Stieltjes transform and the elementary partial fraction identity are <span class="math display">\int_a^1\frac{\,d\omega(t)}{z-t}=\frac1{S(z)},\qquad
+ \frac1{(t+1)(z-t)}=\frac1{z+1}
+ \left(\frac1{t+1}+\frac1{z-t}\right).</span> Since <span class="math inline">\rho_A(t)\,dt=[1-2As/(t+1)]\,d\omega(t)</span>, these formulas give <span class="math display">\begin{align*}
+V_A&#39;(z)
+&amp;=\frac A{z+1}+\frac1{S(z)}
+-\frac{2As}{z+1}\left(\frac1{2s}+\frac1{S(z)}\right)\\
+&amp;=\frac{1-2As/(z+1)}{S(z)}.
+\end{align*}</span> Thus, off the support, <span id="eq:9.2" class="math display">\begin{equation}
+ V_A&#x27;(z)=\frac{1-2As/(z+1)}{S(z)}.
+\label{eq:9.2}
+\tag{9.1}
+\end{equation}</span> We also compute the platform value. The probability <span class="math display">\,d\omega_{-1}(t)=\frac{2s}{t+1}\,d\omega(t)</span> is the balayage of <span class="math inline">\delta_{-1}</span> onto <span class="math inline">[a,1]</span>. Translating the interval identities <a href="#eq:4.2" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.2">(4.1)</a>–<a href="#eq:4.6" class="eq-ref" data-reference-type="eqref" data-reference="eq:4.6">(4.5)</a>, or equivalently inserting their Poisson series, gives for <span class="math inline">x\in[a,1]</span> <span class="math display">\int\log|x-t|\,d\omega(t)=\log\frac{1-a}{4},\qquad
+ \int\log|x-t|\,d\omega_{-1}(t)=\log(x+1)+\log q_*.</span> Because <span class="math inline">\mu_A=\omega+A(\delta_{-1}-\omega_{-1})</span>, subtraction gives the constant platform value <span id="eq:9.3" class="math display">\begin{equation}
+ C(A)=\log\frac{1-a}{4}-A\log q_*.
+\label{eq:9.3}
+\tag{9.2}
+\end{equation}</span> At <span class="math inline">A=A_*</span> this is zero by <span class="math inline">A_*\log q_*=\log H(q_*)</span> and <span class="math inline">(1-a)/4=H(q_*)</span>. Since <span class="math inline">\log q_*&lt;0</span>, <span class="math inline">C(A)&gt;0</span> for <span class="math inline">A&gt;A_*</span>.</p>
+<p>We record the complete zero count. For <span class="math inline">x&lt;a</span>, the chosen branch has <span class="math inline">S(x)&lt;0</span>. On <span class="math inline">(-\infty,-1)</span>, the numerator <span class="math inline">x+1-2As</span> of <a href="#eq:9.2" class="eq-ref" data-reference-type="eqref" data-reference="eq:9.2">(9.1)</a> is negative and <span class="math inline">(x+1)S(x)&gt;0</span>, so <span class="math inline">V_A&#39;&lt;0</span>. The potential decreases from <span class="math inline">+\infty</span> to <span class="math inline">-\infty</span> and has one simple zero. On <span class="math inline">(-1,a)</span> the derivative changes from positive to negative only at <span class="math inline">x_0=2As-1&lt;a</span> (because <span class="math inline">A&lt;s</span>). The potential rises from <span class="math inline">-\infty</span>, then decreases to the positive value <span class="math inline">C(A)</span>, so it has exactly one simple zero, on the rising branch. On <span class="math inline">(1,\infty)</span>, <a href="#eq:9.2" class="eq-ref" data-reference-type="eqref" data-reference="eq:9.2">(9.1)</a> is positive and there is no further zero. Thus <span class="math inline">E_{\mu_A}</span> is one interval and its zero set consists of two points.</p>
+<p>At <span class="math inline">A=A_*</span> this is exactly the terminal potential with <span class="math inline">q=q_*</span>. The coordinate calculation in Section <a href="#sec:onecut" class="xref" data-reference-type="ref" data-reference="sec:onecut">6</a> identifies its two crossings with <span class="math inline">u_-(q_*)</span> and <span class="math inline">u_+(q_*)</span>, hence with the two endpoints in <a href="#eq:1.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:1.7">(1.2)</a>; their distance is <span class="math inline">L</span>. Since <span class="math inline">q_*&lt;q_s</span>, the derivative signs proved after <a href="#eq:6.7" class="eq-ref" data-reference-type="eqref" data-reference="eq:6.7">(6.5)</a> show that both crossings are simple. As <span class="math inline">A\downarrow A_*</span>, <a href="#eq:9.2" class="eq-ref" data-reference-type="eqref" data-reference="eq:9.2">(9.1)</a>–<a href="#eq:9.3" class="eq-ref" data-reference-type="eqref" data-reference="eq:9.3">(9.2)</a> vary jointly in <span class="math inline">C^1</span> on neighborhoods of those crossings. The implicit-function theorem therefore gives <span id="eq:9.4" class="math display">\begin{equation}
+ |E_{\mu_A}|\longrightarrow L.
+\label{eq:9.4}
+\tag{9.3}
+\end{equation}</span> ◻</p>
+</div>
+<p>We now pass from <span class="math inline">\mu_A</span> to polynomials. We use two elementary convergence lemmas.</p>
+<div class="lemma">
+<p><strong>Lemma 9.2</strong> (Weak convergence implies <span class="math inline">L^1</span> convergence of potentials).  <em>If <span class="math inline">\nu_n\Rightarrow\nu</span> are probabilities on <span class="math inline">[-1,1]</span>, then for every bounded interval <span class="math inline">B</span>, <span class="math display">\left\lVert V_{\nu_n}-V_\nu\right\rVert_{L^1(B)}\longrightarrow0.</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> The map <span class="math inline">t\mapsto\log|\,\cdot-t|</span> is continuous from <span class="math inline">[-1,1]</span> to <span class="math inline">L^1(B)</span>: this is the <span class="math inline">L^1</span> continuity of translations of the locally integrable function <span class="math inline">\log|x|</span>. By compactness it is uniformly continuous. Choose a continuous partition of unity <span class="math inline">\phi_j</span> and sample points <span class="math inline">t_j</span> so that <span class="math display">\sup_t\left\lVert\log|\,\cdot-t|-\sum_j\phi_j(t)
+             \log|\,\cdot-t_j|\right\rVert_{L^1(B)}&lt;\varepsilon.</span> Weak convergence gives <span class="math inline">\int\phi_j\,d\nu_n\to\int\phi_j\,d\nu</span>. After integrating the displayed finite-rank approximation against <span class="math inline">\nu_n</span> and <span class="math inline">\nu</span>, the limsup of the <span class="math inline">L^1</span>-distance in the lemma statement is at most <span class="math inline">2\varepsilon</span>. Let <span class="math inline">\varepsilon\downarrow0</span>. ◻</p>
+</div>
+<div class="lemma">
+<p><strong>Lemma 9.3</strong> (Stability of sign sets).  <em>If <span class="math inline">u_n\to u</span> in measure on a finite-measure set and <span class="math inline">|\{u=0\}|=0</span>, then <span class="math inline">\mathbf 1_{\{u_n&lt;0\}}\to\mathbf 1_{\{u&lt;0\}}</span> in measure and in <span class="math inline">L^1</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For every <span class="math inline">\delta&gt;0</span>, up to null representatives, <span class="math display">\{\mathbf 1_{u_n&lt;0}\ne\mathbf 1_{u&lt;0}\}
+ \subset\{|u|\le\delta\}\cup\{|u_n-u|\ge\delta\}.</span> First let <span class="math inline">n\to\infty</span>, then <span class="math inline">\delta\downarrow0</span>. For indicator functions, convergence in measure of the symmetric difference is exactly <span class="math inline">L^1</span> convergence. ◻</p>
+</div>
+<p>Every probability on <span class="math inline">[-1,1]</span> is weakly approximated by equal empirical measures; for example, use the quantiles at <span class="math inline">(j-1/2)/n</span>. Thus choose <span class="math display">\nu_n=\frac1n\sum_{j=1}^n\delta_{t_{j,n}}\Rightarrow\mu_A,
+ \qquad f_n(x)=\prod_{j=1}^n(x-t_{j,n}).</span> The first lemma gives <span class="math inline">L^1(-2,2)</span> convergence of the potentials, hence convergence in measure. Every measure under consideration is supported on <span class="math inline">[-1,1]</span>, so its negative set is contained in <span class="math inline">(-2,2)</span>; no length is lost by working on this fixed interval. The zero set of the positive-buffer potential has measure zero, so the second lemma gives <span class="math inline">|E_{f_n}|\to|E_{\mu_A}|</span>. Choose <span class="math inline">A_m\downarrow A_*</span> and then one empirical approximation for each <span class="math inline">m</span> with length error below <span class="math inline">1/m</span>. Together with <a href="#eq:9.4" class="eq-ref" data-reference-type="eqref" data-reference="eq:9.4">(9.3)</a>, this produces polynomials with <span class="math inline">|E_f|\to L</span>. Theorem <a href="#thm:lower" class="xref" data-reference-type="ref" data-reference="thm:lower">8.1</a> says every finite polynomial has length strictly larger than <span class="math inline">L</span>, so the infimum is not attained.</p>
+</section>
+<section id="sec:supremum" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> The supremum</h1>
+<p>The upper extremum was determined by Tao <a href="#ref-4" class="cite">[4]</a>. His updated note states the result for arbitrary probability measures supported on an interval of length two, together with the equality characterization <a href="#ref-5" class="cite">[5, Theorem 2.1]</a>. The proof proceeds by duality and an expansive-quantile rearrangement, followed by three explicit trial measures; the parameters in the latter two are credited there to AlphaEvolve <a href="#ref-5" class="cite">[5, p. 5]</a>. Since this argument is independent of the lower-bound analysis, we use Tao’s theorem directly and record only its specialization to empirical root measures.</p>
+<div id="thm:upper" class="theorem">
+<p><strong>Theorem 10.1</strong> (Sharp upper bound; Tao).  <em>Every <span class="math inline">f\in\mathcal P</span> satisfies <span class="math inline">|E_f|\le2\sqrt2</span>. Equality holds if and only if <span class="math display">f(x)=(x^2-1)^m</span> for some integer <span class="math inline">m\ge1</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Let <span class="math inline">r_1,\ldots,r_n</span> be the zeros of <span class="math inline">f</span>, repeated according to multiplicity, and let <span class="math display">\mu_f=\frac1n\sum_{j=1}^n\delta_{r_j},\qquad
+ U_{\mu_f}(x)=\int\log\frac1{|x-t|}\,d\mu_f(t).</span> Then <span class="math inline">\mu_f</span> is a probability measure supported on <span class="math inline">[-1,1]</span> and <span class="math display">U_{\mu_f}(x)=\frac1n\log\frac1{|f(x)|},\qquad
+ E_f=\{x:U_{\mu_f}(x)&gt;0\}.</span> Tao’s theorem <a href="#ref-5" class="cite">[5, Theorem 2.1]</a>, applied with <span class="math inline">t_0=0</span>, therefore gives <span class="math inline">|E_f|\le2\sqrt2</span>.</p>
+<p>If equality holds, the equality statement in Tao’s theorem gives <span class="math display">\mu_f=\frac12\delta_{-1}+\frac12\delta_1.</span> Thus <span class="math inline">n=2m</span> for some <span class="math inline">m\ge1</span>, with <span class="math inline">m</span> roots at each endpoint; monicity then gives <span class="math inline">f=(x^2-1)^m</span>. Conversely, since <span class="math inline">m&gt;0</span>, for this polynomial <span class="math display">|f(x)|&lt;1\quad\Longleftrightarrow\quad |x^2-1|&lt;1,</span> and the set on the right has Lebesgue measure <span class="math inline">2\sqrt2</span>. ◻</p>
+</div>
+<div class="proof">
+<p><em>Proof of Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>.</em> Certificate <a href="#comp:onecut" class="xref" data-reference-type="ref" data-reference="comp:onecut">6.1</a> proves the uniqueness of <span class="math inline">q_*</span> and the stated outward enclosures for <span class="math inline">q_*</span> and <span class="math inline">L</span>. Theorem <a href="#thm:lower" class="xref" data-reference-type="ref" data-reference="thm:lower">8.1</a> gives <span class="math inline">|E_f|&gt;L</span> for every finite polynomial, while the diagonal empirical construction in Section <a href="#sec:recovery" class="xref" data-reference-type="ref" data-reference="sec:recovery">9</a> gives a sequence with lengths tending to <span class="math inline">L</span>; hence the infimum is <span class="math inline">L</span> and is not attained. Theorem <a href="#thm:upper" class="xref" data-reference-type="ref" data-reference="thm:upper">10.1</a> gives the upper bound <span class="math inline">2\sqrt2</span> and the displayed family of equality cases. These four conclusions are exactly the claims of Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>. ◻</p>
+</div>
+</section>
+<section id="app:verification" class="level1" data-number="A">
+<h1 data-number="A"><span class="header-section-number">A</span> Numerical Verification</h1>
+<p>The companion numerical verifier is the single human-readable file <code>numerical_verifier.py</code>, distributed with this paper. It certifies the explicit finite numerical comparisons appearing in the proof; it does not replace any of the analytic reductions proved in the preceding sections. More precisely, it verifies:</p>
+<ul>
+<li><p>the exact rational inequalities in the elementary range;</p></li>
+<li><p>the one-cut root branches, soft-edge continuation, unique stationary point, and the enclosures for <span class="math inline">q_s,q_*</span>, and <span class="math inline">L</span> in Certificate <a href="#comp:onecut" class="xref" data-reference-type="ref" data-reference="comp:onecut">6.1</a>;</p></li>
+<li><p>every positivity, crossing, derivative, Fourier-tail, and scalar inequality in the exact parameter cover of Certificate <a href="#comp:cover" class="xref" data-reference-type="ref" data-reference="comp:cover">7.1</a>.</p></li>
+</ul>
+<p>It never treats a sampled grid as a proof.</p>
+<p>The same file also contains a directed-interval re-verification of the three scalar inequalities appearing in Tao’s upper-bound proof. These routines rigorously recheck those inequalities but are not a logical input here, since Theorem <a href="#thm:upper" class="xref" data-reference-type="ref" data-reference="thm:upper">10.1</a> invokes Tao’s cited theorem directly.</p>
+<p>The interval principle used is standard: an expression evaluated with directed outward rounding encloses the exact value for every point of its input box <a href="#ref-10" class="cite">[10]</a>. The affine and Fourier parts use Arb midpoint-radius balls <a href="#ref-9" class="cite">[9]</a>. The one-cut and optional upper-scalar routines use directed interval operations for addition, multiplication, division, square root, exponential, logarithm, sine, and cosine. The refined terminal trilogarithm is evaluated by Arb. Every infinite Taylor or Fourier series has an explicit signed remainder bound.</p>
+<p>Ordinary floating-point roots and optimizers are used only to propose candidate boxes. A box is accepted only after interval endpoint signs, the required derivative orientation, and, where applicable, an interval Newton contraction have been proved. Adjacent parameter boxes have shared or overlapping exact endpoints, and decimal conversions are enlarged outward. Thus the proof-relevant output consists of rigorous enclosures and signs, not unverified floating-point approximations.</p>
+
+</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">P. Erdős, F. Herzog, and G. Piranian, <em>Metric properties of polynomials</em>, J. Analyse Math. <strong>6</strong> (1958), 125–148.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">T. F. Bloom, <em>Erdős Problem #1038</em>, Erdős Problems, accessed 13 July 2026. <a href="https://www.erdosproblems.com/1038" class="uri">https://www.erdosproblems.com/1038</a></span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">Erdős Problems contributors, <em>Discussion of Erdős Problem #1038</em>, accessed 13 July 2026. <a href="https://www.erdosproblems.com/forum/thread/1038" class="uri">https://www.erdosproblems.com/forum/thread/1038</a></span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">T. Tao, <em>Sublevel sets of logarithmic potentials</em>, unpublished note on the sharp upper bound in Erdős Problem 1038, 20 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf</a></span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">T. Tao, <em>Superlevel sets of logarithmic potentials</em>, unpublished note concerning Erdős Problem 1038, 27 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf</a></span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">A. Baernstein II, <em>Convolution and rearrangement on the circle</em>, Complex Variables Theory Appl. 12 (1989), 33–37. <a href="https://doi.org/10.1080/17476938908814351" class="uri">https://doi.org/10.1080/17476938908814351</a></span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">A. Baernstein II and B. A. Taylor, <em>Spherical rearrangements, subharmonic functions, and <span class="math inline">*</span>-functions in <span class="math inline">n</span>-space</em>, Duke Math. J. 43 (1976), 245–268. <a href="https://doi.org/10.1215/S0012-7094-76-04322-2" class="uri">https://doi.org/10.1215/S0012-7094-76-04322-2</a></span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">P. Flajolet and R. Sedgewick, <em>Analytic Combinatorics</em>, Cambridge University Press, Cambridge, 2009, Theorem IV.6.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">F. Johansson, <em>Arb: efficient arbitrary-precision midpoint-radius interval arithmetic</em>, IEEE Trans. Comput. 66 (2017), 1281–1292. <a href="https://doi.org/10.1109/TC.2017.2690633" class="uri">https://doi.org/10.1109/TC.2017.2690633</a></span></li><li id="ref-10"><span class="ref-num">[10]</span><span class="ref-body">R. E. Moore, R. B. Kearfott, and M. J. Cloud, <em>Introduction to Interval Analysis</em>, SIAM, Philadelphia, 2009. <a href="https://doi.org/10.1137/1.9780898717716" class="uri">https://doi.org/10.1137/1.9780898717716</a></span></li><li id="ref-11"><span class="ref-num">[11]</span><span class="ref-body">E. B. Saff and V. Totik, <em>Logarithmic Potentials with External Fields</em>, Grundlehren der mathematischen Wissenschaften 316, Springer, Berlin, 1997. <a href="https://doi.org/10.1007/978-3-662-03329-6" class="uri">https://doi.org/10.1007/978-3-662-03329-6</a></span></li></ol></section>
+
+
+    </article>
+
+    <div class="divider article-divider"></div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo">Multiscalar Intelligence</span>
+          <span class="footer-loc">London, UK</span>
+        </div>
+        <div class="footer-links">
+          <a href="/open-science/">Open Science</a>
+          <a href="mailto:hello@multiscalar.ai">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 Multiscalar Intelligence. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <canvas id="grid-bg"></canvas>
+  <script src="../../script.js?v=20260807h"></script>
+
+</body>
+</html>

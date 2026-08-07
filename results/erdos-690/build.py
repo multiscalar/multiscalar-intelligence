@@ -162,14 +162,16 @@ def replace_table(html: str) -> str:
         count=1,
         flags=re.DOTALL,
     )
+    # The source writes "Table~\ref{tab:smallcases}", so the link text is the
+    # bare number: emitting "Table 1" here would print "Table Table 1".
     html = re.sub(
         r'<a\s+href="#tab:smallcases"[^>]*>\s*(?:\[tab:smallcases\]|tab:smallcases)\s*</a>',
-        '<a href="#tab-smallcases">Table&nbsp;1</a>',
+        '<a href="#tab-smallcases">1</a>',
         html,
     )
     html = re.sub(
         r'\[<a\s+href="#tab:smallcases"[^>]*>\s*tab:smallcases\s*</a>\]',
-        '<a href="#tab-smallcases">Table&nbsp;1</a>',
+        '<a href="#tab-smallcases">1</a>',
         html,
     )
     html = re.sub(

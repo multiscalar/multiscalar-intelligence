@@ -1,0 +1,39 @@
+{
+  "number": "1038",
+  "title": "A Proposed Complete Solution to Erdős Problem 1038",
+  "subtitle": "Found by GPT-5.6 under the Multiscalar research prompt",
+  "tag": "Approximation Theory",
+  "eyebrow": "Result · Erdős Problem 1038",
+  "badge": "Proposed",
+  "description": "A computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial with all zeros in the unit interval.",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Research prompt",
+      "prompt.md"
+    ],
+    [
+      "Verifier code",
+      "numerical_verifier.py"
+    ],
+    [
+      "Lean formalisation",
+      "https://github.com/ShouqiaoW/erdos/tree/main/1038/lean"
+    ],
+    [
+      "Forum thread",
+      "https://www.erdosproblems.com/forum/thread/1038/proof-claims"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/1038"
+    ]
+  ]
+}

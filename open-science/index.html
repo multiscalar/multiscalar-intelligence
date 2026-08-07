@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-  <link rel="stylesheet" href="../style.css?v=20260807g">
+  <link rel="stylesheet" href="../style.css?v=20260807h">
 </head>
 <body>
 
@@ -50,18 +50,72 @@
     <section class="results" id="results">
       <div class="results-list">
 
-        <a class="result-entry" href="/results/erdos-690/">
+        <div class="result-entry result-group" id="erdos-six">
           <div class="result-meta">
-            <span class="result-date">May 2026</span>
-            <span class="result-tag">Number Theory</span>
+            <span class="result-date">July 2026</span>
+            <span class="result-tag">Open Problems</span>
           </div>
-          <h3 class="result-title">A Complete Answer to Erdős Problem 690</h3>
-          <p class="result-subtitle">Discovered by the Multiscalar Fields System</p>
+          <h3 class="result-title">Six More Erdős Problems, in Five Days</h3>
+          <p class="result-subtitle">Found by GPT-5.6 under the Multiscalar research prompt</p>
           <p class="result-summary">
-            We prove that the natural density <em>d<sub>k</sub>(p)</em>, of integers whose <em>k</em>-th smallest prime divisor is <em>p</em>, is <strong>not unimodal for every <em>k</em> ≥ 4</strong>, completing Erdős' classification. The proof was discovered by the Multiscalar Fields System with limited human interaction.
+            Erdős problem 690 took months of harness engineering. These six took five
+            days, and almost all of the work went into the prompt. Each one states
+            exactly what a full proof has to establish, names the traps, and sends
+            adversarial agents at every candidate argument. We attempted about thirteen
+            problems, so a little under half worked out. Every proof is posted on the
+            erdosproblems.com forum for public attack, and the prompt that produced it is
+            published next to it.
           </p>
-          <span class="result-cta">Read the proof →</span>
-        </a>
+          <ul class="problem-list">
+            <li>
+              <a href="/results/erdos-390/">
+                <span class="problem-number">390</span>
+                <span class="problem-title">An exact asymptotic for the least largest factor of <em>n</em>!</span>
+                <span class="problem-tag">Number Theory</span>
+              </a>
+            </li>
+            <li>
+              <a href="/results/erdos-486/">
+                <span class="problem-number">486</span>
+                <span class="problem-title">A sieve whose survivors have no logarithmic density</span>
+                <span class="problem-tag">Number Theory</span>
+              </a>
+            </li>
+            <li>
+              <a href="/results/erdos-536/">
+                <span class="problem-number">536</span>
+                <span class="problem-title">No three integers share all three pairwise least common multiples</span>
+                <span class="problem-tag">Combinatorics</span>
+              </a>
+            </li>
+            <li>
+              <a href="/results/erdos-788/">
+                <span class="problem-number">788</span>
+                <span class="problem-title">The sum-free trade-off is a square root, up to <em>n</em><sup>o(1)</sup></span>
+                <span class="problem-tag">Additive Combinatorics</span>
+              </a>
+            </li>
+            <li>
+              <a href="/results/erdos-1002/">
+                <span class="problem-number">1002</span>
+                <span class="problem-title">Rotation discrepancy converges to a Cauchy law</span>
+                <span class="problem-tag">Equidistribution</span>
+              </a>
+            </li>
+            <li>
+              <a href="/results/erdos-1038/">
+                <span class="problem-number">1038</span>
+                <span class="problem-title">The exact infimum of a polynomial sublevel set</span>
+                <span class="problem-tag">Approximation Theory</span>
+              </a>
+            </li>
+          </ul>
+          <p class="result-note">
+            Proposed solutions, published for attack rather than certified. Source,
+            prompts and Lean formalisations are at
+            <a href="https://github.com/ShouqiaoW/erdos" target="_blank" rel="noopener">github.com/ShouqiaoW/erdos</a>.
+          </p>
+        </div>
 
         <div class="result-entry result-demo" id="compress">
           <div class="result-meta">
@@ -84,6 +138,19 @@
             </div>
           </div>
         </div>
+
+        <a class="result-entry" href="/results/erdos-690/">
+          <div class="result-meta">
+            <span class="result-date">May 2026</span>
+            <span class="result-tag">Number Theory</span>
+          </div>
+          <h3 class="result-title">A Complete Answer to Erdős Problem 690</h3>
+          <p class="result-subtitle">Discovered by the Multiscalar Fields System</p>
+          <p class="result-summary">
+            We prove that the natural density <em>d<sub>k</sub>(p)</em>, of integers whose <em>k</em>-th smallest prime divisor is <em>p</em>, is <strong>not unimodal for every <em>k</em> ≥ 4</strong>, completing Erdős' classification. The proof was discovered by the Multiscalar Fields System with limited human interaction.
+          </p>
+          <span class="result-cta">Read the proof →</span>
+        </a>
 
       </div>
     </section>
@@ -111,8 +178,8 @@
 
   <!-- Subtle animated grid background -->
   <canvas id="grid-bg"></canvas>
-  <script src="../script.js?v=20260807g"></script>
-  <script src="../sat-compress.js?v=20260807g"></script>
+  <script src="../script.js?v=20260807h"></script>
+  <script src="../sat-compress.js?v=20260807h"></script>
 
 </body>
 </html>

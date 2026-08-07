@@ -1,0 +1,39 @@
+{
+  "number": "536",
+  "title": "A Proposed Complete Solution to Erdős Problem 536",
+  "subtitle": "Found by GPT-5.6 under the Multiscalar research prompt",
+  "tag": "Combinatorics",
+  "eyebrow": "Result · Erdős Problem 536",
+  "badge": "Proposed",
+  "description": "A proof that a set of integers up to N with no three elements sharing all three pairwise least common multiples has size o(N).",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Research prompt",
+      "prompt.md"
+    ],
+    [
+      "Verifier code",
+      "numerical_verifier.py"
+    ],
+    [
+      "Lean formalisation",
+      "https://github.com/ShouqiaoW/erdos/tree/main/536/lean"
+    ],
+    [
+      "Forum thread",
+      "https://www.erdosproblems.com/forum/thread/536/proof-claims"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/536"
+    ]
+  ]
+}

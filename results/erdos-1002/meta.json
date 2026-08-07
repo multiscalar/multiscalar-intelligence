@@ -1,0 +1,35 @@
+{
+  "number": "1002",
+  "title": "A Proposed Solution to Erdős Problem 1002",
+  "subtitle": "Found by GPT-5.6 under the Multiscalar research prompt",
+  "tag": "Equidistribution",
+  "eyebrow": "Result · Erdős Problem 1002",
+  "badge": "Proposed",
+  "description": "A proof that the discrepancy sum of a random irrational rotation, divided by log N, converges to a Cauchy distribution of scale one over two pi.",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Research prompt",
+      "prompt.md"
+    ],
+    [
+      "Lean formalisation",
+      "https://github.com/ShouqiaoW/erdos/tree/main/1002/lean"
+    ],
+    [
+      "Forum thread",
+      "https://www.erdosproblems.com/forum/thread/1002/proof-claims"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/1002"
+    ]
+  ]
+}

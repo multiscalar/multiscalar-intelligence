@@ -50,6 +50,14 @@ main.article-main {
   color: #fff;
 }
 
+/* A proposed solution is published for attack, not certified. It must not wear
+   the same green as a checked result. */
+.status-proposed {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--rule);
+}
+
 .article-title {
   font-family: var(--sans);
   font-weight: 400;
@@ -397,6 +405,20 @@ main.article-main {
 
 .paper .katex-display::-webkit-scrollbar {
   display: none;
+}
+
+/* A formula too wide for the column is scrollable, which is invisible with the
+   scrollbar hidden. render-math.js marks those, and the fade tells the reader
+   there is more to the right. */
+.paper .katex-display.is-scrollable {
+  position: relative;
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.2rem), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 2.2rem), transparent 100%);
+}
+
+.paper .katex-display.is-scrollable.at-end {
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 /* ===== Bibliography ===== */

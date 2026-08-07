@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Proposed Solution to Erdős Problem 486 | Multiscalar Intelligence</title>
+  <meta name="description" content="A proposed negative answer to Erdős' question of whether a delayed multi-residue sieve must leave a set of logarithmic density.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../../style.css?v=20260807h">
+  <link rel="stylesheet" href="../article.css?v=20260807h">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script defer src="../render-math.js?v=20260807h"></script>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="/#research">Research</a>
+        <a href="/open-science/">Open Science</a>
+        <a href="/evals/">Evals</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="article-main">
+
+    <header class="article-header">
+      <div class="article-eyebrow">Result · Erdős Problem 486 <span class="status-badge status-proposed">Proposed</span></div>
+      <h1 class="article-title">A Proposed Solution to Erdős Problem 486</h1>
+      <div class="article-subtitle">Found by GPT-5.6 under the Multiscalar research prompt</div>
+      <div class="article-meta">
+        <span class="meta-affil">Multiscalar Intelligence</span>
+      </div>
+      <div class="article-links">
+        <a href="paper.pdf" class="article-link">PDF&nbsp;↗</a>
+        <a href="paper.tex" class="article-link">LaTeX source&nbsp;↗</a>
+        <a href="prompt.md" class="article-link">Research prompt&nbsp;↗</a>
+        <a href="https://github.com/ShouqiaoW/erdos/tree/main/486/lean" class="article-link" target="_blank" rel="noopener">Lean formalisation&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/forum/thread/486/proof-claims" class="article-link" target="_blank" rel="noopener">Forum thread&nbsp;↗</a>
+        <a href="https://www.erdosproblems.com/486" class="article-link" target="_blank" rel="noopener">Problem statement&nbsp;↗</a>
+      </div>
+    </header>
+
+    <div class="divider article-divider"></div>
+
+    <article class="paper">
+      <section class="abstract">
+        <div class="abstract-label">Abstract</div>
+        <p>For <span class="math inline">A\subseteq\mathbb N</span> and arbitrary sets <span class="math inline">X_n\subseteq\mathbb Z/n\mathbb Z</span>, let <span class="math display">B=\{m\in\mathbb N:m\bmod n\notin X_n
+       \text{ for every }n\in A\text{ with }n&lt;m\}.</span> Erdős asked whether <span class="math inline">B</span> must possess a logarithmic density. We propose a negative answer. The main ingredient is a finite probabilistic construction: at each sufficiently large dyadic scale, a fixed positive proportion of the integers in a short interval is deleted by moduli that are already active, whereas the union of the associated periodic residue cylinders has stretched-exponentially small density. A gliding-hump construction then places long runs of such blocks between recovery gaps and produces one fixed congruence system for which <span class="math display">\liminf_{x\to\infty}\frac1{\log x}
+  \sum_{\substack{m&lt;x\\m\in B}}\frac1m
+\le\frac{177}{200}&lt;\frac{49}{50}\le
+\limsup_{x\to\infty}\frac1{\log x}
+  \sum_{\substack{m&lt;x\\m\in B}}\frac1m .</span> This proposed solution was found by GPT-5.6.</p>
+      </section>
+
+      <section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<p>Throughout, <span class="math inline">\mathbb N=\{1,2,\ldots\}</span>, and all logarithms are natural unless a base is explicitly indicated. Erdős stated the question, with the activation condition built into the formulation, in <a href="#ref-7" class="cite">[7, p. 48]</a>; he later recorded it as Problem I.26 in <a href="#ref-8" class="cite">[8, pp. 235–236]</a>. For each <span class="math inline">n</span> in a set <span class="math inline">A\subseteq\mathbb N</span>, choose an arbitrary set <span class="math inline">X_n\subseteq\mathbb Z/n\mathbb Z</span>, and define <span id="eq:defB" class="math display">\begin{equation}
+\label{eq:defB}
+B=B(A,X):=\{m\in\mathbb N:m\bmod n\notin X_n
+      \text{ for every }n\in A\text{ with }n&lt;m\}.
+\tag{1.1}
+\end{equation}</span> The problem asks whether the logarithmic averages <span class="math display">L_B(x):=\frac1{\log x}
+   \sum_{\substack{m&lt;x\\m\in B}}\frac1m</span> must converge as <span class="math inline">x\to\infty</span>.</p>
+<div id="thm:main" class="theorem">
+<p><strong>Theorem 1.1</strong> (Main theorem).  <em>There are a fixed infinite <span class="math inline">A\subseteq\mathbb N</span> and fixed <span class="math inline">X_n\subseteq\mathbb Z/n\mathbb Z</span>, <span class="math inline">n\in A</span>, for which the set <span class="math inline">B</span> in <a href="#eq:defB" class="eq-ref" data-reference-type="eqref" data-reference="eq:defB">(1.1)</a> has no logarithmic density. More precisely, <span class="math display">\liminf_{x\to\infty}L_B(x)\le\frac{177}{200}
+\quad\text{and}\quad
+\limsup_{x\to\infty}L_B(x)\ge\frac{49}{50}.</span></em></p>
+</div>
+<div class="remark">
+<p><em>Remark 1.2</em> (Strict and inclusive activation).  Some sources use <span class="math inline">n\le m</span> in place of <span class="math inline">n&lt;m</span>. Let <span class="math inline">B_{\ge}</span> and <span class="math inline">B_{&gt;}</span> denote the corresponding survivor sets. Plainly <span class="math inline">B_{\ge}\subseteq B_{&gt;}</span>. If <span class="math inline">m\in B_{&gt;}\setminus B_{\ge}</span>, then <span class="math inline">m\in A</span> and <span class="math inline">0\in X_m</span>. Moreover, <span class="math inline">B_{&gt;}\setminus B_{\ge}</span> is primitive: if <span class="math inline">d&lt;e</span> were two of its elements and <span class="math inline">d\mid e</span>, then the active modulus <span class="math inline">d&lt;e</span>, together with <span class="math inline">0\in X_d</span>, would exclude <span class="math inline">e</span> from <span class="math inline">B_{&gt;}</span>. Behrend’s theorem gives <span class="math display">\sum_{\substack{d&lt;x\\d\in B_{&gt;}\setminus B_{\ge}}}\frac1d=o(\log x)</span> for every primitive set <a href="#ref-3" class="cite">[3]</a>. Thus the two conventions are equivalent for the existence and value of logarithmic density.</p>
+</div>
+<p>The zero-residue case <span class="math inline">X_n=\{0\}</span> has an affirmative answer by the Davenport–Erdős theorem <a href="#ref-5" class="cite">[5]</a>; a later elementary proof was given in <a href="#ref-6" class="cite">[6]</a>. Besicovitch showed that natural density may fail to exist in that setting <a href="#ref-2" class="cite">[2]</a>. More recently, Araújo proved, in the inclusive activation convention, that a delayed multi-residue sieve has a natural density under the summability hypothesis <span class="math display">\sum_{n\in A}\frac{|X_n|}{n}&lt;\infty</span> <a href="#ref-1" class="cite">[1, Theorem 3.25]</a>. The same conclusion holds for the strict convention under this hypothesis. Indeed, the two survivor sets differ only on a subset of <span class="math display">D:=\{n\in A:0\in X_n\},</span> and <span class="math inline">\sum_{n\in D}1/n&lt;\infty</span>. To see directly that <span class="math inline">D</span> has natural density zero, fix <span class="math inline">M&lt;N</span> and note that <span class="math display">\frac{|D\cap[1,N]|}{N}
+ \le\frac{|D\cap[1,M]|}{N}
+   +\sum_{\substack{n\in D\\n&gt;M}}\frac1n;</span> first let <span class="math inline">N\to\infty</span>, and then <span class="math inline">M\to\infty</span>. Our construction necessarily lies outside that summable regime: every installed scale contributes a fixed positive amount to the sum; see Remark <a href="#rem:nonsummable" class="xref" data-reference-type="ref" data-reference="rem:nonsummable">4.1</a>.</p>
+<p>The proof has two parts. Section <a href="#sec:block" class="xref" data-reference-type="ref" data-reference="sec:block">3</a> constructs a finite block at scale <span class="math inline">Q=2^j</span>. It deletes at least <span class="math inline">3Q/8</span> integers from <span class="math inline">[11Q/10,19Q/10]</span>, even though the periodic union of the responsible residue classes has measure <span class="math inline">e^{-\Omega(\sqrt j)}</span>. Section <a href="#sec:global" class="xref" data-reference-type="ref" data-reference="sec:global">4</a> assembles long runs of these blocks. Between consecutive runs we leave a gap long enough for the finite past periodic system to recover. Later moduli lie beyond each earlier recovery cutoff, so the activation condition prevents them from changing the earlier averages.</p>
+</section>
+<section id="sec:periodic" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Periodic sets and profinite notation</h1>
+<p>Let <span class="math inline">\widehat{\mathbb Z}</span> be the profinite completion of <span class="math inline">\mathbb Z</span>, equipped with Haar probability measure <span class="math inline">\mu</span>, and let <span class="math inline">\pi_q:\widehat{\mathbb Z}\to\mathbb Z/q\mathbb Z</span> be the canonical projection. For <span class="math inline">\bar a\in\mathbb Z/q\mathbb Z</span>, write <span class="math display">[\bar a]_q:=\pi_q^{-1}(\bar a).</span> If <span class="math inline">a\in\mathbb Z</span>, then <span class="math inline">[a]_q</span> means <span class="math inline">[a\bmod q]_q</span>. Thus <span class="math inline">\mu([\bar a]_q)=1/q</span>. The trace on <span class="math inline">\mathbb Z</span> of a finite union of such cylinders is periodic, and its natural density equals its Haar measure. We shall also use, for every <span class="math inline">N\ge1</span>, the elementary bound <span class="math display">H_N:=\sum_{m=1}^N\frac1m\le1+\log N.</span></p>
+<div id="lem:periodic" class="lemma">
+<p><strong>Lemma 2.1</strong> (Periodic recovery).  <em>Let <span class="math inline">\mathcal F</span> be a finite family of pairs <span class="math inline">(q,Y_q)</span>, with <span class="math inline">Y_q\subseteq\mathbb Z/q\mathbb Z</span>, and set <span class="math display">U_{\mathcal F}
+ :=\bigcup_{(q,Y_q)\in\mathcal F}\ \bigcup_{a\in Y_q}[a]_q</span> and <span class="math display">B_{\mathcal F}
+ :=\{m\in\mathbb N:m\bmod q\notin Y_q
+       \text{ whenever }(q,Y_q)\in\mathcal F\text{ and }q&lt;m\}.</span> Then <span class="math display">\sum_{\substack{m&lt;x\\m\in B_{\mathcal F}}}\frac1m
+ =\bigl(1-\mu(U_{\mathcal F})\bigr)\log x+O_{\mathcal F}(1)
+ \qquad(x\to\infty).</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> If <span class="math inline">\mathcal F</span> is empty, the assertion is the standard estimate <span class="math inline">H_{\lceil x\rceil-1}=\log x+O(1)</span>. Suppose henceforth that <span class="math inline">\mathcal F</span> is nonempty. Let <span class="math display">q_{\max}=\max_{(q,Y_q)\in\mathcal F}q,
+ \qquad
+ L=\operatorname{lcm}\{q:(q,Y_q)\in\mathcal F\}.</span> For every <span class="math inline">m&gt;q_{\max}</span>, all the moduli in <span class="math inline">\mathcal F</span> are active. Therefore <span class="math inline">B_{\mathcal F}</span> differs in only finitely many places from the integer trace of <span class="math inline">\widehat{\mathbb Z}\setminus U_{\mathcal F}</span>.</p>
+<p>That trace is a union of, say, <span class="math inline">r</span> residue classes modulo <span class="math inline">L</span>. Its Haar measure is <span class="math inline">r/L=1-\mu(U_{\mathcal F})</span>. For a fixed representative <span class="math inline">a\in\{1,\ldots,L\}</span>, with <span class="math inline">a=L</span> representing the zero class, <span class="math display">\sum_{\substack{m&lt;x\\m\equiv a\;(\mathrm{mod}\,L)}}\frac1m
+ =\sum_{\substack{\ell\ge0\\a+\ell L&lt;x}}\frac1{a+\ell L}
+ =\frac1L\log x+O_L(1).</span> The last estimate follows, for example, by comparing the decreasing function <span class="math inline">t\mapsto(a+Lt)^{-1}</span> with its integral. Summing over the <span class="math inline">r</span> occupied residue classes and restoring the finite initial discrepancy proves the lemma. ◻</p>
+</div>
+</section>
+<section id="sec:block" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> A finite dyadic deletion block</h1>
+<p>For an even positive integer <span class="math inline">k</span>, define the central family <span class="math display">\mathcal S_k:=\left\{S\subseteq\{1,\ldots,k\}:
+       \left||S|-\frac{k}{2}\right|\le\sqrt{k}\right\}.</span></p>
+<div id="lem:skeleton" class="lemma">
+<p><strong>Lemma 3.1</strong> (Arithmetic skeleton).  <em>For all sufficiently large integers <span class="math inline">j</span>, put <span class="math display">Q=2^j,\qquad k=2\left\lfloor\frac{\sqrt j}{8}\right\rfloor .</span> There are distinct primes <span class="math inline">p_1,\ldots,p_k</span> and, for every <span class="math inline">S\in\mathcal S_k</span>, a positive integer <span class="math inline">q_S</span> such that <span id="eq:skeleton-properties" class="math display">\begin{equation}
+\label{eq:skeleton-properties}
+ \frac{19Q}{20}\le q_S\le\frac{21Q}{20},
+ \qquad
+ p_i\mid q_S\ \Longleftrightarrow\ i\in S .
+\tag{3.1}
+\end{equation}</span> The integers <span class="math inline">q_S</span> are pairwise distinct. Moreover, if <span class="math display">J=[11Q/10,19Q/10]\cap\mathbb Z,</span> then <span class="math inline">J\subset(q_S,2q_S]</span> and the diameter of <span class="math inline">J</span> is smaller than <span class="math inline">q_S</span>, for every <span class="math inline">S\in\mathcal S_k</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Bertrand’s postulate <a href="#ref-9" class="cite">[9]</a> supplies a prime <span class="math inline">p_i</span> satisfying <span class="math display">4^{k+i}&lt;p_i&lt;2\cdot4^{k+i}\qquad(1\le i\le k).</span> These intervals are pairwise disjoint, so the primes are distinct. Set <span class="math inline">P=\prod_{i=1}^k p_i</span>. Since <span class="math inline">p_i&lt;2^{2(k+i)+1}</span>, <span class="math display">\log_2 P
+ &lt;\sum_{i=1}^k\bigl(2(k+i)+1\bigr)
+ =3k^2+2k.</span> The choice of <span class="math inline">k</span> gives <span class="math inline">k\le\sqrt j/4</span>, and hence <span class="math display">\frac{P^2}{Q}
+ \le 2^{6k^2+4k-j}
+ \le 2^{-5j/8+\sqrt j}\longrightarrow0
+ \qquad(j\to\infty).</span></p>
+<p>For <span class="math inline">S\in\mathcal S_k</span>, let <span class="math inline">d_S=\prod_{i\in S}p_i</span>. Choose <span class="math inline">R_S</span> to be a closest integer to <span class="math inline">Q/d_S</span> in the progression <span class="math inline">1+P\mathbb Z</span>, and put <span class="math inline">q_S=d_SR_S</span>. This choice satisfies <span class="math display">\left|R_S-\frac{Q}{d_S}\right|\le\frac P2,
+ \qquad
+ |q_S-Q|\le\frac{d_SP}{2}\le\frac{P^2}{2}.</span> It remains to check that <span class="math inline">R_S</span> is positive. Since <span class="math inline">d_S\le P</span> and <span class="math inline">Q/P^2\to\infty</span>, for large <span class="math inline">j</span> we have <span class="math display">\frac{Q}{d_S}\ge\frac QP&gt;P.</span> Thus <span class="math inline">R_S\ge Q/d_S-P/2&gt;P/2&gt;0</span>. The estimate <span class="math inline">P^2/Q\to0</span> now gives the first pair of inequalities in <a href="#eq:skeleton-properties" class="eq-ref" data-reference-type="eqref" data-reference="eq:skeleton-properties">(3.1)</a>.</p>
+<p>If <span class="math inline">i\in S</span>, then <span class="math inline">p_i\mid d_S</span>, so <span class="math inline">p_i\mid q_S</span>. If <span class="math inline">i\notin S</span>, then <span class="math inline">p_i\nmid d_S</span> and <span class="math inline">R_S\equiv1\pmod {p_i}</span>, so <span class="math inline">p_i\nmid q_S</span>. This proves the second part of <a href="#eq:skeleton-properties" class="eq-ref" data-reference-type="eqref" data-reference="eq:skeleton-properties">(3.1)</a>; it also shows that distinct sets <span class="math inline">S</span> give distinct integers <span class="math inline">q_S</span>.</p>
+<p>Finally, <span class="math display">q_S\le\frac{21Q}{20}&lt;\frac{11Q}{10}
+ \quad\text{and}\quad
+ 2q_S\ge\frac{19Q}{10}.</span> Consequently <span class="math inline">J\subset(q_S,2q_S]</span>. Its diameter is at most <span class="math inline">4Q/5</span>, which is smaller than <span class="math inline">q_S\ge19Q/20</span>. ◻</p>
+</div>
+<p>Fix <span class="math inline">j</span> large enough for Lemma <a href="#lem:skeleton" class="xref" data-reference-type="ref" data-reference="lem:skeleton">3.1</a>, and retain its notation. For every <span class="math inline">1\le i\le k</span> and <span class="math inline">b\in\mathbb Z/p_i\mathbb Z</span>, choose an independent Bernoulli random variable <span class="math inline">\varepsilon_i(b)</span> with parameter <span class="math inline">1/2</span>. For <span class="math inline">m\in\mathbb Z</span>, set <span class="math display">K(m):=\{i:\varepsilon_i(m\bmod p_i)=1\}.</span> Let <span class="math inline">\mathbb P</span> and <span class="math inline">\mathbb E</span> denote probability and expectation with respect to this finite family of random labels. Define the random endpoint set and its periodic footprint by <span class="math display">E:=\{m\in J:K(m)\in\mathcal S_k\},\qquad
+ q_m:=q_{K(m)}\quad(m\in E),\qquad
+ U:=\bigcup_{m\in E}[m]_{q_m}.</span></p>
+<div id="lem:endpoints" class="lemma">
+<p><strong>Lemma 3.2</strong> (Endpoint abundance).  <em>For all sufficiently large <span class="math inline">j</span>, <span class="math display">\mathbb P\left(|E|&lt;\frac{|J|}{2}\right)
+ \le \exp\left(-\frac{4^k}{8k}\right).</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> For a fixed <span class="math inline">m</span>, the variable <span class="math inline">|K(m)|</span> has distribution <span class="math inline">\operatorname{Bin}(k,1/2)</span>, with mean <span class="math inline">k/2</span> and variance <span class="math inline">k/4</span>. Chebyshev’s inequality therefore gives <span class="math display">\mathbb P\bigl(K(m)\notin\mathcal S_k\bigr)
+ =\mathbb P\left(\left||K(m)|-\frac k2\right|&gt;\sqrt k\right)
+ \le\frac14.</span> For <span class="math inline">Z=|E|/|J|</span>, averaging this estimate over <span class="math inline">m\in J</span> gives <span class="math inline">\mathbb EZ\ge3/4</span>.</p>
+<p>Changing one variable <span class="math inline">\varepsilon_i(b)</span> affects only those <span class="math inline">m\in J</span> with <span class="math inline">m\equiv b\pmod {p_i}</span>. There are at most <span class="math inline">|J|/p_i+1</span> such integers. The proof of Lemma <a href="#lem:skeleton" class="xref" data-reference-type="ref" data-reference="lem:skeleton">3.1</a> gives <span class="math inline">p_i\le P=o(Q^{1/2})</span>, whereas <span class="math inline">|J|\asymp Q</span>; hence <span class="math inline">|J|\ge p_i</span> for large <span class="math inline">j</span>. The corresponding bounded-difference constant for <span class="math inline">Z</span> is therefore at most <span class="math inline">2/p_i</span>. For each <span class="math inline">i</span>, there are exactly <span class="math inline">p_i</span> variables <span class="math inline">\varepsilon_i(b)</span>. Hence the sum of the squared bounded-difference constants is at most <span class="math display">\sum_{i=1}^k p_i\left(\frac2{p_i}\right)^2
+ =4\sum_{i=1}^k\frac1{p_i}
+ &lt;\frac{k}{4^k},</span> because every <span class="math inline">p_i&gt;4^{k+1}</span>. McDiarmid’s bounded-differences inequality <a href="#ref-11" class="cite">[11]</a>, applied with downward deviation <span class="math inline">1/4</span>, now yields <span class="math display">\mathbb P(Z&lt;1/2)
+ \le \exp\left(
+       -\frac{2(1/4)^2}{\,k/4^k\,}\right)
+ =\exp\left(-\frac{4^k}{8k}\right).</span> All the independent variables here form a finite family, and the displayed sum verifies the bounded-difference hypothesis. ◻</p>
+</div>
+<div id="lem:footprint" class="lemma">
+<p><strong>Lemma 3.3</strong> (Small periodic footprint).  <em>For all sufficiently large <span class="math inline">j</span>, <span class="math display">\mathbb P\bigl(\mu(U)&gt;e^{-k/100}\bigr)\le3e^{-k/100}.</span></em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Fix <span class="math inline">\omega\in\widehat{\mathbb Z}</span>. For <span class="math inline">S\in\mathcal S_k</span>, let <span class="math inline">a_S(\omega)\in\{1,\ldots,q_S\}</span> represent <span class="math inline">\omega\bmod q_S</span>, with the zero residue represented by <span class="math inline">q_S</span>, and set <span class="math display">m_S(\omega):=q_S+a_S(\omega)\in(q_S,2q_S].</span> Because <span class="math inline">J\subset(q_S,2q_S]</span> and has diameter smaller than <span class="math inline">q_S</span>, each residue class modulo <span class="math inline">q_S</span> has at most one representative in <span class="math inline">J</span>. It follows directly from the definitions that <span id="eq:candidate-equivalence" class="math display">\begin{equation}
+\label{eq:candidate-equivalence}
+ \omega\in U
+ \quad\Longleftrightarrow\quad
+ \text{there is an \(S\in\mathcal S_k\) for which }
+ m_S(\omega)\in J\ \text{and}\ K(m_S(\omega))=S.
+\tag{3.2}
+\end{equation}</span></p>
+<p>For <span class="math inline">S\in\mathcal S_k</span> and <span class="math inline">i\notin S</span>, define the collision set <span class="math display">C_{S,i}:=\{\omega\in\widehat{\mathbb Z}:
+       m_S(\omega)\equiv\omega\pmod {p_i}\}.</span> By <a href="#eq:skeleton-properties" class="eq-ref" data-reference-type="eqref" data-reference="eq:skeleton-properties">(3.1)</a>, <span class="math inline">(q_S,p_i)=1</span>. Conditional on any residue modulo <span class="math inline">q_S</span>, the displayed congruence prescribes exactly one residue modulo <span class="math inline">p_i</span>. The Chinese remainder theorem, applied to the uniform residue modulo <span class="math inline">q_Sp_i</span>, therefore gives <span class="math inline">\mu(C_{S,i})=1/p_i</span>. The set <span class="math display">C:=\bigcup_{\substack{S\in\mathcal S_k\\i\notin S}}C_{S,i},</span> depends only on the arithmetic skeleton and is therefore independent of all the random labels. The union bound and <span class="math inline">p_i&gt;4^{k+1}</span> give <span id="eq:collision-bound" class="math display">\begin{equation}
+\label{eq:collision-bound}
+ \mu(C)
+ \le|\mathcal S_k|\sum_{i=1}^k\frac1{p_i}
+ \le2^k\frac{k}{4^{k+1}}
+ =\frac{k}{2^{k+2}}.
+\tag{3.3}
+\end{equation}</span></p>
+<p>Now fix <span class="math inline">\omega\notin C</span>. Condition on the <span class="math inline">k</span> anchor bits <span class="math inline">\varepsilon_i(\omega\bmod p_i)</span>, and write <span class="math display">T:=\{i:\varepsilon_i(\omega\bmod p_i)=1\}.</span> If <span class="math inline">i\in S</span>, then <span class="math inline">p_i\mid q_S</span>, and hence <span class="math inline">m_S(\omega)\equiv\omega\pmod {p_i}</span>. Therefore <span class="math inline">K(m_S(\omega))=S</span> forces <span class="math inline">S\subseteq T</span>. If <span class="math inline">i\notin S</span>, the assumption <span class="math inline">\omega\notin C_{S,i}</span> says that the residue queried at <span class="math inline">m_S(\omega)\bmod p_i</span> differs from the anchor residue <span class="math inline">\omega\bmod p_i</span>. For a fixed <span class="math inline">S</span>, these <span class="math inline">k-|S|</span> queried variables have different first coordinates <span class="math inline">i</span>; each is also distinct from every conditioned anchor variable. They are therefore mutually independent and remain unbiased after the conditioning. Consequently, conditional on the anchor bits, the probability that <span class="math inline">S</span> contributes to <a href="#eq:candidate-equivalence" class="eq-ref" data-reference-type="eqref" data-reference="eq:candidate-equivalence">(3.2)</a> is zero unless <span class="math inline">S\subseteq T</span>, and in all cases it is at most <span id="eq:one-candidate" class="math display">\begin{equation}
+\label{eq:one-candidate}
+ 2^{-(k-|S|)}.
+\tag{3.4}
+\end{equation}</span> The requirement <span class="math inline">m_S(\omega)\in J</span> can only decrease this probability.</p>
+<p>Unconditionally, <span class="math inline">|T|\sim\operatorname{Bin}(k,1/2)</span>. Hoeffding’s inequality <a href="#ref-10" class="cite">[10]</a> gives <span id="eq:T-tail" class="math display">\begin{equation}
+\label{eq:T-tail}
+ \mathbb P(|T|&gt;3k/5)
+ \le\exp\left(-\frac{2(k/10)^2}{k}\right)
+ =e^{-k/50}.
+\tag{3.5}
+\end{equation}</span> Suppose that <span class="math inline">|T|\le3k/5</span> and that <span class="math inline">S\in\mathcal S_k</span> is contained in <span class="math inline">T</span>. The map <span class="math inline">S\mapsto T\setminus S</span> is injective, and <span class="math display">|T\setminus S|
+ \le\frac{3k}{5}-\left(\frac k2-\sqrt k\right)
+ =\frac{k}{10}+\sqrt k.</span> Let <span class="math inline">N_k=\lfloor3k/5\rfloor</span> and <span class="math inline">M_k=\lfloor k/10+\sqrt k\rfloor</span>. Padding <span class="math inline">T</span> to a set with <span class="math inline">N_k</span> elements is possible because the integer <span class="math inline">|T|</span> is at most <span class="math inline">\lfloor3k/5\rfloor=N_k</span>. Since <span class="math inline">S\mapsto T\setminus S</span> is injective, the number of possible candidates is at most <span class="math display">\sum_{\ell=0}^{M_k}\binom{N_k}{\ell}.</span></p>
+<p>We record the entropy estimate used to bound this sum. If <span class="math inline">0&lt;\rho\le1/2</span> and <span class="math inline">M=\lfloor\rho N\rfloor</span>, then <span id="eq:entropy-bound" class="math display">\begin{equation}
+\label{eq:entropy-bound}
+ \sum_{\ell=0}^{M}\binom N\ell
+ \le\exp\bigl(NH(\rho)\bigr),
+ \qquad
+ H(\rho)=-\rho\log\rho-(1-\rho)\log(1-\rho).
+\tag{3.6}
+\end{equation}</span> Indeed, for <span class="math inline">\ell\le\rho N</span>, the quantity <span class="math inline">\rho^\ell(1-\rho)^{N-\ell}</span> is at least <span class="math inline">\rho^{\rho N}(1-\rho)^{(1-\rho)N}=e^{-NH(\rho)}</span>. Multiplication by this lower bound and comparison with the complete binomial expansion proves <a href="#eq:entropy-bound" class="eq-ref" data-reference-type="eqref" data-reference="eq:entropy-bound">(3.6)</a>.</p>
+<p>Here <span class="math inline">M_k/N_k\to1/6</span> and <span class="math inline">N_k/k\to3/5</span>. In particular, <span class="math inline">0&lt;M_k/N_k&lt;1/2</span> for sufficiently large <span class="math inline">k</span>, so <a href="#eq:entropy-bound" class="eq-ref" data-reference-type="eqref" data-reference="eq:entropy-bound">(3.6)</a> applies with <span class="math inline">\rho=M_k/N_k</span>. The numerical margin needed below follows from <span class="math display">\frac35H(1/6)
+ =\frac1{10}\log6+\frac12\log(6/5)
+ &lt;\frac1{10}\frac95+\frac12\frac15
+ =\frac7{25}=0.28.</span> The inequality <span class="math inline">\log(6/5)&lt;1/5</span> is the standard <span class="math inline">\log(1+t)&lt;t</span> with <span class="math inline">t=1/5</span>. Also <span class="math inline">\log6&lt;9/5</span>, because the first seven terms of the positive power series for <span class="math inline">e^{9/5}</span> have sum greater than <span class="math inline">6</span>. By continuity of <span class="math inline">H</span>, for all sufficiently large <span class="math inline">k</span>, <span id="eq:candidate-count" class="math display">\begin{equation}
+\label{eq:candidate-count}
+ \#\{S\in\mathcal S_k:S\subseteq T\}\le e^{0.29k}.
+\tag{3.7}
+\end{equation}</span></p>
+<p>For the same range of <span class="math inline">k</span>, <span class="math inline">\sqrt k\le k/100</span>, so every <span class="math inline">S\in\mathcal S_k</span> satisfies <span class="math inline">k-|S|\ge0.49k</span>. The positive series <span class="math display">\log2
+ =2\sum_{r=0}^{\infty}
+   \frac1{(2r+1)3^{2r+1}}
+ &gt;\frac{56}{81}</span> shows that <span class="math inline">0.49\log2&gt;0.33</span>. Hence <a href="#eq:one-candidate" class="eq-ref" data-reference-type="eqref" data-reference="eq:one-candidate">(3.4)</a> is at most <span class="math inline">e^{-0.33k}</span>. For every fixed realization of the anchor bits with <span class="math inline">|T|\le3k/5</span>, the conditional union bound, together with <a href="#eq:one-candidate" class="eq-ref" data-reference-type="eqref" data-reference="eq:one-candidate">(3.4)</a> and <a href="#eq:candidate-count" class="eq-ref" data-reference-type="eqref" data-reference="eq:candidate-count">(3.7)</a>, gives <span class="math display">\mathbb P\bigl(\omega\in U\mid
+   \varepsilon_i(\omega\bmod p_i),\ 1\le i\le k\bigr)
+ \le e^{0.29k}e^{-0.33k}=e^{-0.04k}.</span> Averaging over the anchor bits therefore yields, uniformly for <span class="math inline">\omega\notin C</span>, <span class="math display">\mathbb P(\omega\in U,\ |T|\le3k/5)\le e^{-0.04k}.</span></p>
+<p>The indicator of <span class="math inline">U</span> is nonnegative, so Tonelli’s theorem gives <span class="math display">\mathbb E_{\varepsilon}\mu(U)
+ =\int_{\widehat{\mathbb Z}}\mathbb P_{\varepsilon}(\omega\in U)\,d\mu(\omega).</span> Split the integral over <span class="math inline">C</span> and <span class="math inline">\widehat{\mathbb Z}\setminus C</span>, and use <a href="#eq:collision-bound" class="eq-ref" data-reference-type="eqref" data-reference="eq:collision-bound">(3.3)</a>, <a href="#eq:T-tail" class="eq-ref" data-reference-type="eqref" data-reference="eq:T-tail">(3.5)</a>, and the preceding estimate. For all sufficiently large <span class="math inline">k</span>, <span class="math display">\mathbb E\mu(U)
+ \le\frac{k}{2^{k+2}}+e^{-k/50}+e^{-0.04k}
+ \le3e^{-k/50}.</span> Markov’s inequality, with threshold <span class="math inline">e^{-k/100}</span>, now gives <span class="math display">\mathbb P\bigl(\mu(U)&gt;e^{-k/100}\bigr)
+ \le e^{k/100}\mathbb E\mu(U)
+ \le3e^{-k/100},</span> as required. ◻</p>
+</div>
+<div id="lem:block" class="lemma">
+<p><strong>Lemma 3.4</strong> (Finite block lemma).  <em>For every sufficiently large integer <span class="math inline">j</span>, put <span class="math display">Q=2^j,\qquad
+ k_j=2\left\lfloor\frac{\sqrt j}{8}\right\rfloor,\qquad
+ \eta_j=e^{-k_j/100}.</span> There are an endpoint set <span class="math inline">E_j\subseteq\mathbb N</span>, a modulus <span class="math inline">q_{j,m}</span> for each <span class="math inline">m\in E_j</span>, and a periodic cylinder union <span class="math display">U_j=\bigcup_{m\in E_j}[m]_{q_{j,m}}</span> such that <span id="eq:block-properties" class="math display">\begin{equation}
+\label{eq:block-properties}
+\begin{gathered}
+ E_j\subseteq[11Q/10,19Q/10]\cap\mathbb Z,\qquad |E_j|\ge3Q/8,\\
+ \frac{19Q}{20}\le q_{j,m}\le\frac{21Q}{20}&lt;m
+ \quad(m\in E_j),\qquad
+ \mu(U_j)\le\eta_j .
+\end{gathered}
+\tag{3.8}
+\end{equation}</span> Moreover, <span class="math inline">\sum_j\eta_j&lt;\infty</span>.</em></p>
+</div>
+<div class="proof">
+<p><em>Proof.</em> Lemmas <a href="#lem:endpoints" class="xref" data-reference-type="ref" data-reference="lem:endpoints">3.2</a> and <a href="#lem:footprint" class="xref" data-reference-type="ref" data-reference="lem:footprint">3.3</a> show that the probability of failure of either <span class="math display">|E|\ge|J|/2,\qquad \mu(U)\le e^{-k/100}</span> is at most <span class="math display">\exp\left(-\frac{4^k}{8k}\right)+3e^{-k/100},</span> which is smaller than <span class="math inline">1</span> for all sufficiently large <span class="math inline">k</span>. Fix a labelling for which both conclusions hold, and use it to define <span class="math inline">E_j,q_{j,m}</span>, and <span class="math inline">U_j</span>. Since <span class="math inline">|J|\ge4Q/5-1</span>, we have <span class="math inline">|E_j|\ge3Q/8</span> for large <span class="math inline">Q</span>. Lemma <a href="#lem:skeleton" class="xref" data-reference-type="ref" data-reference="lem:skeleton">3.1</a> gives the modulus bounds, and the strict inequality <span class="math inline">q_{j,m}&lt;m</span> follows from <span class="math display">q_{j,m}\le21Q/20&lt;11Q/10\le m.</span> This proves <a href="#eq:block-properties" class="eq-ref" data-reference-type="eqref" data-reference="eq:block-properties">(3.8)</a>.</p>
+<p>Finally, <span class="math display">k_j\ge\frac{\sqrt j}{4}-2,
+ \qquad
+ \eta_j\le e^{1/50}e^{-\sqrt j/400}.</span> To see that the last majorant is summable, group the integers <span class="math inline">r^2\le j&lt;(r+1)^2</span>; the contribution of the <span class="math inline">r</span>-th group is at most <span class="math inline">(2r+1)e^{-r/400}</span>, up to the fixed factor <span class="math inline">e^{1/50}</span>. The resulting series converges. ◻</p>
+</div>
+</section>
+<section id="sec:global" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> The global construction</h1>
+<p>Set <span class="math inline">\epsilon=1/100</span>. Choose <span class="math inline">j_0</span> sufficiently large that Lemma <a href="#lem:block" class="xref" data-reference-type="ref" data-reference="lem:block">3.4</a> holds for every <span class="math inline">j\ge j_0</span> and <span id="eq:global-smallness" class="math display">\begin{equation}
+\label{eq:global-smallness}
+ \sum_{j\ge j_0}\eta_j&lt;\epsilon,
+ \qquad
+ \frac1{(2j_0+1)\log2}&lt;\epsilon.
+\tag{4.1}
+\end{equation}</span> For each <span class="math inline">j\ge j_0</span>, fix once and for all a block <span class="math inline">(E_j,(q_{j,m})_{m\in E_j},U_j)</span> supplied by that lemma.</p>
+<section id="choosing-the-epochs" class="level2" data-number="4.1">
+<h2 data-number="4.1"><span class="header-section-number">4.1</span> Choosing the epochs</h2>
+<p>We recursively choose integers <span class="math inline">a_1&lt;a_2&lt;\cdots</span> and install the blocks with indices in <span class="math display">I_t:=\{a_t,a_t+1,\ldots,2a_t\}</span> during epoch <span class="math inline">t</span>. Suppose that the first <span class="math inline">t-1</span> epochs have already been chosen. For every modulus <span class="math inline">q</span> occurring in those epochs, put <span class="math display">Y_q^{(t-1)}
+ :=\{m\bmod q:s&lt;t,\ j\in I_s,\ m\in E_j,\ q_{j,m}=q\},</span> and let <span class="math inline">\mathcal F_{t-1}</span> be the finite family of all pairs <span class="math inline">(q,Y_q^{(t-1)})</span> with <span class="math inline">Y_q^{(t-1)}\ne\varnothing</span>. For <span class="math inline">t=1</span>, take <span class="math inline">\mathcal F_0=\varnothing</span>. Grouping equal moduli changes neither the survivor set nor the union of cylinders, and hence <span class="math display">U_{\mathcal F_{t-1}}
+ =V_{t-1}:=\bigcup_{\substack{s&lt;t\\j\in I_s}}U_j.</span> By induction, the already chosen intervals <span class="math inline">I_s</span>, <span class="math inline">s&lt;t</span>, are pairwise disjoint subsets of <span class="math inline">\{j:j\ge j_0\}</span>. The union bound and <a href="#eq:global-smallness" class="eq-ref" data-reference-type="eqref" data-reference="eq:global-smallness">(4.1)</a> therefore imply <span class="math display">\mu(V_{t-1})
+ \le\sum_{\substack{s&lt;t\\j\in I_s}}\eta_j
+ &lt;\epsilon.</span></p>
+<p>By Lemma <a href="#lem:periodic" class="xref" data-reference-type="ref" data-reference="lem:periodic">2.1</a>, the logarithmic averages of <span class="math inline">B_{\mathcal F_{t-1}}</span> converge to <span class="math inline">1-\mu(V_{t-1})&gt;1-\epsilon</span>. We may therefore choose <span class="math inline">a_t</span> so large that <span id="eq:epoch-choice" class="math display">\begin{equation}
+\label{eq:epoch-choice}
+\begin{gathered}
+ a_t\ge j_0,\qquad
+ a_t&gt;2a_{t-1}+3\quad(t\ge2),\\
+ \frac1{\log x_t}
+ \sum_{\substack{m&lt;x_t\\m\in B_{\mathcal F_{t-1}}}}\frac1m
+ \ge1-2\epsilon=\frac{49}{50},
+ \qquad x_t:=2^{a_t-1}.
+\end{gathered}
+\tag{4.2}
+\end{equation}</span> Indeed, the convergence just noted makes the last inequality true for all sufficiently large <span class="math inline">x</span>, so it remains true after restricting <span class="math inline">x</span> to the unbounded sequence of dyadic numbers <span class="math inline">2^{a-1}</span>. This completes the recursion. In particular, the epochs are pairwise disjoint and <span class="math inline">a_t\to\infty</span>.</p>
+</section>
+<section id="the-fixed-congruence-system" class="level2" data-number="4.2">
+<h2 data-number="4.2"><span class="header-section-number">4.2</span> The fixed congruence system</h2>
+<p>Let <span class="math display">\mathcal I:=\bigcup_{t\ge1}I_t</span> be the set of installed scales. Modulus ranges at distinct scales are disjoint, since <span id="eq:scale-separation" class="math display">\begin{equation}
+\label{eq:scale-separation}
+ \frac{21}{20}2^j&lt;\frac{19}{20}2^{j+1}.
+\tag{4.3}
+\end{equation}</span> For each modulus <span class="math inline">q</span> appearing in an installed block, define <span class="math display">X_q:=\{m\bmod q:j\in\mathcal I,\ m\in E_j,\ q_{j,m}=q\}
+ \subseteq\mathbb Z/q\mathbb Z,</span> and let <span class="math inline">A</span> be the set of those moduli. Repeated occurrences of the same modulus inside one block are thereby grouped into a single residue set. Equation <a href="#eq:scale-separation" class="eq-ref" data-reference-type="eqref" data-reference="eq:scale-separation">(4.3)</a> shows that a modulus cannot occur at two different scales.</p>
+<p>The family is infinite. Indeed, <span class="math inline">|E_j|\ge3\cdot2^j/8&gt;0</span> at every installed scale, so every such scale supplies a modulus; by <a href="#eq:scale-separation" class="eq-ref" data-reference-type="eqref" data-reference="eq:scale-separation">(4.3)</a>, these moduli are distinct as the scale varies. Let <span class="math inline">B=B(A,X)</span> be the survivor set defined in <a href="#eq:defB" class="eq-ref" data-reference-type="eqref" data-reference="eq:defB">(1.1)</a>. Once the sequence <span class="math inline">(a_t)</span> has been chosen, both <span class="math inline">A</span> and every <span class="math inline">X_q</span> are fixed; they do not depend on the averaging parameter.</p>
+<div id="rem:nonsummable" class="remark">
+<p><em>Remark 4.1</em> (Failure of the summability hypothesis).  Within a fixed block, two distinct endpoints assigned the same modulus represent distinct residue classes: their distance is smaller than that modulus by Lemma <a href="#lem:skeleton" class="xref" data-reference-type="ref" data-reference="lem:skeleton">3.1</a>. Together with <a href="#eq:scale-separation" class="eq-ref" data-reference-type="eqref" data-reference="eq:scale-separation">(4.3)</a>, this gives, for every installed <span class="math inline">j</span>, <span class="math display">\sum_{\substack{q\in A\\19\cdot2^j/20\le q\le21\cdot2^j/20}}
+       \frac{|X_q|}{q}
+ =\sum_{m\in E_j}\frac1{q_{j,m}}
+ \ge\frac{|E_j|}{21\cdot2^j/20}
+ \ge\frac5{14}.</span> There are infinitely many installed scales, and therefore <span class="math inline">\sum_{q\in A}|X_q|/q=\infty</span>. Thus the construction does not overlap the summable positive result cited in the introduction.</p>
+</div>
+</section>
+<section id="recovery-cutoffs" class="level2" data-number="4.3">
+<h2 data-number="4.3"><span class="header-section-number">4.3</span> Recovery cutoffs</h2>
+<p>At <span class="math inline">x_t=2^{a_t-1}</span>, consider a modulus belonging to an epoch <span class="math inline">s\ge t</span>. Its scale <span class="math inline">j</span> satisfies <span class="math inline">j\ge a_s\ge a_t</span>, so <span class="math display">q\ge\frac{19}{20}2^j
+ \ge\frac{19}{20}2^{a_t}
+ &gt;2^{a_t-1}=x_t.</span> Such a modulus is not active at any integer <span class="math inline">m&lt;x_t</span>. Consequently, below <span class="math inline">x_t</span> the final survivor <span class="math inline">B</span> agrees exactly with the finite-past survivor <span class="math inline">B_{\mathcal F_{t-1}}</span>: by <a href="#eq:scale-separation" class="eq-ref" data-reference-type="eqref" data-reference="eq:scale-separation">(4.3)</a>, no later scale can add a new residue class to a modulus already present in <span class="math inline">\mathcal F_{t-1}</span>, and all genuinely future moduli are inactive below <span class="math inline">x_t</span>. By <a href="#eq:epoch-choice" class="eq-ref" data-reference-type="eqref" data-reference="eq:epoch-choice">(4.2)</a>, <span class="math display">L_B(x_t)\ge\frac{49}{50}.</span> Since <span class="math inline">x_t\to\infty</span>, it follows that <span id="eq:limsup" class="math display">\begin{equation}
+\label{eq:limsup}
+ \limsup_{x\to\infty}L_B(x)\ge\frac{49}{50}.
+\tag{4.4}
+\end{equation}</span></p>
+</section>
+<section id="deletion-cutoffs" class="level2" data-number="4.4">
+<h2 data-number="4.4"><span class="header-section-number">4.4</span> Deletion cutoffs</h2>
+<p>Put <span class="math inline">y_t=2^{2a_t+1}</span>. If <span class="math inline">j\in I_t</span> and <span class="math inline">m\in E_j</span>, then <span class="math display">m\le\frac{19}{10}2^j
+ \le\frac{19}{10}2^{2a_t}
+ &lt;2^{2a_t+1}=y_t.</span> Moreover, Lemma <a href="#lem:block" class="xref" data-reference-type="ref" data-reference="lem:block">3.4</a> gives <span class="math display">q_{j,m}\le\frac{21}{20}2^j
+ &lt;\frac{11}{10}2^j\le m.</span> By the definition of <span class="math inline">X_{q_{j,m}}</span>, one has <span class="math inline">m\bmod q_{j,m}\in X_{q_{j,m}}</span>. Since <span class="math inline">q_{j,m}&lt;m</span>, this modulus is active at <span class="math inline">m</span>, and consequently <span class="math inline">m\notin B</span>. Thus every point of <span class="math inline">E_j</span> is absent from <span class="math inline">B\cap[1,y_t)</span>.</p>
+<p>The endpoint intervals at consecutive scales are disjoint: <span class="math display">\frac{19}{10}2^j&lt;\frac{11}{10}2^{j+1}.</span> Hence the deleted endpoints supplied by different <span class="math inline">j\in I_t</span> are distinct. At a single scale, <a href="#eq:block-properties" class="eq-ref" data-reference-type="eqref" data-reference="eq:block-properties">(3.8)</a> gives <span class="math display">\sum_{m\in E_j}\frac1m
+ \ge\frac{|E_j|}{19\cdot2^j/10}
+ \ge\frac{3\cdot2^j/8}{19\cdot2^j/10}
+ =\frac{15}{76}.</span> Because <span class="math inline">I_t</span> contains <span class="math inline">a_t+1</span> scales, we obtain <span id="eq:deletion-average" class="math display">\begin{equation}
+\label{eq:deletion-average}
+ L_B(y_t)
+ \le\frac{H_{y_t-1}}{\log y_t}
+ -\frac{15}{76}\,
+   \frac{a_t+1}{(2a_t+1)\log2}.
+\tag{4.5}
+\end{equation}</span></p>
+<p>Since <span class="math inline">a_t\ge j_0</span>, the harmonic-number bound from Section <a href="#sec:periodic" class="xref" data-reference-type="ref" data-reference="sec:periodic">2</a> and <a href="#eq:global-smallness" class="eq-ref" data-reference-type="eqref" data-reference="eq:global-smallness">(4.1)</a> show that <span class="math display">\frac{H_{y_t-1}}{\log y_t}
+ \le1+\frac1{\log y_t}&lt;1+\epsilon.</span> Also <span class="math inline">(a_t+1)/(2a_t+1)&gt;1/2</span>, and <span class="math display">\frac{15}{152\log2}&gt;\frac18.</span> For completeness, <span class="math inline">\log2&lt;3/4</span>, since the first four terms in the positive series for <span class="math inline">e^{3/4}</span> already sum to more than <span class="math inline">2</span>; hence the left side is greater than <span class="math inline">15/114=5/38&gt;1/8</span>. Substitution into <a href="#eq:deletion-average" class="eq-ref" data-reference-type="eqref" data-reference="eq:deletion-average">(4.5)</a> gives <span class="math display">L_B(y_t)
+ &lt;1+\frac1{100}-\frac18
+ =\frac{177}{200}.</span> Since <span class="math inline">y_t\to\infty</span>, <span id="eq:liminf" class="math display">\begin{equation}
+\label{eq:liminf}
+ \liminf_{x\to\infty}L_B(x)\le\frac{177}{200}.
+\tag{4.6}
+\end{equation}</span></p>
+<p>Equations <a href="#eq:limsup" class="eq-ref" data-reference-type="eqref" data-reference="eq:limsup">(4.4)</a> and <a href="#eq:liminf" class="eq-ref" data-reference-type="eqref" data-reference="eq:liminf">(4.6)</a> prove Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>.</p>
+</section>
+</section>
+<section id="concluding-remarks" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Concluding remarks</h1>
+<p>The construction separates two effects that coincide for many classical sieves. Within an installed scale, the active tails delete a fixed amount of harmonic mass. Globally, however, the completed periodic footprint of that scale has summably small Haar measure. Long deletion epochs exploit the first fact, while the recovery cutoffs exploit the second.</p>
+<p>Erdős Problem 25 is the singleton special case of Problem 486, in which <span class="math inline">|X_q|=1</span> for every <span class="math inline">q\in A</span> <a href="#ref-4" class="cite">[4]</a>. The present argument does not settle that problem. Indeed, the finite block in Section <a href="#sec:block" class="xref" data-reference-type="ref" data-reference="sec:block">3</a> groups many endpoint residues into the same set <span class="math inline">X_q</span>; this multi-residue feature makes it possible to obtain a fixed local harmonic deletion while keeping the completed periodic footprint small.</p>
+
+</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">F. Araújo, Sarnak’s program for Erdős sieves. Part I: topological dynamics and light tails, preprint, 2026, <a href="https://arxiv.org/abs/2602.24031">arXiv:2602.24031</a>.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">A. S. Besicovitch, On the density of certain sequences of integers, <em>Math. Ann.</em> <strong>110</strong> (1934), 336–341, <a href="https://doi.org/10.1007/BF01448032">doi:10.1007/BF01448032</a>.</span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">F. Behrend, On sequences of numbers not divisible one by another, <em>J. London Math. Soc.</em> <strong>10</strong> (1935), 42–44, <a href="https://doi.org/10.1112/jlms/s1-10.37.42">doi:10.1112/jlms/s1-10.37.42</a>.</span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">T. F. Bloom, Erdős Problem 25, <a href="https://www.erdosproblems.com/25" class="uri">https://www.erdosproblems.com/25</a>, accessed July 15, 2026.</span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">H. Davenport and P. Erdős, On sequences of positive integers, <em>Acta Arith.</em> <strong>2</strong> (1936), 147–151, <a href="https://doi.org/10.4064/aa-2-1-147-151">doi:10.4064/aa-2-1-147-151</a>.</span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">H. Davenport and P. Erdős, On sequences of positive integers, <em>J. Indian Math. Soc. (N.S.)</em> <strong>15</strong> (1951), 19–24, <a href="https://doi.org/10.18311/JIMS/1951/17063">doi:10.18311/JIMS/1951/17063</a>.</span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">P. Erdős, On the distribution function of additive arithmetical functions and on some related problems, <em>Rend. Sem. Mat. Fis. Milano</em> <strong>27</strong> (1957), 45–49, <a href="https://doi.org/10.1007/BF02922565">doi:10.1007/BF02922565</a>.</span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">P. Erdős, Some unsolved problems, <em>Publ. Math. Inst. Hung. Acad. Sci., Ser. A</em> <strong>6</strong> (1961), 221–254.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">G. H. Hardy and E. M. Wright, <em>An Introduction to the Theory of Numbers</em>, sixth ed., revised by D. R. Heath-Brown and J. H. Silverman, Oxford University Press, Oxford, 2008.</span></li><li id="ref-10"><span class="ref-num">[10]</span><span class="ref-body">W. Hoeffding, Probability inequalities for sums of bounded random variables, <em>J. Amer. Statist. Assoc.</em> <strong>58</strong> (1963), no. 301, 13–30, <a href="https://doi.org/10.1080/01621459.1963.10500830">doi:10.1080/01621459.1963.10500830</a>.</span></li><li id="ref-11"><span class="ref-num">[11]</span><span class="ref-body">C. McDiarmid, On the method of bounded differences, in <em>Surveys in Combinatorics, 1989</em>, London Math. Soc. Lecture Note Ser. <strong>141</strong>, Cambridge University Press, Cambridge, 1989, pp. 148–188, <a href="https://doi.org/10.1017/CBO9781107359949.008">doi:10.1017/CBO9781107359949.008</a>.</span></li></ol></section>
+
+
+    </article>
+
+    <div class="divider article-divider"></div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo">Multiscalar Intelligence</span>
+          <span class="footer-loc">London, UK</span>
+        </div>
+        <div class="footer-links">
+          <a href="/open-science/">Open Science</a>
+          <a href="mailto:hello@multiscalar.ai">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 Multiscalar Intelligence. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <canvas id="grid-bg"></canvas>
+  <script src="../../script.js?v=20260807h"></script>
+
+</body>
+</html>

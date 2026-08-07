@@ -344,6 +344,85 @@ main {
   letter-spacing: 0.07em;
 }
 
+/* A group entry holds several linked results, so the block itself is not a
+   link and must not take the whole-card hover. */
+.result-group:hover {
+  background: transparent;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.problem-list {
+  list-style: none;
+  max-width: 820px;
+  margin: 0.4rem 0 1.6rem;
+  border-top: 1px solid var(--rule, #e4e2dd);
+}
+
+.problem-list li {
+  border-bottom: 1px solid var(--rule, #e4e2dd);
+}
+
+.problem-list a {
+  display: grid;
+  grid-template-columns: 4.2rem 1fr auto;
+  align-items: baseline;
+  gap: 0 1.2rem;
+  padding: 0.95rem 0.2rem;
+  color: var(--text);
+  transition: background 0.25s, padding-left 0.25s;
+}
+
+.problem-list a:hover {
+  background: var(--bg-elevated);
+  padding-left: 0.8rem;
+}
+
+.problem-number {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.problem-list a:hover .problem-number {
+  color: #1a1a1a;
+}
+
+.problem-title {
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  color: #1a1a1a;
+  line-height: 1.45;
+}
+
+.problem-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.result-note {
+  font-size: 0.88rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 700px;
+}
+
+@media (max-width: 640px) {
+  .problem-list a {
+    grid-template-columns: 3.4rem 1fr;
+  }
+
+  .problem-tag {
+    grid-column: 2;
+    margin-top: 0.3rem;
+  }
+}
+
 /* ===== Team ===== */
 .team-intro {
   margin-bottom: 2.5rem !important;
