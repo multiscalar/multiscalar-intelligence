@@ -168,11 +168,16 @@
   transition: all 0.15s;
 }
 
+/* Selected state matches the sidebar card and the model picker: outline, not fill. */
 .metric-toggle button.active {
-  background: #1a1a1a;
-  color: #fafafa;
+  background: var(--bg-elevated);
+  color: var(--text);
   border-color: #1a1a1a;
+  font-weight: 500;
+  box-shadow: 0 0 0 2.5px rgba(26, 26, 26, 0.07);
 }
+
+.metric-toggle button:hover { border-color: #b0b0b0; }
 
 .metric-note {
   font-family: var(--mono);
