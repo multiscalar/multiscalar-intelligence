@@ -545,11 +545,3 @@
   .h2h-raw, .h2h-raw-h { display: none; }
   .h2h-axis i:first-child, .h2h-axis i:last-child { display: none; }
 }
-
-.chart-note {
-  font-size: 0.74rem;
-  color: var(--text-secondary);
-  line-height: 1.55;
-  max-width: 660px;
-  margin-top: 1rem;
-}

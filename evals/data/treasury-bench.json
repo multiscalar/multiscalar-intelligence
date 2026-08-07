@@ -10,9 +10,8 @@
   "snapshot": "2026-08-07",
   "run": "v1"
  },
- "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates. Score is net profit on $100k after late payment penalties.",
+ "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates. Each starts with $100k of company cash, must cover every bill on time, and earns yield on the rest; the score is net profit after late payment penalties. Buffer heuristic is not a language model but a simple scripted rule that holds a fixed cash reserve and lends the remainder, included as the baseline to beat.",
  "footnote": "",
- "note": "Each agent starts with $100k of company cash and must cover every bill on time while earning yield on the rest. Buffer heuristic is not a language model: it is a simple scripted rule that holds a fixed cash reserve and lends the remainder, included as the baseline to beat.",
  "metrics": [
   {
    "id": "net_pnl",

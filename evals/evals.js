@@ -330,7 +330,6 @@
       </div>
       <p class="metric-note">${isMatrix ? '' : (metricDef.higherIsBetter === false ? '↓ lower is better' : '↑ higher is better')}</p>
       ${isMatrix ? renderMatrix(d) : '<div class="chart" id="chart"></div>'}
-      ${!isMatrix && d.note ? `<p class="chart-note">${d.note}</p>` : ''}
       <div class="bench-foot">
         <p class="bench-blurb">${d.blurb}${d.footnote ? `<span class="bench-footnote">${d.footnote}</span>` : ''}</p>
         <div class="bench-stamp">
