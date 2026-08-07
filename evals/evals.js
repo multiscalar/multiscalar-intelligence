@@ -76,7 +76,10 @@
   // so a card can be added to BENCHES before its run has finished.
   Promise.all(
     BENCHES.map((b) =>
-      fetch(`data/${b}.json`)
+      // Always revalidate the data files. Versioning index.html's script/style tags
+      // does nothing for these fetches, so a stale card JSON would otherwise be served
+      // from cache alongside fresh code — new chart, old numbers and copy.
+      fetch(`data/${b}.json`, { cache: 'no-cache' })
         .then((r) => (r.ok ? r.json() : null))
         .catch(() => null)
     )
