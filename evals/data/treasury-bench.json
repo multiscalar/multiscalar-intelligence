@@ -7,11 +7,11 @@
   "label": "Multiscalar",
   "linkText": "methodology & code",
   "url": "https://github.com/multiscalar/treasury-bench",
-  "snapshot": "2026-08-06",
+  "snapshot": "2026-08-07",
   "run": "v1"
  },
- "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates: invoices in, payroll and a surprise tax bill out, plus a 10-day withdrawal crunch. Score is net profit on $100k after late-payment penalties (10% fee + 1%/day). 5 runs per model.",
- "footnote": " Only 4 of 12 models never missed a payment, and the 10-line scripted buffer policy out-earns 8 of them. Gemma 4 31B bounced its first payroll in every run and ended the year at a loss.",
+ "blurb": "Agents run a small business treasury for a simulated year on replayed 2025 Aave v3 stablecoin rates. Score is net profit on $100k after late payment penalties.",
+ "footnote": "",
  "metrics": [
   {
    "id": "net_pnl",

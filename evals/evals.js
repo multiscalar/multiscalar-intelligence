@@ -161,7 +161,7 @@
   // ----- formatting -----
 
   function fmt(value, unit) {
-    if (typeof value !== 'number' || !isFinite(value)) return '—';
+    if (typeof value !== 'number' || !isFinite(value)) return 'n/a';
     if (unit === '$') {
       const abs = Math.abs(Math.round(value)).toLocaleString('en-US');
       return (value < 0 ? '−$' : '$') + abs;
@@ -203,7 +203,7 @@
 
   // Colour encodes the advantage over the opponent *in that pairing*, not distance from
   // 50. The two shares in a pairing sum to its efficiency, so the balanced point is their
-  // midpoint — centring on a flat 50 would paint everything red merely because the auction
+  // midpoint. Centring on a flat 50 would paint everything red merely because the auction
   // destroys surplus and drags all shares below half.
   function cellColor(v, mirror) {
     if (mirror == null) return DIVERGING.mid;

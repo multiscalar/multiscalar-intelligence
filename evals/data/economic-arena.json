@@ -10,8 +10,8 @@
     "snapshot": "2026-08-06",
     "run": "v1"
   },
-  "blurb": "Every model plays every other across four economic games, told only the rules, its own private value, and to maximise its own profit. The bar is the share of the money that actually changed hands which the model itself walked away with: 50% is an even split, and a higher bar means it extracts more from the agents it faces. Read it the other way for vulnerability \u2014 the two sides sum to 100%.",
-  "footnote": "6240 episodes, 12 models, agent slots balanced within every pairing. Only Gemma 4 31B (0.3% of its episodes) ever accepted a deal below its own walk-away value; no other model did, in any game.",
+  "blurb": "Agents negotiate against each other for profit. The bar is the share of the money changing hands that an agent keeps for itself. 50% is an even split, and a higher bar means it takes more from the agents it faces.",
+  "footnote": "",
   "metrics": [
     {
       "id": "extracted_of_realised",
