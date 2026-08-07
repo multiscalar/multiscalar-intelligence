@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open Science | Multiscalar Intelligence</title>
+  <meta name="description" content="Multiscalar Intelligence publishes what it finds: proofs, benchmarks, code and results in mathematics, mechanism design and economics.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo"><span class="logo-top">Multiscalar</span><span class="logo-bottom">Intelligence</span></a>
+      <div class="nav-links">
+        <a href="/#research">Research</a>
+        <a href="/open-science/" class="nav-current">Open Science</a>
+        <a href="/evals/">Evals</a>
+        <a href="mailto:hello@multiscalar.ai">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-label">Open Science</div>
+      <h1>Science in the Open</h1>
+    </section>
+
+    <!-- Statement -->
+    <section class="central-paragraph">
+      <p>
+        Multiscalar Intelligence is a research company, and we publish what we find. We believe open science is how a field advances: proofs, benchmarks, code and results released where anyone can check them, including the results that did not go our way. Our contributions begin with the foundations the rest of our work depends on, mathematics, mechanism design and economics, and extend to the multi-agent systems built on top of them. Everything on this page stands on its own, independent of any product.
+      </p>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Results -->
+    <section class="results" id="results">
+      <div class="section-label">Results</div>
+      <div class="results-list">
+
+        <a class="result-entry" href="/results/erdos-690/">
+          <div class="result-meta">
+            <span class="result-date">May 2026</span>
+            <span class="result-tag">Number Theory</span>
+          </div>
+          <h3 class="result-title">A Complete Answer to Erdős Problem 690</h3>
+          <p class="result-subtitle">Discovered by the Multiscalar Fields System</p>
+          <p class="result-summary">
+            We prove that the natural density <em>d<sub>k</sub>(p)</em>, of integers whose <em>k</em>-th smallest prime divisor is <em>p</em>, is <strong>not unimodal for every <em>k</em> ≥ 4</strong>, completing Erdős' classification. The proof was discovered by the Multiscalar Fields System with limited human interaction.
+          </p>
+          <span class="result-cta">Read the proof →</span>
+        </a>
+
+        <div class="result-entry result-demo" id="compress">
+          <div class="result-meta">
+            <span class="result-date">June 2026</span>
+            <span class="result-tag">Neural Compression</span>
+          </div>
+          <h3 class="result-title">Neural Compression of Satellite Imagery</h3>
+          <p class="result-subtitle">Discovered by Multiscalar Dynamo</p>
+          <p class="result-summary">
+            A Sentinel-2 earth-observation tile compressed by our learned codec with no
+            visible loss. Drag the slider across rate points. Even at the highest ratio,
+            the reconstruction stays visually identical to the original.
+          </p>
+          <div class="compress-widget">
+            <img class="compress-img" id="compress-recon" alt="compressed satellite tile">
+            <input type="range" class="compress-slider" id="compress-slider" min="0" max="5" step="1" value="0">
+            <div class="compress-readout">
+              <span class="compress-ratio" id="compress-ratio"></span>
+              <span class="compress-meta" id="compress-meta"></span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-logo">Multiscalar Intelligence</span>
+          <span class="footer-loc">London, UK</span>
+        </div>
+        <div class="footer-links">
+          <a href="mailto:hello@multiscalar.ai">Contact</a>
+        </div>
+        <div class="footer-copy">
+          &copy; 2026 Multiscalar Intelligence. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- Subtle animated grid background -->
+  <canvas id="grid-bg"></canvas>
+  <script src="../script.js"></script>
+  <script src="../sat-compress.js"></script>
+
+</body>
+</html>

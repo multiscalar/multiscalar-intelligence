@@ -1,7 +1,7 @@
 // sat-compress.js — drives the homepage compression-level slider.
 // Left = least compression (original) -> right = most compression (highest ratio).
 (function () {
-  const BASE = "assets/sat-compress/";
+  const BASE = "/assets/sat-compress/";
   const recon = document.getElementById("compress-recon");
   if (!recon) return;
   const slider = document.getElementById("compress-slider");
