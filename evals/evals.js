@@ -336,7 +336,9 @@
         <div class="bench-title-block">
           <h2>${d.title}</h2>
           <div class="bench-question">${d.question}</div>
-          <span class="bench-source">by <a href="${d.source.url}" target="_blank" rel="noopener">${sourceLabel}</a></span>
+          <span class="bench-source">by ${d.source.url
+            ? `<a href="${d.source.url}" target="_blank" rel="noopener">${sourceLabel}</a>`
+            : sourceLabel}</span>
         </div>
         ${d.metrics.length > 1 ? `<div class="metric-toggle" role="tablist">${d.metrics
           .map((m) => `<button role="tab" data-metric="${m.id}" class="${m.id === state.metric ? 'active' : ''}">${m.label}</button>`)
@@ -348,7 +350,7 @@
         <p class="bench-blurb">${d.blurb}${d.footnote ? `<span class="bench-footnote">${d.footnote}</span>` : ''}</p>
         <div class="bench-stamp">
           results as of ${d.source.snapshot}<br>
-          <a href="${d.source.url}" target="_blank" rel="noopener">${d.source.linkText || (rows.length > MAX_BARS ? `+${rows.length - MAX_BARS - 1} more at source` : 'full results at source')} ↗</a>
+          ${d.source.url ? `<a href="${d.source.url}" target="_blank" rel="noopener">${d.source.linkText || (rows.length > MAX_BARS ? `+${rows.length - MAX_BARS - 1} more at source` : 'full results at source')} ↗</a>` : ''}
         </div>
       </div>`;
 

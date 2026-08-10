@@ -5,9 +5,7 @@
  "source": {
   "name": "Multiscalar",
   "label": "Multiscalar",
-  "linkText": "methodology & code",
-  "url": "https://github.com/multiscalar/treasury-bench",
-  "snapshot": "2026-08-07",
+  "snapshot": "2026-08-10",
   "run": "v1"
  },
  "blurb": "Agents manage $100k of company cash for a simulated year on replayed 2025 Aave v3 stablecoin rates, covering every bill on time while earning yield on the rest. Score is the profit added versus leaving the cash idle, net of late-payment penalties: below zero, the agent lost the business money. Buffer heuristic is not a language model but a scripted rule that keeps a fixed reserve and lends the rest, included as the baseline to beat.",
