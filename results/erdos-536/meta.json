@@ -5,7 +5,7 @@
   "tag": "Combinatorics",
   "eyebrow": "Result · Erdős Problem 536",
   "badge": "Proposed",
-  "description": "A proof that a set of integers up to N with no three elements sharing all three pairwise least common multiples has size o(N).",
+  "description": "Proposed solution to Erdős problem 536: a set of integers up to N with no three elements whose three pairwise least common multiples are equal has size o(N).",
   "links": [
     [
       "PDF",

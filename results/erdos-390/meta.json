@@ -5,7 +5,7 @@
   "tag": "Number Theory",
   "eyebrow": "Result · Erdős Problem 390",
   "badge": "Proposed",
-  "description": "A proposed exact asymptotic for the least largest factor in a representation of n! as a product of distinct integers greater than n, with a machine-checkable allocation certificate.",
+  "description": "Proposed solution to Erdős problem 390: an exact asymptotic for the least possible largest factor in a factorisation of n! into distinct integers greater than n, with a finite allocation certificate and its checker.",
   "links": [
     [
       "PDF",

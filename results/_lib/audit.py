@@ -19,6 +19,9 @@ they would embarrass us if they failed:
   7. Every table cell is present.
   8. No internal link points at a missing anchor, and no pandoc residue
      (`[eq:key]`, unresolved citations, literal `\\Cref`) survived.
+  9. The TeX inside every formula still matches paper.tex. The PDF comparison
+     cannot see this: it strips math first, so a formula could render cleanly
+     and still say the wrong thing.
 
 Exit status is non-zero if any check fails.
 """
@@ -33,7 +36,12 @@ import sys
 import unicodedata
 from pathlib import Path
 
+from math_fidelity import mismatches, tabular_cell_count
+
+import sys as _sys
+
 HERE = Path(__file__).resolve().parent
+_sys.path.insert(0, str(HERE))
 RESULTS = HERE.parent
 CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
@@ -390,6 +398,17 @@ class Audit:
 
     # -- 7 ------------------------------------------------------------------
     def check_tables(self) -> None:
+        # Cell count first: pandoc drops a header row whose cells it cannot
+        # evaluate, and comparing only the cells that *are* on the page would
+        # never notice the loss.
+        tex = self.dir / "paper.tex"
+        if tex.exists():
+            want = tabular_cell_count(tex.read_text(encoding="utf-8"))
+            got = len(self.d["cells"])
+            if want != got:
+                self.fail(
+                    f"the source has {want} table cells, the page renders {got}"
+                )
         cells = [c.strip() for c in self.d["cells"]]
         cells = [c for c in cells if normalise(c)]
         if not cells:
@@ -417,6 +436,23 @@ class Audit:
                 counts[r] = counts.get(r, 0) + 1
             self.fail("pandoc residue on the page: " + ", ".join(f"{k} x{v}" for k, v in counts.items()))
 
+    # -- 9 ------------------------------------------------------------------
+    def check_math_source(self) -> None:
+        tex = self.dir / "paper.tex"
+        if not tex.exists():
+            self.notes.append("no paper.tex beside the page; math source check skipped")
+            return
+        total, bad = mismatches(
+            (self.dir / "index.html").read_text(encoding="utf-8"),
+            tex.read_text(encoding="utf-8"),
+        )
+        if bad:
+            self.fail(
+                f"{len(bad)} of {total} formulas carry TeX that is not in paper.tex: "
+                + " || ".join(bad[:3])
+            )
+        self.notes.append(f"{total} formulas checked against the LaTeX source")
+
     def run(self) -> bool:
         for check in (
             self.check_katex,
@@ -427,6 +463,7 @@ class Audit:
             self.check_bibliography,
             self.check_tables,
             self.check_links_and_residue,
+            self.check_math_source,
         ):
             check()
         ok = not self.failures

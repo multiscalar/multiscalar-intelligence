@@ -5,7 +5,7 @@
   "tag": "Equidistribution",
   "eyebrow": "Result · Erdős Problem 1002",
   "badge": "Proposed",
-  "description": "A proof that the discrepancy sum of a random irrational rotation, divided by log N, converges to a Cauchy distribution of scale one over two pi.",
+  "description": "Proposed solution to Erdős problem 1002: the discrepancy sum of a random irrational rotation, divided by log N, converges to a Cauchy distribution of scale one over two pi.",
   "links": [
     [
       "PDF",

@@ -5,7 +5,7 @@
   "tag": "Approximation Theory",
   "eyebrow": "Result · Erdős Problem 1038",
   "badge": "Proposed",
-  "description": "A computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial with all zeros in the unit interval.",
+  "description": "Proposed solution to Erdős problem 1038: a computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial whose zeros all lie in [-1, 1].",
   "links": [
     [
       "PDF",

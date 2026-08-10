@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Proposed Solution to Erdős Problem 1002 | Multiscalar Intelligence</title>
-  <meta name="description" content="A proof that the discrepancy sum of a random irrational rotation, divided by log N, converges to a Cauchy distribution of scale one over two pi.">
+  <meta name="description" content="Proposed solution to Erdős problem 1002: the discrepancy sum of a random irrational rotation, divided by log N, converges to a Cauchy distribution of scale one over two pi.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-  <link rel="stylesheet" href="../../style.css?v=20260807h">
-  <link rel="stylesheet" href="../article.css?v=20260807h">
+  <link rel="stylesheet" href="../../style.css?v=20260810a">
+  <link rel="stylesheet" href="../article.css?v=20260810a">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <script defer src="../render-math.js?v=20260807h"></script>
+  <script defer src="../render-math.js?v=20260810a"></script>
 </head>
 <body>
 
@@ -118,7 +118,7 @@
  =\sum_{r\ge1}\frac{1-\cos(2\pi r x)}{2\pi^2r^2}
 \tag{2.1}
 \end{equation}</span> will provide the mark. For <span class="math inline">P\ge1</span>, define the nearest-cell sum <span class="math display">Y_{N,P}(\alpha)=
- \sum_{\substack{p\le P\$p,q_p)=1}}
+ \sum_{\substack{p\le P\\(p,q_p)=1}}
  \frac{V(N\delta_p)}{p\delta_p}</span> and its full periodization <span id="eq:defZ" class="math display">\begin{equation}
 \label{eq:defZ}
  Z_{N,P}(\alpha)=
@@ -143,7 +143,7 @@
  H_*(u)=\sum_{k&gt;u}\frac1{k^2}
  +\frac{\mathbf 1_{\{u\in\mathbb N\}}}{2u^2},
 \tag{2.4}
-\end{equation}</span> where the last term is understood as zero at <span class="math inline">u=0</span>, and <span class="math display">c_p(n)=\sum_{\substack{a\bmod p\$a,p)=1}}e(an/p)</span> is the Ramanujan sum. Moreover, <span class="math display">\widehat Z_{N,P}(0)=0,\qquad
+\end{equation}</span> where the last term is understood as zero at <span class="math inline">u=0</span>, and <span class="math display">c_p(n)=\sum_{\substack{a\bmod p\\(a,p)=1}}e(an/p)</span> is the Ramanujan sum. Moreover, <span class="math display">\widehat Z_{N,P}(0)=0,\qquad
  \widehat Z_{N,P}(-n)=\overline{\widehat Z_{N,P}(n)}.</span></em></p>
 </div>
 <div class="proof">
@@ -773,7 +773,7 @@
 <p><em>Proof.</em> Fix temporarily <span class="math inline">0&lt;\delta&lt;\varepsilon/2</span>, and take an even smooth function <span class="math inline">\chi=\chi_{\varepsilon,\delta}</span> such that <span class="math display">\chi(v)=0\quad(|v|\le\varepsilon-\delta),\qquad
  \chi(v)=1\quad(|v|\ge\varepsilon).</span> Let <span class="math inline">Y_N^\chi</span> be <a href="#eq:defY" class="eq-ref" data-reference-type="eqref" data-reference="eq:defY">(1.1)</a> with the extra factor <span class="math inline">\chi(p\delta_p)</span>, and define its full periodization by <span class="math display">Z_N^\chi(\alpha)=
  \sum_{p\le N}\frac1p\,
- \operatorname{PV}\sum_{\substack{q\in\mathbb Z\$p,q)=1}}
+ \operatorname{PV}\sum_{\substack{q\in\mathbb Z\\(p,q)=1}}
  \frac{V(N(p\alpha-q))}{p\alpha-q}\,
  \chi\bigl(p(p\alpha-q)\bigr).</span> Because <span class="math inline">1-\chi</span> is supported in <span class="math inline">|p(p\alpha-q)|&lt;\varepsilon&lt;1/2</span>, there is at most one <span class="math inline">q</span> in its support, necessarily <span class="math inline">q_p</span>. Therefore <span id="eq:far-window" class="math display">\begin{equation}
 \label{eq:far-window}
@@ -1719,7 +1719,7 @@
  =\frac{\operatorname{Var}S_N}{(\log N)^2}
  \ge\frac{N}{12(\log N)^2}\longrightarrow\infty.</span> Thus <span class="math inline">\{(S_N/\log N)^2\}_N</span> is not uniformly integrable. This divergence of second moments does not contradict the weak convergence in Theorem <a href="#thm:main" class="xref" data-reference-type="ref" data-reference="thm:main">1.1</a>.</p>
 
-</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">G. D. Birkhoff, Proof of the ergodic theorem, <em>Proc. Natl. Acad. Sci. USA</em> <strong>17</strong> (1931), 656–660, doi:10.1073/pnas.17.12.656.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">P. Billingsley, <em>Convergence of Probability Measures</em>, second edition, Wiley, New York, 1999.</span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">T. H. Chan and A. V. Kumchev, On sums of Ramanujan sums, <em>Acta Arith.</em> <strong>152</strong> (2012), 1–10, doi:10.4064/aa152-1-1.</span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">P. Erdős, Problems and results on diophantine approximations, <em>Compositio Math.</em> <strong>16</strong> (1964), 52–65, <a href="https://www.numdam.org/item/CM_1964__16__52_0/" class="uri">https://www.numdam.org/item/CM_1964__16__52_0/</a>.</span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">A. Ghosh, M. S. Kirsebom, and P. Roy, Continued fractions, the Chen–Stein method and extreme value theory, <em>Ergodic Theory Dynam. Systems</em> <strong>41</strong> (2021), 461–470, doi:10.1017/etds.2019.64.</span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">O. Kallenberg, <em>Random Measures</em>, third edition, Akademie-Verlag, Berlin, 1983.</span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">H. Kesten, Uniform distribution mod <span class="math inline">1</span>, <em>Ann. of Math. (2)</em> <strong>71</strong> (1960), 445–471.</span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">H. Kesten, Uniform distribution mod <span class="math inline">1</span>. II, <em>Acta Arith.</em> <strong>7</strong> (1961/1962), 355–380.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">A. Ya. Khinchin, <em>Continued Fractions</em>, University of Chicago Press, Chicago, 1964.</span></li></ol></section>
+</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list" style="--ref-col: 2.4rem"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">G. D. Birkhoff, Proof of the ergodic theorem, <em>Proc. Natl. Acad. Sci. USA</em> <strong>17</strong> (1931), 656–660, doi:10.1073/pnas.17.12.656.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">P. Billingsley, <em>Convergence of Probability Measures</em>, second edition, Wiley, New York, 1999.</span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">T. H. Chan and A. V. Kumchev, On sums of Ramanujan sums, <em>Acta Arith.</em> <strong>152</strong> (2012), 1–10, doi:10.4064/aa152-1-1.</span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">P. Erdős, Problems and results on diophantine approximations, <em>Compositio Math.</em> <strong>16</strong> (1964), 52–65, <a href="https://www.numdam.org/item/CM_1964__16__52_0/" class="uri">https://www.numdam.org/item/CM_1964__16__52_0/</a>.</span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">A. Ghosh, M. S. Kirsebom, and P. Roy, Continued fractions, the Chen–Stein method and extreme value theory, <em>Ergodic Theory Dynam. Systems</em> <strong>41</strong> (2021), 461–470, doi:10.1017/etds.2019.64.</span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">O. Kallenberg, <em>Random Measures</em>, third edition, Akademie-Verlag, Berlin, 1983.</span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">H. Kesten, Uniform distribution mod <span class="math inline">1</span>, <em>Ann. of Math. (2)</em> <strong>71</strong> (1960), 445–471.</span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">H. Kesten, Uniform distribution mod <span class="math inline">1</span>. II, <em>Acta Arith.</em> <strong>7</strong> (1961/1962), 355–380.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">A. Ya. Khinchin, <em>Continued Fractions</em>, University of Chicago Press, Chicago, 1964.</span></li></ol></section>
 
 
     </article>
@@ -1745,7 +1745,7 @@
   </main>
 
   <canvas id="grid-bg"></canvas>
-  <script src="../../script.js?v=20260807h"></script>
+  <script src="../../script.js?v=20260810a"></script>
 
 </body>
 </html>

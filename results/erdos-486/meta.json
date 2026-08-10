@@ -5,7 +5,7 @@
   "tag": "Number Theory",
   "eyebrow": "Result · Erdős Problem 486",
   "badge": "Proposed",
-  "description": "A proposed negative answer to Erdős' question of whether a delayed multi-residue sieve must leave a set of logarithmic density.",
+  "description": "Proposed solution to Erdős problem 486: the survivors of a delayed multi-residue sieve need not have a logarithmic density.",
   "links": [
     [
       "PDF",

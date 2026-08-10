@@ -5,7 +5,7 @@
   "tag": "Additive Combinatorics",
   "eyebrow": "Result · Erdős Problem 788",
   "badge": "Proposed",
-  "description": "A proof that the Erdős sum-free trade-off function f(n) is n to the power one half plus o(1), settling the principal question for all large n.",
+  "description": "Proposed solution to Erdős problem 788: the trade-off function f(n) is n to the power one half plus o(1), settling the principal question for all sufficiently large n.",
   "links": [
     [
       "PDF",

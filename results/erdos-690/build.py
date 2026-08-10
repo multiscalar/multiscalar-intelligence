@@ -18,9 +18,9 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-TEX_PATH = Path(
-    "/Users/marcellopoliti/Coding/multiscalar/repositories/infra/results/erdos-690/erdos#690.tex"
-)
+# Vendored next to the page so the build does not reach outside this repo, and
+# so results/_lib/audit.py can check every rendered formula against the source.
+TEX_PATH = HERE / "paper.tex"
 OUT_HTML = HERE / "index.html"
 TEMPLATE = HERE / "_template.html"
 

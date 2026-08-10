@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A Proposed Complete Solution to Erdős Problem 1038 | Multiscalar Intelligence</title>
-  <meta name="description" content="A computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial with all zeros in the unit interval.">
+  <meta name="description" content="Proposed solution to Erdős problem 1038: a computer-assisted determination of the infimum of the measure of the sublevel set of a monic real polynomial whose zeros all lie in [-1, 1].">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Inter:wght@300;400;500;600&family=Crimson+Pro:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◆</text></svg>">
-  <link rel="stylesheet" href="../../style.css?v=20260807h">
-  <link rel="stylesheet" href="../article.css?v=20260807h">
+  <link rel="stylesheet" href="../../style.css?v=20260810a">
+  <link rel="stylesheet" href="../article.css?v=20260810a">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-  <script defer src="../render-math.js?v=20260807h"></script>
+  <script defer src="../render-math.js?v=20260810a"></script>
 </head>
 <body>
 
@@ -541,6 +541,13 @@ g(u)\ge{}&amp;k\log d_i-k\log T_0(u)
 \end{aligned}</span> The exhaustive cover is:</p>
 <div class="center">
 <table>
+<thead>
+<tr>
+<th style="text-align: left;">chart</th>
+<th style="text-align: left;">exact domain</th>
+<th style="text-align: center;">proved sign</th>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><span class="math inline">q\to0</span> tail</td>
@@ -630,6 +637,14 @@ R_{\max}=\frac{\pi R_0}{b_\pi}.
 <p><strong>Certificate 7.1</strong> (Complete parameter cover).  For every <span class="math inline">k\ge29/20</span>, the reference choices below satisfy all positivity, crossing, adjoint, and interval inequalities required by Proposition <a href="#prop:block" class="xref" data-reference-type="ref" data-reference="prop:block">4.4</a>:</p>
 <div class="center">
 <table>
+<thead>
+<tr>
+<th style="text-align: left;">range</th>
+<th style="text-align: left;">reference edge</th>
+<th style="text-align: left;">certificate</th>
+<th style="text-align: center;">strict scalar margin</th>
+</tr>
+</thead>
 <tbody>
 <tr>
 <td style="text-align: left;"><span class="math inline">[36/25,21/10]</span></td>
@@ -766,7 +781,7 @@ V_A&#39;(z)
 <p>The interval principle used is standard: an expression evaluated with directed outward rounding encloses the exact value for every point of its input box <a href="#ref-10" class="cite">[10]</a>. The affine and Fourier parts use Arb midpoint-radius balls <a href="#ref-9" class="cite">[9]</a>. The one-cut and optional upper-scalar routines use directed interval operations for addition, multiplication, division, square root, exponential, logarithm, sine, and cosine. The refined terminal trilogarithm is evaluated by Arb. Every infinite Taylor or Fourier series has an explicit signed remainder bound.</p>
 <p>Ordinary floating-point roots and optimizers are used only to propose candidate boxes. A box is accepted only after interval endpoint signs, the required derivative orientation, and, where applicable, an interval Newton contraction have been proved. Adjacent parameter boxes have shared or overlapping exact endpoints, and decimal conversions are enlarged outward. Thus the proof-relevant output consists of rigorous enclosures and signs, not unverified floating-point approximations.</p>
 
-</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">P. Erdős, F. Herzog, and G. Piranian, <em>Metric properties of polynomials</em>, J. Analyse Math. <strong>6</strong> (1958), 125–148.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">T. F. Bloom, <em>Erdős Problem #1038</em>, Erdős Problems, accessed 13 July 2026. <a href="https://www.erdosproblems.com/1038" class="uri">https://www.erdosproblems.com/1038</a></span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">Erdős Problems contributors, <em>Discussion of Erdős Problem #1038</em>, accessed 13 July 2026. <a href="https://www.erdosproblems.com/forum/thread/1038" class="uri">https://www.erdosproblems.com/forum/thread/1038</a></span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">T. Tao, <em>Sublevel sets of logarithmic potentials</em>, unpublished note on the sharp upper bound in Erdős Problem 1038, 20 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf</a></span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">T. Tao, <em>Superlevel sets of logarithmic potentials</em>, unpublished note concerning Erdős Problem 1038, 27 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf</a></span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">A. Baernstein II, <em>Convolution and rearrangement on the circle</em>, Complex Variables Theory Appl. 12 (1989), 33–37. <a href="https://doi.org/10.1080/17476938908814351" class="uri">https://doi.org/10.1080/17476938908814351</a></span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">A. Baernstein II and B. A. Taylor, <em>Spherical rearrangements, subharmonic functions, and <span class="math inline">*</span>-functions in <span class="math inline">n</span>-space</em>, Duke Math. J. 43 (1976), 245–268. <a href="https://doi.org/10.1215/S0012-7094-76-04322-2" class="uri">https://doi.org/10.1215/S0012-7094-76-04322-2</a></span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">P. Flajolet and R. Sedgewick, <em>Analytic Combinatorics</em>, Cambridge University Press, Cambridge, 2009, Theorem IV.6.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">F. Johansson, <em>Arb: efficient arbitrary-precision midpoint-radius interval arithmetic</em>, IEEE Trans. Comput. 66 (2017), 1281–1292. <a href="https://doi.org/10.1109/TC.2017.2690633" class="uri">https://doi.org/10.1109/TC.2017.2690633</a></span></li><li id="ref-10"><span class="ref-num">[10]</span><span class="ref-body">R. E. Moore, R. B. Kearfott, and M. J. Cloud, <em>Introduction to Interval Analysis</em>, SIAM, Philadelphia, 2009. <a href="https://doi.org/10.1137/1.9780898717716" class="uri">https://doi.org/10.1137/1.9780898717716</a></span></li><li id="ref-11"><span class="ref-num">[11]</span><span class="ref-body">E. B. Saff and V. Totik, <em>Logarithmic Potentials with External Fields</em>, Grundlehren der mathematischen Wissenschaften 316, Springer, Berlin, 1997. <a href="https://doi.org/10.1007/978-3-662-03329-6" class="uri">https://doi.org/10.1007/978-3-662-03329-6</a></span></li></ol></section>
+</section><section class="references-section" id="references"><h2 class="references-heading">References</h2><ol class="bib-list" style="--ref-col: 2.4rem"><li id="ref-1"><span class="ref-num">[1]</span><span class="ref-body">P. Erdős, F. Herzog, and G. Piranian, <em>Metric properties of polynomials</em>, J. Analyse Math. <strong>6</strong> (1958), 125–148.</span></li><li id="ref-2"><span class="ref-num">[2]</span><span class="ref-body">T. F. Bloom, <em>Erdős Problem #1038</em>, Erdős Problems, accessed 13 July 2026. <a href="https://www.erdosproblems.com/1038" class="uri">https://www.erdosproblems.com/1038</a></span></li><li id="ref-3"><span class="ref-num">[3]</span><span class="ref-body">Erdős Problems contributors, <em>Discussion of Erdős Problem #1038</em>, accessed 13 July 2026. <a href="https://www.erdosproblems.com/forum/thread/1038" class="uri">https://www.erdosproblems.com/forum/thread/1038</a></span></li><li id="ref-4"><span class="ref-num">[4]</span><span class="ref-body">T. Tao, <em>Sublevel sets of logarithmic potentials</em>, unpublished note on the sharp upper bound in Erdős Problem 1038, 20 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038.pdf</a></span></li><li id="ref-5"><span class="ref-num">[5]</span><span class="ref-body">T. Tao, <em>Superlevel sets of logarithmic potentials</em>, unpublished note concerning Erdős Problem 1038, 27 December 2025. <a href="https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf" class="uri">https://terrytao.wordpress.com/wp-content/uploads/2025/12/erdos-1038-2.pdf</a></span></li><li id="ref-6"><span class="ref-num">[6]</span><span class="ref-body">A. Baernstein II, <em>Convolution and rearrangement on the circle</em>, Complex Variables Theory Appl. 12 (1989), 33–37. <a href="https://doi.org/10.1080/17476938908814351" class="uri">https://doi.org/10.1080/17476938908814351</a></span></li><li id="ref-7"><span class="ref-num">[7]</span><span class="ref-body">A. Baernstein II and B. A. Taylor, <em>Spherical rearrangements, subharmonic functions, and <span class="math inline">*</span>-functions in <span class="math inline">n</span>-space</em>, Duke Math. J. 43 (1976), 245–268. <a href="https://doi.org/10.1215/S0012-7094-76-04322-2" class="uri">https://doi.org/10.1215/S0012-7094-76-04322-2</a></span></li><li id="ref-8"><span class="ref-num">[8]</span><span class="ref-body">P. Flajolet and R. Sedgewick, <em>Analytic Combinatorics</em>, Cambridge University Press, Cambridge, 2009, Theorem IV.6.</span></li><li id="ref-9"><span class="ref-num">[9]</span><span class="ref-body">F. Johansson, <em>Arb: efficient arbitrary-precision midpoint-radius interval arithmetic</em>, IEEE Trans. Comput. 66 (2017), 1281–1292. <a href="https://doi.org/10.1109/TC.2017.2690633" class="uri">https://doi.org/10.1109/TC.2017.2690633</a></span></li><li id="ref-10"><span class="ref-num">[10]</span><span class="ref-body">R. E. Moore, R. B. Kearfott, and M. J. Cloud, <em>Introduction to Interval Analysis</em>, SIAM, Philadelphia, 2009. <a href="https://doi.org/10.1137/1.9780898717716" class="uri">https://doi.org/10.1137/1.9780898717716</a></span></li><li id="ref-11"><span class="ref-num">[11]</span><span class="ref-body">E. B. Saff and V. Totik, <em>Logarithmic Potentials with External Fields</em>, Grundlehren der mathematischen Wissenschaften 316, Springer, Berlin, 1997. <a href="https://doi.org/10.1007/978-3-662-03329-6" class="uri">https://doi.org/10.1007/978-3-662-03329-6</a></span></li></ol></section>
 
 
     </article>
@@ -792,7 +807,7 @@ V_A&#39;(z)
   </main>
 
   <canvas id="grid-bg"></canvas>
-  <script src="../../script.js?v=20260807h"></script>
+  <script src="../../script.js?v=20260810a"></script>
 
 </body>
 </html>

@@ -262,11 +262,18 @@ def normalise_nested_math(body_html: str) -> str:
     r"""Inside \text{...}, pandoc rewrites the source's `$x$` as `\(x\)`, which
     KaTeX does not accept as a delimiter.  Put the dollars back."""
 
+    ROWBREAK = "\x00ROWBREAK\x00"
+
     def handle(m: re.Match[str]) -> str:
         tex = m.group(1)
         if r"\(" not in tex:
             return m.group(0)
+        # Hide row separators first. In `\substack{a\bmod p\\(a,p)=1}` the second
+        # backslash of `\\` is followed by `(`, and replacing that as a delimiter
+        # would corrupt the formula into `\$a,p)=1`.
+        tex = tex.replace("\\\\", ROWBREAK)
         tex = tex.replace(r"\(", "$").replace(r"\)", "$")
+        tex = tex.replace(ROWBREAK, "\\\\")
         cls = "display" if 'math display"' in m.group(0) else "inline"
         return f'<span class="math {cls}">{tex}</span>'
 
@@ -394,7 +401,52 @@ def pandoc_input(tex: str, aux: Aux) -> str:
 
     tex = re.sub(r"\\(C|c)ref\{([^}]*)\}", sub_cref, tex)
     tex = carry_cite_locators(tex)
+    tex = unwrap_text_in_tables(tex)
     return modernise_font_switches(tex)
+
+
+def unwrap_text_in_tables(tex: str) -> str:
+    r"""Drop `\text{...}` used in text mode inside a `tabular`.
+
+    1038 writes its header row as `\text{chart}&\text{exact domain}&...`.
+    pandoc's reader cannot evaluate `\text` outside math mode, so the whole row
+    comes out empty and pandoc then treats the *next* row as the body's first
+    row, **silently discarding the header**.  In a table cell `\text{}` only
+    forces upright type, which is already the default there, so unwrapping it is
+    lossless.  Occurrences inside `$...$` are left alone.
+    """
+
+    def fix(block: str) -> str:
+        out = []
+        i, n, in_math = 0, len(block), False
+        while i < n:
+            if block[i] == "\\" and block.startswith(r"\text{", i) and not in_math:
+                depth, j = 1, i + 6
+                while j < n and depth:
+                    if block[j] == "\\":
+                        j += 2
+                        continue
+                    depth += (block[j] == "{") - (block[j] == "}")
+                    j += 1
+                out.append(block[i + 6 : j - 1])
+                i = j
+                continue
+            if block[i] == "\\":
+                out.append(block[i : i + 2])
+                i += 2
+                continue
+            if block[i] == "$":
+                in_math = not in_math
+            out.append(block[i])
+            i += 1
+        return "".join(out)
+
+    return re.sub(
+        r"\\begin\{tabular\}.*?\\end\{tabular\}",
+        lambda m: fix(m.group(0)),
+        tex,
+        flags=re.DOTALL,
+    )
 
 
 CITE_EXTRA_OPEN = "ZzCiteLocatorA"
@@ -584,10 +636,14 @@ def rebuild_bibliography(body: str, bib: list[tuple[str, str]]) -> tuple[str, in
         f'<span class="ref-body">{e.strip()}</span></li>'
         for i, (e, (_, tag)) in enumerate(zip(entries, bib), start=1)
     )
+    # A numeric label is 3-4 characters; an alpha one can be 8 ("[ACR+26]") and
+    # would otherwise run into the entry text.
+    widest = max((len(tag) for _, tag in bib), default=2) + 2
+    col = max(2.4, round(0.5 * widest + 0.4, 1))
     block = (
         '<section class="references-section" id="references">'
         '<h2 class="references-heading">References</h2>'
-        f'<ol class="bib-list">{items}</ol></section>'
+        f'<ol class="bib-list" style="--ref-col: {col}rem">{items}</ol></section>'
     )
     body = body[: m.start()] + body[m.end() :]
     # The bibliography sits after \appendix in these papers, so pandoc nests it
