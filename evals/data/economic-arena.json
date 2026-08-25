@@ -1,6 +1,6 @@
 {
   "bench": "economic-arena",
-  "title": "Exploitability",
+  "title": "ZeroSum-Bench",
   "question": "How much money can an agent take from its counterparties?",
   "source": {
     "name": "Multiscalar",
