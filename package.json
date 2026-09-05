@@ -30,6 +30,7 @@
     "react-dom": "^19.2.8"
   },
   "devDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.2.7",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
