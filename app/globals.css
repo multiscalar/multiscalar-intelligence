@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #fafafa;
+  --color-bg-elevated: #ffffff;
+  --color-border: #e4e4e4;
+  --color-text: #1a1a1a;
+  --color-text-secondary: #555555;
+  --color-text-dim: #999999;
+  --font-sans: var(--font-inter), "Inter", -apple-system, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.7;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  a:hover {
+    color: #000000;
+  }
+
+  em {
+    font-style: italic;
+    color: #000000;
+  }
+
+  strong {
+    font-weight: 500;
+    color: #000000;
+  }
+
+  ::selection {
+    background: rgba(0, 0, 0, 0.08);
+  }
+}
