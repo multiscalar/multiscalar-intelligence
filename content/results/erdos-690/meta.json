@@ -1,0 +1,32 @@
+{
+  "number": "690",
+  "title": "A Complete Answer to Erdős Problem 690",
+  "subtitle": "Discovered by the Multiscalar Fields System",
+  "tag": "Number Theory",
+  "eyebrow": "Result · Erdős Problem 690",
+  "badge": "Solved",
+  "badge_class": "status-solved",
+  "description": "Proof that the natural density d_k(p) of integers whose k-th smallest prime divisor is p is not unimodal for every k ≥ 4, discovered by the Multiscalar Fields System.",
+  "links": [
+    [
+      "PDF",
+      "paper.pdf"
+    ],
+    [
+      "PDF on GitHub",
+      "https://github.com/multiscalar/results/blob/main/erdos-690/paper.pdf"
+    ],
+    [
+      "LaTeX source",
+      "paper.tex"
+    ],
+    [
+      "Verifier code",
+      "numerical_verifier.py"
+    ],
+    [
+      "Problem statement",
+      "https://www.erdosproblems.com/690"
+    ]
+  ]
+}
