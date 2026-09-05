@@ -9,6 +9,19 @@
   --color-text-dim: #999999;
   --font-sans: var(--font-inter), "Inter", -apple-system, sans-serif;
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
+
+  --animate-fade-up: fadeUp 0.8s ease-out both;
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
 
 @layer base {
