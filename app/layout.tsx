@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, IBM_Plex_Mono } from "next/font/google";
+import Nav from "@/components/Nav";
+import GridBackground from "@/components/GridBackground";
 import "./globals.css";
 
 const inter = Inter({
@@ -25,7 +27,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${plexMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <Nav />
+        {children}
+        <GridBackground />
+      </body>
     </html>
   );
 }
