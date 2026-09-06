@@ -34,8 +34,7 @@ export default function SamplesViewer({
         <div className="bench-title-block">
           <h2>Sample episodes</h2>
           <div className="bench-question">
-            Four complete, unabridged episodes — every message, tool call,
-            and result.
+            Four episodes, shown as short excerpts of the full transcripts.
           </div>
         </div>
       </div>
@@ -82,7 +81,14 @@ export default function SamplesViewer({
         <a href="mailto:hello@multiscalar.ai">hello@multiscalar.ai</a>.
       </p>
 
-      <TraceViewer key={active} bench={bench} episode={active} />
+      <TraceViewer
+        key={active}
+        bench={bench}
+        episode={active}
+        totalTurns={
+          samples.episodes.find((e) => e.id === active)!.totalTurns
+        }
+      />
     </section>
   );
 }

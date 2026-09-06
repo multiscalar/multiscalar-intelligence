@@ -110,7 +110,7 @@ export default function Radar({ data }: { data: RadarData }) {
               </text>
             );
           })}
-          {/* model outlines — an open outline means no result on the skipped
+          {/* model outlines: an open outline means no result on the skipped
               benchmark; the line never pretends a zero */}
           {data.models
             .filter((m) => active.has(m.name))

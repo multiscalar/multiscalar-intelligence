@@ -132,14 +132,16 @@ const STATEMENT_ROWS: [keyof Statement, string][] = [
   ["outstanding_cents", "Outstanding"],
 ];
 
-// Renders one published episode: briefing, every turn of the real
-// transcript, and the closing statement.
+// Renders the published excerpt of one episode plus the closing statement of
+// the full run. The briefing prompt is proprietary and never published.
 export default function TraceViewer({
   bench,
   episode,
+  totalTurns,
 }: {
   bench: string;
   episode: string;
+  totalTurns: number;
 }) {
   const [trace, setTrace] = useState<ParsedTrace | null>(null);
   const [result, setResult] = useState<EpisodeResult | null>(null);
@@ -183,26 +185,20 @@ export default function TraceViewer({
       </div>
     );
 
+  const shown = trace.turns.length;
+  const excerpt = shown < totalTurns;
   const st = result?.statement;
   return (
     <div className="mt-6">
-      <details className="border border-border rounded-lg bg-bg-elevated px-4 py-3 mb-4">
-        <summary className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-secondary cursor-pointer">
-          Briefing — the exact instructions the model received
-        </summary>
-        <pre className="font-sans text-[0.82rem] leading-[1.65] text-text-secondary whitespace-pre-wrap mt-3 mb-1">
-          {trace.briefing}
-        </pre>
-      </details>
-
       <div className="flex items-baseline justify-between mb-2">
         <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-dim">
-          Trajectory — {trace.turns.length} turns
-          {result?.calls_used ? ` · ${result.calls_used} tool calls` : ""}
+          {excerpt
+            ? `Trajectory excerpt · first ${shown} of ${totalTurns} turns`
+            : `Trajectory · all ${shown} turns`}
         </div>
         <div className="font-mono text-[0.68rem] text-text-dim">
           <a href={`${base}/transcript.jsonl`} className="hover:text-text">
-            raw transcript ↗
+            raw excerpt ↗
           </a>
           {" · "}
           <a href={`${base}/result.json`} className="hover:text-text">
@@ -215,12 +211,18 @@ export default function TraceViewer({
           <TurnRow key={t.n} turn={t} />
         ))}
       </div>
+      {excerpt && (
+        <div className="font-mono text-[0.7rem] text-text-dim text-center py-3">
+          ⋯ {totalTurns - shown} more turns in the full episode ⋯
+        </div>
+      )}
 
       {st && (
         <div className="border border-border rounded-lg bg-bg-elevated px-5 py-4 mt-5">
           <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-dim mb-3">
-            Closing statement — Day {st.day}
+            Closing statement of the full episode · Day {st.day}
             {result?.outcome ? ` · ${result.outcome}` : ""}
+            {result?.calls_used ? ` · ${result.calls_used} tool calls` : ""}
           </div>
           <div className="grid grid-cols-3 gap-x-8 gap-y-3 max-[780px]:grid-cols-2">
             {STATEMENT_ROWS.filter(([k]) => typeof st[k] === "number").map(

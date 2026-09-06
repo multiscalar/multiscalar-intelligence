@@ -40,7 +40,7 @@ export function loadResult(slug: string): {
   }
   if (!fs.existsSync(articlePath)) {
     throw new Error(
-      `results/${slug}: article.html not found — run content/results/_lib/build.py`
+      `results/${slug}: article.html not found; run content/results/_lib/build.py`
     );
   }
   const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8")) as ResultMeta;

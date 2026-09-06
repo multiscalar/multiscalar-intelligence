@@ -14,18 +14,18 @@ npm run build    # production build; statically generates every route
 
 ## Structure
 
-- `app/` — routes: `/` (home), `/evals/`, `/open-science/`,
+- `app/` - routes: `/` (home), `/evals/`, `/open-science/`,
   `/results/[slug]/` (Erdős papers, statically generated).
-- `components/` — Nav, Footer, GridBackground (canvas dot grid), Reveal
+- `components/` - Nav, Footer, GridBackground (canvas dot grid), Reveal
   (scroll animations), the evals Leaderboard, CompressDemo, KatexRenderer.
-- `lib/` — typed data access: evals benchmarks, provider identity,
+- `lib/` - typed data access: evals benchmarks, provider identity,
   results loader, compression-demo stops.
-- `data/evals/*.json` — benchmark results, imported at build time.
-- `content/results/<slug>/` — paper sources (LaTeX, aux, meta.json) and the
+- `data/evals/*.json` - benchmark results, imported at build time.
+- `content/results/<slug>/` - paper sources (LaTeX, aux, meta.json) and the
   pipeline-generated `article.html` fragments.
-- `public/results/<slug>/` — served artifacts (PDF, TeX, prompt, verifier),
+- `public/results/<slug>/` - served artifacts (PDF, TeX, prompt, verifier),
   copied there by the pipeline.
-- `tools/` — data-fetching and cost-estimation utilities (unrelated to the
+- `tools/` - data-fetching and cost-estimation utilities (unrelated to the
   site build).
 
 ## Publishing a new Erdős paper
@@ -43,7 +43,7 @@ npm run build    # production build; statically generates every route
 
    It writes `article.html` next to the sources and copies the linked
    artifacts into `public/results/erdos-NNN/`. A build with problems prints
-   `WARN` lines — fix them before publishing.
+   `WARN` lines - fix them before publishing.
 3. Commit and push; the new route appears automatically via
    `generateStaticParams`.
 
@@ -51,5 +51,5 @@ npm run build    # production build; statically generates every route
 
 Import the GitHub repo into Vercel (framework preset: Next.js; no
 environment variables needed). Production branch: `main`. Point
-`multiscalar.ai` DNS at Vercel when ready to cut over from GitHub Pages —
+`multiscalar.ai` DNS at Vercel when ready to cut over from GitHub Pages -
 until then the old Pages deployment keeps serving the previous site.

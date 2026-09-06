@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import BarRows from "@/components/evals/BarRows";
 import Matrix from "@/components/evals/Matrix";
+import { BENCH_LEADERBOARD_EXTRAS } from "@/components/evals/extras";
 import { BENCHES, loadBench } from "@/lib/evals/benches";
 
 export const dynamicParams = false;
@@ -56,6 +57,11 @@ export default async function BenchPage({
           )}
         </section>
       ))}
+
+      {(() => {
+        const Extra = BENCH_LEADERBOARD_EXTRAS[slug];
+        return Extra ? <Extra /> : null;
+      })()}
 
       <div className="bench-stamp mt-10 !text-left">
         results as of {d.source.snapshot}

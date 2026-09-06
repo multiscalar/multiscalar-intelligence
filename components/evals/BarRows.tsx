@@ -66,7 +66,7 @@ function Tip({ d, row }: { d: BenchData; row: Row }) {
   );
 }
 
-// idler-style horizontal leaderboard: one row per model — provider chip and
+// idler-style horizontal leaderboard: one row per model, with provider chip and
 // name, a track with a bar in the provider's color, the value at the right
 // (± stderr where the benchmark reports one). Signed metrics share one
 // zero axis inside the track, negatives extending left.
