@@ -62,12 +62,7 @@ export default function SamplesViewer({
         })}
       </div>
 
-      <TraceViewer
-        key={active}
-        bench={bench}
-        episode={episode.id}
-        totalTurns={episode.totalTurns}
-      />
+      <TraceViewer key={active} bench={bench} episode={episode.id} />
     </section>
   );
 }

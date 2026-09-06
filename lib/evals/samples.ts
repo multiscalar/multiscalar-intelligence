@@ -9,8 +9,6 @@ export interface SampleEpisode {
   provider: string;
   closing: string;
   onTime: string;
-  /** Turns in the full episode; the published excerpt may hold fewer. */
-  totalTurns: number;
   story: string;
 }
 
@@ -27,7 +25,6 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "zai",
         closing: "+$10,044.95",
         onTime: "56/57",
-        totalTurns: 1003,
         story:
           "The best run on record: probes pool depth before committing, reasons about ACH return windows, and beats the scripted prudent baseline.",
       },
@@ -37,7 +34,6 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "alibaba",
         closing: "+$9,636.46",
         onTime: "57/57",
-        totalTurns: 856,
         story:
           "A spotless narrated year: zero penalties, all 57 bills on time, beating the prudent baseline, with the model's reasoning captured at every turn.",
       },
@@ -47,7 +43,6 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "anthropic",
         closing: "+$9,842.22",
         onTime: "55/57",
-        totalTurns: 422,
         story: "Disciplined just-in-time treasury; also beats the baseline.",
       },
       {
@@ -56,7 +51,6 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "openai",
         closing: "+$1,437.69",
         onTime: "0/57",
-        totalTurns: 22,
         story:
           "Pathology sample: sleeps 365 days in one tool call, then pays all 57 bills in a single day-365 wire sweep, eating $8,905 in penalties.",
       },
@@ -66,7 +60,6 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "google",
         closing: "−$14,874.14",
         onTime: "2/57",
-        totalTurns: 79,
         story:
           "Small-model failure mode: sets up lending competently, then abandons the bill calendar; 55 bills go to collection.",
       },

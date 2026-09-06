@@ -198,11 +198,9 @@ const STATEMENT_ROWS: [keyof Statement, string][] = [
 export default function TraceViewer({
   bench,
   episode,
-  totalTurns,
 }: {
   bench: string;
   episode: string;
-  totalTurns: number;
 }) {
   const [trace, setTrace] = useState<ParsedTrace | null>(null);
   const [result, setResult] = useState<EpisodeResult | null>(null);
@@ -246,27 +244,9 @@ export default function TraceViewer({
       </div>
     );
 
-  const shown = trace.turns.length;
-  const excerpt = shown < totalTurns;
   const st = result?.statement;
   return (
     <div className="mt-6">
-      <div className="flex items-baseline justify-between mb-2">
-        <div className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-black font-medium">
-          {excerpt
-            ? `Trajectory excerpt · first ${shown} of ${totalTurns} turns`
-            : `Trajectory · all ${shown} turns`}
-        </div>
-        <div className="font-mono text-[0.68rem] text-text-secondary">
-          <a href={`${base}/transcript.jsonl`} className="hover:text-text">
-            raw excerpt ↗
-          </a>
-          {" · "}
-          <a href={`${base}/result.json`} className="hover:text-text">
-            result ↗
-          </a>
-        </div>
-      </div>
       <div className="flex flex-col gap-[3px]">
         {trace.turns.map((t) => (
           <TurnRow key={t.n} turn={t} />
