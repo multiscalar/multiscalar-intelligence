@@ -40,33 +40,6 @@ function MdText({ text }: { text: string }) {
   );
 }
 
-interface Statement {
-  day?: number;
-  net_worth_cents?: number;
-  bank_cents?: number;
-  supplied_cents?: number;
-  wallet_stable_cents?: number;
-  wallet_native_cents?: number;
-  in_transit_cents?: number;
-  penalties_cents?: number;
-  collection_cents?: number;
-  outstanding_cents?: number;
-}
-
-interface EpisodeResult {
-  outcome?: string;
-  calls_used?: number;
-  statement?: Statement;
-}
-
-function fmtCents(c: number): string {
-  const abs = (Math.abs(c) / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-  return (c < 0 ? "−$" : "$") + abs;
-}
-
 function ThinkingBlock({ text }: { text: string }) {
   const [open, setOpen] = useState(false);
   const long = text.length > 500;
@@ -181,20 +154,8 @@ function TurnRow({ turn }: { turn: Turn }) {
   );
 }
 
-const STATEMENT_ROWS: [keyof Statement, string][] = [
-  ["net_worth_cents", "Net worth"],
-  ["bank_cents", "Bank"],
-  ["supplied_cents", "Supplied to lending"],
-  ["wallet_stable_cents", "Wallet stable"],
-  ["wallet_native_cents", "Wallet native"],
-  ["in_transit_cents", "In transit"],
-  ["penalties_cents", "Penalties paid"],
-  ["collection_cents", "Sent to collection"],
-  ["outstanding_cents", "Outstanding"],
-];
-
-// Renders the published excerpt of one episode plus the closing statement of
-// the full run. The briefing prompt is proprietary and never published.
+// Renders the published excerpt of one episode. The briefing prompt is
+// proprietary and never published.
 export default function TraceViewer({
   bench,
   episode,
@@ -203,7 +164,6 @@ export default function TraceViewer({
   episode: string;
 }) {
   const [trace, setTrace] = useState<ParsedTrace | null>(null);
-  const [result, setResult] = useState<EpisodeResult | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const base = `/traces/${bench}/${episode}`;
@@ -211,19 +171,14 @@ export default function TraceViewer({
   useEffect(() => {
     let cancelled = false;
     setTrace(null);
-    setResult(null);
     setError(null);
-    Promise.all([
-      fetch(`${base}/transcript.jsonl`).then((r) => {
+    fetch(`${base}/transcript.jsonl`)
+      .then((r) => {
         if (!r.ok) throw new Error(`transcript: HTTP ${r.status}`);
         return r.text();
-      }),
-      fetch(`${base}/result.json`).then((r) => (r.ok ? r.json() : null)),
-    ])
-      .then(([jsonl, res]) => {
-        if (cancelled) return;
-        setTrace(parseTranscript(jsonl));
-        setResult(res);
+      })
+      .then((jsonl) => {
+        if (!cancelled) setTrace(parseTranscript(jsonl));
       })
       .catch((e) => !cancelled && setError(String(e)));
     return () => {
@@ -244,45 +199,11 @@ export default function TraceViewer({
       </div>
     );
 
-  const st = result?.statement;
   return (
-    <div className="mt-6">
-      <div className="flex flex-col gap-[3px]">
-        {trace.turns.map((t) => (
-          <TurnRow key={t.n} turn={t} />
-        ))}
-      </div>
-      {st && (
-        <div className="border border-border rounded-lg bg-bg-elevated px-5 py-4 mt-5">
-          <div className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-black font-medium mb-3">
-            Closing statement of the full episode · Day {st.day}
-            {result?.outcome ? ` · ${result.outcome}` : ""}
-            {result?.calls_used ? ` · ${result.calls_used} tool calls` : ""}
-          </div>
-          <div className="grid grid-cols-3 gap-x-8 gap-y-3 max-[780px]:grid-cols-2">
-            {STATEMENT_ROWS.filter(([k]) => typeof st[k] === "number").map(
-              ([k, label]) => (
-                <div key={k}>
-                  <div className="font-mono text-[0.6rem] uppercase tracking-[0.12em] text-text-dim">
-                    {label}
-                  </div>
-                  <div
-                    className={`font-mono text-[0.88rem] ${
-                      k === "net_worth_cents"
-                        ? (st[k] as number) < 0
-                          ? "text-[#a8322f] font-medium"
-                          : "text-black font-medium"
-                        : "text-text-secondary"
-                    }`}
-                  >
-                    {fmtCents(st[k] as number)}
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-        </div>
-      )}
+    <div className="mt-6 flex flex-col gap-[3px]">
+      {trace.turns.map((t) => (
+        <TurnRow key={t.n} turn={t} />
+      ))}
     </div>
   );
 }
