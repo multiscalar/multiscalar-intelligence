@@ -41,6 +41,19 @@ describe("parseTranscript", () => {
     expect(s.tools).toContain("+1 more");
   });
 
+  it("strips markdown markers from the summary line", () => {
+    const md = parseTranscript(
+      JSON.stringify({
+        seq: 0,
+        kind: "assistant",
+        data: { content: "**Position (Day 0):** `supply` queued", tool_calls: [] },
+      })
+    );
+    expect(turnSummary(md.turns[0]).text).toBe(
+      "Position (Day 0): supply queued"
+    );
+  });
+
   it("falls back to reasoning when the message is empty", () => {
     const withReasoning = parseTranscript(
       JSON.stringify({

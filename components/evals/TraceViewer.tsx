@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Markdown, { type Components } from "react-markdown";
+import remarkBreaks from "remark-breaks";
 import {
   parseTranscript,
   turnSummary,
@@ -8,6 +10,35 @@ import {
   type TraceRow,
   type Turn,
 } from "@/lib/evals/trace";
+
+// The models write plain markdown (bold, lists); remark-breaks keeps their
+// single newlines as line breaks. react-markdown never renders raw HTML.
+const MD_COMPONENTS: Components = {
+  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+  ul: ({ children }) => (
+    <ul className="list-disc ml-5 mb-2 last:mb-0">{children}</ul>
+  ),
+  ol: ({ children }) => (
+    <ol className="list-decimal ml-5 mb-2 last:mb-0">{children}</ol>
+  ),
+  li: ({ children }) => <li className="my-0.5">{children}</li>,
+  strong: ({ children }) => (
+    <strong className="font-medium text-black">{children}</strong>
+  ),
+  code: ({ children }) => (
+    <code className="font-mono text-[0.72rem] bg-[#f0efec] px-1 rounded">
+      {children}
+    </code>
+  ),
+};
+
+function MdText({ text }: { text: string }) {
+  return (
+    <Markdown remarkPlugins={[remarkBreaks]} components={MD_COMPONENTS}>
+      {text}
+    </Markdown>
+  );
+}
 
 interface Statement {
   day?: number;
@@ -44,9 +75,9 @@ function ThinkingBlock({ text }: { text: string }) {
       <div className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-text-dim mb-1">
         Thinking
       </div>
-      <p className="font-sans text-[0.8rem] leading-[1.6] text-text-secondary italic whitespace-pre-wrap mb-0">
-        {long && !open ? text.slice(0, 500) + "…" : text}
-      </p>
+      <div className="font-sans text-[0.8rem] leading-[1.6] text-text-secondary italic">
+        <MdText text={long && !open ? text.slice(0, 500) + "…" : text} />
+      </div>
       {long && (
         <button
           className="font-mono text-[0.62rem] text-text-secondary hover:text-text cursor-pointer mt-1"
@@ -119,9 +150,9 @@ function TurnRow({ turn }: { turn: Turn }) {
             <ThinkingBlock text={turn.assistant.data.reasoning} />
           )}
           {turn.assistant.data.content && (
-            <p className="font-sans text-[0.82rem] leading-[1.65] text-text-secondary whitespace-pre-wrap mb-0">
-              {turn.assistant.data.content}
-            </p>
+            <div className="font-sans text-[0.82rem] leading-[1.65] text-text-secondary">
+              <MdText text={turn.assistant.data.content} />
+            </div>
           )}
           {(turn.assistant.data.tool_calls ?? []).map((c, i) => (
             <div key={i} className="font-mono text-[0.72rem] text-text">

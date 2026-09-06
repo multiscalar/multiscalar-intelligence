@@ -60,6 +60,15 @@ export function parseTranscript(jsonl: string): ParsedTrace {
   return { briefing, turns };
 }
 
+// Collapsed rows show plain text, so drop the markdown markers the models
+// write (bold, inline code, a leading list bullet).
+function stripMd(line: string): string {
+  return line
+    .replace(/^\s*(?:[-*]|\d+\.)\s+/, "")
+    .replace(/\*\*|`/g, "")
+    .trim();
+}
+
 // One-line summary for a collapsed turn row; falls back to the reasoning
 // when the visible message is empty (narrated runs think more than they say).
 export function turnSummary(turn: Turn): { text: string; tools: string } {
@@ -68,7 +77,7 @@ export function turnSummary(turn: Turn): { text: string; tools: string } {
     turn.assistant.data.reasoning ||
     ""
   ).trim();
-  const firstLine = content.split("\n")[0];
+  const firstLine = stripMd(content.split("\n")[0]);
   const calls = turn.assistant.data.tool_calls ?? [];
   const first = calls[0];
   const tools = first
