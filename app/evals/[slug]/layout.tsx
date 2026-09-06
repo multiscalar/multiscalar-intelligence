@@ -48,9 +48,8 @@ export default async function BenchLayout({
               <span aria-hidden="true">↗</span>
             </a>
           )}
-          {/* Placeholder destination until the dataset-request flow exists. */}
           <a
-            href="#"
+            href={`/evals/request-dataset/?bench=${slug}`}
             className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#fafafa] font-mono text-[0.78rem] tracking-[0.03em] px-5 py-[0.65rem] rounded-lg transition-colors hover:bg-black"
           >
             Request full dataset
