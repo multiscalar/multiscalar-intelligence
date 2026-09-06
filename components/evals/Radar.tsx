@@ -116,24 +116,31 @@ export default function Radar({ data }: { data: RadarData }) {
             .filter((m) => active.has(m.name))
             .map((m) => {
               const p = providerOf(m.model);
+              const n = m.values.length;
               const present = m.values
                 .map((v, i) => (v === null ? null : i))
                 .filter((i): i is number => i !== null);
-              const missing = [0, 1, 2, 3].filter(
+              const missing = [...Array(n).keys()].filter(
                 (i) => !present.includes(i)
               );
               const order =
                 missing.length === 0
                   ? present
-                  : [1, 2, 3].map((k) => (missing[0] + k) % 4);
+                  : Array.from(
+                      { length: n - 1 },
+                      (_, k) => (missing[0] + 1 + k) % n
+                    );
               const pts = order.map((i) => point(i, m.values[i]! / 100));
-              const path =
-                pts.map(([x, y], k) => `${k ? "L" : "M"}${x},${y}`).join(" ") +
-                (missing.length === 0 ? " Z" : "");
+              const line = pts
+                .map(([x, y], k) => `${k ? "L" : "M"}${x},${y}`)
+                .join(" ");
               return (
                 <g key={m.name}>
+                  {/* the area always closes; the outline stays open across a
+                      missing axis so the gap remains visible */}
+                  <path d={`${line} Z`} fill={p.color} fillOpacity="0.09" />
                   <path
-                    d={path}
+                    d={line + (missing.length === 0 ? " Z" : "")}
                     fill="none"
                     stroke={p.color}
                     strokeWidth="2"

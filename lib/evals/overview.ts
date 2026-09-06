@@ -46,13 +46,12 @@ export interface RadarData {
   models: RadarModel[];
 }
 
-const MIN_AXES = 3;
-
-// Radar across the four benchmarks: each axis is a benchmark's default
-// metric, min–max normalized across that benchmark's models (baselines
-// excluded from both the axis scale and the radar). Only models with
-// results on at least MIN_AXES benchmarks are offered; sorted by mean
-// normalized score so the default-on set is the strongest.
+// Radar across the benchmarks: each axis is a benchmark's default
+// metric, min-max normalized across that benchmark's models (baselines
+// excluded from both the axis scale and the radar). Only models missing
+// at most one axis are offered, so the roster survives a benchmark being
+// added or retired; sorted by mean normalized score so the default-on
+// set is the strongest.
 export function radarData(): RadarData {
   const axes: RadarAxis[] = [];
   const perBench: { byName: Map<string, number>; min: number; max: number }[] =
@@ -92,7 +91,7 @@ export function radarData(): RadarData {
   for (const [name, model] of modelByName) {
     const raw = perBench.map((b) => b.byName.get(name) ?? null);
     const present = raw.filter((v) => v !== null).length;
-    if (present < MIN_AXES) continue;
+    if (present < axes.length - 1) continue;
     const values = raw.map((v, i) => {
       if (v === null) return null;
       const { min, max } = perBench[i];
