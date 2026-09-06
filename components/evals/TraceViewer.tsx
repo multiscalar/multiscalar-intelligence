@@ -268,12 +268,6 @@ export default function TraceViewer({
           <TurnRow key={t.n} turn={t} />
         ))}
       </div>
-      {excerpt && (
-        <div className="font-mono text-[0.7rem] text-text-secondary text-center py-3">
-          ⋯ {totalTurns - shown} more turns in the full episode ⋯
-        </div>
-      )}
-
       {st && (
         <div className="border border-border rounded-lg bg-bg-elevated px-5 py-4 mt-5">
           <div className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-black font-medium mb-3">

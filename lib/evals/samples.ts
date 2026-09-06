@@ -16,7 +16,6 @@ export interface SampleEpisode {
 
 export interface BenchSamples {
   episodes: SampleEpisode[];
-  note: string;
 }
 
 export const BENCH_SAMPLES: Record<string, BenchSamples> = {
@@ -72,7 +71,5 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
           "Small-model failure mode: sets up lending competently, then abandons the bill calendar; 55 bills go to collection.",
       },
     ],
-    note:
-      "These are illustrative single episodes reported as the closing treasury against a scripted prudent baseline of +$9,517.90 (doing nothing closes at −$19,696.65); the leaderboard averages value added across repeated seeded runs, so the figures differ. Asset and venue names in the excerpts (ember, granary, meridian, flint) are deliberate aliases and dates are fictional: the benchmark's anti-contamination layer.",
   },
 };

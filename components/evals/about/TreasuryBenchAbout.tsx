@@ -67,7 +67,9 @@ export default function TreasuryBenchAbout() {
           knowing a stablecoin is a dollar leaks nothing. Every episode is
           scanned automatically for alias leaks, and every episode can be
           replayed byte-for-byte from its recorded evidence: a score you
-          can&apos;t replay is a score you shouldn&apos;t trust.
+          can&apos;t replay is a score you shouldn&apos;t trust. Full evidence
+          bundles and a live replay are available on request at{" "}
+          <a href="mailto:hello@multiscalar.ai">hello@multiscalar.ai</a>.
         </p>
       </section>
 

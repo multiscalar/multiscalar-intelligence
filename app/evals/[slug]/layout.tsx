@@ -2,7 +2,6 @@ import TabBar from "@/components/evals/TabBar";
 import { BENCH_ABOUT } from "@/components/evals/about";
 import { BENCH_SAMPLES } from "@/lib/evals/samples";
 import { loadBench } from "@/lib/evals/benches";
-import { providerOf, PROVIDERS } from "@/lib/evals/providers";
 import "../evals.css";
 
 export default async function BenchLayout({
@@ -15,13 +14,6 @@ export default async function BenchLayout({
   const { slug } = await params;
   const d = loadBench(slug);
   const sourceLabel = d.source.label || d.source.name;
-  const models = d.models.filter(
-    (m) => providerOf(m) !== PROVIDERS.baseline
-  ).length;
-  const stats: [string, string][] = [
-    ["Models", String(models)],
-    ["Last measured", d.source.snapshot],
-  ];
   const tabs = [
     { href: `/evals/${slug}/`, label: "Leaderboard" },
     ...(BENCH_ABOUT[slug]
@@ -77,19 +69,7 @@ export default async function BenchLayout({
           sourceLabel
         )}
       </span>
-      <div className="flex flex-wrap gap-x-14 gap-y-4 mt-8 mb-8">
-        {stats.map(([label, value]) => (
-          <div key={label}>
-            <div className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-text-dim mb-1">
-              {label}
-            </div>
-            <div className="font-sans text-[1.15rem] font-medium text-black tracking-[-0.01em]">
-              {value}
-            </div>
-          </div>
-        ))}
-      </div>
-      <div className="max-w-[640px] mb-8">
+      <div className="max-w-[640px] mt-7 mb-8">
         <p className="text-[0.92rem] leading-[1.7] text-text-secondary">
           {d.blurb}
         </p>
