@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
-import { postCover } from "@/components/posts/covers";
 import { listPosts } from "@/lib/posts";
 
 export const metadata: Metadata = {
@@ -53,28 +52,24 @@ export default function OpenSciencePage() {
 
       {/* Posts */}
       <section className="pb-20 max-[768px]:pb-14" id="results">
-        <div className="grid grid-cols-3 gap-5 max-[980px]:grid-cols-1 max-[980px]:max-w-[480px] max-[980px]:mx-auto">
+        <ul className="list-none max-w-[880px] mx-auto border-t border-border">
           {posts.map((post) => (
-            <a
-              key={post.slug}
-              id={CARD_IDS[post.slug]}
-              href={`/open-science/${post.slug}/`}
-              className="group flex flex-col overflow-hidden bg-bg-elevated border border-border rounded-2xl transition-[border-color,box-shadow] duration-200 hover:border-[#b0b0b0] hover:shadow-[0_2px_16px_rgba(0,0,0,0.05)] scroll-mt-28"
-            >
-              <div className="aspect-[4/3] overflow-hidden">
-                {postCover(post)}
-              </div>
-              <div className="p-5 pb-6">
-                <div className="font-mono text-[0.65rem] text-text-dim tracking-[0.14em] uppercase mb-2">
-                  {post.display_date} · {post.tag}
-                </div>
-                <h3 className="font-sans text-[1.05rem] font-medium text-black tracking-[-0.01em] leading-[1.35]">
+            <li key={post.slug} className="border-b border-border">
+              <a
+                id={CARD_IDS[post.slug]}
+                href={`/open-science/${post.slug}/`}
+                className="group grid grid-cols-[180px_1fr] gap-x-10 items-baseline py-9 scroll-mt-28 max-[640px]:grid-cols-1 max-[640px]:gap-y-1.5 max-[640px]:py-7"
+              >
+                <span className="font-mono text-[0.78rem] text-text-dim tracking-[0.04em]">
+                  {post.display_date}
+                </span>
+                <span className="font-sans text-[1.25rem] font-normal text-black tracking-[-0.01em] leading-[1.4] transition-opacity duration-150 group-hover:opacity-55 max-[768px]:text-[1.1rem]">
                   {post.title}
-                </h3>
-              </div>
-            </a>
+                </span>
+              </a>
+            </li>
           ))}
-        </div>
+        </ul>
       </section>
 
       {/* Divider */}
