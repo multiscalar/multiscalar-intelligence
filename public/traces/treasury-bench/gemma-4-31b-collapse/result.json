@@ -1,0 +1,44 @@
+{
+  "calls_used": 88,
+  "error": null,
+  "leaks": [],
+  "outcome": "completed",
+  "statement": {
+    "bank_cents": 0,
+    "collection_cents": 1784800,
+    "day": 366,
+    "holdings": {
+      "USDC": {
+        "supplied": 96299474062,
+        "supplied_cents": 9629947,
+        "wallet": 7970000,
+        "wallet_cents": 797
+      },
+      "USDT": {
+        "supplied": 0,
+        "supplied_cents": 0,
+        "wallet": 0,
+        "wallet_cents": 0
+      },
+      "ember": {
+        "supplied": 0,
+        "supplied_cents": 0,
+        "wallet": 1492478562682368070,
+        "wallet_cents": 443695
+      },
+      "flint": {
+        "supplied": 0,
+        "supplied_cents": 0,
+        "wallet": 0,
+        "wallet_cents": 0
+      }
+    },
+    "in_transit_cents": 0,
+    "net_worth_cents": -1487414,
+    "outstanding_cents": 8924000,
+    "penalties_cents": 853053,
+    "supplied_cents": 9629947,
+    "wallet_native_cents": 443695,
+    "wallet_stable_cents": 797
+  }
+}

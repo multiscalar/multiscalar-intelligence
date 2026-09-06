@@ -1,44 +1,9 @@
-import Chip from "../Chip";
-import { providerOf } from "@/lib/evals/providers";
-
-// Extended methodology and sample episodes for Treasury-Bench.
+// Extended methodology for Treasury-Bench (sample episodes live on the
+// Samples tab).
 // Written at the public disclosure level of the shared traces README:
 // institutional constants (USDC, ACH, wire, Circle) are named plainly;
 // the replay window, real venues, and price paths are not.
 
-const SAMPLES = [
-  {
-    model: "GLM-5.3",
-    provider: "zai",
-    closing: "+$10,044.95",
-    onTime: "56/57",
-    story:
-      "The best run on record: probes pool depth before committing, reasons about ACH return windows, and beats the scripted prudent baseline.",
-  },
-  {
-    model: "Claude Opus 5",
-    provider: "anthropic",
-    closing: "+$9,842.22",
-    onTime: "55/57",
-    story: "Disciplined just-in-time treasury; also beats the baseline.",
-  },
-  {
-    model: "GPT-5.6 Terra",
-    provider: "openai",
-    closing: "+$1,437.69",
-    onTime: "0/57",
-    story:
-      "Pathology sample: sleeps 365 days in one tool call, then pays all 57 bills in a single day-365 wire sweep, eating $8,905 in penalties.",
-  },
-  {
-    model: "Gemma 4 31B",
-    provider: "google",
-    closing: "−$14,874.14",
-    onTime: "2/57",
-    story:
-      "Small-model failure mode: sets up lending competently, then abandons the bill calendar; 55 bills go to collection.",
-  },
-];
 
 const P = "text-[0.92rem] leading-[1.7] text-text-secondary mb-4 max-w-[680px]";
 const H3 =
@@ -130,58 +95,6 @@ export default function TreasuryBenchAbout() {
         </p>
       </section>
 
-      <section id="samples" className="bench-section scroll-mt-28">
-        <div className="bench-head">
-          <div className="bench-title-block">
-            <h2>Sample episodes</h2>
-            <div className="bench-question">
-              Four complete single episodes, chosen for what they teach.
-            </div>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-px bg-border mt-6 max-[780px]:grid-cols-1">
-          {SAMPLES.map((s) => (
-            <div key={s.model} className="bg-bg p-6">
-              <div className="flex items-center gap-2 mb-3">
-                <Chip p={providerOf({ name: s.model, provider: s.provider, scores: {} })} />
-                <span className="font-sans text-[0.95rem] font-medium text-black">
-                  {s.model}
-                </span>
-              </div>
-              <div className="flex gap-6 mb-3">
-                <div>
-                  <div className="font-mono text-[0.6rem] uppercase tracking-[0.15em] text-text-dim">
-                    Closing treasury
-                  </div>
-                  <div className="font-mono text-[0.95rem] text-black">
-                    {s.closing}
-                  </div>
-                </div>
-                <div>
-                  <div className="font-mono text-[0.6rem] uppercase tracking-[0.15em] text-text-dim">
-                    On time
-                  </div>
-                  <div className="font-mono text-[0.95rem] text-black">
-                    {s.onTime}
-                  </div>
-                </div>
-              </div>
-              <p className="text-[0.85rem] leading-[1.6] text-text-secondary">
-                {s.story}
-              </p>
-            </div>
-          ))}
-        </div>
-        <p className="text-[0.78rem] leading-[1.6] text-text-dim mt-4 max-w-[680px]">
-          These are illustrative single episodes reported as the closing
-          treasury against a scripted prudent baseline of +$9,517.90 (doing
-          nothing closes at −$19,696.65); the leaderboard above averages
-          value added across repeated seeded runs, so the figures differ.
-          Full transcripts — every message, tool call, and result — and a
-          live byte-for-byte replay are available on request:{" "}
-          <a href="mailto:hello@multiscalar.ai">hello@multiscalar.ai</a>.
-        </p>
-      </section>
     </>
   );
 }
