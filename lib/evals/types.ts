@@ -10,6 +10,8 @@ export interface BenchSource {
   name: string;
   label?: string;
   url?: string;
+  /** Link to the paper behind the benchmark, shown as a header button. */
+  paper?: string;
   snapshot: string;
   linkText?: string;
   run?: string;

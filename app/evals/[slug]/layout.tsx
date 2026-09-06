@@ -44,14 +44,27 @@ export default async function BenchLayout({
         <h1 className="text-[clamp(1.9rem,4.5vw,2.8rem)] font-normal tracking-[-0.02em] leading-[1.15]">
           {d.title}
         </h1>
-        {/* Placeholder destination until the dataset-request flow exists. */}
-        <a
-          href="#"
-          className="shrink-0 mt-2 inline-flex items-center gap-2 bg-[#1a1a1a] text-[#fafafa] font-mono text-[0.78rem] tracking-[0.03em] px-5 py-[0.65rem] rounded-lg transition-colors hover:bg-black"
-        >
-          Request full dataset
-          <span aria-hidden="true">→</span>
-        </a>
+        <div className="flex items-center gap-3 shrink-0 mt-2">
+          {d.source.paper && (
+            <a
+              href={d.source.paper}
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center gap-2 border border-[#1a1a1a] text-text font-mono text-[0.78rem] tracking-[0.03em] px-5 py-[0.6rem] rounded-lg transition-colors hover:bg-bg-elevated"
+            >
+              Read the paper
+              <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          {/* Placeholder destination until the dataset-request flow exists. */}
+          <a
+            href="#"
+            className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#fafafa] font-mono text-[0.78rem] tracking-[0.03em] px-5 py-[0.65rem] rounded-lg transition-colors hover:bg-black"
+          >
+            Request full dataset
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
       <p className="text-[1.02rem] text-text-secondary mb-1">{d.question}</p>
       <span className="bench-source">

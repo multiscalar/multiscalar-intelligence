@@ -8,7 +8,8 @@
     "linkText": "original paper idea",
     "url": "https://arxiv.org/abs/2603.20925",
     "snapshot": "2026-08-06",
-    "run": "v1"
+    "run": "v1",
+    "paper": "https://arxiv.org/abs/2603.20925"
   },
   "blurb": "Agents negotiate against each other for profit. The bar is the share of the money changing hands that an agent keeps for itself. 50% is an even split, and a higher bar means it takes more from the agents it faces.",
   "footnote": "",
