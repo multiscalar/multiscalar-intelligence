@@ -41,6 +41,18 @@ function Tip({ d, row }: { d: BenchData; row: Row }) {
           </span>
         );
       });
+    const runs = row.model.runs;
+    const missed = row.model.missed;
+    if (typeof runs === "number") {
+      lines.push(
+        <span key="runs" className="tip-row">
+          {runs} seeded runs
+          {typeof missed === "number"
+            ? ` · ${missed} missed payment${missed === 1 ? "" : "s"}`
+            : ""}
+        </span>
+      );
+    }
   }
   return (
     <div className="chart-tip lb-tip">
