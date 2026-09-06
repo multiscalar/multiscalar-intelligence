@@ -24,13 +24,17 @@ export function exploitScore(
 export function scoredModels(d: BenchData, metric: string): Row[] {
   const higherIsBetter =
     d.metrics.find((m) => m.id === metric)!.higherIsBetter !== false;
-  const rows = d.models.map((m) => ({
-    model: m,
-    value:
-      d.bench === "exploitability"
-        ? exploitScore(m, metric, d.games!)
-        : m.scores[metric],
-  }));
+  const rows = d.models
+    .map((m) => ({
+      model: m,
+      value:
+        d.bench === "exploitability"
+          ? exploitScore(m, metric, d.games!)
+          : m.scores[metric],
+    }))
+    // A reference row may carry only some metrics (the scripted gambler
+    // has no recorded penalties); it simply sits out those charts.
+    .filter((r) => typeof r.value === "number" && isFinite(r.value));
   // Explicit tiebreak by name: two models with equal scores must not swap places
   // between renders or regenerations.
   rows.sort((a, b) => {

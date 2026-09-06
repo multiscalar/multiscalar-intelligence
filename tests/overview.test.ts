@@ -5,7 +5,7 @@ describe("overviewStats", () => {
   it("counts benchmarks and distinct non-baseline models", () => {
     const s = overviewStats();
     expect(s.benches).toBe(4);
-    expect(s.models).toBe(21); // 25 names minus 4 scripted baselines
+    expect(s.models).toBe(23); // distinct model names minus scripted baselines
     expect(s.snapshot).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });
@@ -23,7 +23,9 @@ describe("radarData", () => {
   });
 
   it("offers only models present on at least three benchmarks", () => {
-    expect(data.models.length).toBe(10);
+    // The t5 treasury board names newer model versions (GLM-5.3, Qwen 3.8
+    // Max), so the older versions keep only two benchmarks and drop off.
+    expect(data.models.length).toBe(6);
     for (const m of data.models) {
       expect(m.values.filter((v) => v !== null).length).toBeGreaterThanOrEqual(
         3

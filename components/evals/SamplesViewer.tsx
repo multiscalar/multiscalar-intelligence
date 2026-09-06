@@ -37,8 +37,7 @@ export default function SamplesViewer({
         <div className="bench-title-block">
           <h2>Sample episodes</h2>
           <div className="bench-question">
-            Short excerpts from single episodes; scores here are closing
-            statements, not the leaderboard&apos;s averaged value added.
+            Short excerpts from single replayed years.
           </div>
         </div>
       </div>

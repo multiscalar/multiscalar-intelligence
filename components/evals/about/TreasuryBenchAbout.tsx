@@ -81,18 +81,22 @@ export default function TreasuryBenchAbout() {
         </div>
         <p className={P}>
           The score is the treasury left at the year&apos;s close, net of
-          penalties, reported on the leaderboard as value added over leaving
-          the cash idle under identical company cash flows. A late payment
-          costs a one-off 1.4% fee; anything still unpaid at the close goes
-          to collection with a 20% surcharge. Raw return alone is never rewarded: a treasurer who gambles the payroll is failing the job
-          even when the bet pays off.
+          penalties, reported on the leaderboard as value added over a
+          scripted prudent treasurer that keeps a float, lends the rest, and
+          pays every bill on time. Zero means no better than playing it
+          safe; below zero, the agent lost money the obvious policy would
+          have kept. A late payment costs a one-off 1.4% fee; anything still
+          unpaid at the close goes to collection with a 20% surcharge. Raw
+          return alone is never rewarded: a treasurer who gambles the
+          payroll is failing the job even when the bet pays off.
         </p>
         <p className={P}>
-          The scripted baselines are part of the benchmark: an idle-cash
-          floor, and the Buffer heuristic on the leaderboard above, a rule
-          that keeps a fixed reserve and lends the rest. If a short
-          deterministic policy beats a frontier model, that is a result, not
-          an embarrassment to hide.
+          The scripted references are part of the benchmark: doing nothing
+          closes $19,696.65 underwater, the prudent policy is the zero every
+          score is measured from, and the gambler round trip on the board is
+          the pinned demonstration that converting the treasury stays legal,
+          executes cleanly, and is priced. If a scripted policy beats a
+          frontier model, that is a result, not an embarrassment to hide.
         </p>
       </section>
 
