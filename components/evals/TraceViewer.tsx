@@ -135,7 +135,11 @@ function TurnRow({ turn }: { turn: Turn }) {
             </span>
           )}
           {s.tools && (
-            <span className="block font-mono text-[0.68rem] text-text-dim truncate">
+            <span
+              className={`block font-mono text-[0.68rem] truncate ${
+                s.text ? "text-text-secondary" : "text-text"
+              }`}
+            >
               {s.tools}
             </span>
           )}
