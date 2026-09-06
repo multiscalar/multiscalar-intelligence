@@ -36,6 +36,29 @@ function fmtCents(c: number): string {
   return (c < 0 ? "−$" : "$") + abs;
 }
 
+function ThinkingBlock({ text }: { text: string }) {
+  const [open, setOpen] = useState(false);
+  const long = text.length > 500;
+  return (
+    <div className="border-l-2 border-[#d8d6d0] pl-3 py-1">
+      <div className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-text-dim mb-1">
+        Thinking
+      </div>
+      <p className="font-sans text-[0.8rem] leading-[1.6] text-text-secondary italic whitespace-pre-wrap mb-0">
+        {long && !open ? text.slice(0, 500) + "…" : text}
+      </p>
+      {long && (
+        <button
+          className="font-mono text-[0.62rem] text-text-secondary hover:text-text cursor-pointer mt-1"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? "collapse" : "show full thinking"}
+        </button>
+      )}
+    </div>
+  );
+}
+
 function ToolResultBlock({ row }: { row: TraceRow }) {
   const [open, setOpen] = useState(false);
   const json = JSON.stringify(row.data.result, null, 2) ?? "null";
@@ -92,6 +115,9 @@ function TurnRow({ turn }: { turn: Turn }) {
       </button>
       {open && (
         <div className="px-4 pb-4 pl-[3.4rem] flex flex-col gap-3 max-[780px]:pl-4">
+          {turn.assistant.data.reasoning && (
+            <ThinkingBlock text={turn.assistant.data.reasoning} />
+          )}
           {turn.assistant.data.content && (
             <p className="font-sans text-[0.82rem] leading-[1.65] text-text-secondary whitespace-pre-wrap mb-0">
               {turn.assistant.data.content}
@@ -191,12 +217,12 @@ export default function TraceViewer({
   return (
     <div className="mt-6">
       <div className="flex items-baseline justify-between mb-2">
-        <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-dim">
+        <div className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-black font-medium">
           {excerpt
             ? `Trajectory excerpt · first ${shown} of ${totalTurns} turns`
             : `Trajectory · all ${shown} turns`}
         </div>
-        <div className="font-mono text-[0.68rem] text-text-dim">
+        <div className="font-mono text-[0.68rem] text-text-secondary">
           <a href={`${base}/transcript.jsonl`} className="hover:text-text">
             raw excerpt ↗
           </a>
@@ -212,14 +238,14 @@ export default function TraceViewer({
         ))}
       </div>
       {excerpt && (
-        <div className="font-mono text-[0.7rem] text-text-dim text-center py-3">
+        <div className="font-mono text-[0.7rem] text-text-secondary text-center py-3">
           ⋯ {totalTurns - shown} more turns in the full episode ⋯
         </div>
       )}
 
       {st && (
         <div className="border border-border rounded-lg bg-bg-elevated px-5 py-4 mt-5">
-          <div className="font-mono text-[0.7rem] uppercase tracking-[0.14em] text-text-dim mb-3">
+          <div className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-black font-medium mb-3">
             Closing statement of the full episode · Day {st.day}
             {result?.outcome ? ` · ${result.outcome}` : ""}
             {result?.calls_used ? ` · ${result.calls_used} tool calls` : ""}

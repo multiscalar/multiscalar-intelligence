@@ -33,6 +33,16 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
           "The best run on record: probes pool depth before committing, reasons about ACH return windows, and beats the scripted prudent baseline.",
       },
       {
+        id: "qwen-3.8-max-clean-sweep",
+        model: "Qwen 3.8 Max",
+        provider: "alibaba",
+        closing: "+$9,636.46",
+        onTime: "57/57",
+        totalTurns: 856,
+        story:
+          "A spotless narrated year: zero penalties, all 57 bills on time, beating the prudent baseline, with the model's reasoning captured at every turn.",
+      },
+      {
         id: "opus-5-beat-the-baseline",
         model: "Claude Opus 5",
         provider: "anthropic",

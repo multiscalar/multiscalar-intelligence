@@ -41,6 +41,25 @@ describe("parseTranscript", () => {
     expect(s.tools).toContain("+1 more");
   });
 
+  it("falls back to reasoning when the message is empty", () => {
+    const withReasoning = parseTranscript(
+      JSON.stringify({
+        seq: 0,
+        kind: "assistant",
+        data: {
+          content: "",
+          reasoning: "Let me batch the independent reads.\nMore thought.",
+          tool_calls: [{ name: "get_time", arguments: "{}" }],
+        },
+      })
+    );
+    const s = turnSummary(withReasoning.turns[0]);
+    expect(s.text).toBe("Let me batch the independent reads.");
+    expect(withReasoning.turns[0].assistant.data.reasoning).toContain(
+      "More thought"
+    );
+  });
+
   it("parses a real transcript shape end to end", () => {
     // 906-line real file exercised in the browser; here just confirm empty
     // content is tolerated.

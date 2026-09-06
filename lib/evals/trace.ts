@@ -11,6 +11,7 @@ export interface TraceRow {
   kind: "briefing" | "assistant" | "tool_result" | "note";
   data: {
     content?: string;
+    reasoning?: string;
     tool_calls?: ToolCall[];
     name?: string;
     arguments?: string;
@@ -59,9 +60,14 @@ export function parseTranscript(jsonl: string): ParsedTrace {
   return { briefing, turns };
 }
 
-// One-line summary for a collapsed turn row.
+// One-line summary for a collapsed turn row; falls back to the reasoning
+// when the visible message is empty (narrated runs think more than they say).
 export function turnSummary(turn: Turn): { text: string; tools: string } {
-  const content = (turn.assistant.data.content ?? "").trim();
+  const content = (
+    turn.assistant.data.content ||
+    turn.assistant.data.reasoning ||
+    ""
+  ).trim();
   const firstLine = content.split("\n")[0];
   const calls = turn.assistant.data.tool_calls ?? [];
   const first = calls[0];
