@@ -53,64 +53,54 @@ export default function OpenSciencePage() {
 
       {/* Posts */}
       <section className="pb-20 max-[768px]:pb-14" id="results">
-        <div className="max-w-[860px] mx-auto flex flex-col gap-5">
+        <div className="grid grid-cols-3 gap-5 max-[980px]:grid-cols-1 max-[980px]:max-w-[560px] max-[980px]:mx-auto">
           {posts.map((post) => (
             <a
               key={post.slug}
               id={CARD_IDS[post.slug]}
               href={`/open-science/${post.slug}/`}
-              className="group block bg-bg-elevated border border-border rounded-2xl p-8 max-[640px]:p-6 transition-[border-color,box-shadow] duration-200 hover:border-[#b0b0b0] hover:shadow-[0_2px_16px_rgba(0,0,0,0.05)] scroll-mt-28"
+              className="group flex flex-col bg-bg-elevated border border-border rounded-2xl p-7 max-[640px]:p-6 transition-[border-color,box-shadow] duration-200 hover:border-[#b0b0b0] hover:shadow-[0_2px_16px_rgba(0,0,0,0.05)] scroll-mt-28"
             >
-              <div
-                className={
-                  post.image
-                    ? "grid grid-cols-[1fr_128px] gap-7 items-start max-[640px]:grid-cols-1"
-                    : ""
-                }
-              >
-                <div>
-                  <div className="flex items-center gap-4 font-mono text-[0.7rem] text-text-dim tracking-[0.15em] uppercase mb-4">
-                    <span>{post.display_date}</span>
-                    <span className="text-text-secondary">{post.tag}</span>
-                    {post.badge && (
-                      <span className="bg-[#16a34a] text-white px-[0.7em] py-[0.2em] rounded-full text-[0.62rem] tracking-[0.12em]">
-                        {post.badge}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-sans text-[1.35rem] font-medium text-black tracking-[-0.015em] leading-[1.25] mb-1.5 max-[768px]:text-[1.15rem]">
-                    {post.title}
-                  </h3>
-                  <p className="font-mono text-[0.72rem] text-text-secondary tracking-[0.06em] uppercase mb-4">
-                    {post.subtitle}
-                  </p>
-                  <p className="text-[0.95rem] leading-[1.7] text-text-secondary max-w-[620px]">
-                    {post.summary}
-                  </p>
-                  {post.slug === "six-more-erdos-problems" && (
-                    <div className="flex flex-wrap gap-1.5 mt-5">
-                      {ERDOS_PROBLEMS.map((p) => (
-                        <span
-                          key={p.number}
-                          className="font-mono text-[0.7rem] text-text-secondary border border-border rounded-full px-2.5 py-0.5"
-                        >
-                          {p.number}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  <div className="font-mono text-[0.78rem] text-text tracking-[0.03em] mt-5 transition-[letter-spacing] duration-300 group-hover:tracking-[0.07em]">
-                    Read →
-                  </div>
-                </div>
-                {post.image && (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={post.image}
-                    alt=""
-                    className="w-full aspect-square object-cover rounded-xl border border-border max-[640px]:max-w-[128px]"
-                  />
+              {post.image && (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  src={post.image}
+                  alt=""
+                  className="w-full aspect-[7/3] object-cover rounded-xl border border-border mb-5"
+                />
+              )}
+              <div className="flex items-center gap-3 font-mono text-[0.68rem] text-text-dim tracking-[0.14em] uppercase mb-4">
+                <span>{post.display_date}</span>
+                <span className="text-text-secondary">{post.tag}</span>
+                {post.badge && (
+                  <span className="bg-[#16a34a] text-white px-[0.7em] py-[0.2em] rounded-full text-[0.6rem] tracking-[0.12em]">
+                    {post.badge}
+                  </span>
                 )}
+              </div>
+              <h3 className="font-sans text-[1.15rem] font-medium text-black tracking-[-0.015em] leading-[1.3] mb-1.5">
+                {post.title}
+              </h3>
+              <p className="font-mono text-[0.68rem] text-text-secondary tracking-[0.06em] uppercase mb-3">
+                {post.subtitle}
+              </p>
+              <p className="text-[0.88rem] leading-[1.65] text-text-secondary">
+                {post.summary}
+              </p>
+              {post.slug === "six-more-erdos-problems" && (
+                <div className="flex flex-wrap gap-1.5 mt-4">
+                  {ERDOS_PROBLEMS.map((p) => (
+                    <span
+                      key={p.number}
+                      className="font-mono text-[0.68rem] text-text-secondary border border-border rounded-full px-2 py-0.5"
+                    >
+                      {p.number}
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="font-mono text-[0.78rem] text-text tracking-[0.03em] mt-auto pt-5 transition-[letter-spacing] duration-300 group-hover:tracking-[0.07em]">
+                Read →
               </div>
             </a>
           ))}
