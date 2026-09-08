@@ -127,13 +127,14 @@ export default function EvalsPage() {
                     <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-text-dim">
                       leads
                     </span>
-                    <Chip p={field.leader.provider} />
-                    <span className="font-sans text-[0.82rem] text-text whitespace-nowrap">
-                      {field.leader.name}
-                      <span className="text-text-dim">
-                        {" "}
-                        {fmt(field.leader.value, field.unit)}
+                    <span className="flex items-center gap-[0.3rem]">
+                      <Chip p={field.leader.provider} />
+                      <span className="font-sans text-[0.82rem] text-text whitespace-nowrap">
+                        {field.leader.name}
                       </span>
+                    </span>
+                    <span className="font-sans text-[0.82rem] text-text-dim whitespace-nowrap ml-1">
+                      {fmt(field.leader.value, field.unit)}
                     </span>
                   </span>
                   <span className="row-span-2 self-center justify-self-end font-mono text-[0.82rem] text-text-dim tracking-[0.03em] transition-[letter-spacing] duration-300 group-hover:tracking-[0.07em] group-hover:text-text">
