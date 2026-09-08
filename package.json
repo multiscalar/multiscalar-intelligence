@@ -34,7 +34,6 @@
     "remark-breaks": "^4.0.0"
   },
   "devDependencies": {
-    "@rolldown/binding-darwin-arm64": "^1.2.7",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/katex": "^0.16.8",
     "@types/node": "^26.4.1",
@@ -44,5 +43,8 @@
     "typescript": "^7.0.2",
     "vitest": "^5.0.0"
   },
-  "private": "true"
+  "private": "true",
+  "optionalDependencies": {
+    "@rolldown/binding-darwin-arm64": "^1.2.7"
+  }
 }
