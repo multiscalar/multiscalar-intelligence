@@ -97,7 +97,7 @@ function PreambleRow({ rows }: { rows: TraceRow[] }) {
         onClick={() => setOpen(!open)}
         aria-expanded={open}
       >
-        <span className="font-mono text-[0.7rem] text-text-dim">·</span>
+        <span className="font-mono text-[0.7rem] text-text-dim">0</span>
         <span className="block font-mono text-[0.68rem] text-text truncate">
           {summary}
         </span>
