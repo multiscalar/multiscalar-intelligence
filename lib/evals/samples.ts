@@ -60,8 +60,24 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
     ],
   },
   "economic-arena": {
-    note: "Complete short negotiations, reasoning included. Both models play the same three seeded scenarios: selling to a strategic buyer, selling to an aggressive lowballer with no possible deal, and buying from a taciturn seller.",
+    note: "Complete short negotiations, reasoning included. Both models play the same four seeded scenarios: buying from a hard-to-read seller, selling to a strategic buyer, selling to an aggressive lowballer with no possible deal, and buying from a taciturn seller.",
     episodes: [
+      {
+        id: "glm-5.2-cagey-accept",
+        model: "GLM-5.2",
+        provider: "zai",
+        chip: "GLM vs cagey",
+        story:
+          "Buyer against a hard-to-read seller: takes the opening 45.4 on the spot for 12.1 utility.",
+      },
+      {
+        id: "kimi-k3-cagey-counter",
+        model: "Kimi K3",
+        provider: "moonshot",
+        chip: "Kimi vs cagey",
+        story:
+          "The same seller: counters instead of accepting and closes at 37.5 for 19.9 utility, the better read.",
+      },
       {
         id: "glm-5.2-urgency-deal",
         model: "GLM-5.2",
@@ -82,7 +98,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "glm-5.2-buyer-hold",
         model: "GLM-5.2",
         provider: "zai",
-        chip: "GLM as buyer",
+        chip: "GLM vs taciturn",
         story:
           "Buyer against a taciturn seller opening at 72: holds at 50.0, and the seller takes it.",
       },
@@ -106,7 +122,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "kimi-k3-buyer-soft",
         model: "Kimi K3",
         provider: "moonshot",
-        chip: "Kimi as buyer",
+        chip: "Kimi vs taciturn",
         story:
           "The same taciturn seller: settles at 55.0 where GLM held out for 50, giving up a third of the utility.",
       },
