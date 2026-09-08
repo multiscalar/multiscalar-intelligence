@@ -81,9 +81,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         chip: "GLM",
         story:
           "Concedes five rounds from 75 to 42 against a buyer whose ceiling is below any acceptable price; the counterpart walks.",
-        traces: [
-          { id: "glm-5.2-no-deal-wall", label: "Selling to an aggressive lowballer" },
-        ],
+        traces: [{ id: "glm-5.2-no-deal-wall" }],
       },
       {
         id: "kimi-k3",
@@ -92,9 +90,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         chip: "Kimi",
         story:
           "The same no-overlap trap: five rounds of concessions, same walkaway ending.",
-        traces: [
-          { id: "kimi-k3-no-deal-wall", label: "Selling to an aggressive lowballer" },
-        ],
+        traces: [{ id: "kimi-k3-no-deal-wall" }],
       },
     ],
   },
