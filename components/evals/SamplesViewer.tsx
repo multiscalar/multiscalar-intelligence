@@ -59,7 +59,16 @@ export default function SamplesViewer({
         })}
       </div>
 
-      <TraceViewer key={active} bench={bench} episode={episode.id} />
+      {episode.traces.map((t) => (
+        <div key={t.id}>
+          {t.label && (
+            <h3 className="font-sans text-[0.95rem] font-medium text-black tracking-[-0.01em] mt-9 mb-1">
+              {t.label}
+            </h3>
+          )}
+          <TraceViewer bench={bench} episode={t.id} />
+        </div>
+      ))}
     </section>
   );
 }

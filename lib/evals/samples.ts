@@ -3,14 +3,21 @@
 // briefing prompt and the episode config are not published: the prompt is
 // proprietary and the config identifies the private replay window.
 
+export interface SampleTrace {
+  /** Directory under public/traces/<bench>/ holding the transcript. */
+  id: string;
+  /** Heading shown above the trace when an episode bundles several. */
+  label?: string;
+}
+
 export interface SampleEpisode {
   id: string;
   model: string;
   provider: string;
-  /** Picker chip label; defaults to the model's short name. Needed when
-      one model has several episodes. */
+  /** Picker chip label; defaults to the model's short name. */
   chip?: string;
   story: string;
+  traces: SampleTrace[];
 }
 
 export interface BenchSamples {
@@ -25,6 +32,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
     episodes: [
       {
         id: "glm-5.3-clean-year",
+        traces: [{ id: "glm-5.3-clean-year" }],
         model: "GLM-5.3",
         provider: "zai",
         story:
@@ -32,6 +40,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
       },
       {
         id: "qwen-3.8-max-clean-sweep",
+        traces: [{ id: "qwen-3.8-max-clean-sweep" }],
         model: "Qwen 3.8 Max",
         provider: "alibaba",
         story:
@@ -39,12 +48,14 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
       },
       {
         id: "opus-5-beat-the-baseline",
+        traces: [{ id: "opus-5-beat-the-baseline" }],
         model: "Claude Opus 5",
         provider: "anthropic",
         story: "Disciplined just-in-time treasury; also beats the baseline.",
       },
       {
         id: "terra-5.6-one-late-sweep",
+        traces: [{ id: "terra-5.6-one-late-sweep" }],
         model: "GPT-5.6 Terra",
         provider: "openai",
         story:
@@ -52,6 +63,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
       },
       {
         id: "gemma-4-31b-collapse",
+        traces: [{ id: "gemma-4-31b-collapse" }],
         model: "Gemma 4 31B",
         provider: "google",
         story:
@@ -60,71 +72,35 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
     ],
   },
   "economic-arena": {
-    note: "Complete short negotiations, reasoning included. Both models play the same four seeded scenarios: buying from a hard-to-read seller, selling to a strategic buyer, selling to an aggressive lowballer with no possible deal, and buying from a taciturn seller.",
+    note: "Complete short negotiations, reasoning included. Each model plays the same four seeded scenarios.",
     episodes: [
       {
-        id: "glm-5.2-cagey-accept",
+        id: "glm-5.2",
         model: "GLM-5.2",
         provider: "zai",
-        chip: "GLM vs cagey",
+        chip: "GLM",
         story:
-          "Buyer against a hard-to-read seller: takes the opening 45.4 on the spot for 12.1 utility.",
+          "Instantly accepts the cagey seller's opener, beats the strategic buyer, concedes into the lowballer's wall, and holds firm as a buyer.",
+        traces: [
+          { id: "glm-5.2-cagey-accept", label: "Buying from a hard-to-read seller" },
+          { id: "glm-5.2-urgency-deal", label: "Selling to a strategic buyer" },
+          { id: "glm-5.2-no-deal-wall", label: "Selling to an aggressive lowballer" },
+          { id: "glm-5.2-buyer-hold", label: "Buying from a taciturn seller" },
+        ],
       },
       {
-        id: "kimi-k3-cagey-counter",
+        id: "kimi-k3",
         model: "Kimi K3",
         provider: "moonshot",
-        chip: "Kimi vs cagey",
+        chip: "Kimi",
         story:
-          "The same seller: counters instead of accepting and closes at 37.5 for 19.9 utility, the better read.",
-      },
-      {
-        id: "glm-5.2-urgency-deal",
-        model: "GLM-5.2",
-        provider: "zai",
-        chip: "GLM vs strategic",
-        story:
-          "Seller against a strategic buyer: opens at 80, accepts the counterpart's 59.6 in round two for 24.2 utility.",
-      },
-      {
-        id: "glm-5.2-no-deal-wall",
-        model: "GLM-5.2",
-        provider: "zai",
-        chip: "GLM vs lowballer",
-        story:
-          "Seller against an aggressive lowballer with no overlap: concedes five rounds from 75 to 42, and the counterpart walks.",
-      },
-      {
-        id: "glm-5.2-buyer-hold",
-        model: "GLM-5.2",
-        provider: "zai",
-        chip: "GLM vs taciturn",
-        story:
-          "Buyer against a taciturn seller opening at 72: holds at 50.0, and the seller takes it.",
-      },
-      {
-        id: "kimi-k3-urgency-deal",
-        model: "Kimi K3",
-        provider: "moonshot",
-        chip: "Kimi vs strategic",
-        story:
-          "The same seeded scenario as GLM's deal: one round slower to the same 59.6 close.",
-      },
-      {
-        id: "kimi-k3-no-deal-wall",
-        model: "Kimi K3",
-        provider: "moonshot",
-        chip: "Kimi vs lowballer",
-        story:
-          "The same no-overlap trap: five rounds of concessions, same walkaway ending.",
-      },
-      {
-        id: "kimi-k3-buyer-soft",
-        model: "Kimi K3",
-        provider: "moonshot",
-        chip: "Kimi vs taciturn",
-        story:
-          "The same taciturn seller: settles at 55.0 where GLM held out for 50, giving up a third of the utility.",
+          "Counters the cagey seller for the better read, closes the strategic buyer a round slower, hits the same lowballer wall, and overpays the taciturn seller.",
+        traces: [
+          { id: "kimi-k3-cagey-counter", label: "Buying from a hard-to-read seller" },
+          { id: "kimi-k3-urgency-deal", label: "Selling to a strategic buyer" },
+          { id: "kimi-k3-no-deal-wall", label: "Selling to an aggressive lowballer" },
+          { id: "kimi-k3-buyer-soft", label: "Buying from a taciturn seller" },
+        ],
       },
     ],
   },

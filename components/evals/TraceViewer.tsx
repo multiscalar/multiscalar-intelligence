@@ -41,24 +41,14 @@ function MdText({ text }: { text: string }) {
 }
 
 function ThinkingBlock({ text }: { text: string }) {
-  const [open, setOpen] = useState(false);
-  const long = text.length > 500;
   return (
     <div className="border-l-2 border-[#d8d6d0] pl-3 py-1">
       <div className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-text-dim mb-1">
         Thinking
       </div>
       <div className="font-sans text-[0.8rem] leading-[1.6] text-text-secondary italic">
-        <MdText text={long && !open ? text.slice(0, 500) + "…" : text} />
+        <MdText text={text} />
       </div>
-      {long && (
-        <button
-          className="font-mono text-[0.62rem] text-text-secondary hover:text-text cursor-pointer mt-1"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "collapse" : "show full thinking"}
-        </button>
-      )}
     </div>
   );
 }
@@ -85,6 +75,42 @@ function ToolResultBlock({ row }: { row: TraceRow }) {
         >
           {open ? "collapse" : "show full result"}
         </button>
+      )}
+    </div>
+  );
+}
+
+// Rows preceding the first turn (a scenario block, a counterpart opening),
+// collapsed to one line like the turns around them.
+function PreambleRow({ rows }: { rows: TraceRow[] }) {
+  const [open, setOpen] = useState(false);
+  const summary = rows
+    .map((r) => {
+      const preview = JSON.stringify(r.data.result);
+      return `${r.data.name} ${preview.length > 60 ? preview.slice(0, 59) + "…" : preview}`;
+    })
+    .join("  ·  ");
+  return (
+    <div className="border border-border rounded-lg bg-bg-elevated">
+      <button
+        className="w-full grid grid-cols-[2.4rem_1fr_auto] items-baseline gap-2 text-left px-4 py-[0.65rem] cursor-pointer"
+        onClick={() => setOpen(!open)}
+        aria-expanded={open}
+      >
+        <span className="font-mono text-[0.7rem] text-text-dim">·</span>
+        <span className="block font-mono text-[0.68rem] text-text truncate">
+          {summary}
+        </span>
+        <span className="font-mono text-[0.7rem] text-text-dim">
+          {open ? "−" : "+"}
+        </span>
+      </button>
+      {open && (
+        <div className="px-4 pb-4 pl-[3.4rem] flex flex-col gap-3 max-[780px]:pl-4">
+          {rows.map((r, i) => (
+            <ToolResultBlock key={i} row={r} />
+          ))}
+        </div>
       )}
     </div>
   );
@@ -201,13 +227,7 @@ export default function TraceViewer({
 
   return (
     <div className="mt-6 flex flex-col gap-[3px]">
-      {trace.preamble.length > 0 && (
-        <div className="border border-border rounded-lg bg-bg-elevated px-4 py-3 flex flex-col gap-3">
-          {trace.preamble.map((r, i) => (
-            <ToolResultBlock key={i} row={r} />
-          ))}
-        </div>
-      )}
+      {trace.preamble.length > 0 && <PreambleRow rows={trace.preamble} />}
       {trace.turns.map((t) => (
         <TurnRow key={t.n} turn={t} />
       ))}
