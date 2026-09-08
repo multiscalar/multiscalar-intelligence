@@ -84,8 +84,11 @@ export default function BarRows({
   const maxPos = Math.max(...rows.map((r) => r.value), 0) || 1;
   const maxNeg = Math.max(...rows.map((r) => -r.value), 0) || 1;
   const maxAbs = Math.max(...rows.map((r) => Math.abs(r.value))) || 1;
-  // Zero sits proportionally so a dollar reads the same left or right of it.
-  const zeroPct = signed ? (maxNeg / (maxNeg + maxPos)) * 100 : 0;
+  // Zero sits proportionally, but never so far out that the smaller side
+  // becomes slivers; when clamped, each side carries its own linear scale.
+  const proportional = (maxNeg / (maxNeg + maxPos)) * 100;
+  const zeroPct = signed ? Math.min(Math.max(proportional, 25), 70) : 0;
+  const rescaled = signed && zeroPct !== proportional;
 
   return (
     <div className="lb-rows">
@@ -101,12 +104,12 @@ export default function BarRows({
           : v >= 0
             ? {
                 left: `${zeroPct}%`,
-                width: `${Math.max((v / (maxNeg + maxPos)) * 100, 0.3)}%`,
+                width: `${Math.max((v / maxPos) * (100 - zeroPct), 0.3)}%`,
                 background: p.color,
               }
             : {
                 right: `${100 - zeroPct}%`,
-                width: `${Math.max((-v / (maxNeg + maxPos)) * 100, 0.3)}%`,
+                width: `${Math.max((-v / maxNeg) * zeroPct, 0.3)}%`,
                 background: p.color,
               };
         const se = d.bench === "vending-bench-2" ? row.model.stderr : undefined;
@@ -138,6 +141,11 @@ export default function BarRows({
           </div>
         );
       })}
+      {rescaled && (
+        <p className="metric-note mt-3">
+          gains and losses are scaled independently of each other
+        </p>
+      )}
     </div>
   );
 }
