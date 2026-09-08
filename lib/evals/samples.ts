@@ -66,7 +66,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "glm-5.2-urgency-deal",
         model: "GLM-5.2",
         provider: "zai",
-        chip: "GLM · vs strategic",
+        chip: "GLM vs strategic",
         story:
           "Seller against a strategic buyer: opens at 80, accepts the counterpart's 59.6 in round two for 24.2 utility.",
       },
@@ -74,7 +74,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "glm-5.2-no-deal-wall",
         model: "GLM-5.2",
         provider: "zai",
-        chip: "GLM · vs lowballer",
+        chip: "GLM vs lowballer",
         story:
           "Seller against an aggressive lowballer with no overlap: concedes five rounds from 75 to 42, and the counterpart walks.",
       },
@@ -82,7 +82,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "glm-5.2-buyer-hold",
         model: "GLM-5.2",
         provider: "zai",
-        chip: "GLM · as buyer",
+        chip: "GLM as buyer",
         story:
           "Buyer against a taciturn seller opening at 72: holds at 50.0, and the seller takes it.",
       },
@@ -90,7 +90,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "kimi-k3-urgency-deal",
         model: "Kimi K3",
         provider: "moonshot",
-        chip: "Kimi · vs strategic",
+        chip: "Kimi vs strategic",
         story:
           "The same seeded scenario as GLM's deal: one round slower to the same 59.6 close.",
       },
@@ -98,7 +98,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "kimi-k3-no-deal-wall",
         model: "Kimi K3",
         provider: "moonshot",
-        chip: "Kimi · vs lowballer",
+        chip: "Kimi vs lowballer",
         story:
           "The same no-overlap trap: five rounds of concessions, same walkaway ending.",
       },
@@ -106,7 +106,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         id: "kimi-k3-buyer-soft",
         model: "Kimi K3",
         provider: "moonshot",
-        chip: "Kimi · as buyer",
+        chip: "Kimi as buyer",
         story:
           "The same taciturn seller: settles at 55.0 where GLM held out for 50, giving up a third of the utility.",
       },
