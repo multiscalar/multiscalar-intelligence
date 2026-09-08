@@ -1,5 +1,5 @@
 import { BENCHES, loadBench } from "./benches";
-import { providerOf, PROVIDERS } from "./providers";
+import { providerOf, PROVIDERS, type Provider } from "./providers";
 import type { BenchModel } from "./types";
 
 export interface OverviewStats {
@@ -22,6 +22,63 @@ export function overviewStats(): OverviewStats {
     if (d.source.snapshot > snapshot) snapshot = d.source.snapshot;
   }
   return { benches: BENCHES.length, models: names.size, snapshot };
+}
+
+export interface FieldDot {
+  name: string;
+  value: number;
+  /** 0 worst → 1 best on the benchmark's default metric. */
+  pos: number;
+  color: string;
+}
+
+export interface BenchFieldData {
+  dots: FieldDot[];
+  unit?: string;
+  leader: { name: string; value: number; provider: Provider };
+}
+
+// The index-page score strip: every evaluated model as a dot, min-max
+// normalized on the benchmark's default metric, best to the right.
+// Scripted baselines stay off the strip like they stay off the radar.
+export function benchField(slug: string): BenchFieldData {
+  const d = loadBench(slug);
+  const metric = d.metrics.find((m) => m.id === d.defaultMetric)!;
+  const higher = metric.higherIsBetter !== false;
+  const rows = d.models
+    .map((m) => ({ m, v: m.scores[d.defaultMetric] }))
+    .filter(
+      (r): r is { m: BenchModel; v: number } =>
+        typeof r.v === "number" &&
+        isFinite(r.v) &&
+        providerOf(r.m) !== PROVIDERS.baseline
+    );
+  const vals = rows.map((r) => r.v);
+  const min = Math.min(...vals);
+  const max = Math.max(...vals);
+  const dots = rows
+    .map((r) => ({
+      name: r.m.name,
+      value: r.v,
+      pos:
+        max === min
+          ? 0.5
+          : (higher ? r.v - min : max - r.v) / (max - min),
+      color: providerOf(r.m).color,
+    }))
+    .sort((a, b) => a.pos - b.pos);
+  const lead = rows.reduce((best, r) =>
+    (higher ? r.v > best.v : r.v < best.v) ? r : best
+  );
+  return {
+    dots,
+    unit: metric.unit,
+    leader: {
+      name: lead.m.name,
+      value: lead.v,
+      provider: providerOf(lead.m),
+    },
+  };
 }
 
 export interface RadarAxis {
