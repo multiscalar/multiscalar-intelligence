@@ -36,9 +36,7 @@ export default function SamplesViewer({
       <div className="bench-head">
         <div className="bench-title-block">
           <h2>Sample episodes</h2>
-          <div className="bench-question">
-            Short excerpts from single replayed years.
-          </div>
+          <div className="bench-question">{samples.note}</div>
         </div>
       </div>
 
@@ -55,7 +53,7 @@ export default function SamplesViewer({
               <Chip
                 p={providerOf({ name: e.model, provider: e.provider, scores: {} })}
               />
-              <span>{short(e.model)}</span>
+              <span>{e.chip ?? short(e.model)}</span>
             </button>
           );
         })}

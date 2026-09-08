@@ -201,6 +201,13 @@ export default function TraceViewer({
 
   return (
     <div className="mt-6 flex flex-col gap-[3px]">
+      {trace.preamble.length > 0 && (
+        <div className="border border-border rounded-lg bg-bg-elevated px-4 py-3 flex flex-col gap-3">
+          {trace.preamble.map((r, i) => (
+            <ToolResultBlock key={i} row={r} />
+          ))}
+        </div>
+      )}
       {trace.turns.map((t) => (
         <TurnRow key={t.n} turn={t} />
       ))}

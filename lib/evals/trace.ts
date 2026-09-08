@@ -30,6 +30,9 @@ export interface Turn {
 
 export interface ParsedTrace {
   briefing: string;
+  /** Rows that precede the first assistant turn (e.g. a counterpart
+      opening a negotiation before the agent has moved). */
+  preamble: TraceRow[];
   turns: Turn[];
 }
 
@@ -40,6 +43,7 @@ export function parseTranscript(jsonl: string): ParsedTrace {
     .map((l) => JSON.parse(l));
 
   let briefing = "";
+  const preamble: TraceRow[] = [];
   const turns: Turn[] = [];
   for (const row of rows) {
     if (row.kind === "briefing") {
@@ -50,14 +54,17 @@ export function parseTranscript(jsonl: string): ParsedTrace {
       turns.push({ n: turns.length + 1, assistant: row, results: [], notes: [] });
       continue;
     }
-    // tool_result / note rows belong to the preceding assistant turn; a
-    // stray one before any turn would indicate a malformed transcript.
+    // tool_result / note rows belong to the preceding assistant turn;
+    // before any turn exists they form the preamble.
     const turn = turns[turns.length - 1];
-    if (!turn) continue;
+    if (!turn) {
+      preamble.push(row);
+      continue;
+    }
     if (row.kind === "note") turn.notes.push(row);
     else turn.results.push(row);
   }
-  return { briefing, turns };
+  return { briefing, preamble, turns };
 }
 
 // Collapsed rows show plain text, so drop the markdown markers the models

@@ -26,6 +26,26 @@ describe("parseTranscript", () => {
     expect(t.briefing).toBe("You are the treasurer.");
   });
 
+  it("collects rows before the first assistant turn as preamble", () => {
+    const p = parseTranscript(
+      [
+        JSON.stringify({
+          seq: 0,
+          kind: "tool_result",
+          data: { name: "counterpart", arguments: "{}", result: { price: 12.97 } },
+        }),
+        JSON.stringify({
+          seq: 1,
+          kind: "assistant",
+          data: { content: "", tool_calls: [{ name: "offer", arguments: '{"price":75}' }] },
+        }),
+      ].join("\n")
+    );
+    expect(p.preamble).toHaveLength(1);
+    expect(p.preamble[0].data.name).toBe("counterpart");
+    expect(p.turns).toHaveLength(1);
+  });
+
   it("groups tool results and notes under the preceding assistant turn", () => {
     expect(t.turns).toHaveLength(2);
     expect(t.turns[0].results).toHaveLength(1);
