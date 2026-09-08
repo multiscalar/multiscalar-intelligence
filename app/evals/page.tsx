@@ -8,22 +8,32 @@ import type { BenchFieldData } from "@/lib/evals/overview";
 import "./evals.css";
 
 // Every evaluated model as a dot on the benchmark's default metric,
-// worst to best left to right; hover a dot for the model and score.
+// worst to best along a visible track; hover a dot for the model and
+// score.
 function FieldStrip({ field }: { field: BenchFieldData }) {
   return (
-    <span className="relative inline-block h-[12px] w-[170px] align-middle">
-      {field.dots.map((dot) => (
-        <span
-          key={dot.name}
-          title={`${dot.name}: ${fmt(dot.value, field.unit)}`}
-          className="absolute top-1/2 size-[7px] rounded-full -translate-x-1/2 -translate-y-1/2"
-          style={{
-            left: `${(4 + dot.pos * 92).toFixed(2)}%`,
-            background: dot.color,
-            opacity: 0.8,
-          }}
-        />
-      ))}
+    <span className="inline-flex items-center gap-2 align-middle">
+      <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
+        worst
+      </span>
+      <span className="relative inline-block h-[12px] w-[170px]">
+        <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-border" />
+        {field.dots.map((dot) => (
+          <span
+            key={dot.name}
+            title={`${dot.name}: ${fmt(dot.value, field.unit)}`}
+            className="absolute top-1/2 size-[7px] rounded-full -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: `${(4 + dot.pos * 92).toFixed(2)}%`,
+              background: dot.color,
+              opacity: 0.85,
+            }}
+          />
+        ))}
+      </span>
+      <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
+        best
+      </span>
     </span>
   );
 }
