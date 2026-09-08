@@ -1,95 +1,95 @@
 {
   "title": "Discipline is the whole game",
   "note": "Closing treasury against everything paid in penalties and collection. Each dot is one replayed year.",
-  "footnote": "The board is monotone: no agent earned its way past a missed payment. The top of the treasury axis belongs to the two agents that paid under $50 in penalties all year, and the 20% collection surcharge turns neglect into the only catastrophic outcome in the environment.",
-  "stamp": "stable-genesis year · results as of 2026-08-22",
+  "footnote": "A late payment costs a one-off 1.4% fee; anything unpaid at the close goes to collection with a 20% surcharge, which is what turns neglect into the only catastrophic outcome in the environment.",
+  "stamp": "stable-genesis year · results as of 2026-09-08",
   "points": [
     {
       "name": "GLM-5.3",
       "provider": "zai",
-      "net_worth_cents": 1004495,
+      "net_worth_cents": 994944,
       "penalties_cents": 2140,
-      "collection_cents": 0,
-      "label": "top"
-    },
-    {
-      "name": "Claude Opus 5",
-      "provider": "anthropic",
-      "net_worth_cents": 984222,
-      "penalties_cents": 4300,
-      "collection_cents": 0,
-      "label": "bottom"
-    },
-    {
-      "name": "Qwen 3.8 Max",
-      "provider": "alibaba",
-      "net_worth_cents": 935878,
-      "penalties_cents": 20489,
       "collection_cents": 0,
       "label": "tr"
     },
     {
+      "name": "Claude Opus 5",
+      "provider": "anthropic",
+      "net_worth_cents": 916416,
+      "penalties_cents": 5360,
+      "collection_cents": 0,
+      "label": "bl"
+    },
+    {
+      "name": "Qwen 3.8 Max",
+      "provider": "qwen",
+      "net_worth_cents": 990387,
+      "penalties_cents": 3900,
+      "collection_cents": 0,
+      "label": "top"
+    },
+    {
       "name": "Claude Sonnet 5",
       "provider": "anthropic",
-      "net_worth_cents": 924153,
-      "penalties_cents": 28075,
+      "net_worth_cents": 922392,
+      "penalties_cents": 17767,
       "collection_cents": 0,
       "label": "tl"
     },
     {
       "name": "DeepSeek V4 Pro",
       "provider": "deepseek",
-      "net_worth_cents": 890226,
-      "penalties_cents": 33478,
+      "net_worth_cents": 860709,
+      "penalties_cents": 2440,
       "collection_cents": 0,
-      "label": "left"
+      "label": "bottom"
     },
     {
       "name": "GPT-5.6 Sol",
       "provider": "openai",
-      "net_worth_cents": 797919,
-      "penalties_cents": 24311,
+      "net_worth_cents": 922810,
+      "penalties_cents": 6900,
       "collection_cents": 0,
-      "label": "right"
+      "label": "tl"
     },
     {
       "name": "GPT-5.6 Terra",
       "provider": "openai",
-      "net_worth_cents": 786064,
-      "penalties_cents": 45635,
+      "net_worth_cents": 754360,
+      "penalties_cents": 51222,
       "collection_cents": 0,
       "label": "bottom"
     },
     {
       "name": "MiniMax M3",
       "provider": "minimax",
-      "net_worth_cents": 711208,
-      "penalties_cents": 57538,
-      "collection_cents": 81000,
+      "net_worth_cents": -147593,
+      "penalties_cents": 246590,
+      "collection_cents": 814600,
       "label": "left"
     },
     {
       "name": "Gemini 3.1 Pro",
       "provider": "google",
-      "net_worth_cents": 176310,
-      "penalties_cents": 839668,
+      "net_worth_cents": 169344,
+      "penalties_cents": 843109,
       "collection_cents": 0,
       "label": "top"
     },
     {
       "name": "GPT-OSS-120B",
       "provider": "openai",
-      "net_worth_cents": -1471877,
-      "penalties_cents": 853401,
-      "collection_cents": 1781200,
+      "net_worth_cents": -1338210,
+      "penalties_cents": 764016,
+      "collection_cents": 1686200,
       "label": "top"
     },
     {
       "name": "Gemma 4 31B",
       "provider": "google",
-      "net_worth_cents": -1487414,
-      "penalties_cents": 853053,
-      "collection_cents": 1784800,
+      "net_worth_cents": -1480199,
+      "penalties_cents": 849603,
+      "collection_cents": 1781200,
       "label": "bottom"
     }
   ]

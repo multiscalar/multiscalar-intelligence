@@ -41,12 +41,12 @@ SNAPSHOT = "2026-09-08"
 
 # Scatter label placement, tuned by eye against the rendered chart.
 SCATTER_LABELS = {
-    "GLM-5.3": "top",
-    "Claude Opus 5": "bottom",
-    "Qwen 3.8 Max": "tr",
+    "GLM-5.3": "tr",
+    "Claude Opus 5": "bl",
+    "Qwen 3.8 Max": "top",
     "Claude Sonnet 5": "tl",
-    "DeepSeek V4 Pro": "left",
-    "GPT-5.6 Sol": "right",
+    "DeepSeek V4 Pro": "bottom",
+    "GPT-5.6 Sol": "tl",
     "GPT-5.6 Terra": "bottom",
     "MiniMax M3": "left",
     "Gemini 3.1 Pro": "top",

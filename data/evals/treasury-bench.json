@@ -5,7 +5,7 @@
   "source": {
     "name": "Multiscalar",
     "label": "Multiscalar",
-    "snapshot": "2026-08-22",
+    "snapshot": "2026-09-08",
     "run": "t5-stable-genesis"
   },
   "blurb": "Agents manage $100k of company cash for a simulated year on replayed recorded market history: fifty-seven bills, none visible at genesis, real banking rails, and a lending venue paying recorded rates. Each model plays one replayed year. Score is value added over a scripted prudent treasurer that keeps a float, lends the rest, and pays every bill on time: zero means no better than playing it safe, and below zero the agent lost money the obvious policy would have kept. Doing nothing closes $19,696.65 underwater. Gambler round trip is not a language model but a scripted conversion round trip, included as a priced reference.",
@@ -30,7 +30,7 @@
       "name": "GLM-5.3",
       "provider": "zai",
       "scores": {
-        "value_add": 527.05,
+        "value_add": 431.54,
         "penalty_loss": 21.4
       }
     },
@@ -38,80 +38,80 @@
       "name": "Claude Opus 5",
       "provider": "anthropic",
       "scores": {
-        "value_add": 324.32,
-        "penalty_loss": 43.0
+        "value_add": -353.74,
+        "penalty_loss": 53.6
       }
     },
     {
       "name": "Qwen 3.8 Max",
       "provider": "qwen",
       "scores": {
-        "value_add": -159.12,
-        "penalty_loss": 204.89
+        "value_add": 385.97,
+        "penalty_loss": 39.0
       }
     },
     {
       "name": "Claude Sonnet 5",
       "provider": "anthropic",
       "scores": {
-        "value_add": -276.37,
-        "penalty_loss": 280.75
+        "value_add": -293.98,
+        "penalty_loss": 177.67
       }
     },
     {
       "name": "DeepSeek V4 Pro",
       "provider": "deepseek",
       "scores": {
-        "value_add": -615.64,
-        "penalty_loss": 334.78
+        "value_add": -910.81,
+        "penalty_loss": 24.4
       }
     },
     {
       "name": "GPT-5.6 Sol",
       "provider": "openai",
       "scores": {
-        "value_add": -1538.71,
-        "penalty_loss": 243.11
+        "value_add": -289.8,
+        "penalty_loss": 69.0
       }
     },
     {
       "name": "GPT-5.6 Terra",
       "provider": "openai",
       "scores": {
-        "value_add": -1657.26,
-        "penalty_loss": 456.35
+        "value_add": -1974.3,
+        "penalty_loss": 512.22
       }
     },
     {
       "name": "MiniMax M3",
       "provider": "minimax",
       "scores": {
-        "value_add": -2405.82,
-        "penalty_loss": 1385.38
+        "value_add": -10993.83,
+        "penalty_loss": 10611.9
       }
     },
     {
       "name": "Gemini 3.1 Pro",
       "provider": "google",
       "scores": {
-        "value_add": -7754.8,
-        "penalty_loss": 8396.68
+        "value_add": -7824.46,
+        "penalty_loss": 8431.09
       }
     },
     {
       "name": "GPT-OSS-120B",
       "provider": "openai",
       "scores": {
-        "value_add": -24236.67,
-        "penalty_loss": 26346.01
+        "value_add": -22900.0,
+        "penalty_loss": 24502.16
       }
     },
     {
       "name": "Gemma 4 31B",
       "provider": "google",
       "scores": {
-        "value_add": -24392.04,
-        "penalty_loss": 26378.53
+        "value_add": -24319.89,
+        "penalty_loss": 26308.03
       }
     },
     {
