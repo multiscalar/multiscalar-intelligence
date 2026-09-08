@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import HashRedirect from "@/components/evals/HashRedirect";
-import Radar from "@/components/evals/Radar";
 import { BENCHES, loadBench } from "@/lib/evals/benches";
-import { overviewStats, radarData } from "@/lib/evals/overview";
+import { overviewStats } from "@/lib/evals/overview";
 import { providerOf, PROVIDERS } from "@/lib/evals/providers";
 import "./evals.css";
 
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
 
 export default function EvalsPage() {
   const stats = overviewStats();
-  const radar = radarData();
   return (
     <main className="max-w-[1000px] mx-auto pt-32 px-8 pb-24 max-[780px]:pt-28 max-[780px]:px-5 max-[780px]:pb-16">
       <HashRedirect />
@@ -48,17 +46,9 @@ export default function EvalsPage() {
         </div>
       </section>
 
-      <section className="bench-section" id="profile">
-        <div className="bench-head">
-          <div className="bench-title-block">
-            <h2>Model Profile</h2>
-            <div className="bench-question">
-              How the models compare across all four benchmarks.
-            </div>
-          </div>
-        </div>
-        <Radar data={radar} />
-      </section>
+      {/* The Model Profile radar is parked until the same model roster has
+          results across all benchmarks again; components/evals/Radar.tsx
+          and lib/evals/overview.ts radarData() remain ready to remount. */}
 
       <section className="bench-section" id="benchmarks">
         <div className="bench-head">

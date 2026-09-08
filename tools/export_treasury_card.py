@@ -1,9 +1,11 @@
-"""Export data/evals/treasury-bench.json from the stable-genesis t5 board.
+"""Export the Treasury-Bench site data from the stable-genesis t5 board.
 
     python3 tools/export_treasury_card.py /Users/vitto/Projects/Gaia/runs
 
-Reads the per-episode result.json files of the named runs and writes the
-card the site serves. Value added is measured from the scenario's pinned
+Reads the per-episode result.json files of the named runs and writes BOTH
+data/evals/treasury-bench.json (the leaderboard card) and
+data/evals/treasury-scatter.json, so the two views can never carry
+different vintages. Value added is measured from the scenario's pinned
 prudent zero (run_stable_year_prudent, 951790 cents), the same reference
 scripts/render_leaderboard.py prints in the Gaia repo; narrated episodes
 never feed a board row.
@@ -22,24 +24,40 @@ GAMBLER_CENTS = 828_257
 
 # run dir (relative to the runs root), episode subdir, display name, provider
 EPISODES = [
-    ("t5-board-z-ai_glm-5_3", "z-ai_glm-5.3", "GLM-5.3", "zai"),
-    ("t5-board-anthropic_claude-opus-5", "anthropic_claude-opus-5", "Claude Opus 5", "anthropic"),
-    ("t5-qwen-1", "qwen_qwen3.8-max", "Qwen 3.8 Max", "qwen"),
-    ("pilot-t5-sonnet-1", "anthropic_claude-sonnet-5", "Claude Sonnet 5", "anthropic"),
-    ("t5-board-deepseek_deepseek-v4-pro-0813", "deepseek_deepseek-v4-pro-0813", "DeepSeek V4 Pro", "deepseek"),
-    ("t5-board-openai_gpt-5_6-sol", "openai_gpt-5.6-sol", "GPT-5.6 Sol", "openai"),
-    ("t5-board-openai_gpt-5_6-terra", "openai_gpt-5.6-terra", "GPT-5.6 Terra", "openai"),
-    ("t5-board-minimax_minimax-m3", "minimax_minimax-m3", "MiniMax M3", "minimax"),
-    ("t5-board-google_gemini-3_1-pro-preview", "google_gemini-3.1-pro-preview", "Gemini 3.1 Pro", "google"),
-    ("t5-board-openai_gpt-oss-120b", "openai_gpt-oss-120b", "GPT-OSS-120B", "openai"),
-    ("t5-board-google_gemma-4-31b-it-r3", "google_gemma-4-31b-it", "Gemma 4 31B", "google"),
+    ("t5-board2-z-ai_glm-5_3", "z-ai_glm-5.3", "GLM-5.3", "zai"),
+    ("t5-board2-anthropic_claude-opus-5", "anthropic_claude-opus-5", "Claude Opus 5", "anthropic"),
+    ("t5-board2-qwen_qwen3_8-max-0902-r3", "qwen_qwen3.8-max-0902", "Qwen 3.8 Max", "qwen"),
+    ("t5-board2-anthropic_claude-sonnet-5", "anthropic_claude-sonnet-5", "Claude Sonnet 5", "anthropic"),
+    ("t5-board2-deepseek_deepseek-v4-pro-0813-r2", "deepseek_deepseek-v4-pro-0813", "DeepSeek V4 Pro", "deepseek"),
+    ("t5-board2-openai_gpt-5_6-sol", "openai_gpt-5.6-sol", "GPT-5.6 Sol", "openai"),
+    ("t5-board2-openai_gpt-5_6-terra", "openai_gpt-5.6-terra", "GPT-5.6 Terra", "openai"),
+    ("t5-board2-minimax_minimax-m3-r2", "minimax_minimax-m3", "MiniMax M3", "minimax"),
+    ("t5-board2-google_gemini-3_1-pro-preview-r3", "google_gemini-3.1-pro-preview", "Gemini 3.1 Pro", "google"),
+    ("t5-board2-openai_gpt-oss-120b", "openai_gpt-oss-120b", "GPT-OSS-120B", "openai"),
+    ("t5-board2-google_gemma-4-31b-it", "google_gemma-4-31b-it", "Gemma 4 31B", "google"),
 ]
 
-SNAPSHOT = "2026-08-22"
+SNAPSHOT = "2026-09-08"
+
+# Scatter label placement, tuned by eye against the rendered chart.
+SCATTER_LABELS = {
+    "GLM-5.3": "top",
+    "Claude Opus 5": "bottom",
+    "Qwen 3.8 Max": "tr",
+    "Claude Sonnet 5": "tl",
+    "DeepSeek V4 Pro": "left",
+    "GPT-5.6 Sol": "right",
+    "GPT-5.6 Terra": "bottom",
+    "MiniMax M3": "left",
+    "Gemini 3.1 Pro": "top",
+    "GPT-OSS-120B": "top",
+    "Gemma 4 31B": "bottom",
+}
 
 
 def main(runs_root: Path) -> int:
     models = []
+    points = []
     for run_dir, episode_dir, name, provider in EPISODES:
         result_path = runs_root / run_dir / episode_dir / "episode-1" / "result.json"
         result = json.loads(result_path.read_text())
@@ -52,6 +70,16 @@ def main(runs_root: Path) -> int:
             raise SystemExit(f"{result_path}: narrated episodes never feed a board")
         st = result["statement"]
         loss_cents = st["penalties_cents"] + st["collection_cents"]
+        points.append(
+            {
+                "name": name,
+                "provider": provider,
+                "net_worth_cents": st["net_worth_cents"],
+                "penalties_cents": st["penalties_cents"],
+                "collection_cents": st["collection_cents"],
+                "label": SCATTER_LABELS.get(name, "top"),
+            }
+        )
         models.append(
             {
                 "name": name,
@@ -115,9 +143,26 @@ def main(runs_root: Path) -> int:
         "defaultMetric": "value_add",
         "models": models,
     }
-    out = Path(__file__).resolve().parent.parent / "data" / "evals" / "treasury-bench.json"
+    scatter = {
+        "title": "Discipline is the whole game",
+        "note": "Closing treasury against everything paid in penalties and collection. Each dot is one replayed year.",
+        "footnote": (
+            "A late payment costs a one-off 1.4% fee; anything unpaid at the "
+            "close goes to collection with a 20% surcharge, which is what "
+            "turns neglect into the only catastrophic outcome in the "
+            "environment."
+        ),
+        "stamp": f"stable-genesis year · results as of {SNAPSHOT}",
+        "points": points,
+    }
+
+    data_dir = Path(__file__).resolve().parent.parent / "data" / "evals"
+    out = data_dir / "treasury-bench.json"
     out.write_text(json.dumps(card, indent=2, ensure_ascii=False) + "\n")
     print(f"wrote {out} ({len(models)} rows)")
+    out = data_dir / "treasury-scatter.json"
+    out.write_text(json.dumps(scatter, indent=2, ensure_ascii=False) + "\n")
+    print(f"wrote {out} ({len(points)} points)")
     return 0
 
 
