@@ -72,7 +72,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
     ],
   },
   "economic-arena": {
-    note: "Complete short negotiations, reasoning included. Each model plays the same four seeded scenarios.",
+    note: "One complete negotiation per model, reasoning included. Both face the same seeded scenario: selling to an aggressive lowballer with no possible deal.",
     episodes: [
       {
         id: "glm-5.2",
@@ -80,12 +80,9 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "zai",
         chip: "GLM",
         story:
-          "Instantly accepts the cagey seller's opener, beats the strategic buyer, concedes into the lowballer's wall, and holds firm as a buyer.",
+          "Concedes five rounds from 75 to 42 against a buyer whose ceiling is below any acceptable price; the counterpart walks.",
         traces: [
-          { id: "glm-5.2-cagey-accept", label: "Buying from a hard-to-read seller" },
-          { id: "glm-5.2-urgency-deal", label: "Selling to a strategic buyer" },
           { id: "glm-5.2-no-deal-wall", label: "Selling to an aggressive lowballer" },
-          { id: "glm-5.2-buyer-hold", label: "Buying from a taciturn seller" },
         ],
       },
       {
@@ -94,12 +91,9 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
         provider: "moonshot",
         chip: "Kimi",
         story:
-          "Counters the cagey seller for the better read, closes the strategic buyer a round slower, hits the same lowballer wall, and overpays the taciturn seller.",
+          "The same no-overlap trap: five rounds of concessions, same walkaway ending.",
         traces: [
-          { id: "kimi-k3-cagey-counter", label: "Buying from a hard-to-read seller" },
-          { id: "kimi-k3-urgency-deal", label: "Selling to a strategic buyer" },
           { id: "kimi-k3-no-deal-wall", label: "Selling to an aggressive lowballer" },
-          { id: "kimi-k3-buyer-soft", label: "Buying from a taciturn seller" },
         ],
       },
     ],

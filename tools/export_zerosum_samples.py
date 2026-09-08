@@ -19,14 +19,8 @@ from pathlib import Path
 
 # (source model dir, episode filename stem, published episode id)
 EPISODES = [
-    ("glm-5.2", "episode_00000_overlap_inference_critical_buyer_counterpart_opens_seed49", "glm-5.2-cagey-accept"),
-    ("kimi-k3", "episode_00000_overlap_inference_critical_buyer_counterpart_opens_seed49", "kimi-k3-cagey-counter"),
-    ("glm-5.2", "episode_00001_urgency_shift_strategic_seller_agent_opens_seed50", "glm-5.2-urgency-deal"),
     ("glm-5.2", "episode_00002_no_deal_adversarial_seller_counterpart_opens_seed51", "glm-5.2-no-deal-wall"),
-    ("glm-5.2", "episode_00003_urgency_shift_taciturn_buyer_counterpart_opens_seed52", "glm-5.2-buyer-hold"),
-    ("kimi-k3", "episode_00001_urgency_shift_strategic_seller_agent_opens_seed50", "kimi-k3-urgency-deal"),
     ("kimi-k3", "episode_00002_no_deal_adversarial_seller_counterpart_opens_seed51", "kimi-k3-no-deal-wall"),
-    ("kimi-k3", "episode_00003_urgency_shift_taciturn_buyer_counterpart_opens_seed52", "kimi-k3-buyer-soft"),
 ]
 
 OUT = Path(__file__).resolve().parent.parent / "public" / "traces" / "economic-arena"
