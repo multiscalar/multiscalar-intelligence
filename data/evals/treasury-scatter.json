@@ -29,6 +29,14 @@
       "label": "top"
     },
     {
+      "name": "GPT-6 Astra",
+      "provider": "openai",
+      "net_worth_cents": 958107,
+      "penalties_cents": 2985,
+      "collection_cents": 0,
+      "label": "bl"
+    },
+    {
       "name": "Claude Sonnet 5",
       "provider": "anthropic",
       "net_worth_cents": 922392,

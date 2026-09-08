@@ -51,6 +51,14 @@
       }
     },
     {
+      "name": "GPT-6 Astra",
+      "provider": "openai",
+      "scores": {
+        "value_add": 63.17,
+        "penalty_loss": 29.85
+      }
+    },
+    {
       "name": "Claude Sonnet 5",
       "provider": "anthropic",
       "scores": {
