@@ -87,19 +87,20 @@ def main(runs_root: Path) -> int:
                 "name": name,
                 "provider": provider,
                 "scores": {
+                    "closing_total": round(st["net_worth_cents"] / 100, 2),
                     "value_add": round((st["net_worth_cents"] - PRUDENT_ZERO_CENTS) / 100, 2),
                     "penalty_loss": round(loss_cents / 100, 2),
                 },
             }
         )
-    # The pinned scripted reference: value added only, no recorded penalties
-    # field, so the loss chart simply omits it.
+    # The pinned scripted reference; penalty_loss stays unrecorded for it.
     models.append(
         {
             "name": "Gambler round trip",
             "provider": "baseline",
             "scores": {
-                "value_add": round((GAMBLER_CENTS - PRUDENT_ZERO_CENTS) / 100, 2)
+                "closing_total": round(GAMBLER_CENTS / 100, 2),
+                "value_add": round((GAMBLER_CENTS - PRUDENT_ZERO_CENTS) / 100, 2),
             },
         }
     )
@@ -128,18 +129,20 @@ def main(runs_root: Path) -> int:
             "trip, included as a priced reference."
         ),
         "footnote": "",
+        # Chart order on the page: closing total, then gains over the prudent
+        # baseline; penalties live on the scatter's x axis below them.
         "metrics": [
+            {
+                "id": "closing_total",
+                "label": "Closing treasury at year end",
+                "unit": "$",
+                "higherIsBetter": True,
+            },
             {
                 "id": "value_add",
                 "label": "Value added vs prudent baseline",
                 "unit": "$",
                 "higherIsBetter": True,
-            },
-            {
-                "id": "penalty_loss",
-                "label": "Loss to penalties and collection",
-                "unit": "$",
-                "higherIsBetter": False,
             },
         ],
         "defaultMetric": "value_add",

@@ -12,16 +12,16 @@
   "footnote": "",
   "metrics": [
     {
-      "id": "value_add",
-      "label": "Value added vs prudent baseline",
+      "id": "closing_total",
+      "label": "Closing treasury at year end",
       "unit": "$",
       "higherIsBetter": true
     },
     {
-      "id": "penalty_loss",
-      "label": "Loss to penalties and collection",
+      "id": "value_add",
+      "label": "Value added vs prudent baseline",
       "unit": "$",
-      "higherIsBetter": false
+      "higherIsBetter": true
     }
   ],
   "defaultMetric": "value_add",
@@ -30,6 +30,7 @@
       "name": "GLM-5.3",
       "provider": "zai",
       "scores": {
+        "closing_total": 9949.44,
         "value_add": 431.54,
         "penalty_loss": 21.4
       }
@@ -38,6 +39,7 @@
       "name": "Claude Opus 5",
       "provider": "anthropic",
       "scores": {
+        "closing_total": 9164.16,
         "value_add": -353.74,
         "penalty_loss": 53.6
       }
@@ -46,6 +48,7 @@
       "name": "Qwen 3.8 Max",
       "provider": "qwen",
       "scores": {
+        "closing_total": 9903.87,
         "value_add": 385.97,
         "penalty_loss": 39.0
       }
@@ -54,6 +57,7 @@
       "name": "GPT-6 Astra",
       "provider": "openai",
       "scores": {
+        "closing_total": 9581.07,
         "value_add": 63.17,
         "penalty_loss": 29.85
       }
@@ -62,6 +66,7 @@
       "name": "Claude Sonnet 5",
       "provider": "anthropic",
       "scores": {
+        "closing_total": 9223.92,
         "value_add": -293.98,
         "penalty_loss": 177.67
       }
@@ -70,6 +75,7 @@
       "name": "DeepSeek V4 Pro",
       "provider": "deepseek",
       "scores": {
+        "closing_total": 8607.09,
         "value_add": -910.81,
         "penalty_loss": 24.4
       }
@@ -78,6 +84,7 @@
       "name": "GPT-5.6 Sol",
       "provider": "openai",
       "scores": {
+        "closing_total": 9228.1,
         "value_add": -289.8,
         "penalty_loss": 69.0
       }
@@ -86,6 +93,7 @@
       "name": "GPT-5.6 Terra",
       "provider": "openai",
       "scores": {
+        "closing_total": 7543.6,
         "value_add": -1974.3,
         "penalty_loss": 512.22
       }
@@ -94,6 +102,7 @@
       "name": "MiniMax M3",
       "provider": "minimax",
       "scores": {
+        "closing_total": -1475.93,
         "value_add": -10993.83,
         "penalty_loss": 10611.9
       }
@@ -102,6 +111,7 @@
       "name": "Gemini 3.1 Pro",
       "provider": "google",
       "scores": {
+        "closing_total": 1693.44,
         "value_add": -7824.46,
         "penalty_loss": 8431.09
       }
@@ -110,6 +120,7 @@
       "name": "GPT-OSS-120B",
       "provider": "openai",
       "scores": {
+        "closing_total": -13382.1,
         "value_add": -22900.0,
         "penalty_loss": 24502.16
       }
@@ -118,6 +129,7 @@
       "name": "Gemma 4 31B",
       "provider": "google",
       "scores": {
+        "closing_total": -14801.99,
         "value_add": -24319.89,
         "penalty_loss": 26308.03
       }
@@ -126,6 +138,7 @@
       "name": "Gambler round trip",
       "provider": "baseline",
       "scores": {
+        "closing_total": 8282.57,
         "value_add": -1235.33
       }
     }
