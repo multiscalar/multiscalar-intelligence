@@ -29,7 +29,7 @@ export interface FieldDot {
   value: number;
   /** 0 worst → 1 best on the benchmark's default metric. */
   pos: number;
-  color: string;
+  provider: Provider;
 }
 
 export interface BenchFieldData {
@@ -64,7 +64,7 @@ export function benchField(slug: string): BenchFieldData {
         max === min
           ? 0.5
           : (higher ? r.v - min : max - r.v) / (max - min),
-      color: providerOf(r.m).color,
+      provider: providerOf(r.m),
     }))
     .sort((a, b) => a.pos - b.pos);
   const lead = rows.reduce((best, r) =>

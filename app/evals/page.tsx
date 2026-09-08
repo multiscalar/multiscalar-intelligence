@@ -3,32 +3,45 @@ import Chip from "@/components/evals/Chip";
 import HashRedirect from "@/components/evals/HashRedirect";
 import { BENCHES, loadBench } from "@/lib/evals/benches";
 import { benchField, overviewStats } from "@/lib/evals/overview";
+import { PROVIDER_ICONS } from "@/lib/evals/provider-icons";
 import { fmt } from "@/lib/evals/score";
 import type { BenchFieldData } from "@/lib/evals/overview";
 import "./evals.css";
 
-// Every evaluated model as a dot on the benchmark's default metric,
-// worst to best along a visible track; hover a dot for the model and
-// score.
+// Every evaluated model as a mini provider chip on the benchmark's
+// default metric, worst to best along a visible track; hover a chip
+// for the model and score.
 function FieldStrip({ field }: { field: BenchFieldData }) {
   return (
     <span className="inline-flex items-center gap-2 align-middle">
       <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
         worst
       </span>
-      <span className="relative inline-block h-[12px] w-[170px]">
+      <span className="relative inline-block h-[16px] w-[190px]">
         <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-border" />
         {field.dots.map((dot) => (
           <span
             key={dot.name}
             title={`${dot.name}: ${fmt(dot.value, field.unit)}`}
-            className="absolute top-1/2 size-[7px] rounded-full -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: `${(4 + dot.pos * 92).toFixed(2)}%`,
-              background: dot.color,
-              opacity: 0.85,
-            }}
-          />
+            className="field-chip"
+            style={{ left: `${(4 + dot.pos * 92).toFixed(2)}%` }}
+          >
+            {dot.provider.icon ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d={PROVIDER_ICONS[dot.provider.icon]}
+                  fill={dot.provider.color}
+                />
+              </svg>
+            ) : (
+              <span
+                className="chip-mark"
+                style={{ color: dot.provider.color }}
+              >
+                {dot.provider.mark || "•"}
+              </span>
+            )}
+          </span>
         ))}
       </span>
       <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
