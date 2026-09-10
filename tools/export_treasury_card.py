@@ -27,6 +27,7 @@ EPISODES = [
     ("t5-board2-z-ai_glm-5_3", "z-ai_glm-5.3", "GLM-5.3", "zai"),
     ("t5-board2-anthropic_claude-opus-5", "anthropic_claude-opus-5", "Claude Opus 5", "anthropic"),
     ("t5-board2-qwen_qwen3_8-max-0902-r3", "qwen_qwen3.8-max-0902", "Qwen 3.8 Max", "qwen"),
+    ("t5-board2-anthropic_claude-fable-5", "anthropic_claude-fable-5", "Claude Fable 5", "anthropic"),
     ("t5-board2-openai_gpt-6-astra", "openai_gpt-6-astra", "GPT-6 Astra", "openai"),
     ("t5-board2-anthropic_claude-sonnet-5", "anthropic_claude-sonnet-5", "Claude Sonnet 5", "anthropic"),
     ("t5-board2-deepseek_deepseek-v4-pro-0813-r2", "deepseek_deepseek-v4-pro-0813", "DeepSeek V4 Pro", "deepseek"),
@@ -38,7 +39,7 @@ EPISODES = [
     ("t5-board2-google_gemma-4-31b-it", "google_gemma-4-31b-it", "Gemma 4 31B", "google"),
 ]
 
-SNAPSHOT = "2026-09-08"
+SNAPSHOT = "2026-09-10"
 
 # Scatter label placement, tuned by eye against the rendered chart.
 SCATTER_LABELS = {
@@ -46,9 +47,10 @@ SCATTER_LABELS = {
     "Claude Opus 5": "bl",
     "Qwen 3.8 Max": "top",
     "GPT-6 Astra": "bl",
+    "Claude Fable 5": "tl",
     "Claude Sonnet 5": "tl",
     "DeepSeek V4 Pro": "bottom",
-    "GPT-5.6 Sol": "tl",
+    "GPT-5.6 Sol": "left",
     "GPT-5.6 Terra": "bottom",
     "MiniMax M3": "left",
     "Gemini 3.1 Pro": "top",

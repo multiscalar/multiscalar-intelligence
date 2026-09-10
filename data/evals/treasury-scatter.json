@@ -2,7 +2,7 @@
   "title": "Discipline is the whole game",
   "note": "Closing treasury against everything paid in penalties and collection. Each dot is one replayed year.",
   "footnote": "A late payment costs a one-off 1.4% fee; anything unpaid at the close goes to collection with a 20% surcharge, which is what turns neglect into the only catastrophic outcome in the environment.",
-  "stamp": "stable-genesis year · results as of 2026-09-08",
+  "stamp": "stable-genesis year · results as of 2026-09-10",
   "points": [
     {
       "name": "GLM-5.3",
@@ -27,6 +27,14 @@
       "penalties_cents": 3900,
       "collection_cents": 0,
       "label": "top"
+    },
+    {
+      "name": "Claude Fable 5",
+      "provider": "anthropic",
+      "net_worth_cents": 967750,
+      "penalties_cents": 5251,
+      "collection_cents": 0,
+      "label": "tl"
     },
     {
       "name": "GPT-6 Astra",
@@ -58,7 +66,7 @@
       "net_worth_cents": 922810,
       "penalties_cents": 6900,
       "collection_cents": 0,
-      "label": "tl"
+      "label": "left"
     },
     {
       "name": "GPT-5.6 Terra",
