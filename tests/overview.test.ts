@@ -5,7 +5,7 @@ describe("overviewStats", () => {
   it("counts benchmarks and distinct non-baseline models", () => {
     const s = overviewStats();
     expect(s.benches).toBe(4);
-    expect(s.models).toBe(25); // distinct model names minus scripted baselines
+    expect(s.models).toBe(26); // distinct model names minus scripted baselines
     expect(s.snapshot).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });

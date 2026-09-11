@@ -5,7 +5,7 @@
   "source": {
     "name": "Multiscalar",
     "label": "Multiscalar",
-    "snapshot": "2026-09-10",
+    "snapshot": "2026-09-11",
     "run": "t5-stable-genesis"
   },
   "blurb": "Agents manage $100k of company cash for a simulated year on replayed recorded market history: fifty-seven bills, none visible at genesis, real banking rails, and a lending venue paying recorded rates. Each model plays one replayed year. Score is value added over a scripted prudent treasurer that keeps a float, lends the rest, and pays every bill on time: zero means no better than playing it safe, and below zero the agent lost money the obvious policy would have kept. Doing nothing closes $19,696.65 underwater. Gambler round trip is not a language model but a scripted conversion round trip, included as a priced reference.",
@@ -69,6 +69,15 @@
         "closing_total": 9581.07,
         "value_add": 63.17,
         "penalty_loss": 29.85
+      }
+    },
+    {
+      "name": "Claude Fable 5.1",
+      "provider": "anthropic",
+      "scores": {
+        "closing_total": 9451.62,
+        "value_add": -66.28,
+        "penalty_loss": 16.0
       }
     },
     {
