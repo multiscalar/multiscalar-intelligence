@@ -6,5 +6,5 @@ import ZeroSumBenchAbout from "./ZeroSumBenchAbout";
 // benchmark, rendered on the About tab of its page.
 export const BENCH_ABOUT: Record<string, ComponentType> = {
   "treasury-bench": TreasuryBenchAbout,
-  "economic-arena": ZeroSumBenchAbout,
+  "zerosum-bench": ZeroSumBenchAbout,
 };

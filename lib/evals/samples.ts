@@ -71,7 +71,7 @@ export const BENCH_SAMPLES: Record<string, BenchSamples> = {
       },
     ],
   },
-  "economic-arena": {
+  "zerosum-bench": {
     note: "One complete negotiation per model, reasoning included. Both face the same seeded scenario: selling to an aggressive lowballer with no possible deal.",
     episodes: [
       {

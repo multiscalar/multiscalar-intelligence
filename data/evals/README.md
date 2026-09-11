@@ -2,8 +2,9 @@
 
 One JSON per rendered card; the ids must match `BENCHES` in `evals.js`.
 
-- `economic-arena.json` - our own run (Exploitability card). Regenerate with
-  `economic-arena/export_card.py --run-id <id> --out evals/data/economic-arena.json`.
+- `zerosum-bench.json` - our own run (ZeroSum-Bench card; slug was `economic-arena` until 2026-09-11). Regenerate with
+  `zerosum-bench/export_card.py --run-id <id> --out data/evals/zerosum-bench.json`
+  from github.com/multiscalar/zerosum-bench.
 - `treasury-bench.json` - our own run (Treasury-Bench card, stable-genesis t5
   board). Regenerate with `tools/export_treasury_card.py <gaia-runs-dir>`.
   Includes the pinned gambler reference; the prudent zero and idle floor are
@@ -14,4 +15,4 @@ One JSON per rendered card; the ids must match `BENCHES` in `evals.js`.
 
 Not present by design: a card built from the arXiv:2603.20925 result tables. Those
 numbers could not be reconciled against the run outputs, so they are not served
-from this repo. See big-brain `projects/economic-arena/`.
+from this repo. See big-brain `projects/zerosum-bench/`.

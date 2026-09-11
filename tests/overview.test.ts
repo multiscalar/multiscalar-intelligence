@@ -15,7 +15,7 @@ describe("radarData", () => {
 
   it("has one axis per benchmark", () => {
     expect(data.axes.map((a) => a.slug)).toEqual([
-      "economic-arena",
+      "zerosum-bench",
       "treasury-bench",
       "terms-bench",
       "vending-bench-2",

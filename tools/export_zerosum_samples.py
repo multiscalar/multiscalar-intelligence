@@ -23,7 +23,7 @@ EPISODES = [
     ("kimi-k3", "episode_00002_no_deal_adversarial_seller_counterpart_opens_seed51", "kimi-k3-no-deal-wall"),
 ]
 
-OUT = Path(__file__).resolve().parent.parent / "public" / "traces" / "economic-arena"
+OUT = Path(__file__).resolve().parent.parent / "public" / "traces" / "zerosum-bench"
 
 
 def fmt_price(p) -> str:

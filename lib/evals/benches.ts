@@ -1,11 +1,11 @@
 import type { BenchData } from "./types";
-import economicArena from "@/data/evals/economic-arena.json";
+import zerosumBench from "@/data/evals/zerosum-bench.json";
 import treasuryBench from "@/data/evals/treasury-bench.json";
 import termsBench from "@/data/evals/terms-bench.json";
 import vendingBench2 from "@/data/evals/vending-bench-2.json";
 
 export const BENCHES = [
-  "economic-arena",
+  "zerosum-bench",
   "treasury-bench",
   "terms-bench",
   "vending-bench-2",
@@ -14,7 +14,7 @@ export const BENCHES = [
 export const MAX_BARS = 12;
 
 const DATA: Record<string, BenchData> = Object.fromEntries(
-  [economicArena, treasuryBench, termsBench, vendingBench2].map((d) => [
+  [zerosumBench, treasuryBench, termsBench, vendingBench2].map((d) => [
     (d as BenchData).bench,
     d as BenchData,
   ])
