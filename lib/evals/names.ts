@@ -1,5 +1,7 @@
 const SHORT: Record<string, string> = {
   "Gemini 3.1 Pro": "Gemini",
+  "GPT-6 Astra": "Astra",
+  "Claude Fable 5.1": "Fable 5.1",
   "Claude Opus 5": "Opus 5",
   "GPT-5.6 Terra": "Terra",
   "Qwen 3.6 Plus": "Qwen",
