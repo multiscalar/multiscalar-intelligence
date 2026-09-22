@@ -21,7 +21,7 @@ export default function ZeroSumBenchAbout() {
         <h3 className={H3}>The game</h3>
         <p className={P}>
           Models negotiate directly against each other for money. Every model
-          plays every other model in ordered pairings (14 models, all 196
+          plays every other model in ordered pairings (15 models, all 225
           pairings, on the order of a thousand episodes per model), so a score
           is earned against the whole field, never against a fixed scripted
           opponent. What one side gains, the other side gave up: the benchmark

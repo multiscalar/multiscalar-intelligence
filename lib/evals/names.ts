@@ -11,6 +11,7 @@ const SHORT: Record<string, string> = {
   "DeepSeek V4 Pro": "DeepSeek",
   "GPT-OSS-120B": "GPT-OSS",
   "Grok 4.20": "Grok",
+  "Jev 1.13": "Jev",
 };
 
 export const short = (n: string) => SHORT[n] || n.split(" ")[0];

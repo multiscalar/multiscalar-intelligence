@@ -22,6 +22,7 @@ export const PROVIDERS: Record<string, Provider> = {
   minimax: { label: "MiniMax", color: "#8a8a80", icon: "minimax" },
   meta: { label: "Meta", color: "#8a8a80", icon: "meta" },
   bytedance: { label: "ByteDance", color: "#8a8a80", icon: "bytedance" },
+  typesafe: { label: "TypeSafe", color: "#8a8a80", mark: "J" },
   other: { label: "Other", color: "#8a8a80", mark: "•" },
   baseline: { label: "Scripted baseline", color: "#b9b9b2", mark: "fx" },
 };
@@ -45,6 +46,7 @@ const PROVIDER_ALIASES: Record<string, string> = {
   meta: "meta",
   bytedance: "bytedance",
   doubao: "bytedance",
+  typesafe: "typesafe",
   baseline: "baseline",
 };
 
