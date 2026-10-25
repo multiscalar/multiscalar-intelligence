@@ -41,7 +41,7 @@
     "@types/react-dom": "^19.2.7",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.5"
   },
   "private": "true",
   "optionalDependencies": {
