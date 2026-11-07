@@ -1,8 +1,12 @@
 import type { Metadata } from "next";
-import BarRows from "@/components/evals/BarRows";
-import Matrix from "@/components/evals/Matrix";
+import Faq from "@/components/Faq";
+import { benchFaq } from "@/lib/faq";
+import { pageMetadata } from "@/lib/site";
+import LeaderboardPanel from "@/components/evals/LeaderboardPanel";
 import { BENCH_LEADERBOARD_EXTRAS } from "@/components/evals/extras";
 import { BENCHES, loadBench } from "@/lib/evals/benches";
+import { CLOSING_IMAGE } from "@/lib/evals/images";
+import { leaderboardData } from "@/lib/evals/leaderboard";
 
 export const dynamicParams = false;
 
@@ -17,10 +21,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const d = loadBench(slug);
-  return {
-    title: `${d.title} | Multiscalar Intelligence`,
-    description: d.question,
-  };
+  return pageMetadata({
+    title: d.title,
+    description: `${d.question} ${d.blurb}`,
+    path: `/evals/${slug}/`,
+    image: (CLOSING_IMAGE[slug] ?? CLOSING_IMAGE["zerosum-bench"]).src,
+  });
 }
 
 export default async function BenchPage({
@@ -30,50 +36,24 @@ export default async function BenchPage({
 }) {
   const { slug } = await params;
   const d = loadBench(slug);
+  const extras = BENCH_LEADERBOARD_EXTRAS[slug] ?? [];
   return (
     <>
-      {d.metrics.map((metric) => (
-        <section
-          key={metric.id}
-          id={metric.id}
-          className="bench-section scroll-mt-28"
-        >
-          <div className="bench-head">
-            <div className="bench-title-block">
-              <h2>{metric.label}</h2>
-            </div>
-          </div>
-          {metric.kind === "matrix" ? (
-            <Matrix d={d} />
-          ) : (
-            <>
-              <p className="metric-note">
-                {metric.higherIsBetter === false
-                  ? "↓ lower is better"
-                  : "↑ higher is better"}
-              </p>
-              <BarRows d={d} metric={metric.id} />
-            </>
-          )}
-        </section>
+      <section
+        id="leaderboard"
+        className="scroll-mt-28 rounded-[28px] panel-dark px-10 py-12 max-[780px]:rounded-[20px] max-[780px]:px-5 max-[780px]:py-8"
+      >
+        <LeaderboardPanel data={leaderboardData(d)} />
+      </section>
+
+      {extras.map((Extra, i) => (
+        <Extra key={i} d={d} />
       ))}
 
-      {(() => {
-        const Extra = BENCH_LEADERBOARD_EXTRAS[slug];
-        return Extra ? <Extra /> : null;
-      })()}
+      <section id="faq" className="section-mt scroll-mt-28">
+        <Faq items={benchFaq(slug, d)} contact={{ href: "/contact/", label: "Write to us" }} />
+      </section>
 
-      <div className="bench-stamp mt-10 !text-left">
-        results as of {d.source.snapshot}
-        {d.source.url && (
-          <>
-            {" · "}
-            <a href={d.source.url} target="_blank" rel="noopener">
-              {d.source.linkText || "full results at source"} ↗
-            </a>
-          </>
-        )}
-      </div>
     </>
   );
 }

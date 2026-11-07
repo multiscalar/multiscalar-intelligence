@@ -1,8 +1,7 @@
 import { listPosts } from "@/lib/posts";
+import { SITE_URL as SITE } from "@/lib/site";
 
 export const dynamic = "force-static";
-
-const SITE = "https://multiscalar.ai";
 
 function esc(s: string): string {
   return s

@@ -63,7 +63,7 @@ export default function ErdosProblemList() {
             <span className="font-sans text-[0.98rem] text-[#1a1a1a] leading-[1.45]">
               {p.title}
             </span>
-            <span className="font-mono text-[0.68rem] text-text-dim tracking-[0.14em] uppercase whitespace-nowrap max-[640px]:col-start-2 max-[640px]:mt-[0.3rem]">
+            <span className="font-sans text-[0.68rem] font-semibold text-text-dim tracking-[0.08em] uppercase whitespace-nowrap max-[640px]:col-start-2 max-[640px]:mt-[0.3rem]">
               {p.tag}
             </span>
           </a>

@@ -1,157 +1,195 @@
 import type { Metadata } from "next";
-import Chip from "@/components/evals/Chip";
+import { pageMetadata } from "@/lib/site";
+import Hero from "@/components/Hero";
+import Reveal from "@/components/Reveal";
+import BenchmarkList from "@/components/evals/BenchmarkList";
+import Faq from "@/components/Faq";
+import { INDEX_FAQ } from "@/lib/faq";
+import ChartCard from "@/components/evals/ChartCard";
+import ProgressChart from "@/components/evals/ProgressChart";
+import RoiChart from "@/components/evals/RoiChart";
+import SkillBars from "@/components/evals/SkillBars";
+import { INDEX_SKILLS, SKILL_INFO } from "@/lib/evals/skills";
 import HashRedirect from "@/components/evals/HashRedirect";
-import { BENCHES, loadBench } from "@/lib/evals/benches";
-import { benchField, overviewStats } from "@/lib/evals/overview";
-import { PROVIDER_ICONS } from "@/lib/evals/provider-icons";
-import { fmt } from "@/lib/evals/score";
-import type { BenchFieldData } from "@/lib/evals/overview";
+import IndexPreview from "@/components/evals/IndexPreview";
+import ClosingCard from "@/components/home/ClosingCard";
+import ScrollHighlight from "@/components/home/ScrollHighlight";
+import SectionHeader from "@/components/home/SectionHeader";
+import { contactHref } from "@/lib/contact";
+import { benchCards } from "@/lib/evals/cards";
+import { exampleReleases, withExampleScores } from "@/lib/evals/examples";
+import { modelRoster } from "@/lib/evals/overview";
 import "./evals.css";
 
-// Every evaluated model as a mini provider chip on the benchmark's
-// default metric, worst to best along a visible track; hover a chip
-// for the model and score.
-function FieldStrip({ field }: { field: BenchFieldData }) {
-  return (
-    <span className="inline-flex items-center gap-2 align-middle">
-      <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
-        worst
-      </span>
-      <span className="relative inline-block h-[16px] w-[190px]">
-        <span className="absolute left-0 right-0 top-1/2 -translate-y-1/2 border-t border-border" />
-        {field.dots.map((dot) => (
-          <span
-            key={dot.name}
-            title={`${dot.name}: ${fmt(dot.value, field.unit)}`}
-            className="field-chip"
-            style={{ left: `${(4 + dot.pos * 92).toFixed(2)}%` }}
-          >
-            {dot.provider.icon ? (
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d={PROVIDER_ICONS[dot.provider.icon]}
-                  fill={dot.provider.color}
-                />
-              </svg>
-            ) : (
-              <span
-                className="chip-mark"
-                style={{ color: dot.provider.color }}
-              >
-                {dot.provider.mark || "•"}
-              </span>
-            )}
-          </span>
-        ))}
-      </span>
-      <span className="font-mono text-[0.56rem] uppercase tracking-[0.12em] text-text-dim">
-        best
-      </span>
-    </span>
-  );
-}
-
-export const metadata: Metadata = {
-  title: "Evals | Multiscalar Intelligence",
+export const metadata: Metadata = pageMetadata({
+  title: "Evals",
   description:
-    "Economic agent leaderboards: negotiation competence, long-horizon business coherence, and exploitability under an optimizing adversary.",
-};
+    "The Economic Intelligence Index: one score for how well AI models negotiate, plan, price, allocate capital and resist manipulation, drawn from leading third-party benchmarks and our own.",
+  path: "/evals/",
+  image: "/eii/observation.webp",
+});
+
+const EARLY_ACCESS = contactHref("evaluation");
 
 export default function EvalsPage() {
-  const stats = overviewStats();
+  const roster = modelRoster();
+  // EXAMPLE: index scores and release dates are placeholders until the
+  // real release dates and index land (see lib/evals/examples.ts).
+  const indexed = withExampleScores(roster);
+  const scored = indexed.map((m) => ({
+    name: m.name,
+    icon: m.icon,
+    mark: m.mark,
+    color: m.color,
+    score: Math.round(m.overall * 1000) / 10,
+  }));
+  const released = exampleReleases(scored);
+  const cards = benchCards();
+  const benchHeader = (
+    <SectionHeader
+      label="Benchmarks"
+      title="The benchmarks behind the index"
+      description="Each one has a full public leaderboard, and feeds one or more of the index's skills and traits."
+    />
+  );
+  const progress = scored.map((m) => ({ ...m, date: released.get(m.name)! }));
+  const bySkill = indexed.map((m) => ({
+    name: m.name,
+    icon: m.icon,
+    mark: m.mark,
+    color: m.color,
+    scores: m.skills,
+  }));
+  const costs = indexed.map((m) => ({
+    name: m.name,
+    provider: "",
+    icon: m.icon,
+    mark: m.mark,
+    color: m.color,
+    baseline: false,
+    cost: m.cost,
+    score: Math.round(m.overall * 1000) / 10,
+  }));
   return (
-    <main className="max-w-[1000px] mx-auto pt-32 px-8 pb-24 max-[780px]:pt-28 max-[780px]:px-5 max-[780px]:pb-16">
+    <>
       <HashRedirect />
-      <section>
-        <div className="font-mono text-[0.75rem] uppercase tracking-[0.2em] text-text-dim mb-6">
-          Economic Agent Evaluation
-        </div>
-        <h1 className="text-[clamp(2rem,5vw,3.2rem)] font-normal tracking-[-0.02em] leading-[1.15] mb-[1.2rem]">
-          Economic Agent Leaderboards
-        </h1>
-        <p className="max-w-[620px] text-text-secondary mb-10">
-          Can an agent negotiate? Can it run a business? And how much money does
-          it lose when the other side plays dirty? We curate the benchmarks that
-          answer these questions, and build the ones that don&apos;t exist yet.
-        </p>
-        <div className="flex flex-wrap gap-x-14 gap-y-4 mb-14">
-          {[
-            ["Benchmarks", String(stats.benches)],
-            ["Models", String(stats.models)],
-            ["Last measured", stats.snapshot],
-          ].map(([label, value]) => (
-            <div key={label}>
-              <div className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-text-dim mb-1">
-                {label}
-              </div>
-              <div className="font-sans text-[1.15rem] font-medium text-black tracking-[-0.01em]">
-                {value}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Hero
+        short
+        src="/eii/observation.webp"
+        mobileFocus="86% 50%"
+        alt="A white retro robot working at a desk while a woman with a clipboard watches it through a glass partition"
+        eyebrow="Economic Intelligence Index"
+        title="Measuring AI's ability to make economic decisions"
+        description="A composite measure of economic decision-making in AI models: negotiation, pricing, capital allocation and adversarial robustness, evaluated across established external benchmarks and our own."
+        actions={[
+          { href: "/evals/request-dataset/", label: "Request a dataset" },
+          { href: "/evals/methodology/", label: "Methodology" },
+        ]}
+      />
 
-      {/* The Model Profile radar is parked until the same model roster has
-          results across all benchmarks again; components/evals/Radar.tsx
-          and lib/evals/overview.ts radarData() remain ready to remount. */}
+      <main>
+        <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
+          <section className="section-y grid grid-cols-[200px_1fr] gap-16 max-[960px]:grid-cols-1 max-[960px]:gap-6">
+            <Reveal className="label text-text-dim pt-[0.6rem]">
+              Why an index
+            </Reveal>
+            <ScrollHighlight
+              className="max-w-[860px] font-sans text-[clamp(1.4rem,2.2vw,1.95rem)] font-semibold leading-[1.28] tracking-[-0.025em]"
+              text="Models are starting to negotiate, price and allocate capital on our behalf. Before we hand them a budget, we need to know how they behave in a market. The index measures that in one comparable score, across five dimensions."
+            />
+          </section>
+        </div>
 
-      <section className="bench-section" id="benchmarks">
-        <div className="bench-head">
-          <div className="bench-title-block">
-            <h2>Benchmarks</h2>
-            <div className="bench-question">
-              Full leaderboards, one page per benchmark.
+        <section className="p-3 pt-0 max-[768px]:p-2 max-[768px]:pt-0">
+          <div className="rounded-[28px] panel-dark panel-light max-[768px]:rounded-[20px]">
+            <div className="max-w-[1200px] mx-auto px-8 py-20 max-[768px]:px-6 max-[768px]:py-14">
+              <IndexPreview
+                roster={roster}
+                label="Index preview"
+                title="Five traits of economic intelligence"
+                description={
+                  <>
+                    Each model is scored on five traits, from its results across
+                    the{" "}
+                    <a
+                      href="#benchmarks"
+                      className="text-white underline decoration-white/35 underline-offset-[3px] transition-colors hover:text-white hover:decoration-white"
+                    >
+                      benchmark suite
+                    </a>
+                    . The overall index is their weighted aggregate.{" "}
+                    <a
+                      href="/evals/methodology/"
+                      className="text-white underline decoration-white/35 underline-offset-[3px] transition-colors hover:text-white hover:decoration-white"
+                    >
+                      Read the methodology
+                    </a>
+                  </>
+                }
+              />
             </div>
           </div>
+        </section>
+
+        <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
+          <ChartCard
+            id="skills"
+            label="By skill"
+            title="Who's best at each job"
+            description="The top ten models for each economic skill, from the benchmarks that exercise it."
+            example
+          >
+            <SkillBars
+              skills={INDEX_SKILLS.map((s) => s.label)}
+              info={SKILL_INFO}
+              models={bySkill}
+            />
+          </ChartCard>
+
+          <ChartCard
+            id="cost"
+            label="Cost"
+            title="What each point of intelligence costs"
+            description="Index score against inference spend per run, on a log scale. Models on the frontier get the most intelligence for their price; everything below it pays more for less."
+            example
+          >
+            <RoiChart points={costs} unit="" metric="Index score" />
+          </ChartCard>
+
+          <ChartCard
+            id="progress"
+            label="Progress"
+            title="Economic intelligence over time"
+            description="Index score against each model's release date. The frontier steps up with every new record; the trend through it shows how fast the field is improving."
+            example
+          >
+            <ProgressChart points={progress} />
+          </ChartCard>
+
+          <section id="benchmarks" className="section-y scroll-mt-24">
+            {benchHeader}
+            <BenchmarkList cards={cards} />
+          </section>
+
+          <section id="faq" className="section-b scroll-mt-28">
+            <Faq items={INDEX_FAQ} contact={{ href: "/contact/", label: "Write to us" }} />
+          </section>
         </div>
-        <ul className="list-none mt-6 border-t border-border">
-          {BENCHES.map((slug) => {
-            const d = loadBench(slug);
-            const field = benchField(slug);
-            return (
-              <li key={slug} className="border-b border-border">
-                <a
-                  href={`/evals/${slug}/`}
-                  className="group grid grid-cols-[1fr_auto_1.4rem] items-baseline gap-x-6 gap-y-[0.45rem] py-[1.15rem] px-[0.2rem] text-text transition-[background,padding-left] duration-[0.25s] hover:bg-bg-elevated hover:pl-[0.8rem] max-[780px]:grid-cols-[1fr_1.4rem]"
-                >
-                  <span className="flex items-baseline gap-3 min-w-0">
-                    <span className="font-sans text-[1rem] font-medium text-black whitespace-nowrap">
-                      {d.title}
-                    </span>
-                    <span className="font-mono text-[0.66rem] text-text-dim tracking-[0.08em] whitespace-nowrap">
-                      {field.dots.length} models · {d.source.snapshot}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-2 justify-self-end max-[780px]:hidden">
-                    <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-text-dim">
-                      leads
-                    </span>
-                    <span className="flex items-center gap-[0.3rem]">
-                      <Chip p={field.leader.provider} />
-                      <span className="font-sans text-[0.82rem] text-text whitespace-nowrap">
-                        {field.leader.name}
-                      </span>
-                    </span>
-                    <span className="font-sans text-[0.82rem] text-text-dim whitespace-nowrap ml-1">
-                      {fmt(field.leader.value, field.unit)}
-                    </span>
-                  </span>
-                  <span className="row-span-2 self-center justify-self-end font-mono text-[0.82rem] text-text-dim tracking-[0.03em] transition-[letter-spacing] duration-300 group-hover:tracking-[0.07em] group-hover:text-text">
-                    →
-                  </span>
-                  <span className="font-sans text-[0.88rem] text-text-secondary">
-                    {d.question}
-                  </span>
-                  <span className="justify-self-end self-center max-[780px]:hidden">
-                    <FieldStrip field={field} />
-                  </span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    </main>
+
+        <ClosingCard
+          id="evaluate"
+          src="/eii/flower-stall.webp"
+          alt="A white retro robot running a sunlit flower stall, wrapping a bouquet beside a man in a cap"
+          focus="50% 50%"
+          label="For AI labs and enterprises"
+          title="See how your model performs as an economic agent"
+          description="Run your model through the benchmarks before release, or license the data behind them."
+          actions={[
+            { href: EARLY_ACCESS, label: "Evaluate your model" },
+            { href: "/open-science/", label: "Read our research" },
+          ]}
+        />
+      </main>
+    </>
   );
 }

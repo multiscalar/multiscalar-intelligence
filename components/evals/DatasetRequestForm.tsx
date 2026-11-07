@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FIELD, LABEL, SUBMIT, Select } from "@/components/form";
+import { CONTACT_INBOX } from "@/lib/contact";
 import { BENCHES, loadBench } from "@/lib/evals/benches";
 
 const USE_CASES = [
@@ -12,13 +14,7 @@ const USE_CASES = [
   "Other",
 ];
 
-const FIELD =
-  "w-full bg-bg-elevated border border-border rounded-lg px-4 py-3 font-sans text-[0.9rem] text-text outline-none transition-colors focus:border-[#1a1a1a]";
-const LABEL =
-  "block font-mono text-[0.68rem] uppercase tracking-[0.14em] text-text-secondary mb-2";
-
-// No backend yet: submitting composes a prefilled email to
-// hello@multiscalar.ai with the answers.
+// No backend yet: submitting composes a prefilled email with the answers.
 export default function DatasetRequestForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -45,14 +41,14 @@ export default function DatasetRequestForm() {
       "",
       message,
     ].join("\n");
-    location.href = `mailto:hello@multiscalar.ai?subject=${encodeURIComponent(
+    location.href = `mailto:${CONTACT_INBOX}?subject=${encodeURIComponent(
       `Dataset request: ${benchTitle}`
     )}&body=${encodeURIComponent(body)}`;
   };
 
   return (
     <form onSubmit={submit} className="flex flex-col gap-6">
-      <div className="grid grid-cols-2 gap-5 max-[640px]:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 max-[640px]:grid-cols-1">
         <div>
           <label htmlFor="rq-name" className={LABEL}>
             Name
@@ -94,29 +90,27 @@ export default function DatasetRequestForm() {
           autoComplete="organization"
         />
       </div>
-      <div className="grid grid-cols-2 gap-5 max-[640px]:grid-cols-1">
+      <div className="grid grid-cols-2 gap-4 max-[640px]:grid-cols-1">
         <div>
           <label htmlFor="rq-usecase" className={LABEL}>
             Use case
           </label>
-          <select
+          <Select
             id="rq-usecase"
-            className={FIELD}
             value={useCase}
             onChange={(e) => setUseCase(e.target.value)}
           >
             {USE_CASES.map((u) => (
               <option key={u}>{u}</option>
             ))}
-          </select>
+          </Select>
         </div>
         <div>
           <label htmlFor="rq-bench" className={LABEL}>
             Dataset
           </label>
-          <select
+          <Select
             id="rq-bench"
-            className={FIELD}
             value={bench}
             onChange={(e) => setBench(e.target.value)}
           >
@@ -126,7 +120,7 @@ export default function DatasetRequestForm() {
                 {loadBench(b).title}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
       </div>
       <div>
@@ -141,16 +135,12 @@ export default function DatasetRequestForm() {
           placeholder="What you are working on, timelines, anything that helps us respond."
         />
       </div>
-      <div className="flex items-center gap-5 flex-wrap">
-        <button
-          type="submit"
-          className="inline-flex items-center gap-2 bg-[#1a1a1a] text-[#fafafa] font-mono text-[0.78rem] tracking-[0.03em] px-6 py-3 rounded-lg transition-colors hover:bg-black cursor-pointer"
-        >
+      <div className="mt-2 flex flex-wrap items-center gap-5">
+        <button type="submit" className={SUBMIT}>
           Send request
-          <span aria-hidden="true">→</span>
         </button>
-        <span className="font-mono text-[0.7rem] text-text-secondary">
-          Opens your email client, addressed to hello@multiscalar.ai
+        <span className="text-[0.78rem] text-text-dim">
+          Opens your email client with your request ready to send
         </span>
       </div>
     </form>

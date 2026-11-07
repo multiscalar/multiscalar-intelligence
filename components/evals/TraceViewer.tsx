@@ -43,7 +43,7 @@ function MdText({ text }: { text: string }) {
 function ThinkingBlock({ text }: { text: string }) {
   return (
     <div className="border-l-2 border-[#d8d6d0] pl-3 py-1">
-      <div className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-text-dim mb-1">
+      <div className="font-mono text-[0.62rem] uppercase tracking-[0.08em] text-text-dim mb-1">
         Thinking
       </div>
       <div className="font-sans text-[0.8rem] leading-[1.6] text-text-secondary italic">

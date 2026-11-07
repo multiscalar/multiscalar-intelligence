@@ -68,8 +68,8 @@ export default function TreasuryBenchAbout() {
           scanned automatically for alias leaks, and every episode can be
           replayed byte-for-byte from its recorded evidence: a score you
           can&apos;t replay is a score you shouldn&apos;t trust. Full evidence
-          bundles and a live replay are available on request at{" "}
-          <a href="mailto:hello@multiscalar.ai">hello@multiscalar.ai</a>.
+          bundles and a live replay are available{" "}
+          <a href="/evals/request-dataset/?bench=treasury-bench">on request</a>.
         </p>
       </section>
 
