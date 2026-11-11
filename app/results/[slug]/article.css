@@ -10,7 +10,7 @@ main.article-main {
   --rule: #d6d6d6;
   --rule-soft: #ececec;
   --accent: #2b2b2b;
-  --thm-bg: #f3f3f1;
+  --thm-bg: #f8f8f7;
   --thm-bg-defn: #f1f3f5;
   --thm-bg-cert: #f4f1ec;
 }
@@ -28,12 +28,13 @@ main.article-main {
 }
 
 .article-eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
   color: var(--color-text-dim);
-  letter-spacing: 0.25em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  margin-bottom: 1.6rem;
+  margin-bottom: 1.1rem;
 }
 
 .status-badge {
@@ -71,7 +72,7 @@ main.article-main {
 
 .article-subtitle {
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.05rem;
   color: var(--color-text-secondary);
   margin-bottom: 2rem;
@@ -82,7 +83,7 @@ main.article-main {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem 1.2rem;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.78rem;
   color: var(--color-text-secondary);
   letter-spacing: 0.04em;
@@ -101,7 +102,7 @@ main.article-main {
 }
 
 .article-link {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.82rem;
   letter-spacing: 0.03em;
   color: var(--color-text);
@@ -159,9 +160,10 @@ main.article-main {
 }
 
 .abstract-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.7rem;
-  letter-spacing: 0.25em;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-dim);
   margin-bottom: 0.9rem;
@@ -182,9 +184,9 @@ main.article-main {
   margin-top: 2rem;
 }
 
-.paper h1,
 .paper h2,
-.paper h3 {
+.paper h3,
+.paper h4 {
   font-family: var(--font-sans);
   font-weight: 500;
   color: #000;
@@ -192,21 +194,26 @@ main.article-main {
   line-height: 1.25;
 }
 
-.paper h1 {
+.paper h2 {
   font-size: 1.65rem;
   margin: 0 0 1.2rem;
   padding-top: 0.3rem;
 }
 
-.paper h2 {
+.paper h3 {
   font-size: 1.25rem;
   margin: 2rem 0 1rem;
   font-weight: 500;
 }
 
-.paper h3 {
+.paper h4 {
   font-size: 1.05rem;
   margin: 1.6rem 0 0.8rem;
+}
+
+/* Pandoc's fourth-level headings (now h5): keep the body size. */
+.paper h5 {
+  font-size: 1rem;
 }
 
 .header-section-number {
@@ -350,9 +357,10 @@ main.article-main {
 .paper .result-table caption {
   caption-side: top;
   text-align: left;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.1em;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--color-text-dim);
   margin-bottom: 0.6rem;
@@ -468,7 +476,7 @@ main.article-main {
   border-top: 1px solid var(--rule);
 }
 
-.paper .references-section h2.references-heading {
+.paper .references-section h3.references-heading {
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: 1.5rem;

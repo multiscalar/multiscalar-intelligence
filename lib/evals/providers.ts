@@ -3,25 +3,36 @@ import type { BenchModel } from "./types";
 export interface Provider {
   label: string;
   color: string;
+  /** The brand's own logo colour, where its logo has one. Without it the
+      logo is monochrome (black on light, cream on the dark panels). */
+  brand?: string;
   icon?: string;
   mark?: string;
 }
 
-// Colour follows the provider (the entity), never the rank. Hues are the seven
-// validated categorical slots; every other provider folds into the neutral slot.
-// Identity is carried by the provider mark either way.
+// Colour follows the provider (the entity), never the rank. Hues are the
+// validated categorical slots, plus MiniMax raspberry and Xiaomi brown so every
+// index provider has its own; the rest fold into the neutral slot. No pair of
+// index providers sits closer than Moonshot/Anthropic (normal-vision ΔE 12.9),
+// and identity is carried by the provider mark and name either way.
 export const PROVIDERS: Record<string, Provider> = {
-  anthropic: { label: "Anthropic", color: "#eb6834", icon: "anthropic" },
+  // Brand colours from the official colour logos (as collected in LobeHub's
+  // icon set, MIT): Claude's coral, Gemini's blue, Qwen's violet, DeepSeek's
+  // blue, MiniMax's magenta, Meta's blue and ByteDance's blue. OpenAI, Z.ai,
+  // Kimi and xAI only use black-and-white logos.
+  anthropic: { label: "Anthropic", color: "#eb6834", brand: "#D97757", icon: "anthropic" },
   openai: { label: "OpenAI", color: "#1baf7a", icon: "openai" },
-  google: { label: "Google", color: "#2a78d6", icon: "google" },
-  alibaba: { label: "Alibaba", color: "#4a3aa7", icon: "alibaba" },
-  zai: { label: "Z.ai", color: "#008300", mark: "Z" },
+  google: { label: "Google", color: "#2a78d6", brand: "#3186FF", icon: "google" },
+  alibaba: { label: "Alibaba", color: "#4a3aa7", brand: "#6F69F7", icon: "alibaba" },
+  zai: { label: "Z.ai", color: "#141311", icon: "zai" },
   moonshot: { label: "Moonshot", color: "#e87ba4", icon: "moonshot" },
-  deepseek: { label: "DeepSeek", color: "#eda100", icon: "deepseek" },
+  deepseek: { label: "DeepSeek", color: "#eda100", brand: "#4D6BFE", icon: "deepseek" },
   xai: { label: "xAI", color: "#8a8a80", icon: "xai" },
-  minimax: { label: "MiniMax", color: "#8a8a80", icon: "minimax" },
-  meta: { label: "Meta", color: "#8a8a80", icon: "meta" },
-  bytedance: { label: "ByteDance", color: "#8a8a80", icon: "bytedance" },
+  minimax: { label: "MiniMax", color: "#b8336a", brand: "#E2167E", icon: "minimax" },
+  meta: { label: "Meta", color: "#8a8a80", brand: "#0082FB", icon: "meta" },
+  bytedance: { label: "ByteDance", color: "#8a8a80", brand: "#3C8CFF", icon: "bytedance" },
+  mistral: { label: "Mistral", color: "#008300", mark: "M" },
+  xiaomi: { label: "Xiaomi", color: "#7a5c3e", mark: "Mi" },
   other: { label: "Other", color: "#8a8a80", mark: "•" },
   baseline: { label: "Scripted baseline", color: "#b9b9b2", mark: "fx" },
 };
@@ -45,6 +56,9 @@ const PROVIDER_ALIASES: Record<string, string> = {
   meta: "meta",
   bytedance: "bytedance",
   doubao: "bytedance",
+  mistral: "mistral",
+  "mistral ai": "mistral",
+  xiaomi: "xiaomi",
   baseline: "baseline",
 };
 
@@ -54,4 +68,16 @@ export function providerOf(model: BenchModel): Provider {
   if (slug) return PROVIDERS[slug];
   if (/^fixed /i.test(model.name)) return PROVIDERS.baseline;
   return PROVIDERS.other;
+}
+
+// Colour for a provider's logo: the brand's own colour, or near-black for
+// brands whose logo is black-and-white.
+export const MONO = "#141311";
+export function logoColor(p: Provider): string {
+  return p.brand ?? MONO;
+}
+
+// The same on a dark panel: monochrome logos take the panel's cream.
+export function logoColorOnDark(color: string): string {
+  return color === MONO ? "currentColor" : color;
 }

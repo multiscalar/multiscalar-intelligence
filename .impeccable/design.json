@@ -1,0 +1,540 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-11T20:00:00Z",
+  "title": "Design System: Multiscalar Intelligence",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Paper",
+        "canonical": "#f8f8f7",
+        "tonalRamp": [
+          "#262625",
+          "#3d3d3c",
+          "#5a5a59",
+          "#7b7b7a",
+          "#a1a1a0",
+          "#c8c8c7",
+          "#e6e6e5",
+          "#f8f8f7"
+        ]
+      },
+      "paper-raised": {
+        "role": "neutral",
+        "displayName": "Raised Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#262626",
+          "#3d3d3d",
+          "#5a5a5a",
+          "#7b7b7b",
+          "#a1a1a1",
+          "#c8c8c8",
+          "#e8e8e8",
+          "#ffffff"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "#e4e4e4",
+        "tonalRamp": [
+          "#262626",
+          "#3d3d3d",
+          "#5a5a5a",
+          "#7b7b7b",
+          "#a1a1a1",
+          "#c4c4c4",
+          "#e4e4e4",
+          "#f5f5f5"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1a1a1a",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#333333",
+          "#4d4d4d",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b5b5b5",
+          "#dadada",
+          "#f2f2f2"
+        ]
+      },
+      "ink-secondary": {
+        "role": "neutral",
+        "displayName": "Secondary Ink",
+        "canonical": "#4d4d4d",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#333333",
+          "#4d4d4d",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b5b5b5",
+          "#dadada",
+          "#f2f2f2"
+        ]
+      },
+      "ink-dim": {
+        "role": "neutral",
+        "displayName": "Dim Ink",
+        "canonical": "#6b6b6b",
+        "tonalRamp": [
+          "#1a1a1a",
+          "#333333",
+          "#4d4d4d",
+          "#6b6b6b",
+          "#8f8f8f",
+          "#b5b5b5",
+          "#dadada",
+          "#f2f2f2"
+        ]
+      },
+      "instrument-black": {
+        "role": "neutral",
+        "displayName": "Instrument Black",
+        "canonical": "#141311",
+        "tonalRamp": [
+          "#141311",
+          "#2b2926",
+          "#45423d",
+          "#625e57",
+          "#868179",
+          "#aca79f",
+          "#d3cfc8",
+          "#f1efeb"
+        ]
+      },
+      "projector-black": {
+        "role": "neutral",
+        "displayName": "Projector Black",
+        "canonical": "#161513",
+        "tonalRamp": [
+          "#161513",
+          "#2c2a27",
+          "#46433e",
+          "#635f58",
+          "#87827a",
+          "#aca8a0",
+          "#d4d0c9",
+          "#f2efea"
+        ]
+      },
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "canonical": "#f2ebdd",
+        "tonalRamp": [
+          "#2a261f",
+          "#433d32",
+          "#61594a",
+          "#837966",
+          "#a89d87",
+          "#cbc1ac",
+          "#e6dece",
+          "#f7f2e8"
+        ]
+      },
+      "sand": {
+        "role": "neutral",
+        "displayName": "Sand",
+        "canonical": "#ece6dc",
+        "tonalRamp": [
+          "#28241e",
+          "#413b32",
+          "#5f574b",
+          "#817768",
+          "#a69c8b",
+          "#c9c0b1",
+          "#ece6dc",
+          "#f7f4ef"
+        ]
+      },
+      "umber": {
+        "role": "neutral",
+        "displayName": "Umber",
+        "canonical": "#8a7d6a",
+        "tonalRamp": [
+          "#221d16",
+          "#3a3226",
+          "#5c5348",
+          "#7a6d5a",
+          "#8a7d6a",
+          "#ada18f",
+          "#d2c9bb",
+          "#f0ebe3"
+        ]
+      },
+      "umber-deep": {
+        "role": "neutral",
+        "displayName": "Deep Umber",
+        "canonical": "#5c5348",
+        "tonalRamp": [
+          "#221d16",
+          "#3a3226",
+          "#5c5348",
+          "#7a6d5a",
+          "#8a7d6a",
+          "#ada18f",
+          "#d2c9bb",
+          "#f0ebe3"
+        ]
+      },
+      "terracotta": {
+        "role": "primary",
+        "displayName": "Terracotta",
+        "canonical": "#d9774a",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#8a4122",
+          "#c2683e",
+          "#d9774a",
+          "#e08a5f",
+          "#efbba0",
+          "#faeae1"
+        ]
+      },
+      "terracotta-soft": {
+        "role": "primary",
+        "displayName": "Soft Terracotta",
+        "canonical": "#e08a5f",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#8a4122",
+          "#c2683e",
+          "#d9774a",
+          "#e08a5f",
+          "#efbba0",
+          "#faeae1"
+        ]
+      },
+      "terracotta-deep": {
+        "role": "primary",
+        "displayName": "Deep Terracotta",
+        "canonical": "#c2683e",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#8a4122",
+          "#c2683e",
+          "#d9774a",
+          "#e08a5f",
+          "#efbba0",
+          "#faeae1"
+        ]
+      },
+      "stone": {
+        "role": "neutral",
+        "displayName": "Stone",
+        "canonical": "#a8a39a",
+        "tonalRamp": [
+          "#24221f",
+          "#3b3934",
+          "#57544e",
+          "#78746c",
+          "#a8a39a",
+          "#c3bfb7",
+          "#dedbd5",
+          "#f4f3f0"
+        ]
+      },
+      "verified-green": {
+        "role": "status",
+        "displayName": "Verified Green",
+        "canonical": "#16a34a",
+        "tonalRamp": [
+          "#052e16",
+          "#14532d",
+          "#166534",
+          "#15803d",
+          "#16a34a",
+          "#4ade80",
+          "#bbf7d0",
+          "#f0fdf4"
+        ]
+      },
+      "ember": {
+        "role": "primary",
+        "displayName": "Ember",
+        "canonical": "#eadcc5",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#a9491f",
+          "#c2683e",
+          "#d9774a",
+          "#e4895f",
+          "#efbba0",
+          "#f4e1d5"
+        ]
+      },
+      "ember-deep": {
+        "role": "primary",
+        "displayName": "Ember Deep",
+        "canonical": "#7d5e3b",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#a9491f",
+          "#c2683e",
+          "#d9774a",
+          "#e4895f",
+          "#efbba0",
+          "#f4e1d5"
+        ]
+      },
+      "ember-soft": {
+        "role": "primary",
+        "displayName": "Ember Soft",
+        "canonical": "#f3ece0",
+        "tonalRamp": [
+          "#3a1a0d",
+          "#5e2b16",
+          "#a9491f",
+          "#c2683e",
+          "#d9774a",
+          "#e4895f",
+          "#efbba0",
+          "#f4e1d5"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero titles on photographic frames, white on the darkened image."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings and benchmark titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Card and row headings, audience statements."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The paragraph under a headline, max ~580px."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Sentence-case eyebrows, section labels, menu headings and buttons."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "IBM Plex Mono for tooltips, chips and figures only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "floating-menu",
+        "value": "0 24px 60px -20px rgba(0,0,0,0.3)",
+        "purpose": "Desktop mega-menu viewport and cookie dialog."
+      },
+      {
+        "name": "chip-lift",
+        "value": "0 1px 3px rgba(0,0,0,0.12)",
+        "purpose": "White sliding indicator inside segmented pills."
+      },
+      {
+        "name": "panel-hairline",
+        "value": "inset 0 0 0 1px rgba(242,235,221,0.07)",
+        "purpose": "Inner edge of every dark panel."
+      },
+      {
+        "name": "dark-card-edge",
+        "value": "inset 0 1px 0 rgba(242,235,221,0.07), inset 0 0 0 1px rgba(242,235,221,0.04)",
+        "purpose": "Cards inside dark panels."
+      }
+    ],
+    "motion": [
+      {
+        "name": "fade-up",
+        "value": "fadeUp 0.8s ease-out both",
+        "purpose": "Hero content and scroll reveals rise 20px into place."
+      },
+      {
+        "name": "ease-settle",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Hero height changes and mobile menu burger."
+      },
+      {
+        "name": "ease-rise",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Cookie consent entry and mobile menu rows."
+      },
+      {
+        "name": "menu-in",
+        "value": "menuIn 0.2s ease both",
+        "purpose": "Dropdown panel fades and scales in from -6px."
+      },
+      {
+        "name": "nav-colour",
+        "value": "0.3s",
+        "purpose": "Nav transitions between over-hero and on-paper states."
+      },
+      {
+        "name": "marquee",
+        "value": "marquee 40s linear infinite",
+        "purpose": "Partner logo strip."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "480px"
+      },
+      {
+        "name": "nav",
+        "value": "720px"
+      },
+      {
+        "name": "phone",
+        "value": "768px"
+      },
+      {
+        "name": "grid",
+        "value": "900px"
+      },
+      {
+        "name": "split",
+        "value": "960px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Ink pill for the main action on paper.",
+      "html": "<button class=\"ds-btn-primary\">Evaluate your model</button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; background: #141311; color: #eadcc5; border: none; border-radius: 9999px; padding: 12px 24px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-primary:hover { background: #000; } .ds-btn-primary:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 2px; }"
+    },
+    {
+      "name": "Primary Button on Image",
+      "kind": "button",
+      "refersTo": "button-primary-on-image",
+      "description": "White pill for the main action on photographs and dark panels.",
+      "html": "<div class=\"ds-stage\"><button class=\"ds-btn-light\">Explore the index</button><button class=\"ds-btn-ghost\">Meet Blacksmith</button></div>",
+      "css": ".ds-stage { display: flex; gap: 12px; padding: 32px; background: #161513; border-radius: 28px; } .ds-btn-light { background: #eadcc5; color: #141311; border: none; border-radius: 9999px; padding: 12px 24px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-light:hover { background: #f2e8d8; } .ds-btn-ghost { background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.35); backdrop-filter: blur(12px); border-radius: 9999px; padding: 12px 24px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; } .ds-btn-ghost:hover { background: rgba(255,255,255,0.2); } .ds-btn-light:focus-visible, .ds-btn-ghost:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "White field with hairline border; focus darkens the border, no glow.",
+      "html": "<label class=\"ds-field-wrap\"><span class=\"ds-field-label\">Work email</span><input class=\"ds-field\" placeholder=\"you@lab.com\" /></label>",
+      "css": ".ds-field-wrap { display: block; max-width: 360px; } .ds-field-label { display: block; margin-bottom: 8px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.82rem; font-weight: 500; color: rgba(0,0,0,0.7); } .ds-field { width: 100%; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); background: #fff; padding: 12px 16px; font-family: Montserrat, -apple-system, sans-serif; font-size: 1rem; color: #000; outline: none; transition: border-color 0.2s; } .ds-field::placeholder { color: rgba(0,0,0,0.35); } .ds-field:hover { border-color: rgba(0,0,0,0.2); } .ds-field:focus { border-color: rgba(0,0,0,0.5); }"
+    },
+    {
+      "name": "Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Small pill for metadata, plus the green status tag.",
+      "html": "<div class=\"ds-chips\"><span class=\"ds-chip\">Negotiation</span><span class=\"ds-tag\">NEW</span></div>",
+      "css": ".ds-chips { display: flex; gap: 8px; align-items: center; } .ds-chip { display: inline-flex; align-items: center; border-radius: 9999px; background: rgba(0,0,0,0.05); padding: 6px 12px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.75rem; font-weight: 500; color: rgba(0,0,0,0.75); } .ds-tag { border-radius: 9999px; background: #16a34a; color: #fff; padding: 0.2em 0.7em; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; }"
+    },
+    {
+      "name": "Segmented Nav",
+      "kind": "nav",
+      "description": "Pill track with a white sliding indicator.",
+      "html": "<nav class=\"ds-seg\"><a class=\"ds-seg-item ds-seg-active\" href=\"#\">Index</a><a class=\"ds-seg-item\" href=\"#\">Blacksmith</a><a class=\"ds-seg-item\" href=\"#\">Open Science</a></nav>",
+      "css": ".ds-seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 9999px; background: rgba(0,0,0,0.05); } .ds-seg-item { border-radius: 9999px; padding: 8px 16px; font-family: Montserrat, -apple-system, sans-serif; font-size: 0.85rem; font-weight: 500; color: rgba(0,0,0,0.6); text-decoration: none; transition: color 0.2s, background-color 0.2s; } .ds-seg-item:hover { color: #000; } .ds-seg-active { background: #fff; color: #000; box-shadow: 0 1px 3px rgba(0,0,0,0.12); } .ds-seg-item:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 2px; }"
+    },
+    {
+      "name": "Projector Panel",
+      "kind": "card",
+      "refersTo": "panel-dark",
+      "description": "Warm near-black panel with vignette, grain and cream text.",
+      "html": "<section class=\"ds-panel\"><div class=\"ds-panel-label\">Economic Intelligence Index</div><h3 class=\"ds-panel-title\">Where models stand</h3><p class=\"ds-panel-lede\">One score from six benchmarks.</p></section>",
+      "css": ".ds-panel { position: relative; isolation: isolate; overflow: hidden; border-radius: 28px; padding: 48px 40px; color: #f2ebdd; background: radial-gradient(ellipse 110% 60% at 50% -10%, rgba(245,245,243,0.07), rgba(245,245,243,0.022) 45%, transparent 75%), #161513; box-shadow: inset 0 0 0 1px rgba(242,235,221,0.07); font-family: Montserrat, -apple-system, sans-serif; } .ds-panel::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse 120% 90% at 50% 35%, transparent 45%, rgba(0,0,0,0.45) 100%); } .ds-panel-label { font-size: 0.85rem; font-weight: 500; color: rgba(242,235,221,0.5); margin-bottom: 12px; } .ds-panel-title { margin: 0; font-size: 2.2rem; font-weight: 600; line-height: 1.1; letter-spacing: -0.035em; } .ds-panel-lede { margin: 16px 0 0; font-size: 1.075rem; line-height: 1.6; color: rgba(242,235,221,0.65); }"
+    },
+    {
+      "name": "Sand Card",
+      "kind": "card",
+      "refersTo": "card-sand",
+      "description": "Warm invitation surface with umber label.",
+      "html": "<a class=\"ds-sand\" href=\"#\"><span class=\"ds-sand-label\">01 Measure</span><span class=\"ds-sand-title\">Economic Intelligence Index</span></a>",
+      "css": ".ds-sand { display: flex; flex-direction: column; justify-content: flex-end; min-height: 220px; max-width: 360px; padding: 28px; border-radius: 20px; background: #ece6dc; text-decoration: none; font-family: Montserrat, -apple-system, sans-serif; transition: background-color 0.2s; } .ds-sand:hover { background: #e4ddd0; } .ds-sand:focus-visible { outline: 2px solid #1a1a1a; outline-offset: 2px; } .ds-sand-label { font-size: 0.85rem; font-weight: 500; color: #8a7d6a; margin-bottom: 8px; } .ds-sand-title { font-size: 1.5rem; font-weight: 600; line-height: 1.15; letter-spacing: -0.03em; color: #000; }"
+    },
+    {
+      "name": "Chart Tooltip",
+      "kind": "custom",
+      "refersTo": "tooltip",
+      "description": "Instrument-black tooltip shared by every chart, terracotta for the highlighted value.",
+      "html": "<div class=\"ds-tip\">Claude Opus · <span class=\"ds-tip-hl\">+12.4%</span> ROI</div>",
+      "css": ".ds-tip { display: inline-block; background: #141311; color: #fff; border-radius: 8px; padding: 8px 12px; font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; line-height: 1.5; font-variant-numeric: tabular-nums; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); } .ds-tip-hl { color: #e08a5f; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Sunlit Research Lab",
+    "overview": "Calm daylight falls on serious work. The photography sets the mood: sunlit, faded 1970s science-fiction film stills where people and friendly white retro robots work side by side (see `docs/image-style-guide.md`). The interface stays out of the way. It looks like a well-kept lab: pale paper, near-black ink, one typeface, and numbers shown with care.\n\nPages alternate between three surfaces. **Paper** (off-white) carries reading and data. **Photographic frames** (full-bleed images inset from the viewport with large rounded corners) carry atmosphere. **Projector panels** (warm near-black with film grain, vignette and cream text) are the photography's shadows turned into surface. They hold the dark sections, such as the index snapshot and the evals hero areas. Sand cards are a warm middle tone for invitations and calls to action.\n\nDensity is low and the type is restrained. Headlines are semibold with tight tracking and never shout. Labels are small and sentence case. Depth comes from tone and imagery, not shadows. Terracotta is the one hue with real saturation and is used sparingly.",
+    "keyCharacteristics": [
+      "Photography as the source of warmth; UI stays neutral around it.",
+      "Three surfaces: paper, photographic frame, projector panel (plus sand for invitations).",
+      "One sans family (Montserrat) at 400–600, with tight negative tracking on headings; IBM Plex Mono only for data.",
+      "Pill-shaped controls, big soft frame corners (28px), no decorative shadows.",
+      "Ember (cream) as the warm accent: buttons, lit states on dark, and the full-bleed bands where the visitor acts; green only for \"verified/new\" status."
+    ],
+    "rules": [
+      {
+        "name": "The Borrowed Light Rule",
+        "body": "Dark and warm tones come from the photographs: shadows become projector black, highlights become cream, wood and paper become sand and umber. Don't introduce a hue the photography doesn't contain.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ember Rule",
+        "body": "Ember is the brand's warm accent, a cream (`#eadcc5`), and it has four jobs only: (1) primary buttons: on the light page they are ink with cream text, on photographs and dark panels they are cream with ink text; (2) lit states on dark ground: the index leader's bar, the active training-loop stage, the decision icons, the \"New\" badge; (3) focus rings and selection, which on the light page use ember-deep (bronze) and ember-soft; (4) the full-bleed bands where the visitor acts (announcement bar, home \"Work with Multiscalar\", Blacksmith \"Get in touch\", the /data/ request), cream with ink text. Small accents on the light page (tags, progress, counts) use ember-deep. Cream with none of these jobs is wrong.",
+        "section": "colors"
+      },
+      {
+        "name": "The No-Eyebrow Rule",
+        "body": "Headings carry their own weight: no small label above a section heading or hero title. A label above a title is allowed only when it carries information (a status, a \"New\" link, a back link).",
+        "section": "typography"
+      },
+      {
+        "name": "The Sentence-Case Rule",
+        "body": "Labels are small sentence-case text at weight 500. Uppercase is reserved for the wordmark (nav, footer, unlock page; 0.15em tracking), tiny status tags such as \"Coming soon\" and post badges (0.62rem, semibold), and the academic typography inside Erdős paper articles.",
+        "section": "typography"
+      },
+      {
+        "name": "The 600 Ceiling Rule",
+        "body": "No weight above 600 anywhere. Hierarchy comes from size and tracking, not from bold.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Paper Rule",
+        "body": "Nothing on paper casts a shadow. Only floating layers (menus, dialogs, tooltips, the pill indicator) get one.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use the `section-y` / `section-t` / `section-mt` utilities for vertical spacing between sections instead of ad-hoc padding.",
+      "**Do** build dark sections with `panel-dark` (and `panel-light` for window light), so grain, vignette and cream text come for free.",
+      "**Do** keep every control a pill and every large frame at 28px (20px on phones).",
+      "**Do** use Instrument Black for chart ink and tooltips, Stone for neutral series, and Ember for the one series or row that matters (the leader).",
+      "**Do** write labels in sentence case at 0.85rem, weight 500, in dim ink, and never as an eyebrow above a heading.",
+      "**Do** darken images where text sits on them so white text stays legible on any photograph."
+    ],
+    "donts": [
+      "**Don't** use weights above 600 or uppercase tracked eyebrows (uppercase belongs only to the wordmark, tiny status tags and paper articles).",
+      "**Don't** put shadows on paper-level cards or sections; only floating layers get shadows.",
+      "**Don't** put cream buttons on the light page (use ink with cream text), or cream on anything without one of its four jobs (DESIGN.md \"The Ember Rule\").",
+      "**Don't** use green for anything except the \"new/verified\" status tag.",
+      "**Don't** use pure white text on dark panels; let `panel-dark` remap it to cream.",
+      "**Don't** introduce stock or off-style imagery; new photos follow `docs/image-style-guide.md` exactly.",
+      "**Don't** add a second sans or display typeface; Plex Mono is for data only."
+    ]
+  }
+}

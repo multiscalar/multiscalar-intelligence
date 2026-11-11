@@ -1,32 +1,46 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useIndicator } from "@/components/useIndicator";
 
 export interface Tab {
   href: string;
   label: string;
 }
 
-// idler-style tab row under the benchmark header; tabs are real URLs.
+// Pill tabs under the benchmark header; tabs are real URLs, and the white
+// pill slides to the current one.
 export default function TabBar({ tabs }: { tabs: Tab[] }) {
   const pathname = usePathname();
-  if (tabs.length < 2) return null;
+  const ref = useRef<HTMLDivElement>(null);
   const norm = (p: string) => p.replace(/\/+$/, "");
+  const current = tabs.find((t) => norm(pathname) === norm(t.href))?.href;
+  const pill = useIndicator(ref, current ?? null);
+  if (tabs.length < 2) return <div className="mt-14" />;
   return (
-    <div className="flex gap-6 border-b border-border mb-2" role="tablist">
+    <div
+      ref={ref}
+      role="tablist"
+      className="relative mt-14 mb-8 inline-flex gap-1 rounded-full bg-black/[0.05] p-1"
+    >
+      <span
+        aria-hidden
+        className="rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,0.12)]"
+        style={pill}
+      />
       {tabs.map((t) => {
-        const active = norm(pathname) === norm(t.href);
+        const active = t.href === current;
         return (
           <Link
             key={t.href}
             href={t.href}
             role="tab"
+            data-indicator={t.href}
             aria-selected={active}
-            className={`font-mono text-[0.78rem] lowercase tracking-[0.05em] pb-2 -mb-px border-b-2 ${
-              active
-                ? "text-black font-medium border-black"
-                : "text-text-dim border-transparent hover:text-text"
+            className={`relative rounded-full px-5 py-2 text-[0.85rem] font-medium transition-colors duration-300 ${
+              active ? "text-black hover:text-black" : "text-black/55 hover:text-black"
             }`}
           >
             {t.label}

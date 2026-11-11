@@ -1,8 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import Chip from "../Chip";
-import { PROVIDERS } from "@/lib/evals/providers";
+import ChartCard from "../ChartCard";
+import ModelMark from "../ModelMark";
+import { useWidth } from "../useWidth";
+import { labelStyle, placeLabels } from "@/lib/evals/labels";
+import { PROVIDER_ICONS } from "@/lib/evals/provider-icons";
+import { logoColor, providerOf } from "@/lib/evals/providers";
+import type { BenchModel } from "@/lib/evals/types";
 import scatter from "@/data/evals/treasury-scatter.json";
 
 interface Point {
@@ -53,33 +58,48 @@ function fmtAxis(v: number): string {
   return (v < 0 ? "−" : "") + label;
 }
 
-const LABEL_POS: Record<string, string> = {
-  top: "left-1/2 -translate-x-1/2 bottom-[calc(100%+3px)]",
-  bottom: "left-1/2 -translate-x-1/2 top-[calc(100%+3px)]",
-  left: "right-[calc(100%+7px)] top-1/2 -translate-y-1/2",
-  right: "left-[calc(100%+7px)] top-1/2 -translate-y-1/2",
-  tl: "right-[calc(100%+1px)] bottom-[calc(100%-2px)]",
-  tr: "left-[calc(100%+1px)] bottom-[calc(100%-2px)]",
-  bl: "right-[calc(100%+1px)] top-[calc(100%-2px)]",
-  br: "left-[calc(100%+1px)] top-[calc(100%-2px)]",
-};
+const H = 440;
+const R = 10; // logo disc radius, px
 
-// One dot per replayed year: X is everything lost to penalties and
-// collection (log scale, worse to the left), Y the closing treasury.
+// One logo per replayed year: X is everything lost to penalties and
+// collection (log scale, worse to the left), Y the closing treasury. Names
+// go wherever they clear every logo and each other; hover names the rest.
 export default function TreasuryScatter() {
   const [tip, setTip] = useState<Point | null>(null);
+  const [plot, width] = useWidth<HTMLDivElement>();
   const points = scatter.points as Point[];
+  const loss = (p: Point) => (p.penalties_cents + p.collection_cents) / 100;
+  const pos = (p: Point) => ({
+    x: (Number(xPct(loss(p))) / 100) * width,
+    y: (Number(yPct(p.net_worth_cents / 100)) / 100) * H,
+  });
+  const labels = placeLabels(
+    // Best and worst years first: the extremes are the story.
+    [...points]
+      .sort((a, b) => Math.abs(b.net_worth_cents) - Math.abs(a.net_worth_cents))
+      .map((p) => ({ id: p.name, ...pos(p), text: p.name })),
+    {
+      width,
+      height: H,
+      radius: R,
+      marks: points.map((p) => ({ ...pos(p), r: R })),
+      sides: ["right", "left", "top", "bottom", "top-right", "top-left", "bottom-right", "bottom-left"],
+    },
+  );
 
   return (
-    <section id="discipline" className="bench-section scroll-mt-28">
-      <div className="bench-head">
-        <div className="bench-title-block">
-          <h2>{scatter.title}</h2>
-          <div className="bench-question">{scatter.note}</div>
-        </div>
-      </div>
+    <ChartCard
+      id="discipline"
+      label="Discipline"
+      title={scatter.title}
+      description={scatter.note}
+    >
 
-      <div className="relative mt-8 mb-2 h-[420px] ml-14 mr-6 max-[780px]:ml-10 max-[780px]:h-[340px]">
+      <div
+        ref={plot}
+        className="relative mt-4 mb-2 ml-14 mr-6 max-[780px]:ml-10"
+        style={{ height: H }}
+      >
         {/* horizontal gridlines + y labels */}
         {Y_GRID.map((v) => (
           <div key={v}>
@@ -87,11 +107,11 @@ export default function TreasuryScatter() {
               className="absolute left-0 right-0 border-t"
               style={{
                 top: `${yPct(v)}%`,
-                borderColor: v === 0 ? "#d9d7d2" : "#ecebe7",
+                borderColor: v === 0 ? "rgba(0,0,0,0.18)" : "rgba(0,0,0,0.06)",
               }}
             />
             <div
-              className="absolute -left-14 w-12 text-right font-mono text-[0.68rem] text-text-dim -translate-y-1/2 max-[780px]:-left-10 max-[780px]:w-9 max-[780px]:text-[0.6rem]"
+              className="absolute -left-14 w-12 text-right text-[0.7rem] tabular-nums text-text-dim -translate-y-1/2 max-[780px]:-left-10 max-[780px]:w-9 max-[780px]:text-[0.6rem]"
               style={{ top: `${yPct(v)}%` }}
             >
               {fmtAxis(v)}
@@ -102,11 +122,11 @@ export default function TreasuryScatter() {
         {X_GRID.map((v) => (
           <div key={v}>
             <div
-              className="absolute top-0 bottom-0 border-l border-[#ecebe7]"
+              className="absolute top-0 bottom-0 border-l border-black/[0.06]"
               style={{ left: `${xPct(v)}%` }}
             />
             <div
-              className="absolute top-[calc(100%+8px)] -translate-x-1/2 font-mono text-[0.68rem] text-text-dim max-[780px]:text-[0.6rem]"
+              className="absolute top-[calc(100%+8px)] -translate-x-1/2 whitespace-nowrap text-[0.7rem] tabular-nums text-text-dim max-[780px]:text-[0.6rem]"
               style={{ left: `${xPct(v)}%` }}
             >
               −${v.toLocaleString("en-US")}
@@ -115,31 +135,43 @@ export default function TreasuryScatter() {
         ))}
 
         {points.map((p) => {
-          const loss = (p.penalties_cents + p.collection_cents) / 100;
-          const x = xPct(loss);
+          const x = xPct(loss(p));
           const y = yPct(p.net_worth_cents / 100);
-          const provider = PROVIDERS[p.provider] ?? PROVIDERS.other;
+          // Resolve through the aliases ("qwen" is Alibaba).
+          const provider = providerOf({ name: p.name, provider: p.provider } as BenchModel);
+          const side = labels.get(p.name);
+          const on = tip?.name === p.name;
           return (
             <div
               key={p.name}
-              className="absolute -translate-x-1/2 -translate-y-1/2"
+              className={`absolute -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                tip && !on ? "opacity-35" : ""
+              } ${on ? "z-30" : "z-10"}`}
               style={{ left: `${x}%`, top: `${y}%` }}
             >
               <div
-                className="scatter-dot"
+                className={`transition-transform duration-200 ${on ? "scale-125" : ""}`}
                 onMouseEnter={() => setTip(p)}
                 onMouseLeave={() => setTip(null)}
               >
-                <Chip p={provider} />
+                <ModelMark
+                  icon={provider.icon ? PROVIDER_ICONS[provider.icon] : undefined}
+                  mark={provider.mark}
+                  color={logoColor(provider)}
+                  tone="light"
+                  size="sm"
+                  title={p.name}
+                />
               </div>
-              <div
-                className={`absolute whitespace-nowrap font-sans text-[0.74rem] font-medium text-text pointer-events-none max-[780px]:hidden ${
-                  LABEL_POS[p.label] ?? LABEL_POS.top
-                }`}
-              >
-                {p.name}
-              </div>
-              {tip?.name === p.name && (
+              {side && !on && (
+                <div
+                  className="pointer-events-none absolute whitespace-nowrap font-sans text-[0.75rem] font-medium leading-4 text-black/75 max-[780px]:hidden"
+                  style={labelStyle(side, R)}
+                >
+                  {p.name}
+                </div>
+              )}
+              {on && (
                 <div className="chart-tip !opacity-100 left-1/2 bottom-[calc(100%+10px)]">
                   <span className="tip-title">{p.name}</span>
                   <br />
@@ -164,14 +196,10 @@ export default function TreasuryScatter() {
           );
         })}
       </div>
-      <div className="text-center font-mono text-[0.7rem] text-text-dim mt-8">
+      <div className="text-center text-[0.75rem] text-text-dim mt-10">
         Loss from penalties and collection (log scale)
       </div>
 
-      <div className="bench-foot">
-        <p className="bench-blurb">{scatter.footnote}</p>
-        <div className="bench-stamp">{scatter.stamp}</div>
-      </div>
-    </section>
+    </ChartCard>
   );
 }

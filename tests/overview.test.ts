@@ -4,8 +4,8 @@ import { overviewStats, radarData } from "@/lib/evals/overview";
 describe("overviewStats", () => {
   it("counts benchmarks and distinct non-baseline models", () => {
     const s = overviewStats();
-    expect(s.benches).toBe(4);
-    expect(s.models).toBe(26); // distinct model names minus scripted baselines
+    expect(s.benches).toBe(6);
+    expect(s.models).toBe(11); // the index run's models; no scripted baselines
     expect(s.snapshot).toMatch(/^\d{4}-\d{2}-\d{2}$/);
   });
 });
@@ -13,22 +13,23 @@ describe("overviewStats", () => {
 describe("radarData", () => {
   const data = radarData();
 
-  it("has one axis per benchmark", () => {
+  it("has one axis per index benchmark", () => {
     expect(data.axes.map((a) => a.slug)).toEqual([
-      "zerosum-bench",
-      "treasury-bench",
       "terms-bench",
-      "vending-bench-2",
+      "e-commerce-bench",
+      "econevals",
+      "auction-bench",
+      "coffeebench",
+      "treasury-bench",
     ]);
   });
 
-  it("offers only models present on at least three benchmarks", () => {
-    // The t5 treasury board names newer model versions (GLM-5.3, Qwen 3.8
-    // Max), so the older versions keep only two benchmarks and drop off.
-    expect(data.models.length).toBe(6);
+  it("offers only models missing at most one benchmark", () => {
+    // Every index model plays every index benchmark.
+    expect(data.models.length).toBe(11);
     for (const m of data.models) {
       expect(m.values.filter((v) => v !== null).length).toBeGreaterThanOrEqual(
-        3
+        data.axes.length - 1
       );
     }
   });

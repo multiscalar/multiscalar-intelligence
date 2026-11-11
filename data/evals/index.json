@@ -1,0 +1,191 @@
+{
+  "snapshot": "2026-11-03",
+  "dimensions": [
+    {
+      "key": "valuation_allocation",
+      "code": "C1",
+      "name": "Valuation & Allocation",
+      "info": "resource allocation, pricing, investment and financial decisions"
+    },
+    {
+      "key": "strategic_interaction",
+      "code": "C2",
+      "name": "Strategic Interaction",
+      "info": "negotiation, auctions, competition and cooperation"
+    },
+    {
+      "key": "planning_execution",
+      "code": "C3",
+      "name": "Planning & Execution",
+      "info": "multi-step economic activities and long-horizon operations"
+    },
+    {
+      "key": "economic_security",
+      "code": "C4",
+      "name": "Economic Security",
+      "info": "counterparty exploitation resistance; payment & authorization security; contractual integrity"
+    },
+    {
+      "key": "economic_discovery",
+      "code": "C5",
+      "name": "Economic Discovery",
+      "info": "uncovering economically valuable information and opportunities not known in advance"
+    }
+  ],
+  "models": [
+    {
+      "name": "Claude Opus 5.5",
+      "model_id": "claude-opus-5.5",
+      "overall": 62.5,
+      "dimensions": [
+        66.1,
+        63.9,
+        43.9,
+        80.5,
+        57.9
+      ],
+      "cost_usd": 608.58,
+      "released": "2026-09-22"
+    },
+    {
+      "name": "GPT-6 Astra",
+      "model_id": "gpt-6-astra",
+      "overall": 51.1,
+      "dimensions": [
+        46.7,
+        54.8,
+        48.7,
+        62.6,
+        42.5
+      ],
+      "cost_usd": 1225.92,
+      "released": "2026-09-04"
+    },
+    {
+      "name": "DeepSeek V4.1 Flash",
+      "model_id": "deepseek-v4.1-flash",
+      "overall": 46.7,
+      "dimensions": [
+        45.0,
+        56.0,
+        25.0,
+        82.8,
+        24.5
+      ],
+      "cost_usd": 84.27,
+      "released": "2026-09-10"
+    },
+    {
+      "name": "Qwen3.8 Flash",
+      "model_id": "qwen3.8-flash",
+      "overall": 41.6,
+      "dimensions": [
+        49.1,
+        38.9,
+        23.5,
+        54.1,
+        42.4
+      ],
+      "cost_usd": 38.26,
+      "released": "2026-08-26"
+    },
+    {
+      "name": "MiMo V2.6 Pro",
+      "model_id": "mimo-v2.6-pro",
+      "overall": 40.9,
+      "dimensions": [
+        45.5,
+        39.3,
+        27.2,
+        49.9,
+        42.8
+      ],
+      "cost_usd": 81.62,
+      "released": "2026-09-21"
+    },
+    {
+      "name": "GLM-5.3",
+      "model_id": "glm-5.3",
+      "overall": 39.4,
+      "dimensions": [
+        36.9,
+        46.9,
+        25.2,
+        60.1,
+        27.9
+      ],
+      "cost_usd": 483.68,
+      "released": "2026-08-18"
+    },
+    {
+      "name": "Gemini 3.8 Flash",
+      "model_id": "gemini-3.8-flash",
+      "overall": 38.7,
+      "dimensions": [
+        42.7,
+        39.5,
+        24.2,
+        41.0,
+        46.2
+      ],
+      "cost_usd": 253.5,
+      "released": "2026-09-02"
+    },
+    {
+      "name": "Kimi K3",
+      "model_id": "kimi-k3",
+      "overall": 35.9,
+      "dimensions": [
+        33.8,
+        40.0,
+        29.4,
+        43.1,
+        33.0
+      ],
+      "cost_usd": 825.91,
+      "released": "2026-07-16"
+    },
+    {
+      "name": "MiniMax M3",
+      "model_id": "minimax-m3",
+      "overall": 33.2,
+      "dimensions": [
+        38.5,
+        36.4,
+        10.2,
+        53.2,
+        27.6
+      ],
+      "cost_usd": 221.2,
+      "released": "2026-05-31"
+    },
+    {
+      "name": "Gemma 4 26B A4B",
+      "model_id": "gemma-4-26b-a4b-it",
+      "overall": 31.4,
+      "dimensions": [
+        34.6,
+        40.3,
+        3.3,
+        47.0,
+        31.7
+      ],
+      "cost_usd": 120.04,
+      "released": "2026-04-03"
+    },
+    {
+      "name": "Mistral Large 4",
+      "model_id": "mistral-large-4-0",
+      "overall": 28.2,
+      "dimensions": [
+        27.1,
+        36.2,
+        11.5,
+        47.2,
+        18.8
+      ],
+      "cost_usd": 399.5,
+      "released": "2026-10-06"
+    }
+  ]
+}

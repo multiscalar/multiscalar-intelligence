@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/site";
 import { BENCH_ABOUT } from "@/components/evals/about";
 import { loadBench } from "@/lib/evals/benches";
+import { CLOSING_IMAGE } from "@/lib/evals/images";
 
 export const dynamicParams = false;
 
@@ -15,10 +17,12 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const d = loadBench(slug);
-  return {
-    title: `About ${d.title} | Multiscalar Intelligence`,
-    description: `How ${d.title} works: the world, the rules, and the scoring.`,
-  };
+  return pageMetadata({
+    title: `About ${d.title}`,
+    description: `How ${d.title} works: the world, the rules and the scoring. ${d.blurb}`,
+    path: `/evals/${slug}/about/`,
+    image: (CLOSING_IMAGE[slug] ?? CLOSING_IMAGE["zerosum-bench"]).src,
+  });
 }
 
 export default async function BenchAboutPage({

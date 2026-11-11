@@ -44,6 +44,24 @@ export function loadResult(slug: string): {
     );
   }
   const meta = JSON.parse(fs.readFileSync(metaPath, "utf-8")) as ResultMeta;
-  const articleHtml = fs.readFileSync(articlePath, "utf-8");
+  // Pandoc numbers sections from <h1>; the page header owns the only h1, so
+  // every heading in the paper moves down one level (h1 to h2, and so on).
+  const articleHtml = fs
+    .readFileSync(articlePath, "utf-8")
+    .replace(/<(\/?)h([1-5])(?=[\s>])/g, (_, close, n) => `<${close}h${Number(n) + 1}`);
   return { meta, articleHtml };
+}
+
+// Every paper's metadata, for the Open Science index: solved first, then by
+// problem number.
+export function listResults(): (ResultMeta & { slug: string })[] {
+  return listResultSlugs()
+    .map((slug) => ({
+      slug,
+      ...(JSON.parse(fs.readFileSync(path.join(CONTENT, slug, "meta.json"), "utf-8")) as ResultMeta),
+    }))
+    .sort(
+      (a, b) =>
+        Number(b.badge === "Solved") - Number(a.badge === "Solved") || Number(a.number) - Number(b.number),
+    );
 }

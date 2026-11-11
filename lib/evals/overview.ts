@@ -1,5 +1,8 @@
-import { BENCHES, loadBench } from "./benches";
-import { providerOf, PROVIDERS, type Provider } from "./providers";
+import { INDEX_BENCHES as BENCHES, loadBench } from "./benches";
+// Every function here reads the index benchmarks only: the boards outside the
+// index (ZeroSum, Vending-Bench 2) have their own pages but no part in it.
+import { PROVIDER_ICONS } from "./provider-icons";
+import { logoColor, providerOf, PROVIDERS, type Provider } from "./providers";
 import type { BenchModel } from "./types";
 
 export interface OverviewStats {
@@ -51,7 +54,7 @@ export function benchField(slug: string): BenchFieldData {
       (r): r is { m: BenchModel; v: number } =>
         typeof r.v === "number" &&
         isFinite(r.v) &&
-        providerOf(r.m) !== PROVIDERS.baseline
+        providerOf(r.m) !== PROVIDERS.baseline,
     );
   const vals = rows.map((r) => r.v);
   const min = Math.min(...vals);
@@ -60,15 +63,12 @@ export function benchField(slug: string): BenchFieldData {
     .map((r) => ({
       name: r.m.name,
       value: r.v,
-      pos:
-        max === min
-          ? 0.5
-          : (higher ? r.v - min : max - r.v) / (max - min),
+      pos: max === min ? 0.5 : (higher ? r.v - min : max - r.v) / (max - min),
       provider: providerOf(r.m),
     }))
     .sort((a, b) => a.pos - b.pos);
   const lead = rows.reduce((best, r) =>
-    (higher ? r.v > best.v : r.v < best.v) ? r : best
+    (higher ? r.v > best.v : r.v < best.v) ? r : best,
   );
   return {
     dots,
@@ -163,4 +163,32 @@ export function radarData(): RadarData {
   };
   models.sort((a, b) => mean(b) - mean(a) || a.name.localeCompare(b.name));
   return { axes, models };
+}
+
+export interface RosterModel {
+  name: string;
+  /** Provider mark: an SVG path, or a fallback character. */
+  icon?: string;
+  mark?: string;
+  /** Brand colour for the logo. */
+  color: string;
+}
+
+// Every evaluated model (baselines excluded), once, in benchmark order, for
+// the index preview's example rows.
+export function modelRoster(): RosterModel[] {
+  const seen = new Map<string, RosterModel>();
+  for (const slug of BENCHES) {
+    for (const m of loadBench(slug).models) {
+      const provider = providerOf(m);
+      if (provider === PROVIDERS.baseline || seen.has(m.name)) continue;
+      seen.set(m.name, {
+        name: m.name,
+        icon: provider.icon ? PROVIDER_ICONS[provider.icon] : undefined,
+        mark: provider.mark,
+        color: logoColor(provider),
+      });
+    }
+  }
+  return [...seen.values()];
 }
