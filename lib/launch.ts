@@ -4,8 +4,6 @@
 export const HIDE = {
   /** The Evals menu in the header (desktop and phone). Pages stay live. */
   evalsInHeader: false,
-  /** The dark Economic Intelligence Index section on the home page. */
-  homeIndexSection: true,
   /** Links to the evals outside the evals pages: shown, but disabled with a
    *  "Coming soon" tag. Also hides the Treasury-Bench announcement band, the
    *  benchmark cards on research pages and the ZeroSum-Bench paper link. */

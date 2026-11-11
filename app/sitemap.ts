@@ -2,9 +2,7 @@ import type { MetadataRoute } from "next";
 import { BENCH_ABOUT } from "@/components/evals/about";
 import { BENCHES } from "@/lib/evals/benches";
 import { BENCH_SAMPLES } from "@/lib/evals/samples";
-import { listNews } from "@/lib/news";
 import { listPosts } from "@/lib/posts";
-import { CAPABILITIES, capabilityHref } from "@/lib/research";
 import { listResultSlugs } from "@/lib/results";
 import { SITE_URL } from "@/lib/site";
 
@@ -15,8 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = (paths: string[]) => paths.map((path) => ({ url: url(path) }));
   return [
     { url: url("/"), priority: 1 },
-    ...pages(["/evals/", "/open-science/", "/open-science/papers/", "/news/", "/about/", "/contact/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
-    ...pages(CAPABILITIES.map((c) => capabilityHref(c.slug))),
+    ...pages(["/evals/", "/open-science/", "/open-science/papers/", "/blacksmith/", "/work-with-us/", "/contact/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
     ...BENCHES.flatMap((slug) =>
       pages([
         `/evals/${slug}/`,
@@ -25,7 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       ]),
     ),
     ...listPosts().map((p) => ({ url: url(`/open-science/${p.slug}/`), lastModified: p.date })),
-    ...listNews().map((n) => ({ url: url(`/news/${n.slug}/`), lastModified: n.date })),
     ...pages(listResultSlugs().map((slug) => `/results/${slug}/`)),
   ];
 }

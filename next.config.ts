@@ -5,16 +5,13 @@ const nextConfig: NextConfig = {
   // The ZeroSum-Bench slug was "economic-arena" until 2026-09-11; keep old links alive.
   async redirects() {
     return [
-      // Research pages merged or renamed on 2026-10-07.
-      ...[
-        ["economic-world-simulations", "economic-worlds"],
-        ["rl-environments", "economic-worlds"],
-        ["autonomous-systems-deployment", "autonomous-systems-infrastructure"],
-      ].map(([from, to]) => ({
-        source: `/research/${from}`,
-        destination: `/research/${to}/`,
-        permanent: true,
-      })),
+      // Pages removed in the 2026-11-11 cleanup: About, News (placeholder
+      // articles), the research capability pages and Careers.
+      { source: "/about", destination: "/", permanent: true },
+      { source: "/news", destination: "/open-science/", permanent: true },
+      { source: "/news/:slug*", destination: "/open-science/", permanent: true },
+      { source: "/research/:slug*", destination: "/#what-we-do", permanent: true },
+      { source: "/careers", destination: "/work-with-us/", permanent: true },
       // The methodology page became a section of /evals/ on 2026-11-11.
       {
         source: "/evals/methodology",

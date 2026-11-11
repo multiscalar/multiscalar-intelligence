@@ -20,8 +20,8 @@ export default function ContactPage() {
         Get in touch
       </h1>
       <p className="mt-5 mb-12 max-w-[560px] text-[1rem] leading-[1.65] text-black/55">
-        Evaluating a model, exploring a partnership or working on related
-        research? Tell us a little about it and we will get back to you.
+        Evaluating a model, deploying one in your business, joining the team
+        or working on related research? Tell us about it and we will reply.
       </p>
       <ContactForm />
       </div>

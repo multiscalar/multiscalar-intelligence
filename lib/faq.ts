@@ -235,53 +235,6 @@ export function upcomingFaq(b: {
   ];
 }
 
-// A research capability page (/research/<slug>/).
-export function researchFaq(title: string): FaqItem[] {
-  return [
-    {
-      // EXAMPLE
-      q: `Can we work with you on ${title.toLowerCase()}?`,
-      a: "Yes. We work with a small number of partners at a time, starting from a specific problem and a measurable baseline.",
-      link: { href: contactHref("partnership"), label: "Discuss a project" },
-    },
-    {
-      q: "How do you measure progress?",
-      a: HIDE.evalsLinks
-        ? "On the Economic Intelligence Index, our benchmark suite for economic decision-making, so results are comparable with every other model. The index opens soon."
-        : "On the Economic Intelligence Index. The benchmarks on this page feed it, so results are public and comparable with every other model.",
-      ...(HIDE.evalsLinks ? {} : { link: { href: "/evals/#methodology", label: "Read the methodology" } }),
-    },
-    {
-      q: "Do you publish this research?",
-      a: "Wherever we can. Papers, code and results go out through Open Science, including the results that did not go our way.",
-      link: { href: "/open-science/papers/", label: "See our papers" },
-    },
-    {
-      // EXAMPLE
-      q: "Where does our data go?",
-      a: "Nowhere you don't choose. Models can run inside your own infrastructure, and nothing from a deployment is used to train other models.",
-    },
-  ];
-}
-
-export const ABOUT_FAQ: FaqItem[] = [
-  {
-    q: "What is economic intelligence?",
-    a: "The ability to pursue economic objectives autonomously: negotiating, pricing, allocating capital and managing risk, under uncertainty and against counterparties with their own interests.",
-  },
-  {
-    q: "Who do you work with?",
-    a: "Enterprises and financial institutions putting AI to work, AI labs that want to know how their models behave as economic agents, and researchers working on the same problems.",
-  },
-  { q: "Where are you based?", a: "London, UK." },
-  {
-    // EXAMPLE
-    q: "Are you hiring?",
-    a: "Not for open roles right now, but we always want to hear from exceptional researchers and engineers.",
-    link: { href: "/contact/", label: "Introduce yourself" },
-  },
-];
-
 export const CONTACT_FAQ: FaqItem[] = [
   {
     // EXAMPLE

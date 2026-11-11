@@ -5,6 +5,7 @@ export const CONTACT_TOPICS = [
   { key: "evaluation", label: "Evaluate a model" },
   { key: "partnership", label: "Partnerships" },
   { key: "research", label: "Research collaboration" },
+  { key: "careers", label: "Join the team" },
   { key: "press", label: "Press" },
 ] as const;
 

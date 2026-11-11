@@ -2,15 +2,11 @@ import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import LogoMarquee from "@/components/LogoMarquee";
 import Reveal from "@/components/Reveal";
-import Testimonials from "@/components/Testimonials";
 import ClosingCard from "@/components/home/ClosingCard";
-import Deployment from "@/components/home/Deployment";
 import LatestPosts from "@/components/home/LatestPosts";
-import Leaderboards from "@/components/home/Leaderboards";
 import ScrollHighlight from "@/components/home/ScrollHighlight";
+import Team from "@/components/home/Team";
 import WhatWeBuild from "@/components/home/WhatWeBuild";
-import { HIDE } from "@/lib/launch";
-import { TESTIMONIALS } from "@/lib/testimonials";
 import { SITE_DESCRIPTION, SITE_NAME, pageMetadata } from "@/lib/site";
 
 export const metadata: Metadata = pageMetadata({
@@ -33,18 +29,20 @@ const LOGOS = [
   { name: "Lyft", src: "/logos/lyft.svg", height: 40 },
 ];
 
+// Who we are (hero), the field we work in (statement), what we do (three
+// steps), the people, then the latest research.
 export default function Home() {
   return (
     <>
       <Hero
         src="/hero.webp"
         alt="A sunlit office with a long row of desks, retro computers and plants, two people working by tall windows"
-        eyebrow="Scaling multi-agent intelligence"
-        title="We make autonomous organizations possible"
-        description="Multiscalar is an applied AI lab researching and building systems that invest, negotiate, and manage resources. We develop the intelligence and infrastructure these systems need to operate under human direction."
+        eyebrow="Applied AI lab, London"
+        title="AI that businesses can trust with economic decisions"
+        description="Multiscalar researches how AI models negotiate, price and allocate money. We measure how well they do it, train them to do it better, and deploy the trained models inside businesses."
         actions={[
-          { href: "/evals/", label: "Explore the evals", soon: HIDE.evalsLinks },
-          { href: "/open-science/", label: "Read our research" },
+          { href: "/evals/", label: "Explore the index" },
+          { href: "/blacksmith/", label: "Meet Blacksmith" },
         ]}
       />
 
@@ -52,52 +50,29 @@ export default function Home() {
 
       <main>
         <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
-          {/* Statement: the mission in one large line, the detail in grey. */}
-          {/* Tighter than a full section gap: the logo strip above already
-              separates it from the hero. */}
           <section className="pt-16 max-[768px]:pt-10 grid grid-cols-[200px_1fr] gap-16 max-[960px]:grid-cols-1 max-[960px]:gap-6">
-            <Reveal className="label text-text-dim pt-[0.6rem]">About</Reveal>
+            <Reveal className="label text-text-dim pt-[0.6rem]">Our field</Reveal>
             <ScrollHighlight
               className="max-w-[860px] font-sans text-[clamp(1.4rem,2.2vw,1.95rem)] font-semibold leading-[1.28] tracking-[-0.025em]"
-              text="Running an organization requires decisions about money, resources, and people. We create economically accurate worlds to train AI for those decisions, from individual tasks to systems that work together. We then use the results to power some of the biggest autonomous businesses on earth."
+              text="We work on economic intelligence: an AI agent's ability to make good decisions about money and resources when the other side wants something different. Agents already negotiate contracts, set prices and move cash. Our research asks how well they do it, and how to make them better."
             />
           </section>
 
           <WhatWeBuild />
-        </div>
-
-        {/* Hidden during the private preview, with an Open Science photo card
-            in its place: switch in lib/launch.ts. */}
-        {HIDE.homeIndexSection ? (
-          <ClosingCard
-            id="open-science"
-            src="/home/reading-room.webp"
-            alt="A small white retro robot standing by the tables of a quiet 1970s library reading room, people reading by tall windows"
-            focus="70% 50%"
-            label="Open Science"
-            title="Research, published in the open"
-            description="Our papers, results and proofs are public, so anyone can check the work and build on it."
-            actions={[
-              { href: "/open-science/papers/", label: "Read our papers" },
-              { href: "/open-science/", label: "All posts" },
-            ]}
-          />
-        ) : (
-          <Leaderboards />
-        )}
-
-        <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
-          {/* From the leaderboards to production, then the customers' words. */}
-          <Deployment />
-
-          <section>
-            <Testimonials items={TESTIMONIALS} />
-          </section>
-
+          <Team />
           <LatestPosts />
         </div>
 
-        <ClosingCard />
+        <ClosingCard
+          id="contact"
+          label="Contact"
+          title="Working on AI that handles money?"
+          description="Talk to us about evaluating a model, deploying one in your business, or a research collaboration."
+          actions={[
+            { href: "/contact/", label: "Get in touch" },
+            { href: "/work-with-us/", label: "Work with us" },
+          ]}
+        />
       </main>
     </>
   );

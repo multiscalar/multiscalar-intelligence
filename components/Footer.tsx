@@ -9,21 +9,22 @@ import { SOCIAL_LINKS, externalProps } from "@/lib/social";
 // the top and running flush to the bottom edge so it closes the page.
 export default function Footer() {
   const menus = navItems().filter(isMenu);
-  const evals = menus.find((m) => m.label === "Evals");
-  const company = menus.find((m) => m.label === "Company");
+  const index = menus.find((m) => m.label === "Index")!;
+  const science = menus.find((m) => m.label === "Open Science")!;
 
-  // Evals also lists its skills and Company adds Contact; the other
-  // menus' right-hand lists (research areas, latest posts) are too long or
-  // repetitive here.
-  const columns: { label: string; links: NavLink[] }[] = menus.map((menu) => ({
-    label: menu.label,
-    links:
-      menu === evals
-        ? [...menu.primary, ...menu.secondary]
-        : menu === company
-          ? [...menu.primary, { href: "/contact/", title: "Contact" }]
-          : menu.primary,
-  }));
+  // The index with its benchmarks, Open Science's pages, and the company.
+  const columns: { label: string; links: NavLink[] }[] = [
+    { label: "Index", links: [...index.primary, ...index.secondary] },
+    { label: "Open Science", links: science.primary },
+    {
+      label: "Company",
+      links: [
+        { href: "/blacksmith/", title: "Blacksmith" },
+        { href: "/work-with-us/", title: "Work with us" },
+        { href: "/contact/", title: "Contact" },
+      ],
+    },
+  ];
 
   return (
     <footer className="px-3 max-[768px]:px-2">
@@ -36,7 +37,8 @@ export default function Footer() {
                 Teaching machines to coordinate.
               </h2>
               <p className="max-w-[380px] mt-5 text-[0.95rem] leading-[1.6] text-white/60">
-                Economic intelligence for the agent economy.
+                An applied AI lab measuring, training and deploying AI that
+                makes economic decisions.
               </p>
               <div className="flex flex-wrap gap-3 mt-8">
                 <a
@@ -79,7 +81,7 @@ export default function Footer() {
 
             <nav
               aria-label="Footer"
-              className="grid grid-cols-4 gap-8 max-[640px]:grid-cols-2 max-[640px]:gap-y-10"
+              className="grid grid-cols-3 gap-8 max-[640px]:grid-cols-2 max-[640px]:gap-y-10"
             >
               {columns.map((column) => (
                 <div key={column.label}>

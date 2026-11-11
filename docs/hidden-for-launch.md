@@ -9,7 +9,6 @@ In `lib/launch.ts`. Set a switch to `false` to show that part again.
 
 | Switch | What it hides | Hidden on |
 | --- | --- | --- |
-| `homeIndexSection` | The dark "We measure how well AI handles money" section on the home page (`components/home/Leaderboards.tsx`), with the benchmark cards. An Open Science photo card (the library reading-room photo, with links to the papers and posts) takes its place. | 19 Oct 2026 |
 
 Shown again on 22 Oct 2026, for the video: `evalsInHeader` (the Evals menu)
 and `evalsLinks` (every link to the evals, the Treasury-Bench banner, the
@@ -19,7 +18,7 @@ benchmark cards on research pages). Set them back to `true` to hide them again.
 
 | What | How it was hidden | To bring it back |
 | --- | --- | --- |
-| Careers page | Folder renamed `app/careers` → `app/_careers`, so Next.js doesn't publish it. Removed from the Company menu (`lib/nav.ts`), the sitemap (`app/sitemap.ts`), the footer ("Work with us" now says "Explore the index"), the About page buttons and the Contact page intro. `lib/careers.ts` is kept. | Rename the folder back to `app/careers`, then re-add the links in those places. |
+| About, News, research capability pages, Careers, testimonials | Deleted in the 11 Nov 2026 cleanup (placeholder copy). Redirects in `next.config.ts`. Work with us (`app/work-with-us/`) replaces Careers, with an open application through the contact form. | Restore from git history before commit "Site cleanup". |
 | RSS feed link | Removed from the Open Science menu and the Open Science page header. The feed itself (`/open-science/feed.xml`) still works and is linked in every page's head. | Re-add the "RSS feed" item in `lib/nav.ts` and the `link` on the "All posts" header in `app/open-science/page.tsx`. |
 | "Example data" tags | No longer shown on charts. `ChartCard` still takes an `example` prop that records which charts use placeholder data. | Only relevant if placeholder data goes public: show the tag again in `components/evals/ChartCard.tsx`, or replace the data. |
 
@@ -35,6 +34,6 @@ benchmark cards on research pages). Set them back to `true` to hide them again.
 - FAQ answers marked `// EXAMPLE` (`lib/faq.ts`)
 - Privacy and Terms placeholders: legal entity, company number, address, retention period (`app/privacy/`, `app/terms/`)
 - X, LinkedIn and Discord links still `#` (`lib/social.ts`)
-- News articles starting "Placeholder article." (`content/news/`)
+- Blacksmith waitlist and contact forms compose an email; no backend yet
 - Favicon is still the ◆ emoji (`app/layout.tsx`)
 - Permission to show each partner logo (`public/logos/`)
