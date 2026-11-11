@@ -1,9 +1,27 @@
 import Markdown, { type Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import { ProfitByModel, ValueSplit } from "@/components/posts/AuctionCharts";
 
 // Post bodies are our own trusted markdown (rehype-raw allows the little
-// inline HTML the math snippets need, e.g. subscripts).
-const MD_COMPONENTS: Components = {
+// inline HTML the math snippets need, e.g. subscripts, plus <video> and the
+// chart tags below).
+const MD_COMPONENTS = {
+  h2: ({ children }) => (
+    <h2 className="mt-12 mb-4 font-sans text-[1.4rem] font-semibold leading-[1.25] tracking-[-0.02em] text-black">
+      {children}
+    </h2>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="my-6 border-l-2 border-black/20 pl-5 [&_p]:text-black/80">{children}</blockquote>
+  ),
+  video: (props) => (
+    <video {...props} className="my-8 block h-auto w-full rounded-[14px] border border-black/10 bg-[#ececea]" />
+  ),
+  figcaption: ({ children }) => (
+    <figcaption className="-mt-5 mb-8 text-[0.82rem] leading-[1.6] text-black/50">{children}</figcaption>
+  ),
+  "value-split": ValueSplit,
+  "profit-by-model": ProfitByModel,
   p: ({ children }) => (
     <p className="text-[0.98rem] leading-[1.75] text-text-secondary mb-5 last:mb-0">
       {children}
@@ -38,7 +56,7 @@ const MD_COMPONENTS: Components = {
       {children}
     </code>
   ),
-};
+} as Components;
 
 export default function PostBody({ body }: { body: string }) {
   return (
