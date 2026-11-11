@@ -20,7 +20,6 @@ export const metadata: Metadata = pageMetadata({
 // alive on the matching rows.
 const CARD_IDS: Record<string, string> = {
   "six-more-erdos-problems": "erdos-six",
-  "satellite-compression": "compress",
 };
 
 export default function OpenSciencePage() {

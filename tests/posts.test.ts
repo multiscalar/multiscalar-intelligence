@@ -2,11 +2,11 @@ import { describe, it, expect } from "vitest";
 import { listPosts, loadPost } from "@/lib/posts";
 
 describe("listPosts", () => {
-  it("lists the three launch posts newest first", () => {
+  it("lists the posts newest first", () => {
     const posts = listPosts();
     expect(posts.map((p) => p.slug)).toEqual([
+      "designing-the-agent-economy",
       "six-more-erdos-problems",
-      "satellite-compression",
       "erdos-problem-690",
     ]);
   });
