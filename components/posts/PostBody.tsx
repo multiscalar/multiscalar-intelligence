@@ -1,5 +1,6 @@
 import Markdown, { type Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import LoopVideo from "@/components/LoopVideo";
 import { BidsPerFee, DualApproach, ProfitByModel, SplitRaid, ValueSplit } from "@/components/posts/AuctionCharts";
 
 // Post bodies are our own trusted markdown (rehype-raw allows the little
@@ -15,7 +16,7 @@ const MD_COMPONENTS = {
     <h3 className="mt-9 mb-3 font-sans text-[1.1rem] font-semibold tracking-[-0.01em] text-black">{children}</h3>
   ),
   pre: ({ children }) => (
-    <pre className="my-6 overflow-x-auto whitespace-pre-wrap rounded-[12px] border border-black/10 bg-[#f4f3f0] p-4 font-mono text-[0.74rem] leading-[1.6] text-black/75 [&_code]:bg-transparent [&_code]:p-0">
+    <pre className="my-6 overflow-x-auto whitespace-pre-wrap rounded-[12px] border border-black/10 bg-[#f4f3f0] p-4 font-mono text-[0.78rem] leading-[1.65] text-black/75 [&_code]:bg-transparent [&_code]:p-0">
       {children}
     </pre>
   ),
@@ -40,8 +41,9 @@ const MD_COMPONENTS = {
     <video {...props} className="my-8 block h-auto w-full rounded-[14px] border border-black/10 bg-[#ececea]" />
   ),
   figcaption: ({ children }) => (
-    <figcaption className="-mt-5 mb-8 text-[0.82rem] leading-[1.6] text-black/50">{children}</figcaption>
+    <figcaption className="mt-3 mb-8 text-[0.82rem] leading-[1.6] text-black/50">{children}</figcaption>
   ),
+  "loop-video": LoopVideo,
   "value-split": ValueSplit,
   "dual-approach": DualApproach,
   "split-raid": SplitRaid,

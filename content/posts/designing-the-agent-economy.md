@@ -8,6 +8,11 @@ summary: We rehearsed the opening auction of ARIA's Scaling Trust Arena with fiv
 image: /assets/auctionbench/live-poster.jpg
 ---
 
+<figure>
+<loop-video src="/assets/auctionbench/live.mp4" poster="/assets/auctionbench/live-poster.jpg" width="1920" height="952" label="The simulator's live view of a rehearsal auction: five AI bidders at their desks, six lots with their prices, and messages passing between bidders"></loop-video>
+<figcaption>The simulator's live view of one rehearsal auction. Each desk is a bidder and each pedestal a lot with its current price; purple lines are private messages between bidders.</figcaption>
+</figure>
+
 ## Executive summary
 
 AI agents are beginning to trade on behalf of people and organizations. They
@@ -64,40 +69,35 @@ first season and use it to refine these recommendations, starting with
 escrowed contracts between agents, the design of the close, and reserve
 prices.
 
-<figure>
-<video src="/assets/auctionbench/live.mp4" poster="/assets/auctionbench/live-poster.jpg" controls muted playsinline preload="metadata"></video>
-<figcaption>The simulator's live view of one rehearsal auction. Each desk is a bidder and each pedestal a lot with its current price; purple lines are private messages between bidders.</figcaption>
-</figure>
-
 ## 1 Introduction
 
 Markets are, to a first approximation, designed objects. Their rules decide
 which participant gets what, when, and at what price, and small changes to
 those rules can change the outcome for everyone involved. Over the last three
 decades, market design has grown into a practical discipline: examples
-include auctions for radio spectrum [12], matching algorithms for pairing
-kidney donors with patients [15], and sub-second auctions for online
-advertising [10].
+include auctions for radio spectrum [[12](#ref-12)], matching algorithms for pairing
+kidney donors with patients [[15](#ref-15)], and sub-second auctions for online
+advertising [[10](#ref-10)].
 
 In theory, a well-designed market works as intended from its first day; in
-practice, designers often learn what a market does by running it. Roth [13]
+practice, designers often learn what a market does by running it. Roth [[13](#ref-13)]
 compared the market designer to an engineer, who must deal with the gaps
 between the theory of the market and its real-world behavior. For instance,
 in the US spectrum auctions, bidders used the trailing digits of their bids
 to tell rivals which licenses to leave alone, which eventually led to
-restrictions on bid amounts and to anonymous bidding [8]. On eBay, a fixed
+restrictions on bid amounts and to anonymous bidding [[8](#ref-8)]. On eBay, a fixed
 closing time meant that the last seconds of each auction became a contest of
-late bids [14]. And on financial exchanges, continuous trading set off an
-arms race for speed, measured in microseconds [6]. Each time, the problem was
+late bids [[14](#ref-14)]. And on financial exchanges, continuous trading set off an
+arms race for speed, measured in microseconds [[6](#ref-6)]. Each time, the problem was
 found after launch, at real cost, and fixed in a later version of the rules.
 
 A new kind of participant is now entering markets. Large Language Model (LLM)
 agents can search, negotiate and pay on behalf of their users: payment
-protocols already let agents make purchases [17], and marketplaces where
+protocols already let agents make purchases [[17](#ref-17)], and marketplaces where
 agents trade with each other are under development in procurement,
 advertising, compute, and data. By lowering the cost of searching,
 bargaining, and contracting, agents could make entirely new market designs
-possible [16]. Yet most of the rules these agents will face are being written
+possible [[16](#ref-16)]. Yet most of the rules these agents will face are being written
 now, by adapting designs built for people.
 
 This is a problem because markets designed for people often rely on human
@@ -106,14 +106,14 @@ limitations. Agents remove, or are about to remove, three of these frictions:
 - **Talk is free.** For human bidders, coordinating is slow, costly and
   legally risky. Agents can negotiate with every rival at once, in plain
   language, for a few tokens. This behavior has already been observed in
-  controlled simulations [1].
+  controlled simulations [[1](#ref-1)].
 - **Action is instant.** Human bidders act a handful of times per auction,
   while agents can act every few seconds. How fast an agent replies becomes
   an advantage in its own right, independent of how well it bids.
 - **Deals are becoming enforceable.** Cartels are fragile because their
   members cannot enforce their promises to each other. Escrowed payments and
   smart contracts, which agent infrastructure increasingly provides, can
-  enforce exactly the promises a cartel needs [7].
+  enforce exactly the promises a cartel needs [[7](#ref-7)].
 
 Agents also find a design's weak points quickly. As a result, designers of
 agent markets cannot rely on either of their usual tools. On the one hand,
@@ -126,10 +126,10 @@ the rules. We therefore argue that agent markets need to be rehearsed before
 they run, and again whenever their rules or participants change.
 
 The Scaling Trust Arena of the UK's Advanced Research and Invention Agency
-(ARIA) is a natural place to start [18]. The Arena is a competition in which
+(ARIA) is a natural place to start [[18](#ref-18)]. The Arena is a competition in which
 autonomous agents run small organizations in a physical economy, and each
 season opens with a 15-minute auction in which agents bid for the machines
-and shopfronts they will use [4]. Its purpose is to show how future agent
+and shopfronts they will use [[4](#ref-4)]. Its purpose is to show how future agent
 economies behave, including how they fail. In collaboration with ARIA, we are
 testing a dual approach: ARIA builds the real market, and we build a
 high-fidelity simulation on which we can test rule changes before they reach
@@ -167,24 +167,24 @@ definitions behind our measures (Appendix B), the details of each run
 ## 2 The Arena and its opening auction
 
 The Arena is a competition for autonomous AI agents, built by ARIA's Scaling
-Trust program with partners including Andon Labs [18]. Each team submits an
+Trust program with partners including Andon Labs [[18](#ref-18)]. Each team submits an
 agent that runs a small organization in a physical economy: organizations
 make goods on shared machines, such as 3D printers, laser cutters, or robot
-arms, and sell them to customers through shopfronts [4]. Organizations are
+arms, and sell them to customers through shopfronts [[4](#ref-4)]. Organizations are
 ranked mainly on profit over seasons of about three weeks, the first of which
 is planned for early 2027. Red teams take part too, attacking both the agents
 and the infrastructure they share.
 
 Unlike most markets, the Arena is built to be studied. Its stated aims
 include observing how agents interact under adversarial pressure and
-"evidencing critical failure modes" [4]. For the Arena, failures are
+"evidencing critical failure modes" [[4](#ref-4)]. For the Arena, failures are
 therefore useful results: if agents collude, cheat, or exploit the rules,
 this provides valuable insight into other agent economies.
 
 Each season opens with an auction that decides which organization gets which
 machine. In the current draft of the specification, all 22 slots, 17 machines
 and 5 shopfronts, are sold together in a single 15-minute English auction
-[3; 4]. Every slot opens at £1, with agents paying from a starting budget of
+[[3](#ref-3); [4](#ref-4)]. Every slot opens at £1, with agents paying from a starting budget of
 £1,000 that must also cover materials, supplier orders and human assistance
 for the rest of the season. An agent may win several slots, as long as it can
 pay for them. Four further rules matter for what follows:
@@ -222,7 +222,7 @@ agents who are then competitors.
 
 The Arena already tests every agent before admitting it, using a simulator of
 its own that checks whether an agent can bid, message, pay and stay within
-its budget [4]. The simulator we describe next answers a different question:
+its budget [[4](#ref-4)]. The simulator we describe next answers a different question:
 how the market's rules hold up once agents start using them.
 
 ## 3 The Multiscalar Market Simulator
@@ -316,7 +316,7 @@ the rehearsal a payment was final and nothing enforced what it bought.
 <tr><td>Pacing</td><td>One API request per second</td><td>One model call at a time, at least one second each</td></tr>
 <tr><td>Conditional payments</td><td>Smart contracts on the same chain</td><td>None</td></tr>
 </tbody>
-<caption>Table 1: Differences between the Multiscalar Market Simulator and the Arena's draft specification [3; 4].</caption>
+<caption>Table 1: Differences between the Multiscalar Market Simulator and the Arena's draft specification [[3](#ref-3); [4](#ref-4)].</caption>
 </table>
 
 This iteration of the simulator is the first of many. Once Season 1 has run,
@@ -376,14 +376,14 @@ pointed to the means: it told each bidder that rivals' values are usually
 close to its own, and that unspent money's only other use is paying other
 bidders (Appendix A). We did not run the chat setting without them. However,
 frontier models have formed cartels without any such hint, both in auctions
-with a chat channel [11] and in a multiplayer vending simulation built by
-Andon Labs [2]. We therefore do not think the two sentences explain the
+with a chat channel [[11](#ref-11)] and in a multiplayer vending simulation built by
+Andon Labs [[2](#ref-2)]. We therefore do not think the two sentences explain the
 behavior, although they may have sped it up.
 
 This is the most direct lesson of the rehearsal for the Arena. Its terms
 forbid teams from arranging in advance for their agents to coordinate, but
 say nothing about splits that agents agree on among themselves during the
-auction [4]. Based on our results, we expect such splits to appear within the
+auction [[4](#ref-4)]. Based on our results, we expect such splits to appear within the
 first minute of Season 1. Whether the Arena wants to study this type of
 collusion or prevent it, we therefore recommend introducing explicit rules on
 allowed interactions, backed by a monitor system for agent messages
@@ -436,7 +436,7 @@ defector, rather than the best bidder.
 In the Arena, each team chooses its own model and infrastructure, so a fixed
 close invites a race for speed; this is similar to what was observed on eBay,
 with agents taking the place of auction-sniping bots. The usual fix is a
-close that extends after late bids, as Amazon's auctions did [14]. However,
+close that extends after late bids, as Amazon's auctions did [[14](#ref-14)]. However,
 the same defections also broke the cartels, so a close that protects partners
 from defections may also make cartels more stable. We therefore recommend
 redesigning the close together with reserve prices, which cap what a stable
@@ -514,7 +514,7 @@ per second. Yet our agents sent a bid about once every five seconds, well
 under that limit, so the limit did not pace them. Tightening it would slow
 every agent equally, whether the API call reads information or sends a bid.
 A price instead charges for the one action that adds noise, and leaves the
-pace to the agent. The idea is old: for instance, Dwork and Naor [9] proposed
+pace to the agent. The idea is old: for instance, Dwork and Naor [[9](#ref-9)] proposed
 a small price on every e-mail to curb junk mail. In the simulator, we charge
 a fixed fee for each bid that reaches the auction, whether it is accepted or
 refused. The fee is taken from the bidder's budget at once, never refunded,
@@ -627,12 +627,12 @@ An auction sells six lots, A to F, to five bidders. Each lot
 and 1,000, and each bidder <math><mi>i</mi></math> draws a private multiplier
 <math><msub><mi>ε</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></math> between
 0.7 and 1.3, so that it values the lot at
-<math><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>round</mi><mo>(</mo><msub><mi>b</mi><mi>j</mi></msub><msub><mi>ε</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>)</mo></math>.
+<math><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>=</mo><mi>round</mi><mo stretchy="false">(</mo><msub><mi>b</mi><mi>j</mi></msub><msub><mi>ε</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo stretchy="false">)</mo></math>.
 Bidders therefore agree on which lots matter but disagree on what they are
 worth. In a bundle, the most valuable lot counts in full and every other lot
 at half its value:
 
-<div class="my-6 overflow-x-auto text-center text-black"><math display="block"><msub><mi>V</mi><mi>i</mi></msub><mo>(</mo><mi>S</mi><mo>)</mo><mo>=</mo><munder><mo>max</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>+</mo><mi>α</mi><mrow><mo>(</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><munder><mo>max</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>)</mo></mrow><mo>,</mo><mspace width="1.5em"></mspace><mi>α</mi><mo>=</mo><mn>0.5</mn><mo>.</mo></math></div>
+<div class="my-6 overflow-x-auto text-center text-black"><math display="block"><msub><mi>V</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>S</mi><mo stretchy="false">)</mo><mo>=</mo><munder><mo>max</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>+</mo><mi>α</mi><mrow><mo>(</mo><munder><mo>∑</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>−</mo><munder><mo>max</mo><mrow><mi>j</mi><mo>∈</mo><mi>S</mi></mrow></munder><msub><mi>v</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mo>)</mo></mrow><mo>,</mo><mspace width="1.5em"></mspace><mi>α</mi><mo>=</mo><mn>0.5</mn><mo>.</mo></math></div>
 
 Each bidder has a budget of £1,000, and values are rescaled so that the
 budget is 40% of a bidder's mean total value, about the value of the two lots
@@ -641,7 +641,7 @@ real-world price.
 
 **Profit and accounting.** Each bidder is told to maximize its profit,
 
-<div class="my-6 overflow-x-auto text-center text-black"><math display="block"><msub><mi>π</mi><mi>i</mi></msub><mo>=</mo><msub><mi>V</mi><mi>i</mi></msub><mo>(</mo><msub><mi>S</mi><mi>i</mi></msub><mo>)</mo><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>f</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>t</mi><mi>i</mi><mtext>out</mtext></msubsup><mo>+</mo><msubsup><mi>t</mi><mi>i</mi><mtext>in</mtext></msubsup><mo>,</mo></math></div>
+<div class="my-6 overflow-x-auto text-center text-black"><math display="block"><msub><mi>π</mi><mi>i</mi></msub><mo>=</mo><msub><mi>V</mi><mi>i</mi></msub><mo stretchy="false">(</mo><msub><mi>S</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>−</mo><msub><mi>p</mi><mi>i</mi></msub><mo>−</mo><msub><mi>f</mi><mi>i</mi></msub><mo>−</mo><msubsup><mi>t</mi><mi>i</mi><mtext>out</mtext></msubsup><mo>+</mo><msubsup><mi>t</mi><mi>i</mi><mtext>in</mtext></msubsup><mo>,</mo></math></div>
 
 where <math><msub><mi>S</mi><mi>i</mi></msub></math> is the set of lots it
 wins, <math><msub><mi>p</mi><mi>i</mi></msub></math> the prices it pays,
@@ -650,7 +650,7 @@ wins, <math><msub><mi>p</mi><mi>i</mi></msub></math> the prices it pays,
 <math><msubsup><mi>t</mi><mi>i</mi><mtext>in</mtext></msubsup></math> the
 payments it sends and receives. Fees leave the market and do not count as
 the seller's revenue. For every auction, we ensure that
-<math><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>π</mi><mi>i</mi></msub><mo>+</mo><mi>R</mi><mo>+</mo><mi>F</mi><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>V</mi><mi>i</mi></msub><mo>(</mo><msub><mi>S</mi><mi>i</mi></msub><mo>)</mo></math>,
+<math><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>π</mi><mi>i</mi></msub><mo>+</mo><mi>R</mi><mo>+</mo><mi>F</mi><mo>=</mo><munder><mo>∑</mo><mi>i</mi></munder><msub><mi>V</mi><mi>i</mi></msub><mo stretchy="false">(</mo><msub><mi>S</mi><mi>i</mi></msub><mo stretchy="false">)</mo></math>,
 where <math><mi>R</mi></math> is the seller's revenue and
 <math><mi>F</mi></math> the total fees. This identity lets us split the value
 of the best allocation into its parts (Figure 2).
@@ -802,7 +802,7 @@ cartels, one of which held to the close, and five partial ones.
 **Tests on the bids.** We used two tests to identify collusion from the bids
 alone. Two bidders form a *division pair* when each won a lot that the other
 could still have raised at a profit, and on which the other stopped bidding
-while it still had the budget to continue [8]. A bidder *suppresses* a lot
+while it still had the budget to continue [[8](#ref-8)]. A bidder *suppresses* a lot
 when it stopped bidding below its value for the lot, given the other lots it
 won, with budget left, while in the paired auction without chat it kept
 bidding on that lot. Both tests count a lot only if the bidder left more than
@@ -839,7 +839,7 @@ judge.
 ## Appendix C: Run details
 
 **Models.** Table 3 lists the five models. We selected the models from the
-top of the Artificial Analysis leaderboard at the time of the run [5], at the
+top of the Artificial Analysis leaderboard at the time of the run [[5](#ref-5)], at the
 reasoning effort shown in Table 3. We accessed all models through OpenRouter,
 routing each to its own lab with fallbacks disabled. We left all other
 parameters, such as temperature and token limits, at each provider's
@@ -913,53 +913,53 @@ agents.
 
 ## References
 
-1. K. Agrawal, V. Teo, J. J. Vazquez, S. Kunnavakkam, V. Srikanth, and A.
+1. <span id="ref-1" class="scroll-mt-28"></span>K. Agrawal, V. Teo, J. J. Vazquez, S. Kunnavakkam, V. Srikanth, and A.
    Liu. Evaluating LLM agent collusion in double auctions.
    [arXiv:2507.01413](https://arxiv.org/abs/2507.01413), 2025.
-2. Andon Labs. [Opus 4.6 on Vending-Bench: Not just a helpful
+2. <span id="ref-2" class="scroll-mt-28"></span>Andon Labs. [Opus 4.6 on Vending-Bench: Not just a helpful
    assistant](https://andonlabs.com/blog/opus-4-6-vending-bench), 5 February
    2026.
-3. Arena. [The Arena: API documentation](https://arena.scalingtrust.org.uk/docs),
+3. <span id="ref-3" class="scroll-mt-28"></span>Arena. [The Arena: API documentation](https://arena.scalingtrust.org.uk/docs),
    2026. Pages Auction, Communication, Payments, Agents and Slots; accessed
    30 October 2026.
-4. Arena. [The Arena: Specification](https://arena.scalingtrust.org.uk/docs/spec),
+4. <span id="ref-4" class="scroll-mt-28"></span>Arena. [The Arena: Specification](https://arena.scalingtrust.org.uk/docs/spec),
    2026. Draft, last updated 16 September 2026.
-5. Artificial Analysis. [LLM
+5. <span id="ref-5" class="scroll-mt-28"></span>Artificial Analysis. [LLM
    leaderboard](https://artificialanalysis.ai/leaderboards/models), 2026.
    Accessed 20 October 2026.
-6. E. Budish, P. Cramton, and J. Shim. The high-frequency trading arms race:
+6. <span id="ref-6" class="scroll-mt-28"></span>E. Budish, P. Cramton, and J. Shim. The high-frequency trading arms race:
    Frequent batch auctions as a market design response. *The Quarterly
    Journal of Economics*, 130(4):1547–1621, 2015.
-7. A. Chan, K. Wei, et al. Infrastructure for AI agents.
+7. <span id="ref-7" class="scroll-mt-28"></span>A. Chan, K. Wei, et al. Infrastructure for AI agents.
    [arXiv:2501.10114](https://arxiv.org/abs/2501.10114), 2025.
-8. P. Cramton and J. A. Schwartz. Collusive bidding: Lessons from the FCC
+8. <span id="ref-8" class="scroll-mt-28"></span>P. Cramton and J. A. Schwartz. Collusive bidding: Lessons from the FCC
    spectrum auctions. *Journal of Regulatory Economics*, 17(3):229–252, 2000.
-9. C. Dwork and M. Naor. Pricing via processing or combatting junk mail. In
+9. <span id="ref-9" class="scroll-mt-28"></span>C. Dwork and M. Naor. Pricing via processing or combatting junk mail. In
    *Advances in Cryptology, CRYPTO '92*, volume 740 of Lecture Notes in
    Computer Science, pages 139–147. Springer, 1993.
-10. B. Edelman, M. Ostrovsky, and M. Schwarz. Internet advertising and the
+10. <span id="ref-10" class="scroll-mt-28"></span>B. Edelman, M. Ostrovsky, and M. Schwarz. Internet advertising and the
     generalized second-price auction: Selling billions of dollars worth of
     keywords. *American Economic Review*, 97(1):242–259, 2007.
-11. L. Mazur. [Emergent price-fixing by LLM auction
+11. <span id="ref-11" class="scroll-mt-28"></span>L. Mazur. [Emergent price-fixing by LLM auction
     agents](https://www.lesswrong.com/posts/yqhy3zBmpeFuGFLxX/emergent-price-fixing-by-llm-auction-agents).
     LessWrong, 16 July 2025.
-12. P. Milgrom. *Putting Auction Theory to Work*. Cambridge University Press,
+12. <span id="ref-12" class="scroll-mt-28"></span>P. Milgrom. *Putting Auction Theory to Work*. Cambridge University Press,
     2004.
-13. A. E. Roth. The economist as engineer: Game theory, experimentation, and
+13. <span id="ref-13" class="scroll-mt-28"></span>A. E. Roth. The economist as engineer: Game theory, experimentation, and
     computation as tools for design economics. *Econometrica*,
     70(4):1341–1378, 2002.
-14. A. E. Roth and A. Ockenfels. Last-minute bidding and the rules for ending
+14. <span id="ref-14" class="scroll-mt-28"></span>A. E. Roth and A. Ockenfels. Last-minute bidding and the rules for ending
     second-price auctions: Evidence from eBay and Amazon auctions on the
     Internet. *American Economic Review*, 92(4):1093–1103, 2002.
-15. A. E. Roth, T. Sönmez, and M. U. Ünver. Kidney exchange. *The Quarterly
+15. <span id="ref-15" class="scroll-mt-28"></span>A. E. Roth, T. Sönmez, and M. U. Ünver. Kidney exchange. *The Quarterly
     Journal of Economics*, 119(2):457–488, 2004.
-16. P. Shahidi, G. Rusak, B. S. Manning, A. Fradkin, and J. J. Horton. The
+16. <span id="ref-16" class="scroll-mt-28"></span>P. Shahidi, G. Rusak, B. S. Manning, A. Fradkin, and J. J. Horton. The
     Coasean singularity? Demand, supply, and market design with AI agents.
     NBER Working Paper 34468, National Bureau of Economic Research, 2025.
-17. SiliconANGLE. [Google's Agent Payments Protocol provides framework for AI
+17. <span id="ref-17" class="scroll-mt-28"></span>SiliconANGLE. [Google's Agent Payments Protocol provides framework for AI
     to automate consumer
     purchases](https://siliconangle.com/2025/09/16/googles-agent-payments-protocol-provides-framework-ai-automate-consumer-purchases/),
     16 September 2025.
-18. The Scaling Trust Team. [Update on the Scaling Trust
+18. <span id="ref-18" class="scroll-mt-28"></span>The Scaling Trust Team. [Update on the Scaling Trust
     Arena](https://scalingtrust.org.uk/blog/update-on-the-scaling-trust-arena/).
     ARIA Scaling Trust programme blog, 16 September 2026.

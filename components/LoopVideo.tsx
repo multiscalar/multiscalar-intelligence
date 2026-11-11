@@ -2,9 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// The product walkthrough: muted, looping, with a pause button (it runs past
-// five seconds). It stays on the poster frame for reduced-motion users.
-export default function DemoVideo() {
+// A muted video that starts on its own and loops, with a pause button (it
+// runs past five seconds). It stays on the poster frame for reduced-motion
+// users. Used by the Blacksmith page and, as <loop-video>, in posts.
+export default function LoopVideo({
+  src,
+  poster,
+  label,
+  width,
+  height,
+}: {
+  src: string;
+  poster: string;
+  label: string;
+  width: number | string;
+  height: number | string;
+}) {
   const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
@@ -25,19 +38,19 @@ export default function DemoVideo() {
   };
 
   return (
-    <div className="relative overflow-hidden rounded-[20px] border border-black/10 bg-[#ececea]">
+    <div className="relative my-0 overflow-hidden rounded-[20px] border border-black/10 bg-[#ececea]">
       <video
         ref={ref}
-        src="/blacksmith/demo.mp4"
-        poster="/blacksmith/poster.jpg"
+        src={src}
+        poster={poster}
         muted
         loop
         playsInline
         preload="metadata"
-        width={3328}
-        height={1112}
+        width={Number(width)}
+        height={Number(height)}
         className="block h-auto w-full"
-        aria-label="Blacksmith walkthrough: connect a company's data, generate training environments from it, train a model on them, then ask it to renew a supplier contract"
+        aria-label={label}
       />
       <button
         type="button"

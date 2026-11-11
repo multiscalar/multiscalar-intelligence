@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import CycleDiagram from "@/components/blacksmith/CycleDiagram";
-import DemoVideo from "@/components/blacksmith/DemoVideo";
+import LoopVideo from "@/components/LoopVideo";
 import Reveal from "@/components/Reveal";
 import WaitlistForm from "@/components/WaitlistForm";
 import SectionHeader from "@/components/home/SectionHeader";
@@ -56,7 +56,13 @@ export default function BlacksmithPage() {
         </div>
 
         <Reveal className="mt-16 max-[768px]:mt-12">
-          <DemoVideo />
+          <LoopVideo
+            src="/blacksmith/demo.mp4"
+            poster="/blacksmith/poster.jpg"
+            width={3328}
+            height={1112}
+            label="Blacksmith walkthrough: connect a company's data, generate training environments from it, train a model on them, then ask it to renew a supplier contract"
+          />
         </Reveal>
         <p className="mt-4 text-[0.85rem] text-text-dim">
           Connect your data, generate training environments from it, train,
