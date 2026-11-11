@@ -13,7 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = (paths: string[]) => paths.map((path) => ({ url: url(path) }));
   return [
     { url: url("/"), priority: 1 },
-    ...pages(["/evals/", "/open-science/", "/open-science/papers/", "/blacksmith/", "/work-with-us/", "/contact/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
+    ...pages(["/evals/", "/open-science/", "/blacksmith/", "/work-with-us/", "/contact/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
     ...BENCHES.flatMap((slug) =>
       pages([
         `/evals/${slug}/`,

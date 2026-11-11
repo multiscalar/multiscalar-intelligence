@@ -2,29 +2,13 @@ import BrandIcon from "@/components/BrandIcon";
 import CookieSettingsButton from "@/components/CookieSettingsButton";
 import SoonTag from "@/components/SoonTag";
 import { evalsSoon } from "@/lib/launch";
-import { isMenu, navItems, type NavLink } from "@/lib/nav";
+import { isMenu, navItems, type NavPlainLink } from "@/lib/nav";
 import { SOCIAL_LINKS, externalProps } from "@/lib/social";
 
 // The footer bookends the hero: a dark card inset from the sides, rounded at
 // the top and running flush to the bottom edge so it closes the page.
 export default function Footer() {
-  const menus = navItems().filter(isMenu);
-  const index = menus.find((m) => m.label === "Index")!;
-  const science = menus.find((m) => m.label === "Open Science")!;
-
-  // The index with its benchmarks, Open Science's pages, and the company.
-  const columns: { label: string; links: NavLink[] }[] = [
-    { label: "Index", links: [...index.primary, ...index.secondary] },
-    { label: "Open Science", links: science.primary },
-    {
-      label: "Company",
-      links: [
-        { href: "/blacksmith/", title: "Blacksmith" },
-        { href: "/work-with-us/", title: "Work with us" },
-        { href: "/contact/", title: "Contact" },
-      ],
-    },
-  ];
+  const links = navItems().filter((item) => !isMenu(item)) as NavPlainLink[];
 
   return (
     <footer className="px-3 max-[768px]:px-2">
@@ -81,35 +65,17 @@ export default function Footer() {
 
             <nav
               aria-label="Footer"
-              className="grid grid-cols-3 gap-8 max-[640px]:grid-cols-2 max-[640px]:gap-y-10"
+              className="justify-self-end max-[960px]:justify-self-start"
             >
-              {columns.map((column) => (
-                <div key={column.label}>
-                  {/* A column of pages not open yet shows one tag, by its heading. */}
-                  <div className="label text-white/50 mb-4 flex items-center gap-2">
-                    {column.label}
-                    {column.links.every((l) => evalsSoon(l.href)) && <SoonTag short />}
-                  </div>
-                  <ul className="flex flex-col gap-3">
-                    {column.links.map((link) => (
-                      <li key={link.href + link.title}>
-                        {evalsSoon(link.href) ? (
-                          <span aria-disabled="true" className="text-[0.88rem] text-white/35">
-                            {link.title}
-                          </span>
-                        ) : (
-                          <a
-                            href={link.href}
-                            className="text-[0.88rem] text-white/75 transition-colors hover:text-white"
-                          >
-                            {link.title}
-                          </a>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+              <ul className="flex flex-col gap-3">
+                {links.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="text-[0.95rem] text-white/75 transition-colors hover:text-white">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </nav>
           </div>
 

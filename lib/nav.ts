@@ -1,15 +1,4 @@
-import { INDEX_BENCHES, loadBench } from "@/lib/evals/benches";
-
-const BENCH_ICON: Record<string, NavIcon> = {
-  "terms-bench": "handshake",
-  "e-commerce-bench": "package",
-  econevals: "chart",
-  "auction-bench": "gavel",
-  coffeebench: "store",
-  "treasury-bench": "landmark",
-};
 import { HIDE } from "@/lib/launch";
-import { listPosts } from "@/lib/posts";
 import type { SocialIcon, SocialLink } from "@/lib/social";
 
 // Icon names resolve to components in components/Nav.tsx; keeping them as
@@ -75,63 +64,12 @@ export function headerNavItems(): NavItem[] {
   return navItems().filter((item) => !HIDDEN_IN_HEADER.includes(item.label));
 }
 
+// Five top-level pages, no dropdowns.
 export function navItems(): NavItem[] {
   return [
-    {
-      label: "Index",
-      paths: ["/evals"],
-      primaryLabel: "Economic Intelligence Index",
-      primary: [
-        {
-          href: "/evals/",
-          title: "Economic Intelligence Index",
-          description: "Five economic capabilities, measured in one score",
-        },
-        {
-          href: "/evals/#methodology",
-          title: "Methodology",
-          description: "How we score models, and why",
-        },
-        {
-          href: "/evals/request-dataset/",
-          title: "Request a dataset",
-          description: "Full traces and results for your own analysis",
-        },
-      ],
-      // The benchmarks behind the index, each to its own page.
-      secondaryLabel: "Benchmarks",
-      secondary: INDEX_BENCHES.map((slug) => ({
-        href: `/evals/${slug}/`,
-        title: loadBench(slug).title,
-        icon: BENCH_ICON[slug],
-      })),
-    },
+    { label: "Index", href: "/evals/", paths: ["/evals"] },
     { label: "Blacksmith", href: "/blacksmith/", paths: ["/blacksmith"] },
-    {
-      label: "Open Science",
-      paths: ["/open-science", "/results"],
-      primaryLabel: "Open Science",
-      primary: [
-        {
-          href: "/open-science/",
-          title: "All posts",
-          description: "Proofs, results and write-ups, published in the open",
-        },
-        {
-          href: "/open-science/papers/",
-          title: "Papers",
-          description: "Our research papers, with PDFs, source and code",
-        },
-      ],
-      secondaryLabel: "Latest",
-      secondary: listPosts()
-        .slice(0, 3)
-        .map((post) => ({
-          href: `/open-science/${post.slug}/`,
-          title: post.title,
-          icon: "file" as const,
-        })),
-    },
+    { label: "Open Science", href: "/open-science/", paths: ["/open-science", "/results"] },
     { label: "Work with us", href: "/work-with-us/", paths: ["/work-with-us"] },
     { label: "Contact", href: "/contact/", paths: ["/contact"] },
   ];

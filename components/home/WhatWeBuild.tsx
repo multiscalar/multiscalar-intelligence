@@ -18,8 +18,8 @@ const STEPS = [
     title: "Train",
     name: "Economic environments",
     body: "Simulated markets with counterparties, prices and cash flows. We train models in them with reinforcement learning, rewarded on the economic outcome.",
-    href: "/open-science/papers/",
-    cta: "Read the papers",
+    href: "/open-science/",
+    cta: "Read our research",
     image: {
       src: "/home/environments.webp",
       alt: "A researcher playing a game of Go against a white retro robot in a sunlit lab",

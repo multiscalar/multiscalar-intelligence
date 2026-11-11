@@ -5,7 +5,6 @@ import Reveal from "@/components/Reveal";
 import ClosingCard from "@/components/home/ClosingCard";
 import LatestPosts from "@/components/home/LatestPosts";
 import ScrollHighlight from "@/components/home/ScrollHighlight";
-import Team from "@/components/home/Team";
 import WhatWeBuild from "@/components/home/WhatWeBuild";
 import { SITE_DESCRIPTION, SITE_NAME, pageMetadata } from "@/lib/site";
 
@@ -30,7 +29,7 @@ const LOGOS = [
 ];
 
 // Who we are (hero), the field we work in (statement), what we do (three
-// steps), the people, then the latest research.
+// steps), then the latest research.
 export default function Home() {
   return (
     <>
@@ -59,7 +58,6 @@ export default function Home() {
           </section>
 
           <WhatWeBuild />
-          <Team />
           <LatestPosts />
         </div>
 

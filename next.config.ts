@@ -11,6 +11,7 @@ const nextConfig: NextConfig = {
       { source: "/news", destination: "/open-science/", permanent: true },
       { source: "/news/:slug*", destination: "/open-science/", permanent: true },
       { source: "/research/:slug*", destination: "/#what-we-do", permanent: true },
+      { source: "/open-science/papers", destination: "/open-science/", permanent: true },
       { source: "/careers", destination: "/work-with-us/", permanent: true },
       // The methodology page became a section of /evals/ on 2026-11-11.
       {
