@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
         destination: `/research/${to}/`,
         permanent: true,
       })),
+      // The methodology page became a section of /evals/ on 2026-11-11.
+      {
+        source: "/evals/methodology",
+        destination: "/evals/#methodology",
+        permanent: true,
+      },
       {
         source: "/evals/economic-arena",
         destination: "/evals/zerosum-bench/",

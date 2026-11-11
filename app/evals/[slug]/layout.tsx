@@ -8,16 +8,16 @@ import { BENCH_ABOUT } from "@/components/evals/about";
 import { BENCH_SAMPLES } from "@/lib/evals/samples";
 import { loadBench } from "@/lib/evals/benches";
 import { CLOSING_IMAGE } from "@/lib/evals/images";
-import { CATEGORY, benchCards } from "@/lib/evals/cards";
+import { CATEGORY, allBenchCards } from "@/lib/evals/cards";
 import { contactHref } from "@/lib/contact";
 import { benchStats } from "@/lib/evals/leaderboard";
 import "../evals.css";
 import BackLink from "@/components/BackLink";
 
 // The three benchmarks closest to this one: same category first, then
-// shared index dimensions, live ones before announced ones.
+// shared index capabilities, live ones before announced ones.
 function similar(slug: string) {
-  const cards = benchCards();
+  const cards = allBenchCards();
   const self = cards.find((c) => c.slug === slug)!;
   const score = (c: (typeof cards)[number]) =>
     (c.label === self.label ? 3 : 0) +

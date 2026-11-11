@@ -1,164 +1,140 @@
 {
   "bench": "treasury-bench",
   "title": "Treasury-Bench",
-  "question": "Can the agent manage cash it must never run out of?",
-  "source": {
-    "name": "Multiscalar",
-    "label": "Multiscalar",
-    "snapshot": "2026-09-11",
-    "run": "t5-stable-genesis"
+  "question": "Can the agent manage a company's cash?",
+  "blurb": "The agent runs a company's cash for one year, replayed from real 2025 market data. It starts with $100,000 and must pay 57 bills, worth $91,790 in total, on time through bank transfers. Between bills it can lend spare cash for interest, or trade, at that year's real rates and prices. Every model gets the same year and plays it three times.",
+  "footnote": "Scores on the Economic Intelligence Index's 0-100 scale, rescaled from the benchmark's own results. The questions below explain the scale.",
+  "notes": {
+    "measures": "Paying what the company owes before chasing returns: every bill on time, money moved through slow and costly channels, and spare cash put to work without risking the bills.",
+    "scoring": "The raw result is what the company is worth at the end of the year. We turn that into a 0-100 score. 0 matches a treasurer that pays every bill on time and does nothing else. 100 is the best a treasurer could do by lending spare cash with perfect hindsight. Paying bills late costs penalties and scores 0.",
+    "original": "We built Treasury-Bench. After paying the bills, GLM-5.3 ended the year with $9,760, and Gemma 4 26B A4B with −$19,057 after late and unpaid bills. Starting the scale at the punctual treasurer separates the models that only pay their bills from those that also make the cash work."
   },
-  "blurb": "Agents manage $100k of company cash for a simulated year on replayed recorded market history: fifty-seven bills, none visible at genesis, real banking rails, and a lending venue paying recorded rates. Each model plays one replayed year. Score is value added over a scripted prudent treasurer that keeps a float, lends the rest, and pays every bill on time: zero means no better than playing it safe, and below zero the agent lost money the obvious policy would have kept. Doing nothing closes $19,696.65 underwater. Gambler round trip is not a language model but a scripted conversion round trip, included as a priced reference.",
-  "footnote": "",
+  "rawLabel": "Company value at year end",
+  "refs": [
+    {
+      "label": "Careful scripted treasurer",
+      "value": 74.7
+    }
+  ],
+  "feeds": [
+    "Planning & Execution",
+    "Valuation & Allocation",
+    "Economic Security",
+    "Economic Discovery"
+  ],
+  "defaultMetric": "index_score",
   "metrics": [
     {
-      "id": "closing_total",
-      "label": "Closing treasury at year end",
-      "unit": "$",
-      "higherIsBetter": true
-    },
-    {
-      "id": "value_add",
-      "label": "Value added vs prudent baseline",
-      "unit": "$",
+      "id": "index_score",
+      "label": "Index score (0-100)",
+      "unit": "score",
       "higherIsBetter": true
     }
   ],
-  "defaultMetric": "value_add",
   "models": [
     {
       "name": "GLM-5.3",
-      "provider": "zai",
+      "provider": "Z.ai",
+      "model_id": "glm-5.3",
       "scores": {
-        "closing_total": 9949.44,
-        "value_add": 431.54,
-        "penalty_loss": 21.4
-      }
-    },
-    {
-      "name": "Claude Opus 5",
-      "provider": "anthropic",
-      "scores": {
-        "closing_total": 9164.16,
-        "value_add": -353.74,
-        "penalty_loss": 53.6
-      }
-    },
-    {
-      "name": "Qwen 3.8 Max",
-      "provider": "qwen",
-      "scores": {
-        "closing_total": 9903.87,
-        "value_add": 385.97,
-        "penalty_loss": 39.0
-      }
-    },
-    {
-      "name": "Claude Fable 5",
-      "provider": "anthropic",
-      "scores": {
-        "closing_total": 9677.5,
-        "value_add": 159.6,
-        "penalty_loss": 52.51
-      }
+        "index_score": 82.2
+      },
+      "raw": "$9,760"
     },
     {
       "name": "GPT-6 Astra",
-      "provider": "openai",
+      "provider": "OpenAI",
+      "model_id": "gpt-6-astra",
       "scores": {
-        "closing_total": 9581.07,
-        "value_add": 63.17,
-        "penalty_loss": 29.85
-      }
+        "index_score": 81.8
+      },
+      "raw": "$9,702"
     },
     {
-      "name": "Claude Fable 5.1",
-      "provider": "anthropic",
+      "name": "DeepSeek V4.1 Flash",
+      "provider": "DeepSeek",
+      "model_id": "deepseek-v4.1-flash",
       "scores": {
-        "closing_total": 9451.62,
-        "value_add": -66.28,
-        "penalty_loss": 16.0
-      }
+        "index_score": 78.7
+      },
+      "raw": "$9,661"
     },
     {
-      "name": "Claude Sonnet 5",
-      "provider": "anthropic",
+      "name": "MiMo V2.6 Pro",
+      "provider": "Xiaomi",
+      "model_id": "mimo-v2.6-pro",
       "scores": {
-        "closing_total": 9223.92,
-        "value_add": -293.98,
-        "penalty_loss": 177.67
-      }
+        "index_score": 78.2
+      },
+      "raw": "$9,663"
     },
     {
-      "name": "DeepSeek V4 Pro",
-      "provider": "deepseek",
+      "name": "Qwen3.8 Flash",
+      "provider": "Alibaba",
+      "model_id": "qwen3.8-flash",
       "scores": {
-        "closing_total": 8607.09,
-        "value_add": -910.81,
-        "penalty_loss": 24.4
-      }
+        "index_score": 77.8
+      },
+      "raw": "$9,597"
     },
     {
-      "name": "GPT-5.6 Sol",
-      "provider": "openai",
+      "name": "Claude Opus 5.5",
+      "provider": "Anthropic",
+      "model_id": "claude-opus-5.5",
       "scores": {
-        "closing_total": 9228.1,
-        "value_add": -289.8,
-        "penalty_loss": 69.0
-      }
+        "index_score": 67.2
+      },
+      "raw": "$9,322"
     },
     {
-      "name": "GPT-5.6 Terra",
-      "provider": "openai",
+      "name": "Kimi K3",
+      "provider": "Moonshot",
+      "model_id": "kimi-k3",
       "scores": {
-        "closing_total": 7543.6,
-        "value_add": -1974.3,
-        "penalty_loss": 512.22
-      }
+        "index_score": 66.4
+      },
+      "raw": "$9,301"
+    },
+    {
+      "name": "Gemini 3.8 Flash",
+      "provider": "Google",
+      "model_id": "gemini-3.8-flash",
+      "scores": {
+        "index_score": 59.6
+      },
+      "raw": "$9,126"
+    },
+    {
+      "name": "Mistral Large 4",
+      "provider": "Mistral",
+      "model_id": "mistral-large-4-0",
+      "scores": {
+        "index_score": 44.6
+      },
+      "raw": "$8,543"
     },
     {
       "name": "MiniMax M3",
-      "provider": "minimax",
+      "provider": "MiniMax",
+      "model_id": "minimax-m3",
       "scores": {
-        "closing_total": -1475.93,
-        "value_add": -10993.83,
-        "penalty_loss": 10611.9
-      }
+        "index_score": 23.3
+      },
+      "raw": "$8,187"
     },
     {
-      "name": "Gemini 3.1 Pro",
-      "provider": "google",
+      "name": "Gemma 4 26B A4B",
+      "provider": "Google",
+      "model_id": "gemma-4-26b-a4b-it",
       "scores": {
-        "closing_total": 1693.44,
-        "value_add": -7824.46,
-        "penalty_loss": 8431.09
-      }
-    },
-    {
-      "name": "GPT-OSS-120B",
-      "provider": "openai",
-      "scores": {
-        "closing_total": -13382.1,
-        "value_add": -22900.0,
-        "penalty_loss": 24502.16
-      }
-    },
-    {
-      "name": "Gemma 4 31B",
-      "provider": "google",
-      "scores": {
-        "closing_total": -14801.99,
-        "value_add": -24319.89,
-        "penalty_loss": 26308.03
-      }
-    },
-    {
-      "name": "Gambler round trip",
-      "provider": "baseline",
-      "scores": {
-        "closing_total": 8282.57,
-        "value_add": -1235.33
-      }
+        "index_score": 0.0
+      },
+      "raw": "−$19,057"
     }
-  ]
+  ],
+  "source": {
+    "name": "Multiscalar",
+    "snapshot": "2026-11-03",
+    "index": true
+  }
 }

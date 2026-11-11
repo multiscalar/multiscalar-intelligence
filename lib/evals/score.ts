@@ -50,5 +50,6 @@ export function fmt(value: number, unit?: string): string {
     const abs = Math.abs(Math.round(value)).toLocaleString("en-US");
     return (value < 0 ? "−$" : "$") + abs;
   }
+  if (unit === "score") return value.toFixed(1);
   return value.toFixed(value >= 100 ? 0 : 1) + "%";
 }

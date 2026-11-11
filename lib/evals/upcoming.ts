@@ -20,38 +20,6 @@ export interface UpcomingBench {
 
 export const UPCOMING_BENCHES: UpcomingBench[] = [
   {
-    slug: "auction-bench",
-    title: "Auction Bench",
-    question: "Can the agent bid well against other agents?",
-    label: "Auctions",
-    icon: "gavel",
-    skills: ["Auctions"],
-    traits: ["Capability", "Efficiency", "Robustness"],
-    blurb:
-      "Agents bid in repeated auctions against other agents with private valuations, across first-price, second-price and multi-item formats. The score is the surplus an agent captures relative to what the item was worth to it, so overbidding, shading too little and losing to sharper bidders all show up in the number.",
-    scores: [
-      ["Surplus captured", "Value won minus price paid, against the agent's private valuation."],
-      ["Cost per result", "Inference spent for each unit of surplus."],
-      ["Against strategic bidders", "Whether results hold when rivals shade, collude or bluff."],
-    ],
-  },
-  {
-    slug: "e-commerce-bench",
-    title: "E-Commerce Bench",
-    question: "Can the agent run an online store end to end?",
-    label: "Commerce",
-    icon: "cart",
-    skills: ["Pricing", "Operations"],
-    traits: ["Capability", "Efficiency", "Reliability"],
-    blurb:
-      "Agents run a simulated online store for a season: buying stock, setting prices, running promotions and reacting to shifts in demand. The score is profit over the season, measured against a scripted store that follows standard retail rules.",
-    scores: [
-      ["Profit", "Net result over the season, against the scripted store."],
-      ["Cost per result", "Inference spent for each dollar of profit."],
-      ["Consistency", "How much results vary across seeds and over a long season."],
-    ],
-  },
-  {
     slug: "terms-bench-v2",
     title: "TERMS-Bench v2",
     question: "Can the agent buy well from suppliers who negotiate back?",

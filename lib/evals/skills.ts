@@ -11,11 +11,11 @@ export interface Skill {
 }
 
 export const SKILLS: Skill[] = [
-  { slug: "negotiation", label: "Negotiation", icon: "handshake", benches: ["zerosum-bench", "terms-bench"] },
-  { slug: "procurement", label: "Procurement", icon: "package", benches: ["vending-bench-2", "e-commerce-bench", "terms-bench-v2"] },
-  { slug: "pricing", label: "Pricing", icon: "coins", benches: ["vending-bench-2", "e-commerce-bench"] },
+  { slug: "negotiation", label: "Negotiation", icon: "handshake", benches: ["terms-bench"] },
+  { slug: "procurement", label: "Procurement", icon: "package", benches: ["e-commerce-bench", "coffeebench"] },
+  { slug: "pricing", label: "Pricing", icon: "coins", benches: ["econevals", "e-commerce-bench"] },
   { slug: "capital-allocation", label: "Capital allocation", icon: "landmark", benches: ["treasury-bench"] },
-  { slug: "operations", label: "Operations", icon: "store", benches: ["travel-planner"] },
+  { slug: "operations", label: "Operations", icon: "store", benches: ["coffeebench", "e-commerce-bench"] },
   { slug: "auctions", label: "Auctions", icon: "gavel", benches: ["auction-bench"] },
 ];
 

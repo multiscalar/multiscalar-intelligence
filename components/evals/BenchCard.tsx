@@ -29,7 +29,8 @@ const TONES = {
   dark: {
     card: "border-white/[0.08] card-dark text-white",
     hover: "hover:border-white/20 hover:bg-[#201f1c] hover:text-white",
-    chip: "bg-white/[0.07] text-white/85",
+    chip: "border border-transparent bg-white/[0.07] text-white/85",
+    chipSecondary: "border border-white/15 text-white/55",
     question: "text-white/55",
     meta: "text-white/55",
     rank: "text-white/50",
@@ -47,7 +48,8 @@ const TONES = {
   light: {
     card: "border-black/[0.06] bg-bg-elevated text-black",
     hover: "hover:border-black/15 hover:text-black",
-    chip: "bg-black/[0.05] text-black/75",
+    chip: "border border-transparent bg-black/[0.05] text-black/75",
+    chipSecondary: "border border-black/10 text-black/50",
     question: "text-black/55",
     meta: "text-black/55",
     rank: "text-black/50",
@@ -70,33 +72,40 @@ type Tone = keyof typeof TONES;
 // top five as bars; a
 // benchmark without results shows skeleton rows and is not a link. With
 // `cta`, the footer shows a "View benchmark" hint (the whole card is the link).
+// `chips={false}` drops the capability chips.
 export default function BenchCard({
   card,
   tone = "dark",
   cta = false,
+  chips = true,
   className = "",
 }: {
   card: BenchCardData;
   tone?: Tone;
   cta?: boolean;
+  chips?: boolean;
   className?: string;
 }) {
   const t = TONES[tone];
   const cardClass = `group flex min-w-0 flex-col rounded-[20px] border p-7 max-[600px]:p-6 ${t.card} ${className}`;
   const body = (
     <>
-      {/* The index dimensions this benchmark feeds. */}
-      <div className="flex flex-wrap items-center gap-1.5">
+      {/* The index capabilities this benchmark feeds: primary filled,
+          secondary outlined. */}
+      {chips && <div className="mb-5 flex flex-wrap items-center gap-1">
         {card.dimensions.map((d) => (
           <span
             key={d}
-            className={`rounded-full px-3 py-1.5 text-[0.72rem] font-medium ${t.chip}`}
+            title={card.primary.includes(d) ? "Primary capability" : "Secondary capability"}
+            className={`rounded-full px-2.5 py-1.5 text-[0.72rem] font-medium ${
+              card.primary.includes(d) ? t.chip : t.chipSecondary
+            }`}
           >
             {d}
           </span>
         ))}
-      </div>
-      <h3 className="mt-5 text-[1.3rem] font-semibold tracking-[-0.02em]">
+      </div>}
+      <h3 className="text-[1.3rem] font-semibold tracking-[-0.02em]">
         {card.title}
       </h3>
       <p

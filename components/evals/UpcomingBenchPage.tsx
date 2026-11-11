@@ -5,7 +5,8 @@ import Reveal from "@/components/Reveal";
 import BenchCard, { ICONS } from "@/components/evals/BenchCard";
 import ClosingCard from "@/components/home/ClosingCard";
 import SectionHeader from "@/components/home/SectionHeader";
-import { benchCards } from "@/lib/evals/cards";
+import { allBenchCards } from "@/lib/evals/cards";
+import { BENCH_CAPABILITIES } from "@/lib/evals/eii";
 import { contactHref } from "@/lib/contact";
 import type { UpcomingBench } from "@/lib/evals/upcoming";
 
@@ -14,10 +15,11 @@ import type { UpcomingBench } from "@/lib/evals/upcoming";
 // leaderboard.
 export default function UpcomingBenchPage({ b }: { b: UpcomingBench }) {
   const Icon = ICONS[b.icon];
-  const cards = benchCards().filter((c) => c.slug !== b.slug);
-  // Live benchmarks sharing a trait first, then the rest.
+  const cards = allBenchCards().filter((c) => c.slug !== b.slug);
+  // Live benchmarks sharing a capability first, then the rest.
+  const caps = BENCH_CAPABILITIES[b.slug] ?? [];
   const shared = (c: (typeof cards)[number]) =>
-    c.dimensions.filter((d) => b.traits.includes(d)).length - (c.comingSoon ? 0.5 : 0);
+    c.dimensions.filter((d) => caps.includes(d)).length - (c.comingSoon ? 0.5 : 0);
   const similar = [...cards].sort((x, y) => shared(y) - shared(x)).slice(0, 3);
 
   return (
@@ -49,7 +51,7 @@ export default function UpcomingBenchPage({ b }: { b: UpcomingBench }) {
               Get early access
             </a>
             <a
-              href="/evals/methodology/"
+              href="/evals/#methodology"
               className="inline-flex items-center rounded-full border border-black/15 px-6 py-3 text-[0.85rem] font-medium text-black transition-colors hover:bg-black/[0.04] hover:text-black"
             >
               Read the methodology

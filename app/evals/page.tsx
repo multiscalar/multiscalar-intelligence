@@ -3,13 +3,13 @@ import { pageMetadata } from "@/lib/site";
 import Hero from "@/components/Hero";
 import Reveal from "@/components/Reveal";
 import BenchmarkList from "@/components/evals/BenchmarkList";
+import Methodology from "@/components/evals/Methodology";
+
 import Faq from "@/components/Faq";
 import { INDEX_FAQ } from "@/lib/faq";
 import ChartCard from "@/components/evals/ChartCard";
 import ProgressChart from "@/components/evals/ProgressChart";
 import RoiChart from "@/components/evals/RoiChart";
-import SkillBars from "@/components/evals/SkillBars";
-import { INDEX_SKILLS, SKILL_INFO } from "@/lib/evals/skills";
 import HashRedirect from "@/components/evals/HashRedirect";
 import IndexPreview from "@/components/evals/IndexPreview";
 import ClosingCard from "@/components/home/ClosingCard";
@@ -17,7 +17,7 @@ import ScrollHighlight from "@/components/home/ScrollHighlight";
 import SectionHeader from "@/components/home/SectionHeader";
 import { contactHref } from "@/lib/contact";
 import { benchCards } from "@/lib/evals/cards";
-import { exampleReleases, withExampleScores } from "@/lib/evals/examples";
+import { releaseDate, withIndexScores } from "@/lib/evals/index-scores";
 import { modelRoster } from "@/lib/evals/overview";
 import "./evals.css";
 
@@ -33,9 +33,9 @@ const EARLY_ACCESS = contactHref("evaluation");
 
 export default function EvalsPage() {
   const roster = modelRoster();
-  // EXAMPLE: index scores and release dates are placeholders until the
-  // real release dates and index land (see lib/evals/examples.ts).
-  const indexed = withExampleScores(roster);
+  // Scores and costs from eii-prod, release dates from OpenRouter's catalog
+  // (data/evals/index.json, written by tools/export_eii_cards.py).
+  const indexed = withIndexScores(roster);
   const scored = indexed.map((m) => ({
     name: m.name,
     icon: m.icon,
@@ -43,23 +43,15 @@ export default function EvalsPage() {
     color: m.color,
     score: Math.round(m.overall * 1000) / 10,
   }));
-  const released = exampleReleases(scored);
   const cards = benchCards();
   const benchHeader = (
     <SectionHeader
       label="Benchmarks"
       title="The benchmarks behind the index"
-      description="Each one has a full public leaderboard, and feeds one or more of the index's skills and traits."
+      description="Each one has a full public leaderboard, and feeds one or more of the index's five capabilities."
     />
   );
-  const progress = scored.map((m) => ({ ...m, date: released.get(m.name)! }));
-  const bySkill = indexed.map((m) => ({
-    name: m.name,
-    icon: m.icon,
-    mark: m.mark,
-    color: m.color,
-    scores: m.skills,
-  }));
+  const progress = scored.map((m) => ({ ...m, date: releaseDate(m.name) }));
   const costs = indexed.map((m) => ({
     name: m.name,
     provider: "",
@@ -83,7 +75,7 @@ export default function EvalsPage() {
         description="A composite measure of economic decision-making in AI models: negotiation, pricing, capital allocation and adversarial robustness, evaluated across established external benchmarks and our own."
         actions={[
           { href: "/evals/request-dataset/", label: "Request a dataset" },
-          { href: "/evals/methodology/", label: "Methodology" },
+          { href: "#methodology", label: "Methodology" },
         ]}
       />
 
@@ -106,20 +98,20 @@ export default function EvalsPage() {
               <IndexPreview
                 roster={roster}
                 label="Index preview"
-                title="Five traits of economic intelligence"
+                title="Five capabilities of economic intelligence"
                 description={
                   <>
-                    Each model is scored on five traits, from its results across
-                    the{" "}
+                    Each model is scored on five capabilities, from its results
+                    across the{" "}
                     <a
                       href="#benchmarks"
                       className="text-white underline decoration-white/35 underline-offset-[3px] transition-colors hover:text-white hover:decoration-white"
                     >
                       benchmark suite
                     </a>
-                    . The overall index is their weighted aggregate.{" "}
+                    . The overall index combines them.{" "}
                     <a
-                      href="/evals/methodology/"
+                      href="#methodology"
                       className="text-white underline decoration-white/35 underline-offset-[3px] transition-colors hover:text-white hover:decoration-white"
                     >
                       Read the methodology
@@ -133,25 +125,10 @@ export default function EvalsPage() {
 
         <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
           <ChartCard
-            id="skills"
-            label="By skill"
-            title="Who's best at each job"
-            description="The top ten models for each economic skill, from the benchmarks that exercise it."
-            example
-          >
-            <SkillBars
-              skills={INDEX_SKILLS.map((s) => s.label)}
-              info={SKILL_INFO}
-              models={bySkill}
-            />
-          </ChartCard>
-
-          <ChartCard
             id="cost"
             label="Cost"
             title="What each point of intelligence costs"
             description="Index score against inference spend per run, on a log scale. Models on the frontier get the most intelligence for their price; everything below it pays more for less."
-            example
           >
             <RoiChart points={costs} unit="" metric="Index score" />
           </ChartCard>
@@ -161,7 +138,6 @@ export default function EvalsPage() {
             label="Progress"
             title="Economic intelligence over time"
             description="Index score against each model's release date. The frontier steps up with every new record; the trend through it shows how fast the field is improving."
-            example
           >
             <ProgressChart points={progress} />
           </ChartCard>
@@ -170,6 +146,8 @@ export default function EvalsPage() {
             {benchHeader}
             <BenchmarkList cards={cards} />
           </section>
+
+          <Methodology />
 
           <section id="faq" className="section-b scroll-mt-28">
             <Faq items={INDEX_FAQ} contact={{ href: "/contact/", label: "Write to us" }} />

@@ -1,4 +1,13 @@
-import { SKILLS, skillHref } from "@/lib/evals/skills";
+import { INDEX_BENCHES, loadBench } from "@/lib/evals/benches";
+
+const BENCH_ICON: Record<string, NavIcon> = {
+  "terms-bench": "handshake",
+  "e-commerce-bench": "package",
+  econevals: "chart",
+  "auction-bench": "gavel",
+  coffeebench: "store",
+  "treasury-bench": "landmark",
+};
 import { HIDE } from "@/lib/launch";
 import { CAPABILITIES, capabilityHref } from "@/lib/research";
 import { listPosts } from "@/lib/posts";
@@ -105,10 +114,10 @@ export function navItems(): NavItem[] {
         {
           href: "/evals/",
           title: "Economic Intelligence Index",
-          description: "Economic skills and traits, measured in one score",
+          description: "Five economic capabilities, measured in one score",
         },
         {
-          href: "/evals/methodology/",
+          href: "/evals/#methodology",
           title: "Methodology",
           description: "How we score models, and why",
         },
@@ -118,13 +127,12 @@ export function navItems(): NavItem[] {
           description: "Full traces and results for your own analysis",
         },
       ],
-      // Skills, not benchmark names: what a visitor recognizes. Each opens
-      // the benchmark list filtered to that skill.
-      secondaryLabel: "Skills",
-      secondary: SKILLS.map((s) => ({
-        href: skillHref(s.slug),
-        title: s.label,
-        icon: s.icon,
+      // The benchmarks behind the index, each to its own page.
+      secondaryLabel: "Benchmarks",
+      secondary: INDEX_BENCHES.map((slug) => ({
+        href: `/evals/${slug}/`,
+        title: loadBench(slug).title,
+        icon: BENCH_ICON[slug],
       })),
     },
     {

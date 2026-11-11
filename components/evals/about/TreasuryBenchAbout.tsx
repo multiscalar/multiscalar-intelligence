@@ -80,23 +80,24 @@ export default function TreasuryBenchAbout() {
           </div>
         </div>
         <p className={P}>
-          The score is the treasury left at the year&apos;s close, net of
-          penalties, reported on the leaderboard as value added over a
-          scripted prudent treasurer that keeps a float, lends the rest, and
-          pays every bill on time. Zero means no better than playing it
-          safe; below zero, the agent lost money the obvious policy would
-          have kept. A late payment costs a one-off 1.4% fee; anything still
-          unpaid at the close goes to collection with a 20% surcharge. Raw
-          return alone is never rewarded: a treasurer who gambles the
-          payroll is failing the job even when the bet pays off.
+          The raw result is the company&apos;s net worth at the year&apos;s
+          close, net of penalties. A late payment costs a one-off 1.4% fee,
+          and anything still unpaid at the close goes to collection with a
+          20% surcharge. The index turns net worth into a 0-100 score. 0 is a
+          punctual treasurer that pays every bill on time and does nothing
+          else. 100 is the best a treasurer could do by lending spare cash
+          with perfect hindsight. A treasurer who pays late scores 0; one who
+          also trades well can pass the top and scores 100.
+          Raw return alone earns nothing: a treasurer who gambles the payroll
+          fails the job even when the bet pays off.
         </p>
         <p className={P}>
-          The scripted references are part of the benchmark: doing nothing
-          closes $19,696.65 underwater, the prudent policy is the zero every
-          score is measured from, and the gambler round trip on the board is
-          the pinned demonstration that converting the treasury stays legal,
-          executes cleanly, and is priced. If a scripted policy beats a
-          frontier model, that is a result, not an embarrassment to hide.
+          The scripted references belong to the benchmark. A treasurer that
+          never acts closes $19,696.65 underwater. A prudent policy that keeps
+          a float, lends the rest and pays on time scores 74.7. A gambler that
+          moves the treasury into the volatile native asset for three weeks
+          scores 27.0. When a scripted policy beats a frontier model, we
+          report it.
         </p>
       </section>
 

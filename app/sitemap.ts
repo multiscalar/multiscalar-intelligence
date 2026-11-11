@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const pages = (paths: string[]) => paths.map((path) => ({ url: url(path) }));
   return [
     { url: url("/"), priority: 1 },
-    ...pages(["/evals/", "/open-science/", "/open-science/papers/", "/news/", "/about/", "/contact/", "/evals/methodology/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
+    ...pages(["/evals/", "/open-science/", "/open-science/papers/", "/news/", "/about/", "/contact/", "/evals/request-dataset/", "/privacy/", "/terms/"]),
     ...pages(CAPABILITIES.map((c) => capabilityHref(c.slug))),
     ...BENCHES.flatMap((slug) =>
       pages([

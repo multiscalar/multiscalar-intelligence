@@ -1,0 +1,138 @@
+{
+  "bench": "e-commerce-bench",
+  "title": "E-Commerce Bench",
+  "question": "Can the agent run an online store for a year?",
+  "blurb": "The agent gets ¥100,000 and one simulated year to run up to four online shops. It picks products, haggles with suppliers (some of them scammers), sets prices, ships orders and handles returns. Every model faces the same market and plays the year three times.",
+  "footnote": "Scores on the Economic Intelligence Index's 0-100 scale, rescaled from the benchmark's own results. The questions below explain the scale.",
+  "notes": {
+    "measures": "Running a business over a long stretch: thousands of decisions, cash that can run out, and suppliers who try to cheat.",
+    "scoring": "The paper measures how many times over the agent multiplied its starting money. We turn that into a 0-100 score on a log scale, where each tenfold gain adds the same number of points. 0 matches an agent that opens one shop and does nothing else, and going bankrupt also scores 0. 100 is a return far beyond any model's.",
+    "original": "In the paper's terms, GPT-6 Astra multiplied its money between 16 and 24 times in its three years, and Claude Opus 5.5 between 10 and 15 times. Mistral Large 4 and MiniMax M3 went bankrupt every time. The log scale stops one huge year from hiding two bankruptcies. We ran three years per model, where the paper runs five."
+  },
+  "rawLabel": "Money multiplied, each year",
+  "refs": [],
+  "feeds": [
+    "Planning & Execution",
+    "Valuation & Allocation",
+    "Strategic Interaction",
+    "Economic Security",
+    "Economic Discovery"
+  ],
+  "defaultMetric": "index_score",
+  "metrics": [
+    {
+      "id": "index_score",
+      "label": "Index score (0-100)",
+      "unit": "score",
+      "higherIsBetter": true
+    }
+  ],
+  "models": [
+    {
+      "name": "GPT-6 Astra",
+      "provider": "OpenAI",
+      "model_id": "gpt-6-astra",
+      "scores": {
+        "index_score": 67.7
+      },
+      "raw": "23.3×, 16.4×, 23.5×"
+    },
+    {
+      "name": "Claude Opus 5.5",
+      "provider": "Anthropic",
+      "model_id": "claude-opus-5.5",
+      "scores": {
+        "index_score": 58.3
+      },
+      "raw": "15.2×, 9.9×, 15.0×"
+    },
+    {
+      "name": "Kimi K3",
+      "provider": "Moonshot",
+      "model_id": "kimi-k3",
+      "scores": {
+        "index_score": 31.5
+      },
+      "raw": "2.7×, 3.4×, 5.0×"
+    },
+    {
+      "name": "MiMo V2.6 Pro",
+      "provider": "Xiaomi",
+      "model_id": "mimo-v2.6-pro",
+      "scores": {
+        "index_score": 30.3
+      },
+      "raw": "6.7×, 1.6×, 3.6×"
+    },
+    {
+      "name": "Gemini 3.8 Flash",
+      "provider": "Google",
+      "model_id": "gemini-3.8-flash",
+      "scores": {
+        "index_score": 24.1
+      },
+      "raw": "2.3×, 2.3×, 2.9×"
+    },
+    {
+      "name": "GLM-5.3",
+      "provider": "Z.ai",
+      "model_id": "glm-5.3",
+      "scores": {
+        "index_score": 19.8
+      },
+      "raw": "1.8×, 2.5×, 1.9×"
+    },
+    {
+      "name": "DeepSeek V4.1 Flash",
+      "provider": "DeepSeek",
+      "model_id": "deepseek-v4.1-flash",
+      "scores": {
+        "index_score": 14.5
+      },
+      "raw": "2.8×, 0.82×, 1.7×"
+    },
+    {
+      "name": "Qwen3.8 Flash",
+      "provider": "Alibaba",
+      "model_id": "qwen3.8-flash",
+      "scores": {
+        "index_score": 10.8
+      },
+      "raw": "bankrupt, 1.5×, 2.0×"
+    },
+    {
+      "name": "Gemma 4 26B A4B",
+      "provider": "Google",
+      "model_id": "gemma-4-26b-a4b-it",
+      "scores": {
+        "index_score": 0.7
+      },
+      "raw": "0.86×, 0.48×, bankrupt"
+    },
+    {
+      "name": "MiniMax M3",
+      "provider": "MiniMax",
+      "model_id": "minimax-m3",
+      "scores": {
+        "index_score": 0.0
+      },
+      "raw": "bankrupt, bankrupt, bankrupt"
+    },
+    {
+      "name": "Mistral Large 4",
+      "provider": "Mistral",
+      "model_id": "mistral-large-4-0",
+      "scores": {
+        "index_score": 0.0
+      },
+      "raw": "bankrupt, bankrupt, bankrupt"
+    }
+  ],
+  "source": {
+    "name": "Qwen",
+    "url": "https://github.com/QwenLM/E-CommerceBench",
+    "paper": "https://arxiv.org/abs/2608.30730",
+    "snapshot": "2026-11-03",
+    "index": true
+  }
+}

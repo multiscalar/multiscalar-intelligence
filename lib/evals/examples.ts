@@ -1,4 +1,4 @@
-import { DIMENSIONS } from "./eii";
+import { CAPABILITIES } from "./eii";
 import { INDEX_SKILLS } from "./skills";
 import { PROVIDER_ICONS } from "./provider-icons";
 import { PROVIDERS, logoColor, providerOf } from "./providers";
@@ -64,7 +64,7 @@ export function withExampleScores<T extends object>(
   const rand = seeded(42);
   return roster.map((m, i) => {
     const base = 0.35 + rand() * 0.45;
-    const dims = DIMENSIONS.map(() =>
+    const dims = CAPABILITIES.map(() =>
       Math.min(0.97, Math.max(0.15, base + (rand() - 0.5) * 0.3)),
     );
     const overall = dims.reduce((s, v) => s + v, 0) / dims.length;

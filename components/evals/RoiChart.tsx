@@ -14,14 +14,15 @@ export interface RoiPoint extends ChartModel {
 }
 
 const H = 420;
-// Mark radii, px: frontier models get the full disc, the rest a small one.
-const R_FRONT = 14;
-const R_REST = 10;
+// Mark radius, px: every model gets the full logo disc.
+const R = 14;
+const SIDES = ["top-left", "left", "top", "right", "top-right", "bottom-right", "bottom", "bottom-left"] as const;
 
 // Score against inference cost per run (log scale). The efficient frontier
 // joins the models that no cheaper model beats; everything below it pays
-// more for less. Only frontier models are named, each where its label clears
-// every mark, the frontier line and the other labels; hover names the rest.
+// more for less. Every model is named where its label clears every mark, the
+// frontier line and the other labels, frontier models placed first; hover
+// names any that found no room.
 export default function RoiChart({
   points,
   unit,
@@ -86,18 +87,21 @@ export default function RoiChart({
     lines.push(segmentBox(X(p), Y(prev), X(p), Y(p)));
   });
   const labels = placeLabels(
-    [...frontier]
-      .sort((a, b) => b.score - a.score)
+    [...live]
+      .sort(
+        (a, b) =>
+          Number(onFrontier.has(b.name)) - Number(onFrontier.has(a.name)) || b.score - a.score,
+      )
       .map((p) => ({ id: p.name, x: X(p), y: Y(p), text: p.name })),
     {
       width,
       height: H,
-      radius: R_FRONT,
-      marks: live.map((p) => ({ x: X(p), y: Y(p), r: onFrontier.has(p.name) ? R_FRONT : R_REST })),
+      radius: R,
+      marks: live.map((p) => ({ x: X(p), y: Y(p), r: R })),
       obstacles: lines,
       // Above-left of a frontier model is always clear of data: nothing
       // cheaper scores higher.
-      sides: ["top-left", "left", "top", "right", "top-right", "bottom-right", "bottom"],
+      sides: [...SIDES],
     },
   );
 
@@ -174,7 +178,7 @@ export default function RoiChart({
                 key={p.name}
                 onMouseEnter={() => setHovered(p.name)}
                 className={`absolute -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
-                  hovered && !on ? "opacity-30" : best ? "" : "opacity-55"
+                  hovered && !on ? "opacity-30" : ""
                 } ${on ? "z-30" : best ? "z-20" : "z-10"}`}
                 style={{ left: `${px(p.cost)}%`, top: `${py(p.score)}%` }}
               >
@@ -184,7 +188,7 @@ export default function RoiChart({
                     mark={p.mark}
                     color={p.color}
                     tone="light"
-                    size={best ? "md" : "sm"}
+                    size="md"
                     title={p.name}
                   />
                 </span>
@@ -198,7 +202,7 @@ export default function RoiChart({
                   side && (
                     <span
                       className="pointer-events-none absolute whitespace-nowrap text-[0.75rem] font-medium leading-4 text-black/75 max-[780px]:hidden"
-                      style={labelStyle(side, best ? R_FRONT : R_REST)}
+                      style={labelStyle(side, R)}
                     >
                       {p.name}
                     </span>

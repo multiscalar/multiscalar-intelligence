@@ -2,27 +2,29 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { useIndicator } from "@/components/useIndicator";
-import { DIMENSIONS, DIMENSION_INFO } from "@/lib/evals/eii";
-import { withExampleScores, type IndexScores } from "@/lib/evals/examples";
+import { CAPABILITIES, CAPABILITY_OVERALL_INFO } from "@/lib/evals/eii";
+import type { IndexScores } from "@/lib/evals/examples";
+import { withIndexScores } from "@/lib/evals/index-scores";
 import type { RosterModel } from "@/lib/evals/overview";
 import { logoColorOnDark } from "@/lib/evals/providers";
 
-// Economic Intelligence Index preview with EXAMPLE scores: the index is not
-// published yet. Model names come from the real roster so the layout is tested
-// against real name lengths; the scores are made up.
-// Traits only: the ranking by skill is its own chart (SkillBars).
-const AXES: string[] = [...DIMENSIONS];
-const infoOf = (view: string) => DIMENSION_INFO[view as keyof typeof DIMENSION_INFO];
+// Economic Intelligence Index preview: eii-prod scores on the C1-C5
+// dimensions (lib/evals/index-scores.ts).
+// Axes are the C1–C5 capability taxonomy.
+const AXES: string[] = CAPABILITIES.map((c) => c.short);
+const capOf = (view: string) => CAPABILITIES.find((c) => c.short === view);
+const infoOf = (view: string) =>
+  view === "Overall" ? CAPABILITY_OVERALL_INFO : capOf(view)?.info;
 
 const TOP_N = 10;
 // Row height lives in a CSS variable so phones can use tighter rows.
 const ROWS = "[--row-h:52px] max-[640px]:[--row-h:44px]";
 const EASE = "ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
 
-type ExampleModel = RosterModel & IndexScores;
+type ScoredModel = RosterModel & IndexScores;
 
-const valuesOf = (m: ExampleModel) => m.dims;
-const valueOf = (m: ExampleModel, view: string) =>
+const valuesOf = (m: ScoredModel) => m.dims;
+const valueOf = (m: ScoredModel, view: string) =>
   view === "Overall" ? m.overall : m.dims[AXES.indexOf(view)];
 
 // Radar geometry.
@@ -72,9 +74,11 @@ export default function IndexPreview({
   const [view, setView] = useState("Overall");
   const axes = AXES;
   const [hovered, setHovered] = useState<string | null>(null);
+  // Axis label under the pointer (or keyboard focus): shows what it measures.
+  const [tip, setTip] = useState<number | null>(null);
   // Clicked model: holds the radar on it, ignoring hover, until clicked again.
   const [locked, setLocked] = useState<string | null>(null);
-  const models = useMemo(() => withExampleScores(roster), [roster]);
+  const models = useMemo(() => withIndexScores(roster), [roster]);
   const tabs = useRef<HTMLDivElement>(null);
   const pill = useIndicator(tabs, view);
 
@@ -149,7 +153,7 @@ export default function IndexPreview({
           ref={tabs}
           data-keeps-lock
           role="tablist"
-          aria-label="Index trait"
+          aria-label="Index capability"
           className="relative inline-flex flex-wrap gap-1 rounded-full bg-white/[0.06] p-1 max-[640px]:flex-nowrap"
         >
           <span aria-hidden className="rounded-full bg-white" style={pill} />
@@ -182,7 +186,7 @@ export default function IndexPreview({
         key={view}
         className="col-start-1 mt-5 min-h-[3.2em] max-w-[620px] text-pretty text-[0.95rem] leading-[1.6] text-white/60 animate-fade-up max-[640px]:mt-4 max-[640px]:text-[0.9rem]"
       >
-        <span className="font-medium text-white">{view}.</span>{" "}
+        <span className="font-medium text-white">{capOf(view)?.name ?? view}.</span>{" "}
         {infoOf(view)}
       </p>
 
@@ -192,7 +196,7 @@ export default function IndexPreview({
           style={{ height: `calc(var(--row-h, 52px) * ${TOP_N})` }}
           data-keeps-lock
           onMouseLeave={() => setHovered(null)}
-          aria-label={`Top ${TOP_N} models by ${view.toLowerCase()} score (example data)`}
+          aria-label={`Top ${TOP_N} models by ${view.toLowerCase()} score`}
         >
           {models.map((m) => {
             const rank = rankOf.get(m.name);
@@ -271,11 +275,12 @@ export default function IndexPreview({
           phones: its labels shrink to a few pixels, there's no hover to pick a
           model, and the tabs already re-rank the list by each dimension. */}
       <div data-keeps-lock className="max-[640px]:hidden col-start-2 row-span-2 row-start-2 mt-2 self-start max-[1180px]:col-start-1 max-[1180px]:row-span-1 max-[1180px]:row-start-auto max-[1180px]:mt-14">
+        <div className="relative mx-auto w-full max-w-[480px]">
         <svg
           viewBox={`-74 -2 ${SIZE + 148} ${SIZE + 4}`}
           role="img"
-          aria-label={`Example profile for ${active.name} across ${axes.join(", ").toLowerCase()}, against the other top ${TOP_N} models`}
-          className="mx-auto w-full max-w-[480px] h-auto"
+          aria-label={`Profile for ${active.name} across ${axes.join(", ").toLowerCase()}, against the other top ${TOP_N} models`}
+          className="block w-full h-auto"
         >
           {RINGS.map((r) => (
             <polygon
@@ -295,7 +300,7 @@ export default function IndexPreview({
                 x2={x}
                 y2={y}
                 stroke={
-                  i === axis
+                  i === axis || i === tip
                     ? "rgba(242,235,221,0.5)"
                     : "rgba(242,235,221,0.08)"
                 }
@@ -330,26 +335,68 @@ export default function IndexPreview({
               return <circle key={i} cx={x} cy={y} r={3.5} fill="#f2ebdd" />;
             })}
           </g>
-          {axes.map((d, i) => {
+          {CAPABILITIES.map((c, i) => {
             const [x, y] = point(i, 1.12);
             const anchor =
               Math.abs(x - C) < 1 ? "middle" : x > C ? "start" : "end";
+            const lit = axis === -1 || axis === i || tip === i;
             return (
               <text
-                key={d}
+                key={c.code}
                 x={x}
-                y={y}
+                y={anchor === "middle" ? y - 8 : y}
                 textAnchor={anchor}
                 dominantBaseline="middle"
-                className={`font-sans text-[10px] font-semibold uppercase tracking-[0.08em] transition-[fill] duration-300 ${
-                  axis === -1 || axis === i ? "fill-white/75" : "fill-white/35"
+                tabIndex={0}
+                aria-label={`${c.name}: ${c.info}`}
+                onMouseEnter={() => setTip(i)}
+                onMouseLeave={() => setTip(null)}
+                onFocus={() => setTip(i)}
+                onBlur={() => setTip(null)}
+                className={`cursor-help outline-none font-sans text-[10px] font-semibold uppercase tracking-[0.08em] transition-[fill] duration-300 ${
+                  tip === i ? "fill-white" : lit ? "fill-white/75" : "fill-white/35"
                 }`}
               >
-                {d}
+                {c.short}
               </text>
             );
           })}
         </svg>
+        {tip !== null && (() => {
+          // Place the card by the hovered label, in % of the SVG's viewBox
+          // (-74..434 wide, -2..362 tall), opening away from the chart centre.
+          const c = CAPABILITIES[tip];
+          const [x, y] = point(tip, 1.12);
+          const left = ((x + 74) / (SIZE + 148)) * 100;
+          const top = ((y + 2) / (SIZE + 4)) * 100;
+          const below = y < C;
+          const shift = Math.abs(x - C) < 1 ? "-50%" : x > C ? "-85%" : "-15%";
+          return (
+            // Position on the outer box, fade on the inner one: the fade
+            // animates transform and would override the placement.
+            <div
+              className="pointer-events-none absolute z-10 w-[240px]"
+              style={{
+                left: `${left}%`,
+                top: below ? `calc(${top}% + 28px)` : `calc(${top}% - 18px)`,
+                transform: `translate(${shift}, ${below ? "0" : "-100%"})`,
+              }}
+            >
+            <div
+              role="tooltip"
+              className="rounded-xl border border-white/10 bg-[#141414]/95 px-4 py-3 shadow-xl backdrop-blur animate-fade-up"
+            >
+              <div className="text-[0.9rem] font-medium text-white">
+                {c.name}
+              </div>
+              <p className="mt-1.5 text-[0.8rem] leading-[1.5] text-white/65">
+                {c.info}
+              </p>
+            </div>
+            </div>
+          );
+        })()}
+        </div>
         <div className="@container mx-auto mt-8 w-full max-w-[480px] border-t border-white/10 pt-6">
           <div className="flex items-center justify-between gap-4">
             <span className="flex min-w-0 items-center gap-3">

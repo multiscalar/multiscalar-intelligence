@@ -1,4 +1,6 @@
-import { BENCHES, loadBench } from "./benches";
+import { INDEX_BENCHES as BENCHES, loadBench } from "./benches";
+// Every function here reads the index benchmarks only: the boards outside the
+// index (ZeroSum, Vending-Bench 2) have their own pages but no part in it.
 import { PROVIDER_ICONS } from "./provider-icons";
 import { logoColor, providerOf, PROVIDERS, type Provider } from "./providers";
 import type { BenchModel } from "./types";

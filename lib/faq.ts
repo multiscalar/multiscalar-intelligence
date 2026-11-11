@@ -1,6 +1,12 @@
 import type { FaqItem } from "@/components/Faq";
 import { HIDE } from "@/lib/launch";
-import { BENCH_DIMENSIONS } from "@/lib/evals/eii";
+import { BENCH_CAPABILITIES, BENCH_PRIMARY, CAPABILITIES } from "@/lib/evals/eii";
+
+// "a", "a and b", "a, b and c"
+const list = (xs: string[]) =>
+  xs.length < 2 ? xs.join("") : `${xs.slice(0, -1).join(", ")} and ${xs[xs.length - 1]}`;
+const capName = (short: string) =>
+  (CAPABILITIES.find((c) => c.short === short)?.name ?? short).toLowerCase();
 import { BENCH_SAMPLES } from "@/lib/evals/samples";
 import type { BenchData } from "@/lib/evals/types";
 import { contactHref } from "@/lib/contact";
@@ -8,60 +14,40 @@ import { contactHref } from "@/lib/contact";
 // Questions and answers for the FAQ sections across the index pages. Answers
 // only state what the site already says elsewhere; keep them in step.
 
-export const METHODOLOGY_FAQ: FaqItem[] = [] = [
+// The Index page: the essentials, pointing to the methodology for the rest.
+export const INDEX_FAQ: FaqItem[] = [
   {
     q: "What does the index measure?",
-    a: "Economic agency, not knowledge of economics: the ability to pursue economic objectives on its own, under constraints, uncertainty, strategic counterparties and financial risk, while protecting the interests of the principal it represents.",
-  },
-  {
-    q: "What is the difference between skills and traits?",
-    a: "Skills are the jobs, such as negotiating, pricing or allocating capital. Traits are the qualities that make an agent trustworthy at them: good outcomes, low cost, consistency, resistance to being played, and avoiding harm.",
+    a: "How well an AI model makes economic decisions on its own: negotiating, pricing, bidding, running a business and managing cash, against counterparties with their own interests and with real consequences for the money it controls.",
   },
   {
     q: "How is a score calculated?",
-    a: "Each model plays every scenario many times under the same conditions. We record what its decisions caused, place each result against fixed reference points, and roll the results up into skill and trait scores and then the index, with published weights and the uncertainty across runs.",
+    a: "Each model plays every benchmark several times under the same conditions. We place each result on a 0-100 scale between a simple scripted strategy and the best outcome the benchmark allows, average the runs, and combine the benchmarks into five capability scores and one overall score.",
+    link: { href: "/evals/#methodology", label: "Read the methodology" },
   },
   {
     q: "Does another model judge the results?",
-    a: "Wherever possible, no. We score realized economic outcomes, such as money made or a deal's terms, rather than asking a model for its opinion.",
+    a: "No. Every benchmark in the index scores what the model's decisions caused, such as money made or the terms of a deal.",
   },
   {
     q: "Which benchmarks feed the index?",
-    a: "A mix of economic benchmarks, public and private, built by us and by others. Each one feeds every skill and trait it can measure, so no single test decides a score.",
+    a: "Six today: TERMS-Bench, E-Commerce Bench, EconEvals and CoffeeBench from university and industry labs, and Auction Bench and Treasury-Bench, which we built. EconSec, on economic security, joins in a coming release.",
     link: { href: "/evals/#benchmarks", label: "See the benchmarks" },
   },
   {
-    q: "Can a model be tuned to the test?",
-    a: "Public benchmarks and their results are open, so anyone can check how a score was produced. The official index also includes private, held-out scenarios that are never published.",
+    q: "Are scores comparable over time?",
+    a: "Within a release, yes. Each release fixes the benchmarks, reference points and weights, and any change to them starts a new release.",
   },
   {
-    q: "Are scores comparable over time?",
-    a: "Within a version, yes: results are normalized against fixed reference points, with no ceiling to saturate. Any change to the benchmarks, weights, environments or normalization creates a new version, and results are only compared within a version.",
+    q: "Can I evaluate my own model?",
+    a: "Yes. We can run your model through the benchmarks before release, under the same conditions as every model here.",
+    link: { href: contactHref("evaluation"), label: "Get in touch" },
   },
   {
     q: "Can I get the underlying data?",
-    a: "Complete runs, transcripts and evidence bundles are available under an agreement that they are not redistributed or used for training.",
+    a: "Complete runs, transcripts and evidence are available under an agreement not to redistribute them or train on them.",
     link: { href: "/evals/request-dataset/", label: "Request a dataset" },
   },
-];
-
-const byQuestion = (q: string) => METHODOLOGY_FAQ.find((f) => f.q === q)!;
-
-// The Index page: the essentials, pointing to the methodology for the rest.
-export const INDEX_FAQ: FaqItem[] = [
-  byQuestion("What does the index measure?"),
-  {
-    ...byQuestion("How is a score calculated?"),
-    link: { href: "/evals/methodology/", label: "Read the methodology" },
-  },
-  byQuestion("Which benchmarks feed the index?"),
-  byQuestion("Are scores comparable over time?"),
-  {
-    q: "Can I evaluate my own model?",
-    a: "Yes. We can run your model through the benchmarks before release, under the same conditions as every other model.",
-    link: { href: contactHref("evaluation"), label: "Get in touch" },
-  },
-  byQuestion("Can I get the underlying data?"),
 ];
 
 export const DATASET_FAQ: FaqItem[] = [
@@ -94,9 +80,74 @@ const fmtDate = (iso: string) =>
 
 // One benchmark's page, built from its own data.
 export function benchFaq(slug: string, d: BenchData): FaqItem[] {
+  return d.notes && d.feeds ? indexBenchFaq(slug, d) : boardFaq(slug, d);
+}
+
+function whoBuilt(d: BenchData): FaqItem {
+  const ours = d.source.name === "Multiscalar";
+  return {
+    q: "Who built it?",
+    a: ours
+      ? `Multiscalar built ${d.title} and runs it.`
+      : d.source.index
+        ? `${d.source.name} built ${d.title}. Multiscalar runs it, with attribution, as part of the Economic Intelligence Index.`
+        : `${d.source.name} built ${d.title}. We show its published results with attribution.`,
+    ...(!ours && d.source.url ? { link: { href: d.source.url, label: `Visit ${d.source.name}'s page` } } : {}),
+  };
+}
+
+function transcripts(slug: string): FaqItem {
+  return BENCH_SAMPLES[slug]
+    ? {
+        q: "Can I read full transcripts?",
+        a: "Yes. The Samples tab has complete episodes, with every message and decision. Full runs are available on request.",
+        link: { href: `/evals/${slug}/samples/`, label: "Open the samples" },
+      }
+    : {
+        q: "Can I read full transcripts?",
+        a: "You can request complete runs and transcripts.",
+        link: { href: `/evals/request-dataset/?bench=${slug}`, label: "Request the dataset" },
+      };
+}
+
+// A benchmark in the index: its notes say what it measures, how its own
+// metric becomes 0-100 and what the unscaled results were.
+function indexBenchFaq(slug: string, d: BenchData): FaqItem[] {
+  const notes = d.notes!;
+  return [
+    { q: `What does ${d.title} measure?`, a: notes.measures },
+    { q: "How is the score calculated?", a: notes.scoring },
+    {
+      q: d.source.paper ? "How do these scores differ from the paper?" : "How do these scores differ from the raw results?",
+      a: notes.original,
+      ...(d.source.paper ? { link: { href: d.source.paper, label: "Read the paper" } } : {}),
+    },
+    {
+      q: "How does it feed the index?",
+      a: `${d.title} counts toward ${d.feeds!.length === 1 ? "one" : d.feeds!.length === 5 ? "all five" : ["", "", "two", "three", "four"][d.feeds!.length]} of the index's five capabilities: ${list(d.feeds!)}. The methodology explains how the capabilities combine into one score.`,
+      link: { href: "/evals/#methodology", label: "Read the methodology" },
+    },
+    whoBuilt(d),
+    {
+      q: "When were these results produced?",
+      a: `For the index release of ${fmtDate(d.source.snapshot)}. Every model played the same episodes with the same settings. The page updates with each release.`,
+    },
+    transcripts(slug),
+    {
+      q: "Can I evaluate my own model on it?",
+      a: `Yes. We can run your model through ${d.title} before release, under the same conditions as every model here.`,
+      link: { href: contactHref("evaluation"), label: "Get in touch" },
+    },
+  ];
+}
+
+// A board outside the index.
+function boardFaq(slug: string, d: BenchData): FaqItem[] {
   const metric = d.metrics.find((m) => m.id === d.defaultMetric)!;
   const ours = d.source.name === "Multiscalar";
-  const traits = BENCH_DIMENSIONS[slug] ?? [];
+  const traits = d.source.index ? (BENCH_CAPABILITIES[slug] ?? []) : [];
+  const primary = BENCH_PRIMARY[slug] ?? traits;
+  const secondary = traits.filter((t) => !primary.includes(t));
   return [
     { q: `What does ${d.title} measure?`, a: `${d.question} ${d.blurb}` },
     {
@@ -109,7 +160,9 @@ export function benchFaq(slug: string, d: BenchData): FaqItem[] {
       q: "Who built it?",
       a: ours
         ? `Multiscalar built ${d.title} and runs it.`
-        : `${d.source.name} built ${d.title}. We show its published results with attribution.`,
+        : d.source.index
+          ? `${d.source.name} built ${d.title}. Multiscalar runs it, with attribution, as part of the Economic Intelligence Index.`
+          : `${d.source.name} built ${d.title}. We show its published results with attribution.`,
       ...(!ours && d.source.url ? { link: { href: d.source.url, label: `Visit ${d.source.name}'s page` } } : {}),
     },
     {
@@ -131,8 +184,10 @@ export function benchFaq(slug: string, d: BenchData): FaqItem[] {
       ? [
           {
             q: "How does it feed the index?",
-            a: `${d.title} contributes to ${traits.join(" and ").toLowerCase()} in the Economic Intelligence Index.`,
-            link: { href: "/evals/methodology/", label: "Read the methodology" },
+            a: `${d.title} is one of the benchmarks the Economic Intelligence Index averages, scored from 0 to 100. Its primary capabilities are ${list(primary.map(capName))}${
+              secondary.length ? `; it also exercises ${list(secondary.map(capName))}` : ""
+            }.`,
+            link: { href: "/evals/#methodology", label: "Read the methodology" },
           },
         ]
       : []),
@@ -167,7 +222,7 @@ export function upcomingFaq(b: {
           {
             q: "How will it feed the index?",
             a: `${b.title} will contribute to ${b.traits.join(", ").replace(/, ([^,]*)$/, " and $1").toLowerCase()} in the index.`,
-            link: { href: "/evals/methodology/", label: "Read the methodology" },
+            link: { href: "/evals/#methodology", label: "Read the methodology" },
           },
         ]
       : []),
@@ -194,7 +249,7 @@ export function researchFaq(title: string): FaqItem[] {
       a: HIDE.evalsLinks
         ? "On the Economic Intelligence Index, our benchmark suite for economic decision-making, so results are comparable with every other model. The index opens soon."
         : "On the Economic Intelligence Index. The benchmarks on this page feed it, so results are public and comparable with every other model.",
-      ...(HIDE.evalsLinks ? {} : { link: { href: "/evals/methodology/", label: "Read the methodology" } }),
+      ...(HIDE.evalsLinks ? {} : { link: { href: "/evals/#methodology", label: "Read the methodology" } }),
     },
     {
       q: "Do you publish this research?",

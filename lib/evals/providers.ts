@@ -10,9 +10,11 @@ export interface Provider {
   mark?: string;
 }
 
-// Colour follows the provider (the entity), never the rank. Hues are the seven
-// validated categorical slots; every other provider folds into the neutral slot.
-// Identity is carried by the provider mark either way.
+// Colour follows the provider (the entity), never the rank. Hues are the
+// validated categorical slots, plus MiniMax raspberry and Xiaomi brown so every
+// index provider has its own; the rest fold into the neutral slot. No pair of
+// index providers sits closer than Moonshot/Anthropic (normal-vision ΔE 12.9),
+// and identity is carried by the provider mark and name either way.
 export const PROVIDERS: Record<string, Provider> = {
   // Brand colours from the official colour logos (as collected in LobeHub's
   // icon set, MIT): Claude's coral, Gemini's blue, Qwen's violet, DeepSeek's
@@ -26,9 +28,11 @@ export const PROVIDERS: Record<string, Provider> = {
   moonshot: { label: "Moonshot", color: "#e87ba4", icon: "moonshot" },
   deepseek: { label: "DeepSeek", color: "#eda100", brand: "#4D6BFE", icon: "deepseek" },
   xai: { label: "xAI", color: "#8a8a80", icon: "xai" },
-  minimax: { label: "MiniMax", color: "#8a8a80", brand: "#E2167E", icon: "minimax" },
+  minimax: { label: "MiniMax", color: "#b8336a", brand: "#E2167E", icon: "minimax" },
   meta: { label: "Meta", color: "#8a8a80", brand: "#0082FB", icon: "meta" },
   bytedance: { label: "ByteDance", color: "#8a8a80", brand: "#3C8CFF", icon: "bytedance" },
+  mistral: { label: "Mistral", color: "#008300", mark: "M" },
+  xiaomi: { label: "Xiaomi", color: "#7a5c3e", mark: "Mi" },
   other: { label: "Other", color: "#8a8a80", mark: "•" },
   baseline: { label: "Scripted baseline", color: "#b9b9b2", mark: "fx" },
 };
@@ -52,6 +56,9 @@ const PROVIDER_ALIASES: Record<string, string> = {
   meta: "meta",
   bytedance: "bytedance",
   doubao: "bytedance",
+  mistral: "mistral",
+  "mistral ai": "mistral",
+  xiaomi: "xiaomi",
   baseline: "baseline",
 };
 

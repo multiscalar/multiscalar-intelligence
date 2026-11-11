@@ -15,6 +15,8 @@ export interface BenchSource {
   snapshot: string;
   linkText?: string;
   run?: string;
+  /** Scored by our Economic Intelligence Index run, on its 0-100 scale. */
+  index?: boolean;
 }
 
 export interface BenchModel {
@@ -40,4 +42,12 @@ export interface BenchData {
   matrix?: Record<string, number>;
   games?: Record<string, { feasibleSurplus: number }>;
   source: BenchSource;
+  /** Index benchmarks: page copy from tools/export_eii_cards.py. */
+  notes?: { measures: string; scoring: string; original: string };
+  /** What each model's `raw` string (its unscaled result) is. */
+  rawLabel?: string;
+  /** Reference lines on the bar chart, on the 0-100 scale. */
+  refs?: { label: string; value: number }[];
+  /** The index capabilities it feeds, the one it counts most toward first. */
+  feeds?: string[];
 }

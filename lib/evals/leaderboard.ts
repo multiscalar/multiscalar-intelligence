@@ -52,6 +52,7 @@ const SHORT: Record<string, string> = {
   se_plus: "Surplus efficiency (SE+)",
   agr_plus: "Agreement rate (AGR+)",
   net_worth: "Net worth",
+  index_score: "Index score",
 };
 
 const pct = (v: unknown) =>

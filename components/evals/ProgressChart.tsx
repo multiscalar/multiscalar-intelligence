@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import ModelMark from "@/components/evals/ModelMark";
 import { niceTicks, r3 } from "@/lib/evals/chart";
+import { labelStyle, placeLabels, segmentBox, type Box } from "@/lib/evals/labels";
 
 export interface ProgressPoint {
   name: string;
@@ -19,21 +20,15 @@ const H = 440;
 const DAY = 86400000;
 const MONTH = 30.44 * DAY;
 const PROJECT_MONTHS = 6;
-// Rough label metrics for collision checks (0.75rem Montserrat).
-const CHAR_W = 6.8;
-const LABEL_H = 16;
-
-type Box = { l: number; r: number; t: number; b: number };
-const overlaps = (a: Box, b: Box) =>
-  a.l < b.r && a.r > b.l && a.t < b.b && a.b > b.t;
+// Logo radius, px.
+const R = 14;
 
 // Index score against model release date. The frontier steps up through
 // every model that set a new record; a least-squares line through those
 // record-setters gives the trend, extended as a projection.
 //
-// Only record-setters get a logo and a name: each name sits above and to the
-// left of its step, a region the (rising) frontier never enters. Every other
-// model is a small dot, named on hover.
+// Every model gets its logo and, where it fits, its name; hover names any
+// that found no room.
 export default function ProgressChart({ points }: { points: ProgressPoint[] }) {
   const [hovered, setHovered] = useState<string | null>(null);
   const plot = useRef<HTMLDivElement>(null);
@@ -106,32 +101,33 @@ export default function ProgressChart({ points }: { points: ProgressPoint[] }) {
       .join(" ") + ` L${px(lastDate)},${py(record.score)}`;
   const areaPath = `${stepPath} L${px(lastDate)},100 L${px(frontier[0].date)},100 Z`;
 
-  // Place frontier names, newest first: above-left of the point, or
-  // above-right when there is no room on the left; skip any that would
-  // collide with a placed name or another record's logo.
+  // Name every model where the label clears every logo, the frontier line
+  // and the names already placed: record-setters first, newest first, so
+  // they keep the spots above-left of their steps.
   const toPx = (p: ProgressPoint) => ({
     x: (px(p.date) / 100) * width,
     y: (py(p.score) / 100) * H,
   });
-  const obstacles: Box[] = frontier.map((p) => {
-    const { x, y } = toPx(p);
-    return { l: x - 12, r: x + 12, t: y - 12, b: y + 12 };
+  const lines: Box[] = [];
+  frontier.forEach((p, i) => {
+    if (!i) return;
+    const a = toPx(frontier[i - 1]);
+    const b = toPx(p);
+    lines.push(segmentBox(a.x, a.y, b.x, a.y), segmentBox(b.x, a.y, b.x, b.y));
   });
-  const labels = new Map<string, "left" | "right">();
-  for (const p of [...frontier].reverse()) {
-    const { x, y } = toPx(p);
-    const w = p.name.length * CHAR_W;
-    const t = y - 14 - LABEL_H;
-    const left: Box = { l: x - 6 - w, r: x - 6, t, b: t + LABEL_H };
-    const right: Box = { l: x + 6, r: x + 6 + w, t, b: t + LABEL_H };
-    const own = (o: Box) => Math.abs((o.l + o.r) / 2 - x) < 1 && Math.abs((o.t + o.b) / 2 - y) < 1;
-    const free = (b: Box) =>
-      b.l >= 0 && b.r <= width && b.t >= 0 && !obstacles.some((o) => !own(o) && overlaps(o, b));
-    const side = free(left) ? "left" : free(right) ? "right" : null;
-    if (!side) continue;
-    labels.set(p.name, side);
-    obstacles.push(side === "left" ? left : right);
-  }
+  const labels = placeLabels(
+    [...frontier.slice().reverse(), ...byDate.filter((p) => !onFrontier.has(p.name))].map(
+      (p) => ({ id: p.name, ...toPx(p), text: p.name }),
+    ),
+    {
+      width,
+      height: H,
+      radius: R,
+      marks: points.map((p) => ({ ...toPx(p), r: R })),
+      obstacles: lines,
+      sides: ["top-left", "top-right", "left", "right", "bottom-right", "bottom-left", "top", "bottom"],
+    },
+  );
 
   const gain = record.score - frontier[0].score;
   const months = Math.round((record.date - frontier[0].date) / MONTH);
@@ -227,50 +223,29 @@ export default function ProgressChart({ points }: { points: ProgressPoint[] }) {
           />
         </svg>
 
-        {/* Other models: plain dots, behind the records */}
-        {points
-          .filter((p) => !onFrontier.has(p.name))
-          .map((p) => {
-            const on = hovered === p.name;
-            return (
-              <div
-                key={p.name}
-                onMouseEnter={() => setHovered(p.name)}
-                className={`absolute -translate-x-1/2 -translate-y-1/2 p-1.5 ${on ? "z-30" : ""}`}
-                style={{ left: `${px(p.date)}%`, top: `${py(p.score)}%` }}
-              >
-                <span
-                  className={`block h-[7px] w-[7px] rounded-full transition-colors duration-200 ${
-                    on ? "bg-black" : "bg-black/20"
-                  }`}
-                />
-                {on && <Tooltip p={p} />}
-              </div>
-            );
-          })}
-
-        {/* Record-setters: logo, and a name where it fits */}
-        {frontier.map((p) => {
+        {/* Every model: logo, and a name where it fits */}
+        {points.map((p) => {
           const on = hovered === p.name;
           const side = labels.get(p.name);
           return (
             <div
               key={p.name}
               onMouseEnter={() => setHovered(p.name)}
-              className={`absolute -translate-x-1/2 -translate-y-1/2 ${on ? "z-30" : "z-10"}`}
+              className={`absolute -translate-x-1/2 -translate-y-1/2 transition-opacity duration-200 ${
+                hovered && !on ? "opacity-30" : ""
+              } ${on ? "z-30" : onFrontier.has(p.name) ? "z-20" : "z-10"}`}
               style={{ left: `${px(p.date)}%`, top: `${py(p.score)}%` }}
             >
               <span className={`block transition-transform duration-200 ${on ? "scale-125" : ""}`}>
-                <ModelMark icon={p.icon} mark={p.mark} color={p.color} tone="light" size="sm" title={p.name} />
+                <ModelMark icon={p.icon} mark={p.mark} color={p.color} tone="light" size="md" title={p.name} />
               </span>
               {on ? (
                 <Tooltip p={p} />
               ) : (
                 side && (
                   <span
-                    className={`pointer-events-none absolute bottom-[calc(100%+4px)] whitespace-nowrap text-[0.75rem] font-medium text-black/75 max-[780px]:hidden ${
-                      side === "left" ? "right-[calc(50%+6px)]" : "left-[calc(50%+6px)]"
-                    }`}
+                    className="pointer-events-none absolute whitespace-nowrap text-[0.75rem] font-medium leading-4 text-black/75 max-[780px]:hidden"
+                    style={labelStyle(side, R)}
                   >
                     {p.name}
                   </span>
@@ -287,9 +262,6 @@ export default function ProgressChart({ points }: { points: ProgressPoint[] }) {
         </span>
         <span className="inline-flex items-center gap-2">
           <span className="w-5 border-t-[1.5px] border-dashed border-black/40" /> Trend
-        </span>
-        <span className="inline-flex items-center gap-2">
-          <span className="h-[7px] w-[7px] rounded-full bg-black/20" /> Other models
         </span>
       </div>
     </div>
