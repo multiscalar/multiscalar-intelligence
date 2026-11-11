@@ -4,7 +4,6 @@ import { useEffect, useState, type CSSProperties } from "react";
 import { IconArrowRight } from "central-icons";
 import BrandIcon from "@/components/BrandIcon";
 import SoonTag from "@/components/SoonTag";
-import { evalsSoon } from "@/lib/launch";
 import type { NavItem, NavMenu } from "@/lib/nav";
 import { SOCIAL_LINKS, externalProps } from "@/lib/social";
 
@@ -184,27 +183,17 @@ export default function MobileMenu({
           <a
             href="/contact/"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-full bg-black px-5 py-3.5 text-[0.9rem] font-medium text-white"
+            className="inline-flex items-center justify-center rounded-full bg-ember-ink px-5 py-3.5 text-[0.9rem] font-medium text-ember"
           >
             Get in touch
           </a>
-          {evalsSoon("/evals/") ? (
-            <span
-              aria-disabled="true"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-black/10 px-5 py-3.5 text-[0.9rem] font-medium text-black/45"
-            >
-              Explore the evals
-              <SoonTag />
-            </span>
-          ) : (
-            <a
-              href="/evals/"
-              onClick={onClose}
-              className="inline-flex items-center justify-center rounded-full border border-black/15 px-5 py-3.5 text-[0.9rem] font-medium text-black"
-            >
-              Explore the evals
-            </a>
-          )}
+          <a
+            href="/evals/"
+            onClick={onClose}
+            className="inline-flex items-center justify-center rounded-full border border-black/15 px-5 py-3.5 text-[0.9rem] font-medium text-black"
+          >
+            Explore the index
+          </a>
         </div>
         <div className="mt-6 flex items-center justify-center">
           <div className="flex gap-2">

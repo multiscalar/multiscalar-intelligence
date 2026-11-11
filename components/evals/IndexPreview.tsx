@@ -56,16 +56,16 @@ function Mark({ m }: { m: RosterModel }) {
   );
 }
 
-// The label and title sit at the top of the left column, so the radar column
+// The title sits at the top of the left column, so the radar column
 // can run the full height beside them instead of leaving a gap above.
 export default function IndexPreview({
   roster,
-  label,
   title,
   description,
 }: {
   roster: RosterModel[];
-  label: string;
+  /** No longer shown: headings carry their own weight (DESIGN.md). */
+  label?: string;
   title: string;
   description?: ReactNode;
 }) {
@@ -134,9 +134,6 @@ export default function IndexPreview({
           rankings and the radar start on the same line. */}
       <div className="col-span-2 max-[1180px]:col-span-1">
         <div className="mb-10 max-[640px]:mb-7">
-          <div className="mb-3">
-            <span className="label text-white/50">{label}</span>
-          </div>
           <h2 className="font-sans text-[clamp(1.9rem,3.2vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em]">
             {title}
           </h2>
@@ -252,7 +249,7 @@ export default function IndexPreview({
                 <span className="h-2 rounded-full bg-white/[0.06] max-[640px]:h-1.5">
                   <span
                     className={`block h-full rounded-full transition-[width,background-color] duration-[900ms] ${EASE} ${
-                      isActive ? "bg-white" : "bg-white/40"
+                      isActive ? "bg-ember" : "bg-white/25"
                     }`}
                     style={{ width: shown ? `${(v / max) * 100}%` : "0%" }}
                   />

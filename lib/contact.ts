@@ -2,7 +2,6 @@
 // ?topic=<key>, via contactHref.
 export const CONTACT_TOPICS = [
   { key: "general", label: "General enquiry" },
-  { key: "evaluation", label: "Evaluate a model" },
   { key: "partnership", label: "Partnerships" },
   { key: "research", label: "Research collaboration" },
   { key: "careers", label: "Join the team" },

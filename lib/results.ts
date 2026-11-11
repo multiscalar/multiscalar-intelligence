@@ -51,3 +51,17 @@ export function loadResult(slug: string): {
     .replace(/<(\/?)h([1-5])(?=[\s>])/g, (_, close, n) => `<${close}h${Number(n) + 1}`);
   return { meta, articleHtml };
 }
+
+// Every paper's metadata, for the Open Science index: solved first, then by
+// problem number.
+export function listResults(): (ResultMeta & { slug: string })[] {
+  return listResultSlugs()
+    .map((slug) => ({
+      slug,
+      ...(JSON.parse(fs.readFileSync(path.join(CONTENT, slug, "meta.json"), "utf-8")) as ResultMeta),
+    }))
+    .sort(
+      (a, b) =>
+        Number(b.badge === "Solved") - Number(a.badge === "Solved") || Number(a.number) - Number(b.number),
+    );
+}

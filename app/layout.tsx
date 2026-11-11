@@ -66,7 +66,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
         </head>
       )}
-      <body>
+      {/* Browser extensions (e.g. ColorZilla) add attributes to <body> before
+          React hydrates; they are not ours to match. */}
+      <body suppressHydrationWarning>
         <JsonLd
           data={{
             "@graph": [

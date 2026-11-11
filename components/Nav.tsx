@@ -66,9 +66,12 @@ const MENU_FADE_MS = 300;
 
 const isMenu = (item: NavItem): item is NavMenu => "primary" in item;
 
-// Pages that open on a full-bleed hero image: home and the evals index.
-const hasHero = (path: string) =>
-  path === "/" || path === "/evals" || path === "/evals/";
+// Pages that open on a full-bleed hero image: only home. The index opens
+// on its split-flap board.
+const hasHero = (path: string) => path === "/";
+
+// The header button: a conversation with us, open to every visitor.
+const CTA_HREF = "/contact/";
 
 export default function Nav({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
@@ -202,10 +205,10 @@ export default function Nav({ items }: { items: NavItem[] }) {
         : "text-black font-semibold hover:text-black"
       : overlay
         ? "text-white/90 hover:text-white"
-        : "text-[#555] hover:text-black";
+        : "text-[#444] hover:text-black";
 
   const itemClass =
-    "relative inline-flex items-center gap-1 rounded-full px-4 py-[0.45rem] font-sans text-[0.8rem] font-medium tracking-[0.02em] whitespace-nowrap cursor-pointer transition-[background-color,color] duration-300 max-[768px]:px-3 max-[768px]:text-[0.75rem]";
+    "relative inline-flex items-center gap-1 rounded-full px-4 py-[0.45rem] font-sans text-[0.85rem] font-medium tracking-[0.005em] whitespace-nowrap cursor-pointer transition-[background-color,color] duration-300 max-[768px]:px-3 max-[768px]:text-[0.75rem]";
 
   return (
     <nav
@@ -237,7 +240,7 @@ export default function Nav({ items }: { items: NavItem[] }) {
           value={openMenu}
           onValueChange={setOpenMenu}
           delayDuration={60}
-          className="relative max-[720px]:hidden"
+          className="relative ml-auto max-[720px]:hidden"
         >
           <NavigationMenu.List
             ref={list}
@@ -246,7 +249,7 @@ export default function Nav({ items }: { items: NavItem[] }) {
           >
             <li aria-hidden className="rounded-full bg-white/15" style={highlight} />
             <li aria-hidden className="rounded-full bg-white" style={chip} />
-            {items.map((item) => {
+            {items.filter((item) => isMenu(item) || item.href !== CTA_HREF).map((item) => {
               const current = isCurrent(item.paths);
               if (!isMenu(item)) {
                 return (
@@ -291,6 +294,18 @@ export default function Nav({ items }: { items: NavItem[] }) {
             <NavigationMenu.Viewport className="relative origin-top-right overflow-hidden rounded-[20px] border border-black/[0.07] bg-white shadow-[0_24px_60px_-20px_rgba(0,0,0,0.3)] h-[var(--radix-navigation-menu-viewport-height,auto)] w-[var(--radix-navigation-menu-viewport-width,auto)] transition-[width,height] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:animate-menu-in data-[state=closed]:animate-menu-out" />
           </div>
         </NavigationMenu.Root>
+
+        {/* The bar's one button. Phones get it at the foot of the menu. */}
+        <Link
+          href={CTA_HREF}
+                    className={`ml-2 inline-flex items-center rounded-full px-5 py-[0.55rem] font-sans text-[0.85rem] font-medium whitespace-nowrap transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 max-[720px]:hidden ${
+            overlay
+              ? "bg-ember text-ember-ink hover:bg-ember-hover hover:text-ember-ink focus-visible:outline-white"
+              : "bg-ember-ink text-ember hover:bg-black hover:text-ember focus-visible:outline-black"
+          }`}
+        >
+          Get in touch
+        </Link>
 
         <button
           type="button"

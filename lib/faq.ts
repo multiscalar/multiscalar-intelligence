@@ -9,7 +9,7 @@ const capName = (short: string) =>
   (CAPABILITIES.find((c) => c.short === short)?.name ?? short).toLowerCase();
 import { BENCH_SAMPLES } from "@/lib/evals/samples";
 import type { BenchData } from "@/lib/evals/types";
-import { contactHref } from "@/lib/contact";
+import { dataHref } from "@/lib/data";
 
 // Questions and answers for the FAQ sections across the index pages. Answers
 // only state what the site already says elsewhere; keep them in step.
@@ -39,20 +39,16 @@ export const INDEX_FAQ: FaqItem[] = [
     a: "Within a release, yes. Each release fixes the benchmarks, reference points and weights, and any change to them starts a new release.",
   },
   {
-    q: "Can I evaluate my own model?",
-    a: "Yes. We can run your model through the benchmarks before release, under the same conditions as every model here.",
-    link: { href: contactHref("evaluation"), label: "Get in touch" },
-  },
-  {
     q: "Can I get the underlying data?",
     a: "Complete runs, transcripts and evidence are available under an agreement not to redistribute them or train on them.",
-    link: { href: "/evals/request-dataset/", label: "Request a dataset" },
+    link: { href: dataHref(), label: "Request the data" },
   },
 ];
 
-export const DATASET_FAQ: FaqItem[] = [
+// The /data/ page: the runs, transcripts and scores behind the leaderboards.
+export const DATA_FAQ: FaqItem[] = [
   {
-    q: "What is included?",
+    q: "What is in the data?",
     a: "Complete runs, transcripts and evidence bundles for the benchmarks you choose: every episode, message, decision and score behind the leaderboards.",
   },
   {
@@ -65,12 +61,16 @@ export const DATASET_FAQ: FaqItem[] = [
     link: { href: "/evals/#benchmarks", label: "See the benchmarks" },
   },
   {
-    q: "What happens after I send the request?",
+    q: "Does another model judge the results?",
+    a: "No. Every benchmark in the index scores what the model's decisions caused, such as money made or the terms of a deal.",
+  },
+  {
+    q: "What happens after I send a request?",
     a: "We get back to you to agree the terms and share the data.",
   },
 ];
 
-const fmtDate = (iso: string) =>
+export const fmtDate = (iso: string) =>
   new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-GB", {
     day: "numeric",
     month: "long",
@@ -106,7 +106,7 @@ function transcripts(slug: string): FaqItem {
     : {
         q: "Can I read full transcripts?",
         a: "You can request complete runs and transcripts.",
-        link: { href: `/evals/request-dataset/?bench=${slug}`, label: "Request the dataset" },
+        link: { href: dataHref({ bench: slug }), label: "Request the data" },
       };
 }
 
@@ -133,11 +133,6 @@ function indexBenchFaq(slug: string, d: BenchData): FaqItem[] {
       a: `For the index release of ${fmtDate(d.source.snapshot)}. Every model played the same episodes with the same settings. The page updates with each release.`,
     },
     transcripts(slug),
-    {
-      q: "Can I evaluate my own model on it?",
-      a: `Yes. We can run your model through ${d.title} before release, under the same conditions as every model here.`,
-      link: { href: contactHref("evaluation"), label: "Get in touch" },
-    },
   ];
 }
 
@@ -178,7 +173,7 @@ function boardFaq(slug: string, d: BenchData): FaqItem[] {
       : {
           q: "Can I read full transcripts?",
           a: "Complete runs and transcripts are available on request.",
-          link: { href: `/evals/request-dataset/?bench=${slug}`, label: "Request the dataset" },
+          link: { href: dataHref({ bench: slug }), label: "Request the data" },
         },
     ...(traits.length
       ? [
@@ -191,11 +186,6 @@ function boardFaq(slug: string, d: BenchData): FaqItem[] {
           },
         ]
       : []),
-    {
-      q: "Can I evaluate my own model on it?",
-      a: `Yes. We can run your model through ${d.title} before release, under the same conditions as every other model.`,
-      link: { href: contactHref("evaluation"), label: "Get in touch" },
-    },
   ];
 }
 
@@ -215,7 +205,7 @@ export function upcomingFaq(b: {
       // EXAMPLE
       q: "When will results be published?",
       a: "With the next version of the Economic Intelligence Index. Leave your details to hear when they go live.",
-      link: { href: contactHref("evaluation"), label: "Get notified" },
+      link: { href: "/contact/", label: "Get in touch" },
     },
     ...(b.traits.length
       ? [
@@ -226,12 +216,6 @@ export function upcomingFaq(b: {
           },
         ]
       : []),
-    {
-      // EXAMPLE
-      q: "Can my model be evaluated before launch?",
-      a: `Yes. Labs can run their models through ${b.title} ahead of the public release, under the same conditions as every other model.`,
-      link: { href: contactHref("evaluation"), label: "Get in touch" },
-    },
   ];
 }
 
@@ -242,16 +226,12 @@ export const CONTACT_FAQ: FaqItem[] = [
     a: "Usually within a few working days.",
   },
   {
-    q: "Can you evaluate our model?",
-    a: "Yes. We run models through the benchmarks behind the index, before or after release. Choose \"Evaluate a model\" in the form.",
-  },
-  {
     q: "I'm writing about Multiscalar. Who should I contact?",
     a: "Use this form and choose \"Press\" as the topic.",
   },
   {
     q: "Can I get the benchmark data?",
     a: "Complete runs and transcripts are available through a dataset request.",
-    ...(HIDE.evalsLinks ? {} : { link: { href: "/evals/request-dataset/", label: "Request a dataset" } }),
+    ...(HIDE.evalsLinks ? {} : { link: { href: dataHref(), label: "Request the data" } }),
   },
 ];

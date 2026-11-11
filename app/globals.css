@@ -5,8 +5,18 @@
   --color-bg-elevated: #ffffff;
   --color-border: #e4e4e4;
   --color-text: #1a1a1a;
-  --color-text-secondary: #555555;
-  --color-text-dim: #747474;
+  --color-text-secondary: #4d4d4d;
+  --color-text-dim: #6b6b6b;
+  /* Ember: the brand's warm accent, a cream (DESIGN.md "Ember" rules). It
+     fills the announcement bar and closing bands, and buttons and lit states
+     on dark or photographic ground (ink text, 14:1). On the light page,
+     primary buttons are ink with cream text; small accents there (tags,
+     progress, focus) use ember-deep, a bronze (5.4:1 on paper). */
+  --color-ember: #eadcc5;
+  --color-ember-hover: #f2e8d8;
+  --color-ember-deep: #7d5e3b;
+  --color-ember-soft: #f3ece0;
+  --color-ember-ink: #141311;
   --font-sans: var(--font-montserrat), "Montserrat", -apple-system, sans-serif;
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
 
@@ -30,6 +40,15 @@
   --animate-sheet-in: sheetIn 0.3s ease-out both;
   --animate-sheet-out: sheetOut 0.3s ease-out both;
   --animate-row-in: rowIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  /* Blacksmith's training loop: the return path's dashes flow back to the
+     start while Deployment is lit. */
+  --animate-loop-flow: loopFlow 1.1s linear infinite;
+
+  @keyframes loopFlow {
+    to {
+      stroke-dashoffset: -22;
+    }
+  }
 
   @keyframes sheetIn {
     from {
@@ -192,11 +211,34 @@
 /* Vertical space between page sections: one value for the whole site,
    tighter on phones. */
 :root {
-  --section-space: 9rem;
+  --section-space: 7rem;
 }
 @media (max-width: 768px) {
   :root {
-    --section-space: 5rem;
+    --section-space: 4.5rem;
+  }
+}
+
+/* A media frame that settles into place as it scrolls into view: from a
+   slightly smaller, dimmer card to full size. Scroll-driven where the browser
+   supports it, static everywhere else and with reduced motion. */
+@utility scroll-zoom {
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      animation: scrollZoom linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+  }
+}
+@keyframes scrollZoom {
+  from {
+    transform: scale(0.9);
+    opacity: 0.55;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
   }
 }
 
@@ -213,13 +255,25 @@
   margin-top: var(--section-space);
 }
 
+/* Section labels, eyebrows and menu headings: small sentence-case text,
+   coloured by the caller (usually text-text-dim). */
 @utility label {
   font-family: var(--font-sans);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: -0.005em;
   line-height: 1.4;
-  text-transform: uppercase;
+}
+
+/* Header height once the announcement band has scrolled away; sticky
+   sub-bars sit just under it. */
+:root {
+  --nav-h: 82px;
+}
+@media (max-width: 768px) {
+  :root {
+    --nav-h: 72px;
+  }
 }
 
 /* Set before first paint when the visitor already dismissed the band. */
@@ -265,6 +319,12 @@ html[data-banner-dismissed] #announcement {
   }
 
   ::selection {
-    background: rgba(0, 0, 0, 0.08);
+    background: var(--color-ember-soft);
+    color: var(--color-ember-ink);
+  }
+
+  /* Keyboard focus carries the brand wherever a component sets no colour. */
+  :focus-visible {
+    outline-color: var(--color-ember-deep);
   }
 }

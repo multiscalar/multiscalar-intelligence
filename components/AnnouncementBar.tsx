@@ -36,7 +36,7 @@ export default function AnnouncementBar({
     <div
       id="announcement"
       aria-hidden={state === "closing" || undefined}
-      className={`relative flex items-center justify-center gap-3 px-12 overflow-hidden bg-[#111] text-white font-sans text-[0.78rem] transition-[height,opacity] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none max-[640px]:px-10 max-[640px]:text-[0.72rem] ${
+      className={`relative flex items-center justify-center gap-3 px-12 overflow-hidden bg-ember text-ember-ink font-sans text-[0.78rem] transition-[height,opacity] duration-[400ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none max-[640px]:px-10 max-[640px]:text-[0.72rem] ${
         state === "closing" ? "h-0 opacity-0" : "h-9 opacity-100"
       }`}
     >
@@ -45,17 +45,17 @@ export default function AnnouncementBar({
         {announcement.href ? (
           <a
             href={announcement.href}
-            className="text-white/80 hover:text-white min-[641px]:pointer-events-none"
+            className="text-ember-ink/85 hover:text-ember-ink min-[641px]:pointer-events-none"
           >
             {announcement.message}
           </a>
         ) : (
-          <span className="text-white/80">{announcement.message}</span>
+          <span className="text-ember-ink/85">{announcement.message}</span>
         )}
         {announcement.href && (
           <a
             href={announcement.href}
-            className="ml-3 font-semibold text-white underline underline-offset-[3px] decoration-white/40 hover:text-white hover:decoration-white max-[640px]:hidden"
+            className="ml-3 font-semibold text-ember-ink underline underline-offset-[3px] decoration-ember-ink/40 hover:text-ember-ink hover:decoration-ember-ink max-[640px]:hidden"
           >
             {announcement.cta ?? "Learn more"}
           </a>
@@ -65,7 +65,7 @@ export default function AnnouncementBar({
         type="button"
         onClick={dismiss}
         aria-label="Dismiss announcement"
-        className="absolute right-3 p-1 rounded-full text-white/60 cursor-pointer hover:text-white hover:bg-white/10"
+        className="absolute right-3 p-1 rounded-full text-ember-ink/70 cursor-pointer hover:text-ember-ink hover:bg-ember-ink/10"
       >
         <IconCrossSmall aria-hidden className="w-3.5 h-3.5" />
       </button>

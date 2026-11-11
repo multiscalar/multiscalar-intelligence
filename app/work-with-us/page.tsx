@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import SplitHero from "@/components/SplitHero";
 import ClosingCard from "@/components/home/ClosingCard";
@@ -18,14 +19,17 @@ export const metadata: Metadata = pageMetadata({
 const AREAS = [
   {
     title: "Evaluations",
+    image: { src: "/eii/analyst.webp", alt: "A woman working at a desk beside a white retro robot that types on a keyboard" },
     body: "Design benchmarks where models negotiate, bid and manage cash, and run them across frontier and open models for the Economic Intelligence Index.",
   },
   {
     title: "Environments and training",
+    image: { src: "/home/watchmaker.webp", alt: "A white retro robot working on a watch movement under a desk lamp" },
     body: "Build simulated markets and train open models in them with reinforcement learning, then check that what they learn holds up outside.",
   },
   {
     title: "Deployment",
+    image: { src: "/home/open-office.webp", alt: "Two people meeting at a desk in a wide, empty office while a robot waits by the wall" },
     body: "Put trained models to work inside companies through Blacksmith, with the limits, sign-off and monitoring that real money needs.",
   },
 ];
@@ -62,11 +66,20 @@ export default function WorkWithUsPage() {
         <div className="max-w-[1200px] mx-auto px-8 max-[768px]:px-6">
           <section className="section-y">
             <SectionHeader label="What you would work on" title="Three parts of one loop" />
-            <Reveal className="grid grid-cols-3 gap-10 border-t border-black/10 pt-10 max-[900px]:grid-cols-1 max-[900px]:gap-8">
+            <Reveal className="grid grid-cols-3 gap-6 max-[900px]:grid-cols-1 max-[900px]:gap-10">
               {AREAS.map((a) => (
                 <div key={a.title}>
-                  <h3 className="font-sans text-[1.2rem] font-semibold tracking-[-0.02em] text-black">{a.title}</h3>
-                  <p className="mt-3 text-[0.95rem] leading-[1.65] text-black/60">{a.body}</p>
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] bg-[#1a1712]">
+                    <Image
+                      src={a.image.src}
+                      alt={a.image.alt}
+                      fill
+                      sizes="(max-width: 900px) 100vw, 33vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <h3 className="mt-6 font-sans text-[1.25rem] font-semibold tracking-[-0.02em] text-black">{a.title}</h3>
+                  <p className="mt-2 max-w-[380px] text-[1rem] leading-[1.65] text-black/65">{a.body}</p>
                 </div>
               ))}
             </Reveal>
@@ -78,7 +91,7 @@ export default function WorkWithUsPage() {
               {HOW_WE_WORK.map((a) => (
                 <div key={a.title}>
                   <h3 className="font-sans text-[1.2rem] font-semibold tracking-[-0.02em] text-black">{a.title}</h3>
-                  <p className="mt-3 text-[0.95rem] leading-[1.65] text-black/60">{a.body}</p>
+                  <p className="mt-3 text-[1rem] leading-[1.65] text-black/65">{a.body}</p>
                 </div>
               ))}
             </Reveal>

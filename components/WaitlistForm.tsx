@@ -4,7 +4,7 @@ import { useState } from "react";
 import { FIELD, LABEL, SUBMIT } from "@/components/form";
 import { CONTACT_INBOX } from "@/lib/contact";
 
-// Blacksmith waitlist. No backend yet: submitting composes a prefilled email
+// Blacksmith enquiries. No backend yet: submitting composes a prefilled email
 // to the contact inbox, like the contact form.
 export default function WaitlistForm() {
   const [name, setName] = useState("");
@@ -21,7 +21,7 @@ export default function WaitlistForm() {
       ...(workflow ? ["", "Workflow to hand over first:", workflow] : []),
     ].join("\n");
     location.href = `mailto:${CONTACT_INBOX}?subject=${encodeURIComponent(
-      `Blacksmith waitlist: ${company || name}`,
+      `Blacksmith: ${company || name}`,
     )}&body=${encodeURIComponent(body)}`;
   };
 
@@ -76,7 +76,7 @@ export default function WaitlistForm() {
       </div>
       <div className="mt-2 flex flex-wrap items-center gap-5">
         <button type="submit" className={SUBMIT}>
-          Join the waitlist
+          Get in touch
         </button>
         <span className="text-[0.78rem] text-text-dim">Opens your email client with your details ready to send</span>
       </div>

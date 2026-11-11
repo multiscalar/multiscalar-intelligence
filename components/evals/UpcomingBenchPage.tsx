@@ -7,7 +7,6 @@ import ClosingCard from "@/components/home/ClosingCard";
 import SectionHeader from "@/components/home/SectionHeader";
 import { allBenchCards } from "@/lib/evals/cards";
 import { BENCH_CAPABILITIES } from "@/lib/evals/eii";
-import { contactHref } from "@/lib/contact";
 import type { UpcomingBench } from "@/lib/evals/upcoming";
 
 // Page for a benchmark still in development: the same header, stats row and
@@ -45,10 +44,10 @@ export default function UpcomingBenchPage({ b }: { b: UpcomingBench }) {
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href={contactHref("evaluation")}
-              className="inline-flex items-center rounded-full bg-black px-6 py-3 text-[0.85rem] font-medium text-white transition-colors hover:bg-black/80 hover:text-white"
+              href="/contact/"
+              className="inline-flex items-center rounded-full bg-ember-ink px-6 py-3 text-[0.85rem] font-medium text-ember transition-colors hover:bg-black hover:text-ember"
             >
-              Get early access
+              Get notified
             </a>
             <a
               href="/evals/#methodology"
@@ -105,15 +104,14 @@ export default function UpcomingBenchPage({ b }: { b: UpcomingBench }) {
       </main>
 
       <ClosingCard
-        id="early-access"
+        id="notify"
         src="/eii/observation.webp"
         alt="A white retro robot working at a desk beside a woman reading a clipboard"
         focus="50% 45%"
-        label="Early access"
-        title={`Be first on ${b.title}`}
-        description="Run your model through it before the public leaderboard opens, and see where it stands on the rest of the index."
+        title={`${b.title} is coming to the index`}
+        description="Its results will be published with the next version of the Economic Intelligence Index."
         actions={[
-          { href: contactHref("evaluation"), label: "Get early access" },
+          { href: "/contact/", label: "Get notified" },
           { href: "/evals/", label: "Explore the index" },
         ]}
       />

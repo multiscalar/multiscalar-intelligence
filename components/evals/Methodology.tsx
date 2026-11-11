@@ -19,7 +19,7 @@ function Equation({ n, children }: { n: number; children: ReactNode }) {
   );
 }
 
-const P = "text-[1.05rem] leading-[1.8] text-black/70";
+const P = "max-w-[760px] text-[1.05rem] leading-[1.8] text-black/75";
 
 // An inline subscripted symbol, e.g. sym("u", "j", "t") for u_{j,t}. A
 // trailing punctuation mark stays on the same line: keep(sym(...), ",").

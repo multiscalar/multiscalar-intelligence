@@ -38,7 +38,7 @@ export default function PostList({
                 <span className="block font-sans text-[clamp(1.2rem,1.8vw,1.5rem)] font-medium leading-[1.25] tracking-[-0.02em] text-black transition-colors duration-300 group-hover:text-black/60">
                   {post.title}
                 </span>
-                <span className="mt-2 block max-w-[620px] text-[0.92rem] leading-[1.6] text-[#666] line-clamp-2">
+                <span className="mt-2 block max-w-[620px] text-[0.98rem] leading-[1.6] text-[#555] line-clamp-2">
                   {post.summary}
                 </span>
               </span>

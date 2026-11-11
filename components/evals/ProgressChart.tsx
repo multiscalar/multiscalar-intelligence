@@ -135,7 +135,7 @@ export default function ProgressChart({ points }: { points: ProgressPoint[] }) {
 
   return (
     <div>
-      <div className="mb-12 grid grid-cols-3 border-y border-black/10 max-[700px]:grid-cols-1">
+      <div className="mb-12 grid grid-cols-3 border-y border-black/10 max-[700px]:mb-8 max-[700px]:grid-cols-2">
         <Stat label="Current record">
           <span className="inline-flex items-center gap-3">
             <ModelMark icon={record.icon} mark={record.mark} color={record.color} tone="light" size="md" />
@@ -289,7 +289,7 @@ function Unit({ children }: { children: React.ReactNode }) {
 
 function Stat({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="min-w-0 border-black/10 px-6 py-6 first:pl-0 [&:not(:first-child)]:border-l max-[700px]:border-l-0 max-[700px]:px-0 max-[700px]:[&:not(:first-child)]:border-t">
+    <div className="min-w-0 border-black/10 px-6 py-6 first:pl-0 [&:not(:first-child)]:border-l max-[700px]:py-5 max-[700px]:first:col-span-2 max-[700px]:first:border-b max-[700px]:[&:nth-child(2)]:border-l-0 max-[700px]:[&:nth-child(2)]:pl-0 max-[700px]:[&:nth-child(3)]:pl-5 max-[700px]:[&:nth-child(3)]:pr-0">
       <div className="label text-text-dim">{label}</div>
       <div className="mt-3 flex items-baseline text-[clamp(1.4rem,2.4vw,2rem)] font-semibold tracking-[-0.03em] text-black tabular-nums">
         {children}

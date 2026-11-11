@@ -3,6 +3,7 @@
 // Written at the public disclosure level of the shared traces README:
 // institutional constants (USDC, ACH, wire, Circle) are named plainly;
 // the replay window, real venues, and price paths are not.
+import { dataHref } from "@/lib/data";
 
 
 const P = "text-[0.92rem] leading-[1.7] text-text-secondary mb-4 max-w-[680px]";
@@ -69,7 +70,7 @@ export default function TreasuryBenchAbout() {
           replayed byte-for-byte from its recorded evidence: a score you
           can&apos;t replay is a score you shouldn&apos;t trust. Full evidence
           bundles and a live replay are available{" "}
-          <a href="/evals/request-dataset/?bench=treasury-bench">on request</a>.
+          <a href={dataHref({ bench: "treasury-bench" })}>on request</a>.
         </p>
       </section>
 

@@ -14,8 +14,9 @@ const USE_CASES = [
   "Other",
 ];
 
-// No backend yet: submitting composes a prefilled email with the answers.
-export default function DatasetRequestForm() {
+// The request form on /data/. No backend yet: submitting composes a
+// prefilled email with the answers. ?bench=<slug> preselects a benchmark.
+export default function DataRequestForm() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [company, setCompany] = useState("");
@@ -125,7 +126,7 @@ export default function DatasetRequestForm() {
       </div>
       <div>
         <label htmlFor="rq-message" className={LABEL}>
-          Anything else
+          Anything else <span className="font-normal text-black/45">(optional)</span>
         </label>
         <textarea
           id="rq-message"

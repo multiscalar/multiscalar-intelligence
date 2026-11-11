@@ -9,7 +9,10 @@ import { BENCH_SAMPLES } from "@/lib/evals/samples";
 import { loadBench } from "@/lib/evals/benches";
 import { CLOSING_IMAGE } from "@/lib/evals/images";
 import { CATEGORY, allBenchCards } from "@/lib/evals/cards";
-import { contactHref } from "@/lib/contact";
+import { dataHref } from "@/lib/data";
+import { fmtDate } from "@/lib/faq";
+import CiteBlock from "@/components/evals/CiteBlock";
+import { bibtexFor } from "@/lib/cite";
 import { benchStats } from "@/lib/evals/leaderboard";
 import "../evals.css";
 import BackLink from "@/components/BackLink";
@@ -94,10 +97,10 @@ export default async function BenchLayout({
           </div>
           <div className="flex flex-wrap gap-3">
             <a
-              href={`/evals/request-dataset/?bench=${slug}`}
-              className="inline-flex items-center rounded-full bg-black px-6 py-3 text-[0.85rem] font-medium text-white transition-colors hover:bg-black/80 hover:text-white"
+              href={dataHref({ bench: slug })}
+              className="inline-flex items-center rounded-full bg-ember-ink px-6 py-3 text-[0.85rem] font-medium text-ember transition-colors hover:bg-black hover:text-ember"
             >
-              Request full dataset
+              Request the data
             </a>
             {d.source.paper && (
               <a
@@ -153,9 +156,30 @@ export default async function BenchLayout({
 
         {children}
 
+        <section id="cite" className="section-mt scroll-mt-28">
+          <SectionHeader
+            title="Cite this leaderboard"
+            description={
+              d.source.index
+                ? `Results from the index release of ${fmtDate(d.source.snapshot)}.`
+                : `Results from the run of ${fmtDate(d.source.snapshot)}. The benchmark is by ${sourceLabel}${d.source.paper ? "; please cite their paper too" : ""}.`
+            }
+          />
+          <CiteBlock
+            bibtex={bibtexFor({
+              key: `multiscalar_${slug.replaceAll("-", "_")}_${d.source.snapshot.replaceAll("-", "")}`,
+              title: `${d.title} leaderboard`,
+              snapshot: d.source.snapshot,
+              path: `/evals/${slug}/`,
+              note: d.source.index
+                ? `Economic Intelligence Index release of ${fmtDate(d.source.snapshot)}`
+                : `Benchmark by ${sourceLabel}; results of ${fmtDate(d.source.snapshot)}`,
+            })}
+          />
+        </section>
+
         <section className="section-mt">
           <SectionHeader
-            label="More benchmarks"
             title="Similar benchmarks"
             link={{ href: "/evals/#benchmarks", label: "All benchmarks" }}
           />
@@ -177,18 +201,11 @@ export default async function BenchLayout({
         src={closing.src}
         alt={closing.alt}
         focus="50% 40%"
-        label="Go deeper"
         title="Get the full dataset"
-        description={`Every episode, transcript and score behind the ${d.title} leaderboard, for your own analysis, or run your model through it before release.`}
+        description={`Every episode, transcript and score behind the ${d.title} leaderboard, for your own analysis.`}
         actions={[
-          {
-            href: `/evals/request-dataset/?bench=${slug}`,
-            label: "Request the dataset",
-          },
-          {
-            href: contactHref("evaluation"),
-            label: "Evaluate your model",
-          },
+          { href: dataHref({ bench: slug }), label: "Request the data" },
+          { href: "/evals/", label: "Explore the index" },
         ]}
       />
     </>

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { IconArrowUpRight } from "central-icons";
+import { IconArrowRight, IconArrowUpRight } from "central-icons";
 import BackLink from "@/components/BackLink";
 import SoonTag from "@/components/SoonTag";
 
@@ -19,16 +19,20 @@ export default function Hero({
   title,
   description,
   back,
+  news,
   actions = [],
 }: {
   src?: string;
   alt?: string;
   short?: boolean;
   mobileFocus?: string;
-  eyebrow: string;
+  /** Small label above the title. Leave it out on new pages: the title carries the page. */
+  eyebrow?: string;
   title: string;
   description?: string;
   back?: { href: string; label: string };
+  /** A "New" link above the title to the latest release or post. */
+  news?: { href: string; label: string };
   // The first action renders as the primary (solid) button.
   actions?: { href: string; label: string; external?: boolean; soon?: boolean }[];
 }) {
@@ -79,14 +83,22 @@ export default function Hero({
                 {back.label}
               </BackLink>
             )}
-            <div className="label text-white/85 mb-3">
-              {eyebrow}
-            </div>
-            <h1 className="max-w-[640px] font-sans text-[clamp(2.2rem,4.2vw,3.6rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-white max-[480px]:text-[2rem]">
+            {news && (
+              <a
+                href={news.href}
+                className="group mb-7 inline-flex max-w-full items-center gap-3 rounded-full bg-[#141311]/70 py-1.5 pl-1.5 pr-4 text-[0.82rem] font-medium text-white/90 transition-colors hover:bg-[#141311]/85 hover:text-white"
+              >
+                <span className="rounded-full bg-ember px-2.5 py-0.5 text-[0.72rem] font-semibold text-ember-ink">New</span>
+                <span className="truncate">{news.label}</span>
+                <IconArrowRight aria-hidden className="h-3.5 w-3.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
+              </a>
+            )}
+            {eyebrow && <div className="label text-white/85 mb-3">{eyebrow}</div>}
+            <h1 className="max-w-[920px] text-balance font-sans text-[clamp(2.6rem,5.6vw,5.4rem)] font-semibold leading-[1.0] tracking-[-0.04em] text-white max-[480px]:text-[2.4rem]">
               {title}
             </h1>
             {description && (
-              <p className="max-w-[560px] mt-5 text-pretty text-[1rem] leading-[1.6] font-normal text-white/85 max-[480px]:text-[0.95rem]">
+              <p className="max-w-[600px] mt-6 text-pretty text-[1.15rem] leading-[1.6] font-normal text-white/90 max-[480px]:text-[1rem]">
                 {description}
               </p>
             )}
@@ -110,7 +122,7 @@ export default function Hero({
                     {...(external ? { target: "_blank", rel: "noopener" } : {})}
                     className={`inline-flex items-center gap-1.5 rounded-full px-6 py-3 text-[0.85rem] font-medium tracking-[0.01em] transition-colors duration-200 ${
                       i === 0
-                        ? "bg-white text-black hover:bg-white/85 hover:text-black"
+                        ? "bg-ember text-ember-ink hover:bg-ember-hover hover:text-ember-ink"
                         : `bg-white/10 text-white border border-white/35 backdrop-blur-md hover:bg-white/20 hover:text-white max-[768px]:hidden`
                     }`}
                   >

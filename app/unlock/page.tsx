@@ -48,7 +48,7 @@ export default async function UnlockPage({
         )}
         <button
           type="submit"
-          className="mt-6 w-full cursor-pointer rounded-full bg-black px-6 py-3 text-[0.9rem] font-medium text-white transition-colors hover:bg-black/80"
+          className="mt-6 w-full cursor-pointer rounded-full bg-ember-ink px-6 py-3 text-[0.9rem] font-medium text-ember transition-colors hover:bg-black"
         >
           Continue
         </button>

@@ -27,7 +27,8 @@ export default function SplitHero({
   /** object-position for the image. */
   focus?: string;
   back?: { href: string; label: string };
-  eyebrow: string;
+  /** Small label above the title. Leave it out on new pages: the title carries the page. */
+  eyebrow?: string;
   title: string;
   description?: string;
   /** Small glass chip on the image, e.g. "02 / 04". */
@@ -54,9 +55,13 @@ export default function SplitHero({
           {back && (
             <BackLink href={back.href}>{back.label}</BackLink>
           )}
-          <div className={`label mb-4 text-text-dim ${back ? "mt-10 max-[900px]:mt-8" : ""}`}>
-            {eyebrow}
-          </div>
+          {eyebrow ? (
+            <div className={`label mb-4 text-text-dim ${back ? "mt-10 max-[900px]:mt-8" : ""}`}>
+              {eyebrow}
+            </div>
+          ) : (
+            back && <div className="h-10 max-[900px]:h-8" />
+          )}
           <h1 className="font-sans text-[clamp(2.6rem,5vw,4.4rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-black">
             {title}
           </h1>
@@ -84,7 +89,7 @@ export default function SplitHero({
                   href={href}
                   className={`inline-flex items-center rounded-full px-6 py-3 text-[0.85rem] font-medium transition-colors ${
                     i === 0
-                      ? "bg-black text-white hover:bg-black/80 hover:text-white"
+                      ? "bg-ember-ink text-ember hover:bg-black hover:text-ember"
                       : "border border-black/15 text-black hover:bg-black/[0.04] hover:text-black max-[768px]:hidden"
                   }`}
                 >

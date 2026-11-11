@@ -89,7 +89,7 @@ export default function WhatWeBuild() {
                 >
                   {item.name}
                 </h3>
-                <p className={`mt-3 text-[0.92rem] leading-[1.6] ${item.image ? "text-white/80" : "text-[#5c5348]"}`}>
+                <p className={`mt-3 text-[0.98rem] leading-[1.6] ${item.image ? "text-white/80" : "text-[#5c5348]"}`}>
                   {item.body}
                 </p>
                 <span

@@ -8,7 +8,8 @@ interface ClosingCardProps {
   alt: string;
   /** CSS object-position for the image. */
   focus?: string;
-  label: string;
+  /** No longer shown: headings carry their own weight (DESIGN.md). */
+  label?: string;
   title: string;
   description: string;
   // The first action renders as the primary (solid) button.
@@ -33,12 +34,13 @@ const HOME: ClosingCardProps = {
 // A shorter echo of the hero, closing the page before the footer. Defaults to
 // the home page's "Work with us".
 export default function ClosingCard(props: Partial<ClosingCardProps>) {
-  const { id, src, alt, focus, label, title, description, actions } = {
+  const { id, src, alt, focus, title, description, actions } = {
     ...HOME,
     ...props,
   };
+  // Paper below the band keeps it a page section, not a second footer.
   return (
-    <section id={id} className="p-3 pt-0 scroll-mt-24 max-[768px]:p-2 max-[768px]:pt-0">
+    <section id={id} className="px-3 pb-16 scroll-mt-24 max-[768px]:px-2 max-[768px]:pb-10">
       <div className="relative h-[560px] overflow-hidden rounded-[28px] bg-[#0d1220] max-[768px]:h-[520px] max-[768px]:rounded-[20px]">
         <Image
           src={src}
@@ -54,11 +56,10 @@ export default function ClosingCard(props: Partial<ClosingCardProps>) {
         />
         <div className="absolute inset-x-0 bottom-0">
           <Reveal className="max-w-[1200px] mx-auto px-8 pb-16 max-[768px]:px-6 max-[768px]:pb-10">
-            <div className="label text-white/85 mb-3">{label}</div>
             <h2 className="max-w-[600px] font-sans text-[clamp(2rem,3.6vw,3rem)] font-semibold leading-[1.08] tracking-[-0.035em] text-white">
               {title}
             </h2>
-            <p className="max-w-[460px] mt-5 text-[1rem] leading-[1.6] text-white/85">
+            <p className="max-w-[480px] mt-5 text-[1.075rem] leading-[1.6] text-white/90">
               {description}
             </p>
             {/* Phones show only the primary action. */}
@@ -79,7 +80,7 @@ export default function ClosingCard(props: Partial<ClosingCardProps>) {
                   href={href}
                   className={`inline-flex items-center rounded-full px-6 py-3 text-[0.85rem] font-medium transition-colors ${
                     i === 0
-                      ? "bg-white text-black hover:bg-white/85 hover:text-black"
+                      ? "bg-ember text-ember-ink hover:bg-ember-hover hover:text-ember-ink"
                       : "border border-white/35 bg-white/10 text-white backdrop-blur-md hover:bg-white/20 hover:text-white max-[768px]:hidden"
                   }`}
                 >

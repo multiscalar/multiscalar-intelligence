@@ -1,4 +1,6 @@
 import { HIDE } from "@/lib/launch";
+import { INDEX_BENCHES, loadBench } from "@/lib/evals/benches";
+import { CATEGORY } from "@/lib/evals/cards";
 import type { SocialIcon, SocialLink } from "@/lib/social";
 
 // Icon names resolve to components in components/Nav.tsx; keeping them as
@@ -64,13 +66,57 @@ export function headerNavItems(): NavItem[] {
   return navItems().filter((item) => !HIDDEN_IN_HEADER.includes(item.label));
 }
 
-// Five top-level pages, no dropdowns.
+// Category icon per benchmark (lib/evals/cards.ts), as a nav icon name.
+const BENCH_ICON: Record<string, NavIcon> = {
+  handshake: "handshake",
+  cart: "package",
+  chart: "chart",
+  gavel: "gavel",
+  store: "store",
+  landmark: "landmark",
+  swords: "swords",
+};
+
+// The Index menu: the index itself on the left, each of its benchmarks by
+// name on the right, so any leaderboard is one click from every page.
+function indexMenu(): NavMenu {
+  return {
+    label: "Index",
+    paths: ["/evals"],
+    primaryLabel: "Economic Intelligence Index",
+    primary: [
+      {
+        href: "/evals/",
+        title: "Leaderboard",
+        description: "Where every model stands, overall and on five capabilities.",
+      },
+      {
+        href: "/evals/#methodology",
+        title: "Methodology",
+        description: "How runs on six benchmarks become one comparable score.",
+      },
+      {
+        href: "/data/",
+        title: "Benchmark data",
+        description: "The runs, transcripts and scores behind every leaderboard.",
+      },
+    ],
+    secondaryLabel: "Benchmarks",
+    secondary: INDEX_BENCHES.map((slug) => ({
+      href: `/evals/${slug}/`,
+      title: loadBench(slug).title,
+      icon: BENCH_ICON[CATEGORY[slug]?.icon] ?? "chart",
+    })),
+  };
+}
+
+// Four top-level pages. Contact sits in the footer and the phone menu; the
+// header's button is "Get in touch" (components/Nav.tsx).
 export function navItems(): NavItem[] {
   return [
-    { label: "Index", href: "/evals/", paths: ["/evals"] },
+    indexMenu(),
     { label: "Blacksmith", href: "/blacksmith/", paths: ["/blacksmith"] },
     { label: "Open Science", href: "/open-science/", paths: ["/open-science", "/results"] },
     { label: "Work with us", href: "/work-with-us/", paths: ["/work-with-us"] },
-    { label: "Contact", href: "/contact/", paths: ["/contact"] },
   ];
 }

@@ -1,14 +1,14 @@
 import Reveal from "@/components/Reveal";
 
-// Label, headline and an optional "see all" link, shared by the home sections.
+// Headline, description and an optional "see all" link, shared by the home sections.
 export default function SectionHeader({
-  label,
   title,
   description,
   link,
   dark = false,
 }: {
-  label: string;
+  /** No longer shown: headings carry their own weight (DESIGN.md). */
+  label?: string;
   title: string;
   description?: string;
   link?: { href: string; label: string };
@@ -17,9 +17,6 @@ export default function SectionHeader({
   return (
     <Reveal className="flex items-end justify-between gap-8 mb-12 max-[768px]:flex-col max-[768px]:items-start max-[768px]:gap-5 max-[768px]:mb-8">
       <div>
-        <div className={`label mb-3 ${dark ? "text-white/50" : "text-text-dim"}`}>
-          {label}
-        </div>
         <h2
           className={`max-w-[640px] font-sans text-[clamp(1.9rem,3.2vw,2.75rem)] font-semibold leading-[1.1] tracking-[-0.035em] ${
             dark ? "text-white" : "text-black"
@@ -29,8 +26,8 @@ export default function SectionHeader({
         </h2>
         {description && (
           <p
-            className={`max-w-[560px] mt-5 text-[1rem] leading-[1.65] ${
-              dark ? "text-white/60" : "text-[#666]"
+            className={`max-w-[580px] mt-5 text-[1.075rem] leading-[1.6] ${
+              dark ? "text-white/65" : "text-[#555]"
             }`}
           >
             {description}
