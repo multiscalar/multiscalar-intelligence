@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import PortField from "@/components/PortField";
 
 const EMAIL = "info@multiscalar.ai";
 
@@ -73,11 +74,12 @@ export default function Landing() {
 
   return (
     <main className="stage" data-view={view}>
-      {/* The aerial port photo, mirrored so the sea sits behind the text,
-          toned to black and orange, drifting very slowly. */}
+      {/* The aerial port photo, redrawn as a mosaic once it loads; the photo
+          itself shows until then. */}
       <div className="photo" aria-hidden>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/port.webp" alt="" width={1600} height={686} fetchPriority="high" />
+        <PortField />
       </div>
       <div className="scrim" aria-hidden />
 
