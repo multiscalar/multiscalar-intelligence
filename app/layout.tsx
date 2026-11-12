@@ -1,11 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+// Montserrat (SIL Open Font License), self-hosted: the Latin subset of the
+// variable font covers every weight, and the build needs no network.
+const montserrat = localFont({
+  src: "./fonts/montserrat-latin.woff2",
+  weight: "100 900",
+  display: "swap",
   variable: "--font-montserrat",
+  fallback: ["system-ui", "sans-serif"],
 });
 
 const SITE_URL = "https://multiscalar.ai";
