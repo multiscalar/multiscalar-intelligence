@@ -12,7 +12,7 @@ const MENU: { view: Exclude<View, "home">; label: string }[] = [
   { view: "contact", label: "Contact" },
 ];
 
-// The previous site's logo strip, in public/logos/. Heights balance wide
+// Partner logos, in public/logos/. Heights balance wide
 // wordmarks against compact marks.
 const LOGOS = [
   { name: "University of Oxford", src: "/logos/oxford.svg", height: 30 },
@@ -22,6 +22,7 @@ const LOGOS = [
   { name: "Microsoft", src: "/logos/microsoft.svg", height: 19 },
   { name: "European Space Agency", src: "/logos/esa.svg", height: 22 },
   { name: "Lyft", src: "/logos/lyft.svg", height: 24 },
+  { name: "Translated", src: "/logos/translated.svg", height: 24 },
 ];
 
 const viewFromHash = (hash: string): View => {
