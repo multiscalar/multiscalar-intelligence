@@ -2,11 +2,7 @@
   "name": "multiscalar-intelligence",
   "version": "1.0.0",
   "description": "",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "test": "vitest run",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
@@ -24,27 +20,15 @@
   },
   "homepage": "https://github.com/multiscalar/multiscalar-intelligence#readme",
   "dependencies": {
-    "@radix-ui/react-navigation-menu": "^1.2.22",
-    "central-icons": "npm:@central-icons-react/square-outlined-radius-0-stroke-2@^1.2.3",
-    "gray-matter": "^4.0.3",
-    "katex": "^0.16.11",
-    "lucide-react": "^1.52.0",
     "next": "^16.3.4",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
-    "react-markdown": "^10.1.0",
-    "rehype-raw": "^7.0.0",
-    "remark-breaks": "^4.0.0"
+    "react-dom": "^19.2.8"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.3",
-    "@types/katex": "^0.16.8",
     "@types/node": "^26.4.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
-    "tailwindcss": "^4.3.3",
-    "typescript": "^7.0.2",
-    "vitest": "^5.0.0"
+    "typescript": "^7.0.2"
   },
   "private": "true",
   "optionalDependencies": {

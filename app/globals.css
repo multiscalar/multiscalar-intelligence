@@ -1,330 +1,522 @@
-@import "tailwindcss";
-
-@theme {
-  --color-bg: #f8f8f7;
-  --color-bg-elevated: #ffffff;
-  --color-border: #e4e4e4;
-  --color-text: #1a1a1a;
-  --color-text-secondary: #4d4d4d;
-  --color-text-dim: #6b6b6b;
-  /* Ember: the brand's warm accent, a cream (DESIGN.md "Ember" rules). It
-     fills the announcement bar and closing bands, and buttons and lit states
-     on dark or photographic ground (ink text, 14:1). On the light page,
-     primary buttons are ink with cream text; small accents there (tags,
-     progress, focus) use ember-deep, a bronze (5.4:1 on paper). */
-  --color-ember: #eadcc5;
-  --color-ember-hover: #f2e8d8;
-  --color-ember-deep: #7d5e3b;
-  --color-ember-soft: #f3ece0;
-  --color-ember-ink: #141311;
-  --font-sans: var(--font-montserrat), "Montserrat", -apple-system, sans-serif;
-  --font-mono: var(--font-plex-mono), "IBM Plex Mono", monospace;
-
-  --animate-fade-up: fadeUp 0.8s ease-out both;
-  --animate-marquee: marquee 40s linear infinite;
-  /* Testimonials: the divider fills while a quote is shown. */
-  --animate-progress: progress 7s linear both;
-  /* Mega menu: the panel fades in/out; content slides between menus. */
-  --animate-menu-in: menuIn 0.2s ease both;
-  --animate-menu-out: menuOut 0.15s ease both;
-  --animate-enter-from-right: enterFromRight 0.25s ease both;
-  --animate-enter-from-left: enterFromLeft 0.25s ease both;
-  --animate-exit-to-right: exitToRight 0.25s ease both;
-  --animate-exit-to-left: exitToLeft 0.25s ease both;
-  /* Cookie consent: rises and settles in, drops quickly out; views cross-fade. */
-  --animate-consent-in: consentIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-  --animate-consent-out: consentOut 0.22s cubic-bezier(0.4, 0, 1, 1) both;
-  --animate-consent-swap: consentSwap 0.25s ease-out both;
-  /* Mobile menu: the sheet (and the bar's backing) fades in and out on the
-     same 0.3s as the bar's colour change; its rows rise in, staggered. */
-  --animate-sheet-in: sheetIn 0.3s ease-out both;
-  --animate-sheet-out: sheetOut 0.3s ease-out both;
-  --animate-row-in: rowIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-  /* Blacksmith's training loop: the return path's dashes flow back to the
-     start while Deployment is lit. */
-  --animate-loop-flow: loopFlow 1.1s linear infinite;
-
-  @keyframes loopFlow {
-    to {
-      stroke-dashoffset: -22;
-    }
-  }
-
-  @keyframes sheetIn {
-    from {
-      opacity: 0;
-    }
-  }
-  @keyframes sheetOut {
-    to {
-      opacity: 0;
-    }
-  }
-  @keyframes rowIn {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-  }
-
-  @keyframes progress {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
-    }
-  }
-
-  @keyframes consentIn {
-    from {
-      opacity: 0;
-      transform: translateY(16px) scale(0.98);
-    }
-  }
-  @keyframes consentOut {
-    to {
-      opacity: 0;
-      transform: translateY(12px) scale(0.98);
-    }
-  }
-  @keyframes consentSwap {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-  }
-
-  @keyframes menuIn {
-    from {
-      opacity: 0;
-      transform: translateY(-6px) scale(0.98);
-    }
-  }
-  @keyframes menuOut {
-    to {
-      opacity: 0;
-      transform: translateY(-6px) scale(0.98);
-    }
-  }
-  @keyframes enterFromRight {
-    from {
-      opacity: 0;
-      transform: translateX(120px);
-    }
-  }
-  @keyframes enterFromLeft {
-    from {
-      opacity: 0;
-      transform: translateX(-120px);
-    }
-  }
-  @keyframes exitToRight {
-    to {
-      opacity: 0;
-      transform: translateX(120px);
-    }
-  }
-  @keyframes exitToLeft {
-    to {
-      opacity: 0;
-      transform: translateX(-120px);
-    }
-  }
-
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
-
-/* Eyebrows, section labels and menu headings. */
-/* Dark panels: a near-black with a hint of warmth, like the shadows in the photography,
-   with cream instead of pure white (every white utility inside picks it up
-   through --color-white), heavy film grain and a soft vignette, plus a
-   hairline inner edge. */
-@utility panel-dark {
-  --color-white: #f2ebdd;
-  position: relative;
-  isolation: isolate;
-  color: var(--color-white);
-  /* --panel-light: an optional light layer under the vignette and grain. */
-  background: var(--panel-light, linear-gradient(transparent, transparent)), #161513;
-  box-shadow: inset 0 0 0 1px rgba(242, 235, 221, 0.07);
-
-  &::before,
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  /* Vignette: corners fall off like a projected frame. */
-  &::before {
-    background: radial-gradient(ellipse 120% 90% at 50% 35%, transparent 45%, rgba(0, 0, 0, 0.45) 100%);
-  }
-
-  &::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 160px 160px;
-    opacity: 0.16;
-    mix-blend-mode: overlay;
-  }
-}
-
-/* Soft, near-white light falling on a dark panel from above, like the window light
-   in the photography. The panel's grain sits over it. */
-@utility panel-light {
-  --panel-light: radial-gradient(
-    ellipse 110% 60% at 50% -10%,
-    rgba(245, 245, 243, 0.07),
-    rgba(245, 245, 243, 0.022) 45%,
-    transparent 75%
-  );
-}
-
-/* Cards on a dark panel: a slightly lifted warm fill with a hairline
-   highlight on the top edge. */
-@utility card-dark {
-  background-color: rgba(242, 235, 221, 0.035);
-  box-shadow: inset 0 1px 0 rgba(242, 235, 221, 0.07), inset 0 0 0 1px rgba(242, 235, 221, 0.04);
-}
-
-/* Vertical space between page sections: one value for the whole site,
-   tighter on phones. */
 :root {
-  --section-space: 7rem;
-}
-@media (max-width: 768px) {
-  :root {
-    --section-space: 4.5rem;
-  }
+  --bg: #0a0a0a;
+  --ink: #ffffff;
+  --ink-soft: rgba(255, 255, 255, 0.72);
+  --ink-dim: rgba(255, 255, 255, 0.5);
+  --line: rgba(255, 255, 255, 0.14);
+  --orange: #ff5b1a;
+  --orange-hover: #ff7a45;
+  /* Inset and corner rounding follow the deck's framed photo (rounded at
+     the deck's ~1.9% of the width, a touch softer here); the margin is a
+     little wider than the deck's. */
+  --frame: clamp(10px, 1.2vw, 20px);
+  --radius: clamp(10px, 1.5vw, 26px);
+  --bar-h: 64px;
+  --pad: calc(var(--frame) + clamp(18px, 3vw, 44px));
+  --font: var(--font-montserrat), "Montserrat", system-ui, sans-serif;
+  color-scheme: dark;
 }
 
-/* A media frame that settles into place as it scrolls into view: from a
-   slightly smaller, dimmer card to full size. Scroll-driven where the browser
-   supports it, static everywhere else and with reduced motion. */
-@utility scroll-zoom {
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      animation: scrollZoom linear both;
-      animation-timeline: view();
-      animation-range: entry 0% cover 35%;
-    }
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-@keyframes scrollZoom {
-  from {
-    transform: scale(0.9);
-    opacity: 0.55;
-  }
+
+/* The window margin around the framed photo is pure black, a step darker
+   than the photo's own black, so the frame reads. */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  position: fixed;
+  inset: 0;
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+}
+
+::selection {
+  background: var(--orange);
+  color: #000;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 1px solid var(--orange);
+  outline-offset: 4px;
+}
+
+/* ---------- Stage ---------- */
+
+.stage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 460px;
+  overflow: hidden;
+  background: #000;
+}
+
+
+/* The port photo, framed: it sits a small margin inside the window. The
+   file itself is already edited (public/port.webp): mirrored so the sea is on
+   the right, toned black to orange, and the sea faded to the page black, so
+   the text on the right sits on a clean ground. */
+.photo {
+  position: absolute;
+  inset: var(--frame);
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Favour the sea side so the quay stays left of the text. */
+  object-position: 70% 50%;
+  opacity: 0;
+  animation:
+    photo-in 2.4s ease-out 0.1s forwards,
+    drift 40s ease-in-out 0.1s infinite alternate;
+}
+/* A hairline edge so the frame reads where the photo is black. */
+.photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  pointer-events: none;
+}
+@keyframes photo-in {
   to {
-    transform: scale(1);
     opacity: 1;
   }
 }
-
-@utility section-y {
-  padding-block: var(--section-space);
-}
-@utility section-t {
-  padding-top: var(--section-space);
-}
-@utility section-b {
-  padding-bottom: var(--section-space);
-}
-@utility section-mt {
-  margin-top: var(--section-space);
+@keyframes drift {
+  from {
+    transform: scale(1.02);
+  }
+  to {
+    transform: scale(1.07) translateX(-1%);
+  }
 }
 
-/* Section labels, eyebrows and menu headings: small sentence-case text,
-   coloured by the caller (usually text-text-dim). */
-@utility label {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
+/* Darkens the corners where text sits, and the edges, so the photo frames
+   the copy instead of competing with it. */
+.scrim {
+  position: absolute;
+  inset: var(--frame);
+  border-radius: var(--radius);
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 70% at 100% 100%, rgba(10, 10, 10, 0.92), rgba(10, 10, 10, 0) 70%),
+    radial-gradient(ellipse 40% 35% at 0% 0%, rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0) 75%),
+    linear-gradient(to top, rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0) 22%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, rgba(10, 10, 10, 0) 55%, rgba(10, 10, 10, 0.55));
+  transition: opacity 0.6s ease;
+}
+/* Open panels are taller; give them a deeper backing. */
+.stage:not([data-view="home"]) .scrim {
+  background:
+    radial-gradient(ellipse 75% 95% at 100% 100%, rgba(10, 10, 10, 0.96), rgba(10, 10, 10, 0) 72%),
+    radial-gradient(ellipse 40% 35% at 0% 0%, rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0) 75%),
+    linear-gradient(to top, rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0) 22%),
+    radial-gradient(ellipse 120% 100% at 50% 50%, rgba(10, 10, 10, 0) 55%, rgba(10, 10, 10, 0.55));
+}
+
+/* ---------- Corners ---------- */
+
+.brand {
+  position: absolute;
+  z-index: 7;
+  top: calc(var(--pad) * 0.75 + env(safe-area-inset-top, 0px));
+  left: calc(var(--pad) + env(safe-area-inset-left, 0px));
+  display: block;
+  line-height: 0;
+}
+.brand img {
+  display: block;
+  height: clamp(30px, 2.6vw, 42px);
+  width: auto;
+}
+
+.corner {
+  position: absolute;
+  z-index: 7;
+  top: calc(var(--pad) * 0.75 + env(safe-area-inset-top, 0px));
+  right: calc(var(--pad) + env(safe-area-inset-right, 0px));
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 13px;
   font-weight: 500;
-  letter-spacing: -0.005em;
-  line-height: 1.4;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.corner:hover {
+  color: var(--ink);
+}
+.pip {
+  width: 7px;
+  height: 7px;
+  background: var(--orange);
+  animation: pip 2.4s ease-in-out infinite;
+}
+@keyframes pip {
+  50% {
+    opacity: 0.35;
+  }
 }
 
-/* Header height once the announcement band has scrolled away; sticky
-   sub-bars sit just under it. */
-:root {
-  --nav-h: 82px;
+/* ---------- Dock (bottom right) ---------- */
+
+.dock {
+  position: absolute;
+  z-index: 6;
+  right: calc(var(--pad) + env(safe-area-inset-right, 0px));
+  bottom: calc(var(--frame) + var(--bar-h) + clamp(22px, 3vw, 44px) + env(safe-area-inset-bottom, 0px));
+  /* Grows with the title so it stays on two lines on large screens. */
+  width: min(max(560px, 38vw), calc(100vw - 2 * var(--pad)));
+  display: grid;
 }
-@media (max-width: 768px) {
+.stage:not([data-view="home"]) .dock {
+  width: min(600px, calc(100vw - 2 * var(--pad)));
+}
+
+.view {
+  grid-area: 1 / 1;
+  align-self: end;
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.6s ease,
+    visibility 0s linear 0.6s;
+}
+.view.on {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    opacity 0.8s ease 0.3s,
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s,
+    filter 0.8s ease 0.3s,
+    visibility 0s linear 0s;
+}
+.view:first-child {
+  text-align: right;
+}
+/* First paint: the home view rises in after the mosaic starts loading. */
+.view:first-child.on {
+  animation: rise 1.1s cubic-bezier(0.2, 0.7, 0.2, 1) 0.5s both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(8px);
+  }
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 2px 24px;
+  margin: 0 0 14px;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 8px 0;
+  cursor: pointer;
+  font: 600 15px/1.2 var(--font);
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  transition: text-decoration-color 0.2s, color 0.2s;
+}
+.link:hover {
+  text-decoration-color: var(--orange);
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(32px, 3.7vw, 60px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+  outline: none;
+}
+.title::after {
+  content: "";
+  display: inline-block;
+  width: 0.2em;
+  height: 0.2em;
+  margin-left: 0.08em;
+  background: var(--orange);
+}
+.tag {
+  margin: 16px 0 0;
+  font-size: clamp(11px, 0.85vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Panels */
+
+.view h2 {
+  margin: 0 0 14px;
+  font-size: clamp(24px, 2.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+  outline: none;
+}
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+.lead {
+  margin: 0;
+  font-size: clamp(15px, 1.1vw, 16.5px);
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.fine {
+  margin: 14px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+.mail {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: clamp(20px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--orange);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(255, 91, 26, 0.45);
+  transition: border-color 0.2s, color 0.2s;
+}
+.mail:hover {
+  color: var(--orange-hover);
+  border-color: var(--orange-hover);
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+/* ---------- Partner logos (bottom bar, inside the frame) ---------- */
+
+.partners {
+  position: absolute;
+  z-index: 8;
+  left: var(--frame);
+  right: var(--frame);
+  bottom: var(--frame);
+  height: calc(var(--bar-h) + env(safe-area-inset-bottom, 0px));
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0 0 var(--radius) var(--radius);
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.pt-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 90s linear infinite;
+}
+.partners:hover .pt-track {
+  animation-play-state: paused;
+}
+.pt-run {
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 5vw, 80px);
+  margin: 0;
+  padding: 0 clamp(48px, 5vw, 80px) 0 0;
+  list-style: none;
+}
+.pt-run li {
+  display: flex;
+  flex-shrink: 0;
+}
+/* Every mark in one tone: solid white, dimmed. */
+.pt-run img {
+  display: block;
+  height: var(--h);
+  width: auto;
+  filter: brightness(0) invert(1);
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.pt-run li:hover img {
+  opacity: 0.9;
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Small screens ---------- */
+
+/* Tall screens: turn the photo a quarter clockwise so the quay runs across
+   the top and the sea (the photo's right side) fills the bottom, behind the
+   text. Before rotation its width spans the frame's height. */
+@media (orientation: portrait) {
+  .photo img {
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: calc(100dvh - 2 * var(--frame));
+    height: calc(100vw - 2 * var(--frame));
+    animation:
+      photo-in 2.4s ease-out 0.1s forwards,
+      drift-tall 40s ease-in-out 0.1s infinite alternate;
+  }
+  @keyframes drift-tall {
+    from {
+      transform: translate(-50%, -50%) rotate(90deg) scale(1.02);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(90deg) scale(1.07);
+    }
+  }
+}
+
+@media (max-width: 760px) {
+  .dock,
+  .stage:not([data-view="home"]) .dock {
+    width: calc(100vw - 2 * var(--pad));
+  }
   :root {
-    --nav-h: 72px;
+    --bar-h: 52px;
+  }
+  /* Clear the rounded corner. */
+  .brand {
+    top: calc(var(--pad) + 2px + env(safe-area-inset-top, 0px));
+  }
+  .menu {
+    gap: 0 18px;
+  }
+  .pt-run img {
+    height: calc(var(--h) * 0.8);
+  }
+  /* Open panels fill most of a phone screen: recede the photo behind them. */
+  .photo {
+    transition: opacity 0.6s ease;
+  }
+  .stage:not([data-view="home"]) .photo {
+    opacity: 0.2;
+  }
+  .link {
+    font-size: 14px;
+  }
+  /* Contact lives in the menu; the logo gets the top bar to itself. */
+  .corner {
+    display: none;
+  }
+  .tag {
+    letter-spacing: 0.12em;
+  }
+  .scrim,
+  .stage:not([data-view="home"]) .scrim {
+    background:
+      linear-gradient(to top, rgba(10, 10, 10, 0.95) 0%, rgba(10, 10, 10, 0.75) 45%, rgba(10, 10, 10, 0) 75%),
+      linear-gradient(to bottom, rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0) 18%);
+  }
+  .view:not(:first-child) {
+    max-height: calc(100dvh - 150px - var(--bar-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
   }
 }
 
-/* Set before first paint when the visitor already dismissed the band. */
-html[data-banner-dismissed] #announcement {
-  display: none;
+@media (max-height: 640px) and (min-width: 761px) {
+  .view:not(:first-child) {
+    max-height: calc(100dvh - 140px - var(--bar-h));
+    overflow-y: auto;
+    scrollbar-width: thin;
+  }
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    font-size: 16px;
+@media (prefers-reduced-motion: reduce) {
+  .view,
+  .view.on,
+  .view:first-child.on {
+    transition: opacity 0.2s ease, visibility 0s;
+    transform: none;
+    filter: none;
+    animation: none;
   }
-
-  body {
-    font-family: var(--font-sans);
-    background: var(--color-bg);
-    color: var(--color-text);
-    line-height: 1.7;
-    font-weight: 400;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    position: relative;
+  .pip,
+  .pt-track {
+    animation: none;
   }
-
-  a {
-    color: var(--color-text);
-    text-decoration: none;
-    transition: color 0.2s;
+  .photo img {
+    animation: none;
+    opacity: 1;
   }
-
-  a:hover {
-    color: #000000;
-  }
-
-  em {
-    font-style: italic;
-    color: #000000;
-  }
-
-  strong {
-    font-weight: 500;
-    color: #000000;
-  }
-
-  ::selection {
-    background: var(--color-ember-soft);
-    color: var(--color-ember-ink);
-  }
-
-  /* Keyboard focus carries the brand wherever a component sets no colour. */
-  :focus-visible {
-    outline-color: var(--color-ember-deep);
+}
+@media (prefers-reduced-motion: reduce) and (orientation: portrait) {
+  .photo img {
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 }
