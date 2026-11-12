@@ -33,16 +33,27 @@ const viewFromHash = (hash: string): View => {
 
 export default function Landing() {
   const [view, setView] = useState<View>("home");
+  // The home view's rise-in plays on first load only, not on every return.
+  const [intro, setIntro] = useState(true);
   const headings = useRef<Partial<Record<View, HTMLElement | null>>>({});
 
   useEffect(() => {
-    const sync = () => setView(viewFromHash(window.location.hash));
-    sync();
+    setView(viewFromHash(window.location.hash));
+    // Back and forward buttons, and edited hashes.
+    const sync = () => {
+      setIntro(false);
+      setView(viewFromHash(window.location.hash));
+    };
     window.addEventListener("hashchange", sync);
-    return () => window.removeEventListener("hashchange", sync);
+    window.addEventListener("popstate", sync);
+    return () => {
+      window.removeEventListener("hashchange", sync);
+      window.removeEventListener("popstate", sync);
+    };
   }, []);
 
   const go = useCallback((next: View) => {
+    setIntro(false);
     setView(next);
     const url = next === "home" ? window.location.pathname : `#${next}`;
     history.pushState(null, "", url);
@@ -73,7 +84,7 @@ export default function Landing() {
   );
 
   return (
-    <main className="stage" data-view={view}>
+    <main className={`stage${intro ? " intro" : ""}`} data-view={view}>
       {/* The aerial port photo, redrawn as a mosaic once it loads; the photo
           itself shows until then. */}
       <div className="photo" aria-hidden>
