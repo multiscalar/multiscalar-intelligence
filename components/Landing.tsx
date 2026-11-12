@@ -20,7 +20,6 @@ const LOGOS = [
   { name: "ARIA, Advanced Research and Invention Agency", src: "/logos/aria.png", height: 30 },
   { name: "Ethereum Foundation", src: "/logos/ethereum-foundation.svg", height: 32 },
   { name: "Microsoft", src: "/logos/microsoft.svg", height: 19 },
-  { name: "IBM", src: "/logos/ibm.svg", height: 20 },
   { name: "European Space Agency", src: "/logos/esa.svg", height: 22 },
   { name: "Lyft", src: "/logos/lyft.svg", height: 24 },
 ];
