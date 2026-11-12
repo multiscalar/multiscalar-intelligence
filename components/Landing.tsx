@@ -24,6 +24,7 @@ const LOGOS = [
   { name: "European Space Agency", src: "/logos/esa.svg", height: 22 },
   { name: "Lyft", src: "/logos/lyft.svg", height: 24 },
   { name: "Translated", src: "/logos/translated.svg", height: 24 },
+  { name: "Together AI", src: "/logos/together-ai.png", height: 22 },
 ];
 
 const viewFromHash = (hash: string): View => {
