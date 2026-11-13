@@ -199,8 +199,13 @@ button {
   /* Grows with the title so it stays on two lines on large screens. */
   width: min(max(560px, 38vw), calc(100vw - 2 * var(--pad)));
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
 }
-.stage:not([data-view="home"]) .dock {
+/* The panels are narrower than the home title. They set their own width
+   (right-aligned in the dock) so the dock never resizes during a swap, which
+   would re-wrap the text that is still fading out. */
+.view:not(:first-child) {
+  justify-self: unsafe end;
   width: min(600px, calc(100vw - 2 * var(--pad)));
 }
 
@@ -458,8 +463,7 @@ button {
 }
 
 @media (max-width: 760px) {
-  .dock,
-  .stage:not([data-view="home"]) .dock {
+  .dock {
     width: calc(100vw - 2 * var(--pad));
   }
   :root {
