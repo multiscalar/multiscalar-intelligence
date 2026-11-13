@@ -371,10 +371,26 @@ button {
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   border-radius: 0 0 var(--radius) var(--radius);
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  background: var(--bg);
+}
+/* The logos fade out at both ends over the solid bar. */
+.partners::before,
+.partners::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: 8%;
+  pointer-events: none;
+}
+.partners::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--bg), transparent);
+}
+.partners::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--bg), transparent);
 }
 .pt-track {
   display: flex;
