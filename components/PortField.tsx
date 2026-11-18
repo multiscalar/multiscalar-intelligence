@@ -10,7 +10,7 @@ import { useEffect, useRef } from "react";
 // sea sits at the bottom, behind the text.
 //
 // The squares load in from the quay outward, a slow light sweeps across them,
-// and they brighten and grow around the pointer.
+// and they brighten and grow a little around the pointer.
 
 const SRC = "/port.webp";
 const ORANGE = "255,91,26";
@@ -155,7 +155,7 @@ export default function PortField() {
         if (p <= 0) continue;
         let s = size[k] * p;
         let a = alpha[k] * p;
-        let lit = cream[k];
+        const lit = cream[k];
 
         const d = sweep[k] - sweepPos;
         if (d > -0.09 && d < 0.09) {
@@ -169,10 +169,9 @@ export default function PortField() {
           const d2 = dx * dx + dy * dy;
           if (d2 < pr2) {
             const b = (1 - d2 / pr2) * pe;
-            a = Math.min(1, a + b * 0.5);
-            s *= 1 + b * 0.45;
-            // The brightest squares near the pointer flare to cream.
-            if (b > 0.6 && size[k] > 3) lit = 1;
+            // A soft lift in the squares' own colour, no flare to cream.
+            a = Math.min(1, a + b * 0.3);
+            s *= 1 + b * 0.25;
           }
         }
         // A slow shimmer, a few percent either way.
